@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://www.todaylist.es/</loc>
-    <lastmod>2024-03-11</lastmod>  <!-- Puedes poner la fecha actual o la de tu última modificación importante -->
+    <lastmod>2025-05-09</lastmod>  <!-- Puedes poner la fecha actual o la de tu última modificación importante -->
     <changefreq>monthly</changefreq> <!-- 'monthly' está bien para una app que no cambia su estructura a diario -->
     <priority>1.0</priority>
   </url>
