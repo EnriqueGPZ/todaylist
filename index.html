@@ -61,7 +61,7 @@
       },
       "image": "https://www.todaylist.es/ToDayList.png",
       "screenshot": "https://www.todaylist.es/images/todaylist-screenshot.jpg",
-      "softwareVersion": "1.0.10",
+      "softwareVersion": "1.0.11",
       "datePublished": "2024-03-11",
       "keywords": "lista de tareas, to-do list, gestor de tareas diarias, productividad, organización, planificación, web app, pwa, tareas pendientes, subtareas, prioridades"
     }
@@ -154,26 +154,30 @@
         .container { width: 100%; max-width: 600px; padding: 0 10px; box-sizing: border-box; flex-grow: 1; position: relative; padding-bottom: 20px; }
         h1 { font-family: 'Quicksand', sans-serif; color: var(--heading-color); text-align: center; margin-top: 0; margin-bottom: 2px; font-weight: 700; font-size: 2.8rem; letter-spacing: -0.5px; padding-top: 45px; }
         .subtitle { text-align: center; font-family: 'Lexend', sans-serif; font-size: 1.1rem; font-weight: 400; color: var(--subtitle-color); margin-top: 0; margin-bottom: 10px; letter-spacing: 0.2px; }
-        .app-description-static { text-align: center; font-family: 'Lexend', sans-serif; font-size: 0.9rem; font-weight: 300; color: var(--app-description-color); margin-top: 0; margin-bottom: 10px; line-height: 1.5; max-width: 90%; margin-left: auto; margin-right: auto;}
+        .app-description-static { text-align: center; font-family: 'Lexend', sans-serif; font-size: 0.9rem; font-weight: 300; color: var(--app-description-color); margin-top: 0; margin-bottom: 20px; line-height: 1.5; max-width: 90%; margin-left: auto; margin-right: auto;}
 
         #install-pwa-container {
-            padding: 10px;
-            margin-bottom: 15px;
+            padding: 15px 10px; /* Aumentar padding vertical */
+            margin-top: 25px; /* Más espacio arriba */
+            margin-bottom: 25px; /* Más espacio abajo */
             text-align: center;
-            /* background-color: var(--item-bg); Puede que no sea necesario si es solo el botón o texto */
-            /* border: 1px solid var(--border-color); */
-            /* border-radius: 8px; */
+            /* Opcional: añadir un borde o fondo si se quiere destacar más */
+            /* background-color: var(--item-bg); */
+            /* border-top: 1px solid var(--border-color); */
+            /* border-bottom: 1px solid var(--border-color); */
         }
         .install-button {
             background-color: var(--install-button-bg);
             color: var(--install-button-text);
-            padding: 8px 15px;
-            font-size: 0.9rem;
+            padding: 10px 20px; /* Botón un poco más grande */
+            font-size: 1rem;   /* Texto un poco más grande */
             font-weight: bold;
             border-radius: 6px;
             border: none;
             cursor: pointer;
             transition: background-color 0.2s ease, transform 0.2s ease;
+            display: inline-flex; /* Para alinear el ícono y texto */
+            align-items: center;
         }
         .install-button:hover {
             background-color: var(--install-button-hover-bg);
@@ -182,21 +186,23 @@
         .install-button i { margin-right: 8px; }
 
         .safari-instructions {
-            font-size: 0.85rem;
+            font-size: 0.9rem; /* Un poco más grande */
             color: var(--text-color);
-            line-height: 1.5;
-            padding: 8px;
-            background-color: var(--input-bg); /* Fondo sutil para las instrucciones */
+            line-height: 1.6;
+            padding: 10px 15px;
+            background-color: var(--input-bg);
             border: 1px solid var(--border-color);
-            border-radius: 6px;
-            display: inline-block; /* Para que no ocupe todo el ancho */
+            border-radius: 8px;
+            display: inline-block;
+            max-width: 90%; /* Para que no se extienda demasiado en pantallas anchas */
         }
-        .safari-instructions p { margin: 5px 0; }
-        .safari-instructions i.fas.fa-share-square { color: #007aff; font-size: 1.2em; vertical-align: middle; margin: 0 2px; }
+        .safari-instructions p { margin: 6px 0; }
+        .safari-instructions strong { color: var(--heading-color); }
+        .safari-instructions i.fas.fa-share-square { color: #007aff; font-size: 1.3em; vertical-align: -0.2em; margin: 0 3px; }
         body.dark-mode .safari-instructions i.fas.fa-share-square { color: #0a84ff; }
 
 
-        #welcome-section { margin-top: 20px; margin-bottom: 30px; padding: 25px; background-color: var(--item-bg); border: 1px solid var(--border-color); border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); text-align: center; }
+        #welcome-section { margin-top: 0; margin-bottom: 20px; padding: 25px; background-color: var(--item-bg); border: 1px solid var(--border-color); border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); text-align: center; }
         .welcome-icon { width: 64px; height: 64px; margin-bottom: 15px; border-radius: 12px; }
         #welcome-section h2 { font-family: 'Quicksand', sans-serif; font-size: 1.8rem; color: var(--heading-color); margin-top: 0; margin-bottom: 15px; }
         #welcome-section p { font-size: 0.95rem; color: var(--text-color); margin-bottom: 15px; line-height: 1.6; }
@@ -327,7 +333,7 @@
             h1 { padding-top: 50px; font-size: 2.3rem; }
             .subtitle { font-size: 1rem; }
             .app-description-static { font-size: 0.85rem; }
-            #install-pwa-container { margin-bottom: 10px;} /* Ajuste para móvil */
+            #install-pwa-container { margin-bottom: 10px;}
             .install-button { font-size: 0.85rem; padding: 7px 12px;}
             .safari-instructions { font-size: 0.8rem; padding: 6px 10px;}
             #info-button { top: 10px; left: 10px; font-size: 1.5rem; width: 38px; height: 38px; }
@@ -375,16 +381,6 @@
         <p class="app-description-static">
             Organiza tu día y aumenta tu productividad de forma sencilla y eficaz.
         </p>
-        <div id="install-pwa-container" class="hidden">
-             <button id="install-pwa-button" class="app-button install-button hidden">
-                 <i class="fas fa-download"></i> Instalar ToDayList
-             </button>
-             <div id="safari-install-instructions" class="safari-instructions hidden">
-                <p>Para instalar ToDayList en tu iPhone/iPad:</p>
-                <p>Toca el icono <i class="fas fa-share-square"></i> (Compartir) y luego "Añadir a pantalla de inicio".</p>
-            </div>
-         </div>
-
 
         <section id="welcome-section" class="hidden">
             <img src="https://www.todaylist.es/ToDayList.png" alt="ToDayList Icono" class="welcome-icon">
@@ -451,6 +447,21 @@
             </div>
         </div>
 
+        <!-- CAMBIO: Contenedor PWA movido aquí, fuera de welcome y app-main-interface -->
+        <div id="install-pwa-container" class="hidden">
+             <button id="install-pwa-button" class="app-button install-button hidden">
+                 <i class="fas fa-download"></i> Instalar ToDayList
+             </button>
+             <div id="safari-ios-install-instructions" class="safari-instructions hidden">
+                <p>Para instalar ToDayList en tu iPhone/iPad:</p>
+                <p>Toca el icono <i class="fas fa-share-square"></i> (Compartir) y luego "Añadir a pantalla de inicio".</p>
+            </div>
+            <div id="safari-macos-install-instructions" class="safari-instructions hidden">
+                <p>Para instalar ToDayList en tu Mac (Safari):</p>
+                <p>Ve a <strong>Archivo</strong> (barra de menú) > <strong>Añadir al Dock...</strong></p>
+            </div>
+         </div>
+
     </div>
 
     <footer>
@@ -512,7 +523,8 @@
         let appMainInterface;
         let installPwaContainer;
         let installPwaButton;
-        let safariInstallInstructions;
+        let safariIOSInstallInstructions;
+        let safariMacOSInstallInstructions;
         let deferredInstallPrompt = null;
 
 
@@ -650,40 +662,47 @@
         }
         function updateTaskDate(taskId, newDateValue) { const task = findTaskById(taskId); if (task && !task.completed) { task.date = newDateValue || null; saveTodosToLocalStorage(); syncAndRender(); } else if (task && task.completed) { syncAndRender(); } }
 
-        // Actualizada para manejar la visibilidad del contenedor de instalación PWA
         function showAppInterface() {
             if (welcomeSection) welcomeSection.classList.add('hidden');
             if (appMainInterface) appMainInterface.classList.remove('hidden');
+            const isStandaloneNow = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone;
 
-            if (isIOS() && isSafari()) {
-                if (!(window.matchMedia('(display-mode: standalone)').matches || navigator.standalone)) {
-                    if (installPwaContainer) installPwaContainer.classList.remove('hidden');
-                    if (safariInstallInstructions) safariInstallInstructions.classList.remove('hidden');
-                    if (installPwaButton) installPwaButton.classList.add('hidden');
-                } else if (installPwaContainer) {
-                    installPwaContainer.classList.add('hidden');
+            if (!isStandaloneNow && installPwaContainer) {
+                installPwaContainer.classList.remove('hidden'); // Mostrar el contenedor PWA
+                if (isIOS() && isSafari()) {
+                    if(safariIOSInstallInstructions) safariIOSInstallInstructions.classList.remove('hidden');
+                    if(installPwaButton) installPwaButton.classList.add('hidden');
+                    if(safariMacOSInstallInstructions) safariMacOSInstallInstructions.classList.add('hidden');
+                } else if (isMacintosh() && isSafari()) {
+                    if(safariMacOSInstallInstructions) safariMacOSInstallInstructions.classList.remove('hidden');
+                    if(installPwaButton) installPwaButton.classList.add('hidden');
+                    if(safariIOSInstallInstructions) safariIOSInstallInstructions.classList.add('hidden');
+                } else if (deferredInstallPrompt && installPwaButton) { // Chrome, Edge, etc. con prompt
+                    installPwaButton.classList.remove('hidden');
+                    if(safariIOSInstallInstructions) safariIOSInstallInstructions.classList.add('hidden');
+                    if(safariMacOSInstallInstructions) safariMacOSInstallInstructions.classList.add('hidden');
+                } else { // Chrome/Edge sin prompt aún, o navegador desconocido
+                    if(installPwaButton) installPwaButton.classList.add('hidden');
+                    if(safariIOSInstallInstructions) safariIOSInstallInstructions.classList.add('hidden');
+                    if(safariMacOSInstallInstructions) safariMacOSInstallInstructions.classList.add('hidden');
+                    // Podrías optar por ocultar installPwaContainer completamente si no hay acción posible
+                    // installPwaContainer.classList.add('hidden');
                 }
-            } else { // Para Chrome/Edge etc.
-                if (deferredInstallPrompt && installPwaContainer && !(window.matchMedia('(display-mode: standalone)').matches || navigator.standalone)) {
-                    installPwaContainer.classList.remove('hidden');
-                    if (installPwaButton) installPwaButton.classList.remove('hidden');
-                    if (safariInstallInstructions) safariInstallInstructions.classList.add('hidden');
-                } else if (installPwaContainer) {
-                    installPwaContainer.classList.add('hidden');
-                }
+            } else if (installPwaContainer) { // Si es standalone, ocultar todo
+                installPwaContainer.classList.add('hidden');
             }
             if (todoInput) todoInput.focus();
         }
-        // Hacemos la función global para que sea accesible desde otros listeners si fuera necesario
-        window.showAppInterface = showAppInterface;
-
+        window.showAppInterface = showAppInterface; // Exponer globalmente si es necesario
 
         function addTodo() {
             const newTodoText = todoInput.value.trim(); if (newTodoText === '') return alert('Ingresa el nombre de la tarea.');
             const maxOrder = todos.length > 0 ? Math.max(...todos.map(t => t.order || 0)) : -1;
             const newTodo = { id: generateLocalId(), text: newTodoText, completed: false, completedDate: null, subtasks: [], showSubtaskUI: false, priorityColor: 'none', date: null, linkUrl: null, order: maxOrder + 1 };
             todos.push(newTodo); saveTodosToLocalStorage(); syncAndRender(); if (todoInput) todoInput.value = '';
-            if (todos.length === 1 && welcomeSection && !welcomeSection.classList.contains('hidden')) { showAppInterface(); }
+            if (todos.length === 1 && welcomeSection && !welcomeSection.classList.contains('hidden')) {
+                showAppInterface(); // Esta llamada re-evaluará la visibilidad del banner PWA
+            }
         }
 
         function addSubtask(mainTaskId, subtaskInput) {
@@ -692,7 +711,36 @@
         }
 
         function deleteTodo(taskId) {
-            const taskIndex = findTaskIndexById(taskId); if (taskIndex > -1) { const taskToDelete = todos[taskIndex]; if (taskToDelete.completed && taskToDelete.completedDate === getTodayDateString()) { updateMedalCount(-1); } todos.splice(taskIndex, 1); saveTodosToLocalStorage(); syncAndRender(); if (todos.length === 0 && welcomeSection && appMainInterface) { welcomeSection.classList.remove('hidden'); appMainInterface.classList.add('hidden'); if (installPwaContainer) installPwaContainer.classList.add('hidden');} }
+            const taskIndex = findTaskIndexById(taskId); if (taskIndex > -1) { const taskToDelete = todos[taskIndex]; if (taskToDelete.completed && taskToDelete.completedDate === getTodayDateString()) { updateMedalCount(-1); } todos.splice(taskIndex, 1); saveTodosToLocalStorage(); syncAndRender();
+                if (todos.length === 0 && welcomeSection && appMainInterface) {
+                    welcomeSection.classList.remove('hidden');
+                    appMainInterface.classList.add('hidden');
+                    // Re-evaluar la visibilidad del PWA container al volver a la bienvenida
+                    if (installPwaContainer) {
+                         const isStandalone = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone;
+                         if (!isStandalone) {
+                            installPwaContainer.classList.remove('hidden');
+                            if (isIOS() && isSafari() && safariIOSInstallInstructions) {
+                                safariIOSInstallInstructions.classList.remove('hidden');
+                                if(installPwaButton) installPwaButton.classList.add('hidden');
+                                if(safariMacOSInstallInstructions) safariMacOSInstallInstructions.classList.add('hidden');
+                            } else if (isMacintosh() && isSafari() && safariMacOSInstallInstructions) {
+                                safariMacOSInstallInstructions.classList.remove('hidden');
+                                if(installPwaButton) installPwaButton.classList.add('hidden');
+                                if(safariIOSInstallInstructions) safariIOSInstallInstructions.classList.add('hidden');
+                            } else { // Para otros navegadores, ocultar si no hay prompt (se mostrará si se dispara beforeinstallprompt)
+                                if(installPwaButton) installPwaButton.classList.add('hidden'); // Asumimos que no hay prompt
+                                if(safariIOSInstallInstructions) safariIOSInstallInstructions.classList.add('hidden');
+                                if(safariMacOSInstallInstructions) safariMacOSInstallInstructions.classList.add('hidden');
+                                // Podrías ocultar installPwaContainer si prefieres que no aparezca vacío
+                                // installPwaContainer.classList.add('hidden');
+                            }
+                         } else {
+                            installPwaContainer.classList.add('hidden');
+                         }
+                    }
+                }
+            }
         }
 
         function deleteSubtask(mainTaskId, subtaskId) {
@@ -754,7 +802,8 @@
         function isIOS() {
             return [ 'iPad Simulator', 'iPhone Simulator', 'iPod Simulator', 'iPad', 'iPhone', 'iPod' ].includes(navigator.platform) || (navigator.userAgent.includes("Mac") && "ontouchend" in document);
         }
-        function isSafari() { return /^((?!chrome|android).)*safari/i.test(navigator.userAgent); }
+        function isMacintosh() { return navigator.platform.toUpperCase().indexOf('MAC') >= 0 && !isIOS(); }
+        function isSafari() { return /^((?!chrome|android|crios|fxios|edg).)*safari/i.test(navigator.userAgent); }
 
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -778,8 +827,8 @@
             appMainInterface = document.getElementById('app-main-interface');
             installPwaContainer = document.getElementById('install-pwa-container');
             installPwaButton = document.getElementById('install-pwa-button');
-            safariInstallInstructions = document.getElementById('safari-install-instructions');
-
+            safariIOSInstallInstructions = document.getElementById('safari-ios-install-instructions');
+            safariMacOSInstallInstructions = document.getElementById('safari-macos-install-instructions');
 
             const storedTheme = localStorage.getItem(THEME_STORAGE_KEY);
             if (storedTheme === 'dark') {
@@ -791,9 +840,9 @@
             }
 
             loadTodosFromLocalStorage();
+            const isStandalone = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone;
 
-            // Lógica de visibilidad inicial
-            if (window.matchMedia('(display-mode: standalone)').matches || navigator.standalone) {
+            if (isStandalone) {
                 if (welcomeSection) welcomeSection.classList.add('hidden');
                 if (installPwaContainer) installPwaContainer.classList.add('hidden');
                 if (appMainInterface) appMainInterface.classList.remove('hidden');
@@ -801,32 +850,24 @@
             } else if (todos.length === 0) {
                 if (welcomeSection) welcomeSection.classList.remove('hidden');
                 if (appMainInterface) appMainInterface.classList.add('hidden');
-                if (isIOS() && isSafari() && installPwaContainer && safariInstallInstructions) { // Mostrar instrucciones Safari en bienvenida
+                if (installPwaContainer) { // Mostrar instrucciones Safari si aplica, incluso en bienvenida
                     installPwaContainer.classList.remove('hidden');
-                    safariInstallInstructions.classList.remove('hidden');
-                    if (installPwaButton) installPwaButton.classList.add('hidden');
-                } else if (installPwaContainer) { // Ocultar para otros navegadores en bienvenida
-                     installPwaContainer.classList.add('hidden');
+                    if (isIOS() && isSafari() && safariIOSInstallInstructions) {
+                        safariIOSInstallInstructions.classList.remove('hidden');
+                    } else if (isMacintosh() && isSafari() && safariMacOSInstallInstructions) {
+                        safariMacOSInstallInstructions.classList.remove('hidden');
+                    } else { // Si no es Safari, y no hay prompt aún, ocultar el contenedor
+                        installPwaContainer.classList.add('hidden');
+                    }
                 }
-            } else { // Hay tareas y no está en modo standalone
+            } else {
                 if (welcomeSection) welcomeSection.classList.add('hidden');
                 if (appMainInterface) appMainInterface.classList.remove('hidden');
-                // El botón PWA o las instrucciones se manejarán por 'beforeinstallprompt' o la lógica de showAppInterface
-                // basada en deferredInstallPrompt y detección de Safari/iOS.
-                if (isIOS() && isSafari() && installPwaContainer && safariInstallInstructions) {
-                     installPwaContainer.classList.remove('hidden');
-                     safariInstallInstructions.classList.remove('hidden');
-                     if (installPwaButton) installPwaButton.classList.add('hidden');
-                } else if (deferredInstallPrompt && installPwaContainer && installPwaButton) {
-                     installPwaContainer.classList.remove('hidden');
-                     installPwaButton.classList.remove('hidden');
-                     if (safariInstallInstructions) safariInstallInstructions.classList.add('hidden');
-                } else if (installPwaContainer) { // Si no hay prompt, ocultar
-                     installPwaContainer.classList.add('hidden');
+                if (installPwaContainer) { // Lógica para mostrar PWA container si hay tareas
+                     showAppInterface();
                 }
                 renderTodosUI();
             }
-
 
             const initialMedalData = loadAndRefreshMedalData();
             displayMedalCount(initialMedalData.count);
@@ -851,19 +892,20 @@
             if (exportDataButton) exportDataButton.addEventListener('click', exportAllData);
             if (importDataButton && importFileInput) { importDataButton.addEventListener('click', () => importFileInput.click()); importFileInput.addEventListener('change', importAllData); }
 
-            if (!(isIOS() && isSafari())) { // No registrar 'beforeinstallprompt' para Safari iOS
+            if (!(isIOS() && isSafari()) && !(isMacintosh() && isSafari())) {
                 window.addEventListener('beforeinstallprompt', (event) => {
                     console.log('`beforeinstallprompt` event was fired.');
                     event.preventDefault();
                     deferredInstallPrompt = event;
-                    if (appMainInterface && !appMainInterface.classList.contains('hidden') && !(window.matchMedia('(display-mode: standalone)').matches || navigator.standalone)) {
+                    if (appMainInterface && !appMainInterface.classList.contains('hidden') &&
+                        !(window.matchMedia('(display-mode: standalone)').matches || navigator.standalone)) {
                         if (installPwaContainer) installPwaContainer.classList.remove('hidden');
                         if (installPwaButton) installPwaButton.classList.remove('hidden');
-                        if (safariInstallInstructions) safariInstallInstructions.classList.add('hidden');
+                        if (safariIOSInstallInstructions) safariIOSInstallInstructions.classList.add('hidden');
+                        if (safariMacOSInstallInstructions) safariMacOSInstallInstructions.classList.add('hidden');
                     }
                 });
             }
-
 
             if (installPwaButton) {
                 installPwaButton.addEventListener('click', async () => {
