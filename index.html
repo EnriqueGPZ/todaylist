@@ -4,6 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
 
+    <!-- Cache Control: Estas meta tags intentan prevenir la caché del cliente, pero las cabeceras HTTP del servidor son más efectivas. -->
+    <!-- Asegúrate de configurar tu servidor para enviar cabeceras Cache-Control: no-cache, must-revalidate para index.html -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+
+    <!-- Versión de la aplicación: Útil para seguimiento y potencial control de caché vía server-side -->
+    <meta name="version" content="1.0.7"> 
+    <!-- Actualiza este número (o mejor, usa un timestamp o hash en un proceso de build) en cada despliegue importante -->
+
     <!-- SEO Meta Tags -->
     <title>ToDayList - Simplifica Tu Día, Organiza Tus Tareas</title>
     <meta name="description" content="ToDayList es tu gestor de tareas diarias minimalista y eficiente. Organiza tus pendientes, establece prioridades, añade subtareas y fechas límite. ¡Mejora tu productividad hoy!">
@@ -29,6 +39,7 @@
 
     <link rel="icon" href="https://www.todaylist.es/ToDayList.png" type="image/png">
 
+    <!-- Links a CDN: Estos tienen su propia política de caché controlada por el proveedor del CDN -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
@@ -56,12 +67,13 @@
       },
       "image": "https://www.todaylist.es/ToDayList.png",
       "screenshot": "https://www.todaylist.es/images/todaylist-screenshot.jpg",
-      "softwareVersion": "1.0.6",
+      "softwareVersion": "1.0.7", <!-- Actualiza la versión aquí también -->
       "datePublished": "2024-03-11",
       "keywords": "lista de tareas, to-do list, gestor de tareas diarias, productividad, organización, planificación, web app, tareas pendientes, subtareas, prioridades"
     }
     </script>
 
+    <!-- Estilos Inline: La caché de este bloque CSS está ligada a la caché del propio archivo HTML -->
     <style>
         :root {
             --bg-color: #f4f7f6;
@@ -317,23 +329,23 @@
             margin-bottom: 8px;
             line-height: 1.5;
             font-size: 0.92em;
-            padding-left: 25px; 
+            padding-left: 25px;
             position: relative;
             text-align: left;
         }
 
         #install-instructions-section ul li::before {
-            font-family: "Font Awesome 6 Brands", "Font Awesome 6 Free"; 
+            font-family: "Font Awesome 6 Brands", "Font Awesome 6 Free";
             font-weight: 400; /* Para iconos de marca (fab) en FA6 */
             position: absolute;
             left: 0px;
-            top: 1px; 
-            width: 20px; 
+            top: 1px;
+            width: 20px;
             text-align: center;
             color: var(--button-color);
-            font-size: 1.1em; 
-            -webkit-font-smoothing: antialiased; 
-            -moz-osx-font-smoothing: grayscale; 
+            font-size: 1.1em;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         #install-instructions-section ul li:nth-child(1)::before { content: "\f268"; } /* Chrome */
@@ -569,14 +581,41 @@
             padding: 0;
             gap: 10px;
         }
-        .todo-item .main-task-header input[type="checkbox"] {
-             border-color: var(--text-color);
-             background-color: var(--item-bg);
-        }
+         /* Asegura que el checkbox principal usa los estilos custom */
+         .todo-item .main-task-header input[type="checkbox"] {
+              /* Re-aplica estilos custom para asegurar especificidad */
+              appearance: none;
+              -webkit-appearance: none;
+              border: 1px solid var(--text-color);
+              border-radius: 50%;
+              width: 20px;
+              height: 20px;
+              background-color: var(--item-bg);
+              cursor: pointer;
+              position: relative;
+              flex-shrink: 0;
+              box-sizing: border-box;
+              transition: background-color 0.2s ease, border-color 0.2s ease;
+         }
          .todo-item .main-task-header input[type="checkbox"]:checked {
               background-color: var(--text-color);
               border-color: var(--text-color);
          }
+         .todo-item .main-task-header input[type="checkbox"]:checked::after {
+             content: '';
+             position: absolute;
+             box-sizing: content-box;
+             width: 5px;
+             height: 9px;
+             border: solid var(--item-bg); /* Color del checkmark */
+             border-width: 0 2px 2px 0;
+             top: 3px;
+             left: 6px;
+             transform: rotate(45deg);
+         }
+          body.dark-mode .todo-item .main-task-header input[type="checkbox"]:checked::after {
+              border-color: var(--checkbox-checkmark-color) !important; /* Color del checkmark en modo oscuro */
+          }
 
 
         .todo-item .priority-color-label {
@@ -740,9 +779,11 @@
             left: 5px;
             transform: rotate(45deg);
         }
-         body.dark-mode .todo-item .subtasks-list li input[type="checkbox"]:checked::after {
+         body.dark-mode .todo-item.completed .subtasks-list li input[type="checkbox"]:checked::after, /* Corregido: aplica a completadas en dark mode */
+         body.dark-mode .todo-item .subtasks-list li input[type="checkbox"]:checked::after { /* Estilo normal en dark mode */
              border-color: var(--checkbox-checkmark-color) !important;
          }
+
 
         .todo-item .subtasks-list li span {
              flex-grow: 1;
@@ -828,7 +869,7 @@
         .todo-item.completed .main-task-header .task-body .calendar-button {
             opacity: 0.7;
             cursor: default;
-            pointer-events: none;
+            pointer-events: none; /* Deshabilita clics en modo completado */
         }
         .todo-item.completed .main-task-header .task-body .calendar-button i {
             color: var(--completed-text-color) !important;
@@ -838,15 +879,23 @@
 
         .todo-item.completed .main-task-header .task-body .task-actions-group .delete-button {
             opacity: 0.7;
+             cursor: default; /* Deshabilita clics en modo completado */
+        }
+         /* Permite eliminar si está completada, pero con opacidad */
+        .todo-item.completed .main-task-header .task-body .task-actions-group .delete-button {
+             pointer-events: auto;
+             cursor: pointer;
         }
         .todo-item.completed .main-task-header .task-body .task-actions-group .delete-button:hover {
-            opacity: 0.7;
-            color: var(--delete-button-color);
+            opacity: 1; /* Permite hover visual */
+            color: var(--delete-button-hover-color); /* Usa color hover para indicar interactividad */
         }
+
 
         .todo-item.completed .main-task-header .task-body .link-button.link-on {
             opacity: 0.8;
             cursor: pointer;
+            pointer-events: auto; /* Permite clics en enlaces si está completada */
         }
         .todo-item.completed .main-task-header .task-body .link-button.link-on:hover {
             color: var(--button-hover-color);
@@ -855,18 +904,24 @@
         .todo-item.completed .main-task-header .task-body .link-button.link-off {
             opacity: 0.4;
             cursor: default;
+            pointer-events: none; /* Deshabilita clics si no hay enlace */
         }
         .todo-item.completed .main-task-header .task-body .link-button.link-off:hover {
             color: var(--button-color);
             opacity: 0.4;
         }
 
+        /* Deshabilita interacción hover en elementos completados que no deben ser interactivos */
         .todo-item.completed .priority-color-label:hover,
-        .todo-item.completed .subtasks-list li .app-button:hover {
+        .todo-item.completed .subtasks-list li .app-button:not(.delete-button):not(.subtask-move-button):hover {
             color: inherit;
             text-decoration: none;
             transform: none;
         }
+         .todo-item.completed .subtasks-list li .subtask-move-button:hover {
+             color: var(--button-color); /* Vuelve al color normal */
+             cursor: not-allowed;
+         }
 
 
          .todo-item.completed .main-task-header input[type="checkbox"] {
@@ -883,6 +938,23 @@
           body.dark-mode .todo-item.completed .main-task-header input[type="checkbox"]:checked::after {
               border-color: var(--item-bg) !important;
           }
+
+        /* Estilos para sub-checkboxes completados */
+         .todo-item.completed .subtasks-list li input[type="checkbox"] {
+             border-color: var(--completed-text-color);
+             background-color: var(--completed-text-color);
+         }
+         body.dark-mode .todo-item.completed .subtasks-list li input[type="checkbox"] {
+             border-color: var(--completed-text-color);
+             background-color: var(--completed-text-color);
+         }
+         .todo-item.completed .subtasks-list li input[type="checkbox"]:checked::after {
+              border-color: var(--item-bg) !important;
+         }
+          body.dark-mode .todo-item.completed .subtasks-list li input[type="checkbox"]:checked::after {
+              border-color: var(--item-bg) !important;
+          }
+
 
          #todo-input-container {
              display: flex;
@@ -984,89 +1056,89 @@
             position: absolute;
             top: 15px;
             left: 15px;
-            font-family: 'Quicksand', sans-serif; 
-            font-weight: bold; 
-            font-size: 1.3rem;  
+            font-family: 'Quicksand', sans-serif;
+            font-weight: bold;
+            font-size: 1.3rem;
             color: var(--button-color);
             background-color: var(--item-bg);
-            border: 1px solid var(--border-color); 
+            border: 1px solid var(--border-color);
             border-radius: 50%;
-            width: 36px;  
-            height: 36px; 
+            width: 36px;
+            height: 36px;
             display: flex;
             justify-content: center;
             align-items: center;
-            text-decoration: none; 
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1); 
+            text-decoration: none;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
             z-index: 900;
-            line-height: 1; 
-            padding: 0; 
+            line-height: 1;
+            padding: 0;
             transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
         }
         #info-button:hover {
             color: var(--button-hover-color);
-            background-color: var(--fixed-button-bg); 
+            background-color: var(--fixed-button-bg);
             border-color: var(--button-hover-color);
         }
 
         /* Footer */
         footer {
             display: flex;
-            flex-direction: column; 
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             text-align: center;
-            font-size: 0.8rem; 
+            font-size: 0.8rem;
             color: var(--footer-text-color);
-            margin-top: 30px; 
-            padding: 20px 10px 15px; 
+            margin-top: 30px;
+            padding: 20px 10px 15px;
             width: 100%;
             max-width: 600px;
             box-sizing: border-box;
             border-top: 1px solid var(--border-color);
         }
         .footer-logo {
-            width: 48px;  
-            height: 48px; 
-            margin-bottom: 10px; 
+            width: 48px;
+            height: 48px;
+            margin-bottom: 10px;
         }
         .footer-text {
-            margin: 0 0 8px 0; 
-            color: var(--footer-text-color); 
-            font-size: 0.85em; 
+            margin: 0 0 8px 0;
+            color: var(--footer-text-color);
+            font-size: 0.85em;
         }
 
         #support-section-footer {
-            margin-top: 5px; 
+            margin-top: 5px;
             display: flex;
-            flex-direction: column; 
-            align-items: center; 
+            flex-direction: column;
+            align-items: center;
         }
 
-        .support-intro-text { 
-            font-size: 0.7rem; 
-            color: var(--legend-text-color); 
-            margin-bottom: 3px; 
-            line-height: 1.3; 
+        .support-intro-text {
+            font-size: 0.7rem;
+            color: var(--legend-text-color);
+            margin-bottom: 3px;
+            line-height: 1.3;
         }
 
         .paypal-link-footer {
             display: inline-flex;
             align-items: center;
-            font-size: 0.7rem; 
-            color: var(--legend-text-color); 
+            font-size: 0.7rem;
+            color: var(--legend-text-color);
             text-decoration: none;
             transition: color 0.2s ease;
         }
 
         .paypal-link-footer:hover {
-            color: var(--button-hover-color); 
+            color: var(--button-hover-color);
             text-decoration: underline;
         }
 
         .paypal-link-footer i.fab.fa-paypal {
-            margin-right: 4px; 
-            font-size: 0.9em;  
+            margin-right: 4px;
+            font-size: 0.9em;
         }
 
 
@@ -1100,9 +1172,13 @@
                 margin-left: auto;
                 justify-content: flex-end;
             }
+            .todo-item.completed .main-task-header .task-body .link-button.link-on, /* Ajuste para asegurar orden en completadas */
             .todo-item .main-task-header .task-body .link-button { order: 1; }
+            .todo-item.completed .main-task-header .task-body .calendar-button, /* Ajuste para asegurar orden en completadas */
             .todo-item .main-task-header .task-body .calendar-button { order: 2; }
-            .todo-item .main-task-header .task-body .delete-button { order: 3; }
+             .todo-item.completed .main-task-header .task-body .task-actions-group .delete-button, /* Ajuste para asegurar orden en completadas */
+            .todo-item .main-task-header .task-body .task-actions-group .delete-button { order: 3; }
+
 
              #todo-input-container #reorder-button {
                   margin-left: 0;
@@ -1140,23 +1216,23 @@
                 top: 0px;
                 font-size: 1em;
             }
-            
+
             footer {
-                font-size: 0.75rem; 
-                padding-top: 15px; 
+                font-size: 0.75rem;
+                padding-top: 15px;
             }
             .footer-logo {
-                width: 40px; 
+                width: 40px;
                 height: 40px;
                 margin-bottom: 8px;
             }
             .footer-text {
                 margin-bottom: 6px;
-                font-size: 0.9em; 
+                font-size: 0.9em;
             }
             .support-intro-text,
             .paypal-link-footer {
-                font-size: 0.7em; 
+                font-size: 0.7em;
             }
             .support-intro-text {
                 margin-bottom: 2px;
@@ -1232,7 +1308,7 @@
         .modal-content strong {
             color: var(--heading-color);
         }
-        .modal-content i.fas, .modal-content i.far {
+        .modal-content i.fas, .modal-content i.far, .modal-content i.fab { /* Añadido .fab para iconos de marca */
             color: var(--button-hover-color);
             margin: 0 2px;
             font-size: 0.9em;
@@ -1349,7 +1425,7 @@
     <footer>
         <img src="https://www.todaylist.es/ToDayList.png" alt="Logo ToDayList" class="footer-logo">
         <p class="footer-text">WebApp creada por Henry Gil</p>
-        
+
         <div id="support-section-footer">
             <p class="support-intro-text">¿Te gusta ToDayList? Si te ha sido útil...</p>
             <a href="https://paypal.me/todaylistHenry" target="_blank" rel="noopener noreferrer" class="paypal-link-footer">
@@ -1387,8 +1463,10 @@
         </div>
     </div>
 
+    <!-- Script externo de Confetti: La caché de este script es controlada por el proveedor del CDN -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
 
+    <!-- Script Inline: La caché de este bloque de JS está ligada a la caché del propio archivo HTML -->
     <script type="module">
         let todoInput;
         let addTodoButton;
@@ -1447,29 +1525,57 @@
         function loadTodosFromLocalStorage() {
             const storedTodos = localStorage.getItem(TODOS_STORAGE_KEY);
             if (storedTodos) {
-                todos = JSON.parse(storedTodos);
-                todos = todos.map(task => ({
-                    id: task.id || generateLocalId(),
-                    text: task.text || 'Tarea sin nombre',
-                    completed: typeof task.completed === 'boolean' ? task.completed : false,
-                    completedDate: task.completedDate || null,
-                    subtasks: Array.isArray(task.subtasks) ? task.subtasks.map(sub => ({
-                        id: sub.id || generateLocalId(), text: sub.text || 'Sub-tarea sin nombre',
-                        completed: typeof sub.completed === 'boolean' ? sub.completed : false
-                    })) : [],
-                    showSubtaskUI: typeof task.showSubtaskUI === 'boolean' ? task.showSubtaskUI : false,
-                    priorityColor: PRIORITY_COLORS.includes(task.priorityColor) ? task.priorityColor : 'none',
-                    date: typeof task.date === 'string' && task.date.match(/^\d{4}-\d{2}-\d{2}$/) ? task.date : null,
-                    linkUrl: typeof task.linkUrl === 'string' ? task.linkUrl : null,
-                    order: typeof task.order === 'number' ? task.order : Date.now()
-                }));
+                try {
+                    todos = JSON.parse(storedTodos);
+                    // Ensure tasks and subtasks have necessary properties with defaults
+                    todos = todos.map(task => ({
+                        id: task.id || generateLocalId(),
+                        text: task.text || 'Tarea sin nombre',
+                        completed: typeof task.completed === 'boolean' ? task.completed : false,
+                        completedDate: task.completedDate || null,
+                        subtasks: Array.isArray(task.subtasks) ? task.subtasks.map(sub => ({
+                            id: sub.id || generateLocalId(), text: sub.text || 'Sub-tarea sin nombre',
+                            completed: typeof sub.completed === 'boolean' ? sub.completed : false
+                        })) : [],
+                        showSubtaskUI: typeof task.showSubtaskUI === 'boolean' ? task.showSubtaskUI : false,
+                        priorityColor: PRIORITY_COLORS.includes(task.priorityColor) ? task.priorityColor : 'none',
+                        date: typeof task.date === 'string' && task.date.match(/^\d{4}-\d{2}-\d{2}$/) ? task.date : null,
+                        linkUrl: typeof task.linkUrl === 'string' ? task.linkUrl : null,
+                        order: typeof task.order === 'number' ? task.order : (task.id ? Date.now() + Math.random() : Date.now() + Math.random()) // Assign a random order if missing, prefer existing ID timestamp + random for old data
+                    }));
+                     // Assign sequential order if still missing or random feels off
+                     let needsReorder = false;
+                     todos.forEach((task, index) => {
+                         if (typeof task.order !== 'number') {
+                             task.order = index; // Simple sequential order
+                             needsReorder = true;
+                         }
+                     });
+                     if(needsReorder) {
+                        // Optional: Save updated data with orders
+                         saveTodosToLocalStorage();
+                     }
+
+
+                } catch (e) {
+                    console.error("Error parsing todos from localStorage, resetting...", e);
+                    todos = [];
+                    // Optionally clear invalid data
+                    // localStorage.removeItem(TODOS_STORAGE_KEY);
+                }
             } else {
                 todos = [];
             }
         }
 
         function saveTodosToLocalStorage() {
-            localStorage.setItem(TODOS_STORAGE_KEY, JSON.stringify(todos));
+            try {
+                 localStorage.setItem(TODOS_STORAGE_KEY, JSON.stringify(todos));
+            } catch(e) {
+                 console.error("Error saving todos to localStorage:", e);
+                 // Handle potential quota errors if needed
+                 alert("Error al guardar datos. Es posible que tu navegador haya excedido el espacio de almacenamiento local.");
+            }
         }
 
 
@@ -1485,49 +1591,68 @@
 
             const today = getTodayDateString();
 
+            // If no data, or data is for a different date
             if (!medalData || medalData.date !== today) {
                 let countForToday = 0;
+                // Recalculate count for today based on current tasks
                 if (todos && todos.length > 0) {
                     todos.forEach(task => {
                         if (task.completed && task.completedDate === today) countForToday++;
                     });
                 }
                 medalData = { date: today, count: countForToday };
-                localStorage.setItem(MEDALS_STORAGE_KEY, JSON.stringify(medalData));
+                try {
+                    localStorage.setItem(MEDALS_STORAGE_KEY, JSON.stringify(medalData));
+                } catch(e) {
+                     console.error("Error saving medal data to localStorage:", e);
+                }
             }
             return medalData;
         }
 
         function updateMedalCount(change) {
-            let medalData = loadAndRefreshMedalData();
+            let medalData = loadAndRefreshMedalData(); // Always get the latest data
             medalData.count += change;
-            if (medalData.count < 0) medalData.count = 0;
-            localStorage.setItem(MEDALS_STORAGE_KEY, JSON.stringify(medalData));
-            displayMedalCount(medalData.count);
+            if (medalData.count < 0) medalData.count = 0; // Ensure count doesn't go below zero
+            try {
+                 localStorage.setItem(MEDALS_STORAGE_KEY, JSON.stringify(medalData));
+                 displayMedalCount(medalData.count);
+            } catch(e) {
+                console.error("Error saving updated medal data:", e);
+            }
         }
+
 
         function syncAndRender() {
             renderTodosUI();
+            // Ensure medal count display is always in sync with potentially updated data
+            const currentMedalData = loadAndRefreshMedalData();
+            displayMedalCount(currentMedalData.count);
         }
 
         function updateDateHighlight(listItemElement, task) {
             const calendarLabel = listItemElement.querySelector('.calendar-button');
             const calendarIcon = calendarLabel ? calendarLabel.querySelector('i') : null;
+             const dateInput = listItemElement.querySelector('.task-date-input-real'); // Get the actual input
 
-            if (!calendarLabel || !calendarIcon) return;
+            if (!calendarLabel || !calendarIcon || !dateInput) return;
 
             const todayString = getTodayDateString();
             const isToday = task.date === todayString;
             const hasDate = !!task.date;
 
+            // Set the input value
+             dateInput.value = task.date || '';
+
             calendarLabel.classList.remove('date-set', 'date-today');
-            calendarIcon.style.color = '';
-            calendarIcon.style.fontWeight = 'normal';
+            calendarIcon.style.color = ''; // Reset color
+            calendarIcon.style.fontWeight = 'normal'; // Reset font weight
             calendarLabel.title = 'Establecer fecha';
 
             if (task.completed) {
                 if (hasDate) calendarLabel.title = `Fecha: ${task.date} (Completada)`;
                 else calendarLabel.title = 'Fecha no establecida (Completada)';
+                // For completed tasks, color is handled by the .completed CSS state
                 return;
             }
 
@@ -1540,12 +1665,27 @@
 
             if (isToday) {
                 calendarLabel.classList.add('date-today');
-                const computedStyle = getComputedStyle(listItemElement);
-                const priorityColorForToday = computedStyle.borderLeftColor;
-                calendarIcon.style.color = priorityColorForToday;
+                // Apply priority color *only* if it's today and not completed
+                const priorityColorMap = {
+                    'red': getComputedStyle(document.documentElement).getPropertyValue('--priority-red-color').trim(),
+                    'orange': getComputedStyle(document.documentElement).getPropertyValue('--priority-orange-color').trim(),
+                    'yellow': getComputedStyle(document.documentElement).getPropertyValue('--priority-yellow-color').trim(),
+                    'green': getComputedStyle(document.documentElement).getPropertyValue('--priority-green-color').trim(),
+                    'none': getComputedStyle(document.documentElement).getPropertyValue('--calendar-icon-set-color').trim() // Use set color for none priority today
+                };
+                calendarIcon.style.color = priorityColorMap[task.priorityColor] || '';
+                 if (task.priorityColor !== 'none') {
+                     calendarIcon.style.fontWeight = 'bold';
+                 }
+
                 calendarLabel.title = `Fecha: ${task.date} (Hoy)`;
             }
+            // Restore default color if no date or not today
+             if (!hasDate || !isToday) {
+                  calendarIcon.style.color = getComputedStyle(document.documentElement).getPropertyValue('--calendar-icon-default-color').trim();
+             }
         }
+
 
         function calculateSubtaskProgress(subtasks) {
             if (!subtasks || subtasks.length === 0) return 0;
@@ -1559,7 +1699,7 @@
 
             const mainCheckbox = document.createElement('input');
             mainCheckbox.type = 'checkbox';
-            mainCheckbox.classList.add('custom-checkbox');
+            mainCheckbox.classList.add('custom-checkbox'); // Use the custom class
             mainCheckbox.checked = mainTask.completed;
             mainCheckbox.addEventListener('change', (event) => {
                 toggleMainCompletion(mainTask.id, event.target.checked);
@@ -1597,19 +1737,19 @@
             linkButton.addEventListener('click', () => {
                 const task = findTaskById(mainTask.id);
                 if (!task) return;
-                if (task.completed && !task.linkUrl) return;
+                if (task.completed && !task.linkUrl) return; // Do nothing if completed and no link
                 if (task.linkUrl) {
                     window.open(task.linkUrl, '_blank');
-                } else if (!task.completed) {
+                } else if (!task.completed) { // Only prompt if not completed
                     const newUrl = prompt("Introduce la URL (ej: https://ejemplo.com):", task.linkUrl || "");
-                    if (newUrl === null) return;
+                    if (newUrl === null) return; // Cancelled
                     let finalUrl = newUrl.trim();
                     if (finalUrl !== "" && !finalUrl.toLowerCase().startsWith('http://') && !finalUrl.toLowerCase().startsWith('https://')) {
                         finalUrl = 'https://' + finalUrl;
                     }
                     task.linkUrl = finalUrl || null;
                     saveTodosToLocalStorage();
-                    syncAndRender();
+                    syncAndRender(); // Re-render to update link button state/title
                 }
             });
 
@@ -1621,10 +1761,12 @@
             const actualDateInput = document.createElement('input');
             actualDateInput.type = 'date';
             actualDateInput.classList.add('task-date-input-real');
-            const dateInputId = `date-input-${mainTask.id || generateLocalId()}`;
+            // Use task.id for a stable ID across renders
+            const dateInputId = `date-input-${mainTask.id}`;
             actualDateInput.id = dateInputId;
             calendarLabel.htmlFor = dateInputId;
-            actualDateInput.value = mainTask.date || '';
+             actualDateInput.value = mainTask.date || ''; // Set initial value
+
 
             actualDateInput.addEventListener('change', (event) => {
                 const task = findTaskById(mainTask.id);
@@ -1639,6 +1781,7 @@
             deleteMainButton.addEventListener('click', () => {
                 const task = findTaskById(mainTask.id);
                 if (!task) return;
+                 // Add a confirmation for tasks with subtasks or completed
                  if ((task.subtasks && task.subtasks.length > 0) || task.completed) {
                      if (!confirm(`¿Seguro que quieres eliminar "${task.text}"?`)) return;
                  }
@@ -1661,6 +1804,7 @@
                  displayedProgress = 100;
              } else if (mainTask.subtasks && mainTask.subtasks.length > 0) {
                  const subtaskProgress = calculateSubtaskProgress(mainTask.subtasks);
+                  // Show 90% if all subtasks are complete but main task isn't
                  displayedProgress = subtaskProgress === 100 ? 90 : subtaskProgress;
              }
              progressBar.style.width = `${displayedProgress}%`;
@@ -1673,16 +1817,19 @@
              addSubtasksToggle.classList.add('app-button', 'add-button', 'add-subtasks-toggle');
              addSubtasksToggle.innerHTML = '<i class="fas fa-plus"></i>';
              addSubtasksToggle.setAttribute('aria-label', 'Agregar sub-tarea');
+             addSubtasksToggle.title = 'Agregar sub-tarea'; // Add title for accessibility
              addSubtasksToggle.addEventListener('click', () => {
                  const task = findTaskById(mainTaskId);
                  if (task) {
-                     if (task.completed) return;
+                     if (task.completed) return; // Cannot add subtasks to completed task
                      task.showSubtaskUI = !task.showSubtaskUI;
-                     if (task.showSubtaskUI && (!task.subtasks || task.subtasks.length === 0)) {
+                      // Initialize subtasks array if null/undefined when showing UI
+                     if (task.showSubtaskUI && (!task.subtasks || !Array.isArray(task.subtasks))) {
                          task.subtasks = [];
                      }
                      saveTodosToLocalStorage();
                      syncAndRender();
+                     // Focus the input after rendering if showing the UI
                      if (task.showSubtaskUI) {
                          const listItemElement = todoListContainer.querySelector(`li[data-task-id="${mainTaskId}"]`);
                          if (listItemElement) {
@@ -1706,7 +1853,7 @@
                     subtaskItem.dataset.subtaskId = subtask.id;
                     const checkbox = document.createElement('input');
                     checkbox.type = 'checkbox';
-                    checkbox.classList.add('custom-checkbox');
+                    checkbox.classList.add('custom-checkbox'); // Use custom class
                     checkbox.checked = subtask.completed;
                     if (mainTask.completed) checkbox.disabled = true;
                     checkbox.addEventListener('change', () => {
@@ -1719,6 +1866,7 @@
                     moveUpButton.classList.add('app-button', 'subtask-move-button');
                     moveUpButton.innerHTML = '<i class="fas fa-arrow-up"></i>';
                     moveUpButton.setAttribute('aria-label', 'Mover sub-tarea arriba');
+                    moveUpButton.title = 'Mover sub-tarea arriba';
                     if (mainTask.completed || subIndex === 0) moveUpButton.disabled = true;
                     moveUpButton.addEventListener('click', () => {
                          if (!mainTask.completed) moveSubtaskUp(mainTask.id, subtask.id);
@@ -1727,6 +1875,7 @@
                     moveDownButton.classList.add('app-button', 'subtask-move-button');
                     moveDownButton.innerHTML = '<i class="fas fa-arrow-down"></i>';
                     moveDownButton.setAttribute('aria-label', 'Mover sub-tarea abajo');
+                     moveDownButton.title = 'Mover sub-tarea abajo';
                     if (mainTask.completed || subIndex === mainTask.subtasks.length - 1) moveDownButton.disabled = true;
                     moveDownButton.addEventListener('click', () => {
                          if (!mainTask.completed) moveSubtaskDown(mainTask.id, subtask.id);
@@ -1735,7 +1884,8 @@
                     deleteSubtaskButton.classList.add('app-button', 'delete-button');
                     deleteSubtaskButton.innerHTML = '<i class="fas fa-trash-alt"></i>';
                     deleteSubtaskButton.setAttribute('aria-label', 'Eliminar sub-tarea');
-                     if (mainTask.completed) deleteSubtaskButton.disabled = true;
+                     deleteSubtaskButton.title = 'Eliminar sub-tarea';
+                     if (mainTask.completed) deleteSubtaskButton.disabled = true; // Disable delete for completed tasks
                     deleteSubtaskButton.addEventListener('click', () => {
                          if (!mainTask.completed) deleteSubtask(mainTask.id, subtask.id);
                     });
@@ -1755,6 +1905,7 @@
              const addSubtaskButton = document.createElement('button');
              addSubtaskButton.classList.add('app-button', 'add-button');
              addSubtaskButton.innerHTML = '<i class="fas fa-plus"></i>';
+             addSubtaskButton.title = 'Agregar sub-tarea';
              const handleAddSubtask = () => addSubtask(mainTaskId, subtaskInput);
              addSubtaskButton.addEventListener('click', handleAddSubtask);
              subtaskInput.addEventListener('keypress', (e) => { if (e.key==='Enter'){ e.preventDefault(); handleAddSubtask();}});
@@ -1771,22 +1922,43 @@
                 listItem.dataset.taskId = mainTask.id;
                 listItem.dataset.priorityColor = mainTask.priorityColor || 'none';
                 if (mainTask.completed) listItem.classList.add('completed');
-                if (mainTask.showSubtaskUI) listItem.classList.add('show-subtask-ui');
+                // Only show UI if it was set before or if there are subtasks
+                if (mainTask.showSubtaskUI || (mainTask.subtasks && mainTask.subtasks.length > 0 && !mainTask.completed)) {
+                    listItem.classList.add('show-subtask-ui');
+                     // Ensure showSubtaskUI is true if there are subtasks and it's not completed
+                     if (mainTask.subtasks && mainTask.subtasks.length > 0 && !mainTask.completed) {
+                        mainTask.showSubtaskUI = true;
+                     }
+                } else {
+                    mainTask.showSubtaskUI = false; // Ensure showSubtaskUI is false if no subtasks or completed
+                }
+
 
                 listItem.appendChild(createMainTaskHeader(mainTask));
                 listItem.appendChild(createProgressBar(mainTask));
+
+                // Only show add subtask toggle if task is NOT completed
                 if (!mainTask.completed) {
-                    listItem.appendChild(createAddSubtasksToggle(mainTask.id));
-                } else { mainTask.showSubtaskUI = false; }
+                     // Only add toggle if UI is not currently shown AND there are no subtasks OR UI was explicitly hidden before
+                     if (!mainTask.showSubtaskUI) {
+                         listItem.appendChild(createAddSubtasksToggle(mainTask.id));
+                     }
+                } else {
+                    // If completed, hide subtask UI regardless of previous state
+                     mainTask.showSubtaskUI = false;
+                     listItem.classList.remove('show-subtask-ui');
+                }
+
 
                 if (mainTask.subtasks && mainTask.subtasks.length > 0) {
                     listItem.appendChild(createSubtasksList(mainTask));
                 }
+                // Only show input container if showSubtaskUI is true AND task is NOT completed
                 if (mainTask.showSubtaskUI && !mainTask.completed) {
                      listItem.appendChild(createSubtaskInputContainer(mainTask.id));
                 }
                 todoListContainer.appendChild(listItem);
-                updateDateHighlight(listItem, mainTask);
+                updateDateHighlight(listItem, mainTask); // Update date highlight after adding to DOM
             });
             if (todoInput) todoInput.value = '';
         }
@@ -1805,7 +1977,7 @@
                          priorityLabelElement.dataset.color = task.priorityColor;
                          priorityLabelElement.title = `Prioridad: ${task.priorityColor.charAt(0).toUpperCase() + task.priorityColor.slice(1)}`;
                      }
-                     updateDateHighlight(listItemElement, task);
+                     updateDateHighlight(listItemElement, task); // Update date highlight as color might affect it
                  }
              }
         }
@@ -1815,9 +1987,10 @@
             if (task && !task.completed) {
                 task.date = newDateValue || null;
                 saveTodosToLocalStorage();
-                syncAndRender();
+                syncAndRender(); // Re-render to update highlight
             } else if (task && task.completed) {
-                syncAndRender();
+                 // If task is completed, revert the change and re-render
+                 syncAndRender();
             }
         }
 
@@ -1825,15 +1998,25 @@
             if (welcomeSection) welcomeSection.classList.add('hidden');
             if (installInstructionsSection) installInstructionsSection.classList.add('hidden');
             if (appMainInterface) appMainInterface.classList.remove('hidden');
+            // Load quick notes when interface is shown
+             const savedNotes = localStorage.getItem(QUICK_NOTES_STORAGE_KEY);
+             if (quickNotesArea && savedNotes) quickNotesArea.value = savedNotes;
+
             if (todoInput) todoInput.focus();
         }
 
         function addTodo() {
             const newTodoText = todoInput.value.trim();
-            if (newTodoText === '') return alert('Ingresa el nombre de la tarea.');
+            if (newTodoText === '') {
+                 // Show a simple alert or a less intrusive message
+                 alert('Ingresa el nombre de la tarea.');
+                 todoInput.focus(); // Keep focus on input
+                 return;
+            }
+            // Use current timestamp + random jitter for initial order
             const maxOrder = todos.length > 0 ? Math.max(...todos.map(t => t.order || 0)) : -1;
             const newTodo = {
-                id: generateLocalId(),
+                id: generateLocalId(), // Generate ID immediately
                 text: newTodoText,
                 completed: false,
                 completedDate: null,
@@ -1842,13 +2025,16 @@
                 priorityColor: 'none',
                 date: null,
                 linkUrl: null,
-                order: maxOrder + 1
+                order: maxOrder + 1 // Simple sequential order for new tasks
             };
             todos.push(newTodo);
             saveTodosToLocalStorage();
-            syncAndRender();
-            if (todoInput) todoInput.value = '';
+            syncAndRender(); // Render UI after adding
 
+            if (todoInput) todoInput.value = '';
+             todoInput.focus(); // Keep focus on input for adding more
+
+            // If this is the first task, switch to main interface
             if (todos.length === 1 && welcomeSection && !welcomeSection.classList.contains('hidden')) {
                 showAppInterface();
             }
@@ -1856,17 +2042,25 @@
 
         function addSubtask(mainTaskId, subtaskInput) {
              const newSubtaskText = subtaskInput.value.trim();
-             if (newSubtaskText === '') return alert('Ingresa el nombre de la sub-tarea.');
+             if (newSubtaskText === '') {
+                 // Show alert or message
+                 alert('Ingresa el nombre de la sub-tarea.');
+                 subtaskInput.focus(); // Keep focus on input
+                 return;
+             }
              const mainTask = findTaskById(mainTaskId);
              if (mainTask && !mainTask.completed) {
-                 if (!mainTask.subtasks) mainTask.subtasks = [];
+                 if (!mainTask.subtasks) mainTask.subtasks = []; // Ensure array exists
                  mainTask.subtasks.push({ id: generateLocalId(), text: newSubtaskText, completed: false });
-                 mainTask.completed = false;
-                 mainTask.completedDate = null;
-                 mainTask.showSubtaskUI = false;
+                 // If adding a subtask, the main task cannot be complete
+                 mainTask.completed = false; // This might already be false, but defensive
+                 mainTask.completedDate = null; // This might already be null, but defensive
+                 // Keep the subtask UI open after adding for quicker entry
+                 // mainTask.showSubtaskUI = false; // Removed this to keep UI open
                  saveTodosToLocalStorage();
-                 syncAndRender();
+                 syncAndRender(); // Render UI after adding
                  if (subtaskInput) subtaskInput.value = '';
+                  subtaskInput.focus(); // Keep focus on input for adding more
              }
         }
 
@@ -1874,12 +2068,15 @@
             const taskIndex = findTaskIndexById(taskId);
             if (taskIndex > -1) {
                 const taskToDelete = todos[taskIndex];
+                // Decrement medal count ONLY if it was completed TODAY
                 if (taskToDelete.completed && taskToDelete.completedDate === getTodayDateString()) {
                     updateMedalCount(-1);
                 }
                 todos.splice(taskIndex, 1);
                 saveTodosToLocalStorage();
-                syncAndRender();
+                syncAndRender(); // Render UI after deleting
+
+                // If no tasks left, show welcome screen
                 if (todos.length === 0 && welcomeSection && appMainInterface && installInstructionsSection) {
                     welcomeSection.classList.remove('hidden');
                     installInstructionsSection.classList.remove('hidden');
@@ -1890,26 +2087,44 @@
 
         function deleteSubtask(mainTaskId, subtaskId) {
              const mainTask = findTaskById(mainTaskId);
-             if (mainTask && mainTask.subtasks && !mainTask.completed) {
+             if (mainTask && mainTask.subtasks && !mainTask.completed) { // Cannot delete subtasks if main task completed
                  const subtaskIndex = mainTask.subtasks.findIndex(sub => sub.id === subtaskId);
                  if (subtaskIndex > -1) {
+                     // Optional: Confirmation for deleting subtask
+                     // if (!confirm("¿Seguro que quieres eliminar esta sub-tarea?")) return;
+
                      mainTask.subtasks.splice(subtaskIndex, 1);
-                     mainTask.completed = false;
-                     mainTask.completedDate = null;
+                     // If all subtasks are deleted, potentially hide the subtask UI
+                     if (mainTask.subtasks.length === 0) {
+                          mainTask.showSubtaskUI = false;
+                     }
+                     // If deleting a completed subtask, recalculate progress (not strictly needed as main is not completed)
+                     // If deleting the last subtask, the main task cannot be complete anymore based on subtask completion
+                     if (mainTask.subtasks.length === 0 && mainTask.completed) {
+                         // This case should not happen if !mainTask.completed check works, but defensive
+                          mainTask.completed = false;
+                          mainTask.completedDate = null;
+                     }
                      saveTodosToLocalStorage();
-                     syncAndRender();
+                     syncAndRender(); // Render UI after deleting
                  }
              }
         }
 
         function toggleSubtaskCompletion(mainTaskId, subtaskId) {
              const mainTask = findTaskById(mainTaskId);
+             // Cannot toggle subtask completion if main task is completed
              if (mainTask && mainTask.subtasks && !mainTask.completed) {
                 const subtask = mainTask.subtasks.find(sub => sub.id === subtaskId);
                 if (subtask) {
                      subtask.completed = !subtask.completed;
+                     // Main task becomes incomplete if any subtask becomes incomplete
+                     if (!subtask.completed) {
+                          mainTask.completed = false;
+                          mainTask.completedDate = null;
+                     }
                      saveTodosToLocalStorage();
-                     syncAndRender();
+                     syncAndRender(); // Render UI after toggle
                  }
              }
         }
@@ -1924,38 +2139,68 @@
 
                 if (isChecked) {
                     task.completedDate = today;
+                     // When main task is completed, mark all subtasks as completed
+                    if (task.subtasks) {
+                         task.subtasks.forEach(sub => sub.completed = true);
+                    }
+                     // Completed tasks lose their priority color and hide subtask UI
                     task.priorityColor = 'none';
                     task.showSubtaskUI = false;
+
+                    // Add medal ONLY if it's being marked completed today for the first time
                     if (!wasCompletedTodayBefore) {
                         updateMedalCount(1);
                     }
-                    if (typeof confetti === 'function') confetti({ particleCount: 150, spread: 90, origin: { y: 0.55 }});
+                    // Trigger confetti effect on completion
+                    if (typeof confetti === 'function') {
+                        // Find the list item element to aim confetti
+                        const listItemElement = todoListContainer.querySelector(`li[data-task-id="${task.id}"]`);
+                        if (listItemElement) {
+                            const rect = listItemElement.getBoundingClientRect();
+                            confetti({
+                                particleCount: 150,
+                                spread: 90,
+                                origin: {
+                                    x: rect.left / window.innerWidth + (rect.width / 2) / window.innerWidth,
+                                    y: rect.top / window.innerHeight + (rect.height / 2) / window.innerHeight
+                                },
+                                disableForReducedMotion: true // Respect user preference
+                            });
+                        } else {
+                             confetti({ particleCount: 150, spread: 90, origin: { y: 0.55 }, disableForReducedMotion: true });
+                        }
+                    }
+
                 } else {
+                    // If unchecking, remove completed date
                     if (wasCompletedTodayBefore) {
                         updateMedalCount(-1);
                     }
                     task.completedDate = null;
-                }
-                if (task.subtasks) {
-                    task.subtasks.forEach(sub => sub.completed = isChecked);
+                     // When main task is unchecked, uncheck all subtasks
+                    if (task.subtasks) {
+                         task.subtasks.forEach(sub => sub.completed = false);
+                    }
                 }
                 saveTodosToLocalStorage();
-                syncAndRender();
+                syncAndRender(); // Render UI after toggle
             }
         }
 
         function moveSubtask(mainTaskId, subtaskId, direction) {
             const mainTask = findTaskById(mainTaskId);
+            // Cannot move subtasks if main task is completed
             if (mainTask && mainTask.subtasks && !mainTask.completed) {
                 const subtaskIndex = mainTask.subtasks.findIndex(sub => sub.id === subtaskId);
                 if (subtaskIndex === -1) return;
 
                 const newIndex = subtaskIndex + direction;
                 if (newIndex >= 0 && newIndex < mainTask.subtasks.length) {
+                    // Swap subtasks
                     [mainTask.subtasks[subtaskIndex], mainTask.subtasks[newIndex]] =
                     [mainTask.subtasks[newIndex], mainTask.subtasks[subtaskIndex]];
                     saveTodosToLocalStorage();
-                    syncAndRender();
+                    syncAndRender(); // Render UI after move
                 }
             }
         }
@@ -1964,21 +2209,30 @@
 
         function performManualSort() {
              todos.sort((a, b) => {
+                 // Sort by completed status (incomplete first)
+                 if (a.completed !== b.completed) {
+                      return a.completed ? 1 : -1; // Incomplete comes before completed
+                 }
+
+                 // Then sort by priority (urgent first)
                  const rankA = PRIORITY_ORDER[a.priorityColor] || PRIORITY_ORDER['none'];
                  const rankB = PRIORITY_ORDER[b.priorityColor] || PRIORITY_ORDER['none'];
                  if (rankA !== rankB) return rankA - rankB;
 
-                 const dateA = a.date ? new Date(a.date).getTime() : Infinity;
+                 // Then sort by date (earliest date first, no date last)
+                 const dateA = a.date ? new Date(a.date).getTime() : Infinity; // Infinity pushes null dates to the end
                  const dateB = b.date ? new Date(b.date).getTime() : Infinity;
                  if (dateA !== dateB) return dateA - dateB;
 
+                 // Finally, sort by original order (or timestamp if order is missing)
                  return (a.order || 0) - (b.order || 0);
              });
+             // Update the 'order' property to reflect the new sorted order
              todos.forEach((task, index) => {
                  task.order = index;
              });
              saveTodosToLocalStorage();
-             syncAndRender();
+             syncAndRender(); // Render UI after sorting
         }
 
         function enableDarkMode() {
@@ -2003,11 +2257,13 @@
 
         function toggleDarkMode() {
             body.classList.contains('dark-mode') ? disableDarkMode() : enableDarkMode();
-            syncAndRender();
+             // Re-render to ensure date highlight colors update if they depend on mode
+             syncAndRender();
         }
 
         function exportAllData() {
             const dataToExport = {
+                version: document.querySelector('meta[name="version"]')?.content || 'unknown', // Include app version
                 theme: localStorage.getItem(THEME_STORAGE_KEY) || 'light',
                 dailyMedalData: JSON.parse(localStorage.getItem(MEDALS_STORAGE_KEY) || '{}'),
                 quickNotesContent: localStorage.getItem(QUICK_NOTES_STORAGE_KEY) || '',
@@ -2032,8 +2288,8 @@
             const file = event.target.files[0];
             if (!file) return;
 
-            if (!confirm("¡Atención! Importar datos reemplazará todos los datos actuales (tareas, notas, medallas, tema). ¿Deseas continuar?")) {
-                importFileInput.value = '';
+            if (!confirm("¡Atención! Importar datos reemplazará COMPLETAMENTE todos los datos actuales (tareas, notas, medallas, tema). ¿Deseas continuar?")) {
+                importFileInput.value = ''; // Clear the file input
                 return;
             }
 
@@ -2042,76 +2298,95 @@
                 try {
                     const importedData = JSON.parse(e.target.result);
 
+                    // Basic validation of imported data structure
                     if (typeof importedData !== 'object' || importedData === null || !Array.isArray(importedData.tasks)) {
-                        throw new Error('El formato del archivo es inválido o no contiene tareas.');
+                        throw new Error('El formato del archivo es inválido o no contiene una estructura de datos esperada.');
                     }
 
+                    // Apply theme
                     const themeToApply = importedData.theme === 'dark' ? 'dark' : 'light';
                     localStorage.setItem(THEME_STORAGE_KEY, themeToApply);
                     if (themeToApply === 'dark') enableDarkMode(); else disableDarkMode();
 
+                    // Apply medal data
                     if (importedData.dailyMedalData && typeof importedData.dailyMedalData === 'object') {
+                        // Optional: Validate medal data structure if needed, but basic check is fine
                         localStorage.setItem(MEDALS_STORAGE_KEY, JSON.stringify(importedData.dailyMedalData));
-                        displayMedalCount(importedData.dailyMedalData.count || 0);
+                        // Don't just display, load and refresh to ensure consistency with tasks if dates mismatch
+                         const currentMedalData = loadAndRefreshMedalData();
+                         displayMedalCount(currentMedalData.count);
+
                     } else {
+                         // If no valid medal data in import, reset local medal data
                         localStorage.removeItem(MEDALS_STORAGE_KEY);
+                        const defaultMedalData = { date: getTodayDateString(), count: 0 };
+                        localStorage.setItem(MEDALS_STORAGE_KEY, JSON.stringify(defaultMedalData));
                         displayMedalCount(0);
                     }
 
+                    // Apply quick notes
                     if (typeof importedData.quickNotesContent === 'string') {
-                        quickNotesArea.value = importedData.quickNotesContent;
+                        if (quickNotesArea) quickNotesArea.value = importedData.quickNotesContent;
                         localStorage.setItem(QUICK_NOTES_STORAGE_KEY, importedData.quickNotesContent);
                     } else {
-                        quickNotesArea.value = '';
+                         // If no valid notes data, reset local notes
+                        if (quickNotesArea) quickNotesArea.value = '';
                         localStorage.removeItem(QUICK_NOTES_STORAGE_KEY);
                     }
 
+                    // Apply tasks - re-validate and assign IDs/defaults if missing
                     todos = importedData.tasks.map(task => ({
-                        id: task.id || generateLocalId(),
-                        text: task.text || 'Tarea importada',
+                        id: task.id || generateLocalId(), // Ensure task has an ID
+                        text: typeof task.text === 'string' ? task.text : 'Tarea importada',
                         completed: !!task.completed,
-                        completedDate: task.completedDate || null,
+                        // Validate and format date string
+                        completedDate: (typeof task.completedDate === 'string' && task.completedDate.match(/^\d{4}-\d{2}-\d{2}$/)) ? task.completedDate : null,
                         subtasks: Array.isArray(task.subtasks) ? task.subtasks.map(sub => ({
-                            id: sub.id || generateLocalId(),
-                            text: sub.text || 'Sub-tarea importada',
+                            id: sub.id || generateLocalId(), // Ensure subtask has an ID
+                            text: typeof sub.text === 'string' ? sub.text : 'Sub-tarea importada',
                             completed: !!sub.completed
                         })) : [],
-                        showSubtaskUI: !!task.showSubtaskUI,
+                        showSubtaskUI: !!task.showSubtaskUI, // Convert to boolean
                         priorityColor: PRIORITY_COLORS.includes(task.priorityColor) ? task.priorityColor : 'none',
+                         // Validate and format date string
                         date: (typeof task.date === 'string' && task.date.match(/^\d{4}-\d{2}-\d{2}$/)) ? task.date : null,
                         linkUrl: typeof task.linkUrl === 'string' ? task.linkUrl : null,
-                        order: typeof task.order === 'number' ? task.order : Date.now()
+                        order: typeof task.order === 'number' ? task.order : (task.id ? Date.now() + Math.random() : Date.now() + Math.random()) // Assign order if missing
                     }));
 
                     saveTodosToLocalStorage();
 
+                    // Decide whether to show welcome or main interface
                     if (todos.length === 0) {
                         if (welcomeSection) welcomeSection.classList.remove('hidden');
                         if (installInstructionsSection) installInstructionsSection.classList.remove('hidden');
                         if (appMainInterface) appMainInterface.classList.add('hidden');
                     } else {
-                        showAppInterface();
+                        showAppInterface(); // This will also load notes and display tasks
                     }
+                    // Ensure everything is rendered and in sync
                     syncAndRender();
+
 
                     alert('Datos importados exitosamente.');
 
                 } catch (error) {
                     console.error('Error al importar datos:', error);
-                    alert(`Error al importar datos: ${error.message}`);
+                    alert(`Error al importar datos: ${error.message || 'Verifica el formato del archivo.'}`);
                 } finally {
-                    importFileInput.value = '';
+                    importFileInput.value = ''; // Clear the file input regardless of success/failure
                 }
             };
             reader.onerror = () => {
                 alert('Error al leer el archivo.');
-                importFileInput.value = '';
+                importFileInput.value = ''; // Clear the file input
             };
             reader.readAsText(file);
         }
 
 
         document.addEventListener('DOMContentLoaded', () => {
+            // Assign elements after DOM is ready
             todoInput = document.getElementById('new-todo-input');
             addTodoButton = document.getElementById('add-todo-button');
             todoListContainer = document.getElementById('todo-list');
@@ -2137,32 +2412,53 @@
             installInstructionsSection = document.getElementById('install-instructions-section');
 
 
+            // Initialize theme based on localStorage
             if (localStorage.getItem(THEME_STORAGE_KEY) === 'dark') {
                 enableDarkMode();
             } else {
                 disableDarkMode();
             }
 
+            // Load todos initially
             loadTodosFromLocalStorage();
 
+            // Determine initial view (welcome vs. app)
             if (todos.length === 0) {
+                 // Ensure welcome and install sections are visible, main app is hidden
                 if (welcomeSection) welcomeSection.classList.remove('hidden');
                 if (installInstructionsSection) installInstructionsSection.classList.remove('hidden');
                 if (appMainInterface) appMainInterface.classList.add('hidden');
+                // Clear quick notes area when showing welcome
+                 if (quickNotesArea) quickNotesArea.value = '';
             } else {
+                 // Ensure welcome and install sections are hidden, main app is visible
                 if (welcomeSection) welcomeSection.classList.add('hidden');
                 if (installInstructionsSection) installInstructionsSection.classList.add('hidden');
                 if (appMainInterface) appMainInterface.classList.remove('hidden');
+
+                 // Load and display quick notes
+                 const savedNotes = localStorage.getItem(QUICK_NOTES_STORAGE_KEY);
+                 if (quickNotesArea && savedNotes) quickNotesArea.value = savedNotes;
+
+                 // Render the tasks
                 renderTodosUI();
             }
 
+            // Load and display medal count
             const initialMedalData = loadAndRefreshMedalData();
             displayMedalCount(initialMedalData.count);
 
-            addTodoButton.addEventListener('click', addTodo);
-            todoInput.addEventListener('keypress', (e) => { if (e.key==='Enter'){ e.preventDefault(); addTodo();}});
-            reorderButton.addEventListener('click', performManualSort);
-            darkModeToggle.addEventListener('click', toggleDarkMode);
+            // Add event listeners
+            if (addTodoButton && todoInput) {
+                 addTodoButton.addEventListener('click', addTodo);
+                 todoInput.addEventListener('keypress', (e) => { if (e.key==='Enter'){ e.preventDefault(); addTodo();}});
+            }
+             if (reorderButton) {
+                reorderButton.addEventListener('click', performManualSort);
+             }
+             if (darkModeToggle) {
+                 darkModeToggle.addEventListener('click', toggleDarkMode);
+             }
 
             if (startAppButton) {
                 startAppButton.addEventListener('click', showAppInterface);
@@ -2182,8 +2478,6 @@
             }
 
             if (quickNotesArea && clearNotesButton) {
-                const savedNotes = localStorage.getItem(QUICK_NOTES_STORAGE_KEY);
-                if (savedNotes) quickNotesArea.value = savedNotes;
                 quickNotesArea.addEventListener('input', () => {
                     localStorage.setItem(QUICK_NOTES_STORAGE_KEY, quickNotesArea.value);
                 });
@@ -2201,6 +2495,35 @@
                 importDataButton.addEventListener('click', () => importFileInput.click());
                 importFileInput.addEventListener('change', importAllData);
             }
+
+             // Optional: Add a check for browser installability prompt (PWA)
+             // window.addEventListener('beforeinstallprompt', (e) => {
+             //   e.preventDefault(); // Prevent the default browser prompt
+             //   deferredPrompt = e; // Store the event for later use
+             //   // Show a custom install button or message if you have one
+             //   // installButton.style.display = 'block';
+             // });
+             // If you had an install button:
+             // installButton.addEventListener('click', () => {
+             //   if (deferredPrompt) {
+             //     deferredPrompt.prompt();
+             //     deferredPrompt.userChoice.then((choiceResult) => {
+             //       if (choiceResult.outcome === 'accepted') {
+             //         console.log('User accepted the install prompt');
+             //       } else {
+             //         console.log('User dismissed the install prompt');
+             //       }
+             //       deferredPrompt = null; // Clear the saved prompt
+             //       // Hide your custom install button
+             //     });
+             //   }
+             // });
+             // window.addEventListener('appinstalled', () => {
+             //    console.log('PWA was installed');
+             //    // Hide install button
+             //    // Show success message
+             // });
+
         });
     </script>
 
