@@ -10,24 +10,24 @@
     <meta name="keywords" content="lista de tareas, to-do list, gestor de tareas diarias, organizador personal, productividad, planificación diaria, tareas pendientes, subtareas, prioridades, web app, enrique gil, ToDayList">
     <meta name="author" content="Enrique Gil">
     <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://enriquegpz.github.io/todaylist/">
+    <link rel="canonical" href="https://www.todaylist.es/"> <!-- URL ACTUALIZADA -->
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://enriquegpz.github.io/todaylist/">
+    <meta property="og:url" content="https://www.todaylist.es/"> <!-- URL ACTUALIZADA -->
     <meta property="og:title" content="ToDayList - Simplifica Tu Día, Organiza Tus Tareas">
     <meta property="og:description" content="Organiza tus pendientes con ToDayList: tu gestor de tareas diarias minimalista.">
-    <meta property="og:image" content="https://enriquegpz.github.io/todaylist/iconToDayList.png">
+    <meta property="og:image" content="https://www.todaylist.es/ToDayList.png">
     <meta property="og:site_name" content="ToDayList">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://enriquegpz.github.io/todaylist/">
+    <meta property="twitter:url" content="https://www.todaylist.es/"> <!-- URL ACTUALIZADA -->
     <meta property="twitter:title" content="ToDayList - Simplifica Tu Día, Organiza Tus Tareas">
     <meta property="twitter:description" content="Organiza tus pendientes con ToDayList: tu gestor de tareas diarias minimalista.">
-    <meta property="twitter:image" content="https://enriquegpz.github.io/todaylist/iconToDayList.png">
+    <meta property="twitter:image" content="https://www.todaylist.es/ToDayList.png">
 
-    <link rel="icon" href="iconToDayList.png" type="image/png">
+    <link rel="icon" href="https://www.todaylist.es/ToDayList.png" type="image/png">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -44,7 +44,7 @@
       "applicationCategory": ["ProductivityApplication", "UtilityApplication"],
       "operatingSystem": "Web Browser",
       "description": "ToDayList es un gestor de tareas diarias minimalista y eficiente que te ayuda a organizar tus pendientes, establecer prioridades, añadir subtareas y fechas límite para mejorar tu productividad.",
-      "url": "https://enriquegpz.github.io/todaylist/",
+      "url": "https://www.todaylist.es/", /* URL ACTUALIZADA */
       "author": {
         "@type": "Person",
         "name": "Enrique Gil"
@@ -54,10 +54,10 @@
         "price": "0",
         "priceCurrency": "USD"
       },
-      "image": "https://enriquegpz.github.io/todaylist/iconToDayList.png",
-      "screenshot": "https://enriquegpz.github.io/todaylist/images/todaylist-screenshot.jpg", /* Recuerda crear esta imagen */
-      "softwareVersion": "1.0.3",
-      "datePublished": "2024-03-10",
+      "image": "https://www.todaylist.es/ToDayList.png",
+      "screenshot": "https://www.todaylist.es/images/todaylist-screenshot.jpg", /* URL ACTUALIZADA - Asegúrate de que la imagen exista en esta ruta en tu servidor */
+      "softwareVersion": "1.0.6", /* Actualiza la versión si es necesario */
+      "datePublished": "2024-03-11", /* Actualiza la fecha si es necesario */
       "keywords": "lista de tareas, to-do list, gestor de tareas diarias, productividad, organización, planificación, web app, tareas pendientes, subtareas, prioridades"
     }
     </script>
@@ -129,7 +129,7 @@
             --sort-button-color: #bdc3c7;
             --sort-button-hover-color: #3498db;
             --checkbox-checkmark-color: var(--bg-color);
-            --footer-text-color: #666;
+            --footer-text-color: #777; /* Ligeramente más claro en modo oscuro */
             --medal-text-color: var(--text-color);
             --subtitle-color: #bdc3c7;
             --app-description-color: #a0a0a0;
@@ -145,11 +145,14 @@
             background-color: var(--bg-color);
             color: var(--text-color);
             line-height: 1.6;
-            padding-bottom: 80px;
+            /* padding-bottom original era 80px, aumentamos para el footer con logo */
+            padding-bottom: 120px; /* Aumentado para dar espacio al footer */
             transition: background-color 0.3s ease, color 0.3s ease;
             display: flex;
             flex-direction: column;
             align-items: center;
+            min-height: 100vh; /* Asegura que el footer esté abajo si hay poco contenido */
+            box-sizing: border-box;
         }
 
         .container {
@@ -157,8 +160,9 @@
             max-width: 600px;
             padding: 0 10px;
             box-sizing: border-box;
-            flex-grow: 1;
+            flex-grow: 1; /* Permite que el contenido empuje el footer hacia abajo */
             position: relative;
+            padding-bottom: 20px; /* Espacio antes del footer dentro del container */
         }
 
         h1 {
@@ -182,7 +186,7 @@
             margin-bottom: 10px;
             letter-spacing: 0.2px;
         }
-        .app-description-static { /* Para la descripción breve que siempre es visible */
+        .app-description-static {
             text-align: center;
             font-family: 'Lexend', sans-serif;
             font-size: 0.9rem;
@@ -196,7 +200,6 @@
             margin-right: auto;
         }
 
-        /* NUEVO: Estilos para la sección de bienvenida */
         #welcome-section {
             margin-top: 20px;
             margin-bottom: 30px;
@@ -205,7 +208,13 @@
             border: 1px solid var(--border-color);
             border-radius: 10px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            text-align: center; /* Centrar contenido de bienvenida */
+            text-align: center;
+        }
+        .welcome-icon {
+            width: 64px;
+            height: 64px;
+            margin-bottom: 15px;
+            border-radius: 12px;
         }
         #welcome-section h2 {
             font-family: 'Quicksand', sans-serif;
@@ -223,9 +232,9 @@
         #welcome-section ul {
             list-style: none;
             padding-left: 0;
-            margin: 20px auto; /* Centrar lista si es necesario */
-            max-width: 400px; /* Limitar ancho para mejor lectura */
-            text-align: left; /* Alinear items de lista a la izquierda */
+            margin: 20px auto;
+            max-width: 400px;
+            text-align: left;
         }
         #welcome-section ul li {
             font-size: 0.9rem;
@@ -258,23 +267,21 @@
             cursor: pointer;
             transition: background-color 0.2s ease, transform 0.2s ease;
             margin-top: 20px;
-            display: inline-block; /* Para centrarlo si el contenedor es text-align:center */
+            display: inline-block;
         }
         #start-app-button:hover {
             background-color: var(--welcome-button-hover-bg);
             transform: translateY(-2px);
         }
         #start-app-button:focus, #start-app-button:focus-visible {
-             outline: 3px solid var(--button-hover-color); /* Usar un color de foco consistente */
+             outline: 3px solid var(--button-hover-color);
              outline-offset: 2px;
         }
 
-        /* NUEVO: Clase para ocultar elementos */
         .hidden {
             display: none !important;
         }
 
-        /* Estilos existentes (medal-counter, todo-list, etc.) sin cambios, solo los pongo para contexto */
         #medal-counter-container {
             text-align: center;
             font-size: 1.2rem;
@@ -894,16 +901,32 @@
             margin-right: 5px;
         }
 
-        .footer-text {
+        /* Footer con logo */
+        footer {
+            display: flex;
+            align-items: center;
+            justify-content: center;
             text-align: center;
-            font-size: 0.75rem;
+            font-size: 0.8rem; /* Ajustado para el texto y el logo */
             color: var(--footer-text-color);
             margin-top: 40px;
-            padding: 10px;
+            padding: 15px 10px; /* Un poco más de padding */
             width: 100%;
-            max-width: 600px;
+            max-width: 600px; /* Coincide con el .container */
             box-sizing: border-box;
+            border-top: 1px solid var(--border-color); /* Línea sutil arriba */
         }
+        .footer-logo {
+            width: 24px; /* Tamaño del logo en el footer */
+            height: 24px;
+            margin-right: 8px; /* Espacio entre logo y texto */
+            vertical-align: middle; /* Ayuda a alinear si no se usa flex */
+        }
+        .footer-text { /* Estilos específicos para el texto del footer si es necesario */
+            margin: 0; /* Resetear margen del párrafo si se usa */
+            color: var(--footer-text-color);
+        }
+
 
         @media (max-width: 500px) {
             h1 {
@@ -957,6 +980,13 @@
              #start-app-button {
                 padding: 10px 20px;
                 font-size: 1rem;
+            }
+            footer {
+                font-size: 0.75rem; /* Texto un poco más pequeño en móvil */
+            }
+            .footer-logo {
+                width: 20px;
+                height: 20px;
             }
         }
 
@@ -1082,12 +1112,12 @@
         </button>
         <h1>ToDayList</h1>
         <h2 class="subtitle">Tu Gestor de Tareas Diarias Inteligente</h2>
-        <p class="app-description-static"> <!-- Descripción breve siempre visible -->
+        <p class="app-description-static">
             Organiza tu día y aumenta tu productividad de forma sencilla y eficaz.
         </p>
 
-        <!-- NUEVO: Sección de Bienvenida -->
-        <section id="welcome-section" class="hidden"> <!-- Inicialmente oculta si JS la oculta -->
+        <section id="welcome-section" class="hidden">
+            <img src="https://www.todaylist.es/ToDayList.png" alt="ToDayList Icono" class="welcome-icon">
             <h2>¡Bienvenido a ToDayList!</h2>
             <p>
                 ToDayList es más que una simple lista de tareas. Es una aplicación web diseñada para ayudarte
@@ -1111,8 +1141,7 @@
             <button id="start-app-button" class="app-button">Empezar a Organizar</button>
         </section>
 
-        <!-- NUEVO: Contenedor para la interfaz principal de la app -->
-        <div id="app-main-interface" class="hidden"> <!-- Inicialmente oculta si JS la oculta -->
+        <div id="app-main-interface" class="hidden">
             <div id="medal-counter-container">
                 <i class="fas fa-medal"></i> <span id="medal-count">0</span>
             </div>
@@ -1152,9 +1181,13 @@
             </div>
         </div>
 
-    </div>
+    </div> <!-- Fin de .container -->
 
-    <p class="footer-text">WebApp creada por Enrique Gil</p>
+    <!-- Footer fuera del .container principal para que ocupe el ancho del body si es necesario, pero centrado con max-width -->
+    <footer>
+        <img src="https://www.todaylist.es/ToDayList.png" alt="Logo ToDayList" class="footer-logo">
+        <p class="footer-text">WebApp creada por Enrique Gil</p>
+    </footer>
 
     <button id="dark-mode-toggle" class="app-button" aria-label="Alternar modo oscuro/claro"><i class="fas fa-moon"></i></button>
 
@@ -1205,7 +1238,6 @@
         let importDataButton;
         let importFileInput;
 
-        // NUEVO: Elementos para la bienvenida
         let welcomeSection;
         let startAppButton;
         let appMainInterface;
@@ -1619,11 +1651,10 @@
             }
         }
 
-        // NUEVO: Función para mostrar la interfaz principal de la app
         function showAppInterface() {
             if (welcomeSection) welcomeSection.classList.add('hidden');
             if (appMainInterface) appMainInterface.classList.remove('hidden');
-            if (todoInput) todoInput.focus(); // Enfocar el input al mostrar la app
+            if (todoInput) todoInput.focus();
         }
 
         function addTodo() {
@@ -1647,7 +1678,6 @@
             syncAndRender();
             if (todoInput) todoInput.value = '';
 
-            // NUEVO: Si es la primera tarea, asegurarse de que la interfaz de la app esté visible
             if (todos.length === 1 && welcomeSection && !welcomeSection.classList.contains('hidden')) {
                 showAppInterface();
             }
@@ -1679,11 +1709,10 @@
                 todos.splice(taskIndex, 1);
                 saveTodosToLocalStorage();
                 syncAndRender();
-                // Opcional: Si se borran todas las tareas, podrías volver a mostrar la bienvenida.
-                // if (todos.length === 0 && welcomeSection && appMainInterface) {
-                //     welcomeSection.classList.remove('hidden');
-                //     appMainInterface.classList.add('hidden');
-                // }
+                if (todos.length === 0 && welcomeSection && appMainInterface) {
+                    welcomeSection.classList.remove('hidden');
+                    appMainInterface.classList.add('hidden');
+                }
             }
         }
 
@@ -1819,7 +1848,7 @@
             const a = document.createElement('a');
             a.href = url;
             const dateStr = new Date().toISOString().slice(0,10).replace(/-/g,'');
-            a.download = `todolist-backup-${dateStr}.json`; // El nombre del archivo aún puede tener .json, es informativo para el usuario
+            a.download = `todolist-backup-${dateStr}.json`;
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
@@ -1883,9 +1912,8 @@
                     }));
 
                     saveTodosToLocalStorage();
-                    // NUEVO: Asegurarse de que se muestra la interfaz de la app después de importar
                     showAppInterface();
-                    syncAndRender(); // Renderizar las tareas importadas
+                    syncAndRender();
 
                     alert('Datos importados exitosamente.');
 
@@ -1924,7 +1952,6 @@
             importDataButton = document.getElementById('import-data-button');
             importFileInput = document.getElementById('import-file-input');
 
-            // NUEVO: Obtener referencias a los elementos de bienvenida e interfaz principal
             welcomeSection = document.getElementById('welcome-section');
             startAppButton = document.getElementById('start-app-button');
             appMainInterface = document.getElementById('app-main-interface');
@@ -1936,22 +1963,20 @@
                 disableDarkMode();
             }
 
-            loadTodosFromLocalStorage(); // Cargar tareas primero
+            loadTodosFromLocalStorage();
 
-            // NUEVO: Lógica para mostrar bienvenida o app
             if (todos.length === 0) {
                 if (welcomeSection) welcomeSection.classList.remove('hidden');
                 if (appMainInterface) appMainInterface.classList.add('hidden');
             } else {
                 if (welcomeSection) welcomeSection.classList.add('hidden');
                 if (appMainInterface) appMainInterface.classList.remove('hidden');
-                renderTodosUI(); // Renderizar tareas si existen
+                renderTodosUI();
             }
 
             const initialMedalData = loadAndRefreshMedalData();
             displayMedalCount(initialMedalData.count);
 
-            // Event listeners
             addTodoButton.addEventListener('click', addTodo);
             todoInput.addEventListener('keypress', (e) => { if (e.key==='Enter'){ e.preventDefault(); addTodo();}});
             reorderButton.addEventListener('click', performManualSort);
