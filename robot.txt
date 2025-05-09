@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /todaylist/
+
+Sitemap: https://enriquegpz.github.io/todaylist/sitemap.xml
