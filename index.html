@@ -1,0 +1,1803 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
+    <title>ToDayList</title>
+    <link rel="icon" href="iconToDayList.png" type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        /* --- Variables CSS para Colores (Modo Claro por defecto) --- */
+        :root {
+            --bg-color: #f4f7f6;
+            --text-color: #333;
+            --heading-color: #222;
+            --item-bg: #ffffff;
+            --border-color: #e0e0e0;
+            --input-bg: #f8f8f8;
+            --input-text-color: #333;
+            --placeholder-color: #888;
+            --button-color: #555; /* Color base para iconos/botones */
+            --button-hover-color: #e74c3c; /* Color de hover para botones generales */
+            --delete-button-color: var(--button-color);
+            --delete-button-hover-color: var(--button-hover-color);
+            --completed-text-color: #999;
+            --progress-bg: #e0ffe0;
+            --progress-bar-color: #66c266;
+            --progress-bar-completed-color: #28a745;
+            --empty-list-color: #888;
+            --fixed-button-bg: #ffffff;
+            --fixed-button-border: #ccc;
+            --fixed-button-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            --legend-text-color: #666;
+            --sort-button-color: #555;
+            --sort-button-hover-color: #3498db;
+            --footer-text-color: #aaa;
+            --medal-color: #ffd700;
+            --medal-text-color: var(--text-color);
+
+            --priority-red-color: #e74c3c;
+            --priority-orange-color: #f39c12;
+            --priority-yellow-color: #f1c40f;
+            --priority-green-color: #2ecc71;
+            --priority-none-color: var(--border-color);
+
+            /* Colores para el icono de calendario */
+            --calendar-icon-default-color: var(--button-color);
+            --calendar-icon-set-color: var(--text-color);
+        }
+
+        /* --- Variables CSS para Colores (Modo Oscuro) --- */
+        body.dark-mode {
+            --bg-color: #2c3e50;
+            --text-color: #ecf0f1;
+            --heading-color: #ecf0f1;
+            --item-bg: #34495e;
+            --border-color: #4a627a;
+            --input-bg: #445b71;
+            --input-text-color: #ecf0f1;
+            --placeholder-color: #bdc3c7;
+            --button-color: #bdc3c7;
+            --button-hover-color: #f39c12;
+            --delete-button-color: var(--button-color);
+            --delete-button-hover-color: var(--button-hover-color);
+            --completed-text-color: #7f8c8d;
+            --progress-bg: #4a627a;
+            --progress-bar-color: #8bc34a;
+            --empty-list-color: #bdc3c7;
+            --fixed-button-bg: #34495e;
+            --fixed-button-border: #4a627a;
+            --fixed-button-shadow: 0 2px 5px rgba(0,0,0,0.4);
+            --legend-text-color: #a0a0a0;
+            --sort-button-color: #bdc3c7;
+            --sort-button-hover-color: #3498db;
+            --checkbox-checkmark-color: var(--bg-color);
+            --footer-text-color: #666;
+            --medal-text-color: var(--text-color);
+
+            --priority-red-color: #e74c3c;
+            --priority-orange-color: #f39c12;
+            --priority-yellow-color: #f1c40f;
+            --priority-green-color: #2ecc71;
+            --priority-none-color: var(--border-color);
+
+            /* Colores para el icono de calendario en modo oscuro */
+            --calendar-icon-default-color: var(--button-color);
+            --calendar-icon-set-color: var(--text-color);
+        }
+
+        /* --- Estilos Generales --- */
+        body {
+            font-family: 'Lexend', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding-bottom: 80px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            padding: 0 10px;
+            box-sizing: border-box;
+            flex-grow: 1;
+            position: relative; /* Para el botón de información */
+        }
+
+        h1 {
+            font-family: 'Quicksand', sans-serif;
+            color: var(--heading-color);
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-weight: 700;
+            font-size: 2.5rem;
+            letter-spacing: -0.5px;
+            padding-top: 45px; /* Ajuste para no solaparse con el botón de info */
+        }
+
+        #medal-counter-container {
+            text-align: center;
+            font-size: 1.2rem;
+            color: var(--medal-text-color);
+            margin-bottom: 20px;
+        }
+        #medal-counter-container .fa-medal {
+            color: var(--medal-color);
+            margin-right: 5px;
+        }
+        #medal-count {
+            font-weight: bold;
+        }
+
+
+        #priority-legend {
+            text-align: center;
+            font-size: 0.75rem;
+            color: var(--legend-text-color);
+            margin-top: 30px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 5px 10px;
+        }
+        #priority-legend .priority-legend-item {
+             display: inline-flex;
+             align-items: center;
+             gap: 4px;
+        }
+         #priority-legend .priority-color-label {
+             width: 10px;
+             height: 10px;
+             margin-right: 0;
+             flex-shrink: 0;
+         }
+         #priority-legend .priority-color-label:hover {
+             transform: none;
+         }
+
+        #todo-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 30px 0;
+        }
+
+        .todo-item {
+            background-color: var(--item-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+            transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            border-left: 5px solid var(--border-color);
+            padding-left: 10px;
+        }
+         .todo-item:last-child {
+             margin-bottom: 0;
+         }
+
+        .todo-item[data-priority-color="red"] { border-left-color: var(--priority-red-color); }
+        .todo-item[data-priority-color="orange"] { border-left-color: var(--priority-orange-color); }
+        .todo-item[data-priority-color="yellow"] { border-left-color: var(--priority-yellow-color); }
+        .todo-item[data-priority-color="green"] { border-left-color: var(--priority-green-color); }
+        .todo-item[data-priority-color="none"] { border-left-color: var(--priority-none-color); }
+
+
+         .app-button {
+             background: none;
+             border: none;
+             border-radius: 4px;
+             cursor: pointer;
+             transition: color 0.2s ease, background-color 0.2s ease, opacity 0.2s ease;
+             flex-shrink: 0;
+             padding: 6px 10px;
+             font-size: 1rem;
+             line-height: 1;
+             display: inline-flex;
+             align-items: center;
+             justify-content: center;
+             text-decoration: none;
+         }
+         .app-button:hover {
+             color: var(--button-hover-color);
+         }
+         .app-button:focus, .app-button:focus-visible { /* Mejorado para visibilidad de foco */
+              outline: 2px solid var(--button-hover-color);
+              outline-offset: 2px;
+         }
+         .add-button {
+             color: var(--button-color);
+             font-weight: bold;
+         }
+         .add-button:hover {
+             color: var(--button-hover-color);
+         }
+         .delete-button {
+             color: var(--delete-button-color);
+         }
+         .delete-button:hover {
+             color: var(--delete-button-hover-color);
+         }
+         .sort-button {
+             color: var(--sort-button-color);
+             font-weight: normal;
+             padding: 10px 15px;
+             font-size: 1.1rem;
+         }
+         .sort-button:hover {
+             color: var(--sort-button-hover-color);
+         }
+
+         #dark-mode-toggle {
+             position: fixed;
+             bottom: 20px;
+             right: 20px;
+             font-size: 1.3rem;
+             color: var(--button-color);
+             z-index: 1000;
+             background-color: var(--fixed-button-bg);
+             border: 1px solid var(--fixed-button-border);
+             border-radius: 50%;
+             width: 45px;
+             height: 45px;
+             display: flex;
+             justify-content: center;
+             align-items: center;
+             box-shadow: var(--fixed-button-shadow);
+             transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+         }
+         #dark-mode-toggle:hover {
+             color: var(--button-hover-color);
+         }
+         #dark-mode-toggle i {
+             line-height: 1;
+         }
+
+        #new-todo-input,
+        .todo-item .subtask-input-container input[type="text"] {
+            padding: 10px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            flex-grow: 1;
+            min-width: 150px;
+            font-size: 0.95rem;
+            box-sizing: border-box;
+            background-color: var(--input-bg);
+            color: var(--input-text-color);
+            outline: none;
+            transition: border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+        }
+        #new-todo-input:focus,
+        .todo-item .subtask-input-container input[type="text"]:focus {
+            border-color: var(--button-hover-color);
+            box-shadow: 0 0 0 0.2rem rgba(231, 76, 60, 0.25);
+        }
+        #new-todo-input::placeholder,
+        .todo-item .subtask-input-container input[type="text"]::placeholder {
+             color: var(--placeholder-color);
+             opacity: 1;
+        }
+
+        /* --- ESTILOS CHECKBOX --- */
+         .custom-checkbox {
+             margin-right: 10px;
+             border: 1px solid var(--text-color);
+             border-radius: 50%;
+             appearance: none;
+             -webkit-appearance: none;
+             width: 20px;
+             height: 20px;
+             background-color: var(--item-bg);
+             cursor: pointer;
+             position: relative;
+             flex-shrink: 0;
+             box-sizing: border-box;
+             transition: background-color 0.2s ease, border-color 0.2s ease;
+         }
+         .custom-checkbox:checked {
+              background-color: var(--text-color);
+              border-color: var(--text-color);
+         }
+
+         /* Tick para checkbox principal (20px) */
+         .custom-checkbox:checked::after {
+             content: '';
+             position: absolute;
+             box-sizing: content-box; /* Importante para que el borde no aumente el tamaño efectivo */
+             width: 5px;  /* Ancho de la base del tick */
+             height: 9px; /* Altura del lado más largo del tick */
+             border: solid var(--item-bg);
+             border-width: 0 2px 2px 0; /* Grosor del tick */
+             top: 3px;  /* Ajuste vertical */
+             left: 6px; /* Ajuste horizontal */
+             transform: rotate(45deg);
+         }
+         body.dark-mode .custom-checkbox:checked::after { /* Mantenemos el mismo color de tick */
+             border-color: var(--checkbox-checkmark-color) !important;
+         }
+
+
+        .todo-item .main-task-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 0;
+            gap: 10px;
+        }
+        .todo-item .main-task-header input[type="checkbox"] {
+             border-color: var(--text-color);
+             background-color: var(--item-bg);
+        }
+         .todo-item .main-task-header input[type="checkbox"]:checked {
+              background-color: var(--text-color);
+              border-color: var(--text-color);
+         }
+
+
+        .todo-item .priority-color-label {
+             display: inline-block;
+             width: 16px;
+             height: 16px;
+             border: 1px solid var(--border-color);
+             border-radius: 4px;
+             cursor: pointer;
+             flex-shrink: 0;
+             transition: border-color 0.2s ease, transform 0.1s ease, background-color 0.2s ease;
+             box-sizing: border-box;
+        }
+         .todo-item .priority-color-label:hover {
+             transform: scale(1.1);
+         }
+        .priority-color-label[data-color="red"] { background-color: var(--priority-red-color); border-color: var(--priority-red-color); }
+        .priority-color-label[data-color="orange"] { background-color: var(--priority-orange-color); border-color: var(--priority-orange-color); }
+        .priority-color-label[data-color="yellow"] { background-color: var(--priority-yellow-color); border-color: var(--priority-yellow-color); }
+        .priority-color-label[data-color="green"] { background-color: var(--priority-green-color); border-color: var(--priority-green-color); }
+        .priority-color-label[data-color="none"] { background-color: transparent; border-color: var(--border-color); }
+
+
+        .todo-item .main-task-header .task-body {
+            display: flex;
+            flex-grow: 1;
+            align-items: center;
+            gap: 10px;
+            min-width: 0;
+            flex-wrap: wrap;
+        }
+
+
+        .todo-item .main-task-header .task-body span {
+            font-weight: 700;
+            font-size: 1.1rem;
+            flex-grow: 1;
+            color: var(--text-color);
+            transition: color 0.3s ease, text-decoration 0.3s ease;
+            min-width: 0;
+            word-break: break-word;
+        }
+
+        .todo-item .main-task-header .task-body .task-actions-group {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-left: auto;
+            flex-shrink: 0;
+        }
+
+        /* Estilos para el botón de enlace */
+        .todo-item .main-task-header .task-body .link-button {
+            color: var(--button-color);
+            padding: 4px 8px;
+            font-size: 1rem;
+            opacity: 0.5;
+        }
+        .todo-item .main-task-header .task-body .link-button.link-on {
+            opacity: 1;
+        }
+
+        /* Estilos para la label del calendario */
+        .todo-item .main-task-header .task-body .calendar-button { /* Clase se mantiene para la label */
+            padding: 4px 8px;
+            font-size: 1rem;
+            /* app-button ya define cursor: pointer */
+        }
+        .todo-item .main-task-header .task-body .calendar-button i {
+            color: var(--calendar-icon-default-color);
+            transition: color 0.2s ease, font-weight 0.2s ease;
+        }
+        .todo-item .main-task-header .task-body .calendar-button.date-set i {
+            color: var(--calendar-icon-set-color);
+        }
+        .todo-item .main-task-header .task-body .calendar-button.date-today i {
+            font-weight: bold;
+        }
+
+        /* Input de fecha real oculto de forma accesible */
+        .task-date-input-real {
+            opacity: 0;
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+            clip: rect(0 0 0 0); /* Para navegadores antiguos */
+            clip-path: inset(50%); /* Para navegadores modernos */
+            margin: -1px;
+            padding: 0;
+            border: 0;
+            white-space: nowrap; /* Para algunos lectores de pantalla */
+        }
+
+        /* Estilos para el botón de eliminar */
+        .todo-item .main-task-header .task-body .task-actions-group .delete-button {
+             padding: 4px 8px;
+             font-size: 1rem;
+        }
+
+
+        .todo-item .add-subtasks-toggle {
+             display: block;
+             width: fit-content;
+             margin: 10px 0 0 auto;
+             padding: 4px 8px;
+             font-size: 1.1rem;
+             font-weight: normal;
+             color: var(--legend-text-color);
+        }
+         .todo-item .add-subtasks-toggle:hover {
+             color: var(--button-hover-color);
+         }
+
+        .todo-item .subtask-input-container {
+            display: none;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 15px;
+            padding: 0;
+            align-items: center;
+        }
+         .todo-item .subtask-input-container button {
+             padding: 8px 12px;
+             font-size: 1rem;
+         }
+
+        .todo-item .subtasks-list {
+            list-style: none;
+            padding: 0;
+            margin-top: 15px;
+            border-left: 2px solid var(--border-color);
+            padding-left: 20px;
+            transition: border-left-color 0.3s ease;
+        }
+        .todo-item .subtasks-list li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 4px; /* MODIFICADO: Reducido para menor interlineado */
+            gap: 5px;
+        }
+         .todo-item .subtasks-list li:last-child {
+             margin-bottom: 0;
+         }
+
+        /* Checkbox de subtarea (18px) hereda .custom-checkbox */
+        .todo-item .subtasks-list li input[type="checkbox"] {
+             width: 18px;
+             height: 18px;
+             /* border-radius: 50%; ya está aplicado por .custom-checkbox */
+             border-color: var(--text-color);
+             background-color: var(--item-bg);
+        }
+         .todo-item .subtasks-list li input[type="checkbox"]:checked {
+              background-color: var(--text-color);
+              border-color: var(--text-color);
+         }
+
+        /* Tick específico para checkbox de subtarea (18px) */
+        .todo-item .subtasks-list li input[type="checkbox"]:checked::after {
+            content: '';
+            position: absolute;
+            box-sizing: content-box;
+            width: 4px;  /* Un poco más pequeño para el checkbox de 18px */
+            height: 8px; /* Un poco más pequeño */
+            border: solid var(--item-bg); /* Color del tick en modo claro */
+            border-width: 0 1.8px 1.8px 0; /* Ligeramente más fino si se desea, o mantener 2px */
+            top: 2.5px; /* Ajuste vertical para 18px */
+            left: 5px;  /* Ajuste horizontal para 18px */
+            transform: rotate(45deg);
+        }
+         body.dark-mode .todo-item .subtasks-list li input[type="checkbox"]:checked::after {
+             border-color: var(--checkbox-checkmark-color) !important;
+         }
+        /* --- FIN ESTILOS CHECKBOX --- */
+
+
+        /* --- Estilos para el texto de la subtarea (más pequeño y fino) --- */
+        .todo-item .subtasks-list li span {
+             flex-grow: 1;
+             margin-right: 5px;
+             color: var(--button-color);
+             text-decoration: none;
+             transition: color 0.3s ease, text-decoration 0.3s ease;
+             word-break: break-word;
+             font-size: 0.85em; /* Relativo al li padre (que hereda del body) */
+             font-weight: 300;
+        }
+         .todo-item .subtasks-list li .subtask-move-button {
+             color: var(--button-color);
+             padding: 4px;
+             font-size: 0.9rem;
+         }
+         .todo-item .subtasks-list li .subtask-move-button:hover {
+             color: var(--button-hover-color);
+         }
+         .todo-item .subtasks-list li .subtask-move-button:disabled {
+             opacity: 0.3;
+             cursor: not-allowed;
+             color: var(--button-color);
+         }
+         .todo-item .subtasks-list li .subtask-move-button:disabled:hover {
+             color: var(--button-color);
+         }
+         .todo-item .subtasks-list li .delete-button {
+             padding: 4px 8px;
+             font-size: 1rem;
+         }
+
+        .todo-item .progress-container {
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            margin-top: 15px;
+            margin-bottom: 0;
+            overflow: hidden;
+            background-color: var(--progress-bg);
+            transition: background-color 0.3s ease;
+        }
+        .todo-item .progress-bar {
+            height: 100%;
+            background-color: var(--progress-bar-color);
+            width: 0%;
+            transition: width 0.5s ease-in-out, background-color 0.3s ease;
+        }
+         .todo-item .progress-text { display: none; }
+
+        #todo-list:empty:before {
+            content: "No hay tareas. ¡Agrega una!";
+            display: block;
+            text-align: center;
+            color: var(--empty-list-color);
+            margin-top: 20px;
+            font-style: italic;
+            transition: color 0.3s ease;
+        }
+
+        .todo-item.show-subtask-ui .subtask-input-container {
+             display: flex;
+        }
+        .todo-item.show-subtask-ui .add-subtasks-toggle {
+             display: none;
+        }
+
+        .todo-item.completed .main-task-header .task-body span,
+        .todo-item.completed .subtasks-list li span {
+            color: var(--completed-text-color);
+            text-decoration: line-through;
+        }
+        .todo-item.completed .progress-bar {
+            background-color: var(--progress-bar-completed-color);
+        }
+
+        .todo-item.completed .priority-color-label,
+        .todo-item.completed .subtasks-list li .app-button {
+            opacity: 0.7;
+            cursor: default;
+        }
+
+        .todo-item.completed .main-task-header .task-body .calendar-button {
+            opacity: 0.7;
+            cursor: default;
+            pointer-events: none; /* Evita que la label sea clickeable cuando está completada */
+        }
+        .todo-item.completed .main-task-header .task-body .calendar-button i {
+            color: var(--completed-text-color) !important;
+            font-weight: normal !important;
+        }
+
+
+        .todo-item.completed .main-task-header .task-body .task-actions-group .delete-button {
+            opacity: 0.7;
+        }
+        .todo-item.completed .main-task-header .task-body .task-actions-group .delete-button:hover {
+            opacity: 0.7;
+            color: var(--delete-button-color);
+        }
+
+        .todo-item.completed .main-task-header .task-body .link-button.link-on {
+            opacity: 0.8;
+            cursor: pointer;
+        }
+        .todo-item.completed .main-task-header .task-body .link-button.link-on:hover {
+            color: var(--button-hover-color);
+            opacity: 1;
+        }
+        .todo-item.completed .main-task-header .task-body .link-button.link-off {
+            opacity: 0.4;
+            cursor: default;
+        }
+        .todo-item.completed .main-task-header .task-body .link-button.link-off:hover {
+            color: var(--button-color);
+            opacity: 0.4;
+        }
+
+        .todo-item.completed .priority-color-label:hover,
+        .todo-item.completed .subtasks-list li .app-button:hover {
+            color: inherit;
+            text-decoration: none;
+            transform: none;
+        }
+
+
+         .todo-item.completed .main-task-header input[type="checkbox"] {
+             border-color: var(--completed-text-color);
+             background-color: var(--completed-text-color);
+         }
+          body.dark-mode .todo-item.completed .main-task-header input[type="checkbox"] {
+              border-color: var(--completed-text-color);
+              background-color: var(--completed-text-color);
+          }
+         .todo-item.completed .main-task-header input[type="checkbox"]:checked::after {
+              border-color: var(--item-bg) !important;
+         }
+          body.dark-mode .todo-item.completed .main-task-header input[type="checkbox"]:checked::after {
+              border-color: var(--item-bg) !important;
+          }
+
+         #todo-input-container {
+             display: flex;
+             gap: 10px;
+             padding: 0;
+             align-items: center;
+             margin-bottom: 20px;
+             flex-wrap: wrap;
+         }
+          #todo-input-container #add-todo-button {
+               margin-left: 0;
+               padding: 10px 15px;
+               font-size: 1.1rem;
+          }
+          #todo-input-container #reorder-button {
+               margin-left: auto;
+          }
+
+        /* --- ESTILOS PARA ZONA DE ANOTACIONES RÁPIDAS --- */
+        #quick-notes-container {
+            margin-top: 25px; /* Espacio después de la leyenda */
+            margin-bottom: 10px; /* Reducido para dar espacio a botones import/export */
+            display: flex;
+            flex-direction: column;
+            gap: 8px; /* Espacio entre textarea y botón */
+        }
+
+        #quick-notes-area {
+            width: 100%;
+            min-height: 70px; /* Altura mínima discreta */
+            padding: 10px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px; /* Consistente con otros elementos */
+            font-family: 'Lexend', sans-serif; /* Consistente con el resto de la app */
+            font-weight: 300; /* Igual que las subtareas */
+            font-size: 0.85rem; /* Ajustado para parecerse a las subtareas */
+            line-height: 1.4; /* Interlineado ajustado para legibilidad y espacio */
+            background-color: var(--input-bg);
+            color: var(--input-text-color);
+            box-sizing: border-box;
+            resize: vertical; /* Permitir redimensionar verticalmente */
+            outline: none;
+            transition: border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+        }
+        #quick-notes-area::placeholder {
+            color: var(--placeholder-color);
+            opacity: 1;
+        }
+        #quick-notes-area:focus {
+            border-color: var(--button-hover-color);
+            box-shadow: 0 0 0 2px rgba(231, 76, 60, 0.15); /* Sombra de foco sutil, usando el color rojo de hover */
+        }
+        body.dark-mode #quick-notes-area:focus {
+            box-shadow: 0 0 0 2px rgba(243, 156, 18, 0.2); /* Sombra de foco sutil para modo oscuro, usando el naranja de hover */
+        }
+
+
+        #clear-notes-button {
+            align-self: flex-end; /* Botón a la derecha, debajo del textarea */
+            padding: 5px 10px; /* Más pequeño */
+            font-size: 0.8rem; /* Texto más pequeño */
+            color: var(--button-color);
+            background-color: var(--item-bg); /* Fondo sutil para integrarse */
+            border: 1px solid var(--border-color);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+        #clear-notes-button:hover {
+            color: var(--button-hover-color);
+            border-color: var(--button-hover-color);
+            background-color: var(--fixed-button-bg); /* Ligero cambio de fondo al pasar el ratón */
+        }
+        #clear-notes-button i {
+            margin-right: 4px;
+        }
+        /* --- FIN ESTILOS PARA ZONA DE ANOTACIONES RÁPIDAS --- */
+
+        /* --- ESTILOS PARA BOTONES IMPORT/EXPORT --- */
+        #data-management-container {
+            display: flex;
+            justify-content: flex-end; /* Alinea los botones a la derecha */
+            gap: 10px; /* Espacio entre botones */
+            margin-top: 10px; /* Espacio después de las notas rápidas */
+            margin-bottom: 20px; /* Espacio antes del footer */
+        }
+        #data-management-container .app-button {
+            padding: 6px 12px;
+            font-size: 0.85rem;
+            background-color: var(--item-bg);
+            border: 1px solid var(--border-color);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+        #data-management-container .app-button:hover {
+            border-color: var(--button-hover-color);
+            background-color: var(--fixed-button-bg);
+        }
+        #data-management-container .app-button i {
+            margin-right: 5px;
+        }
+        /* --- FIN ESTILOS PARA BOTONES IMPORT/EXPORT --- */
+
+
+        .footer-text {
+            text-align: center;
+            font-size: 0.75rem;
+            color: var(--footer-text-color);
+            margin-top: 40px;
+            padding: 10px;
+            width: 100%;
+            max-width: 600px;
+            box-sizing: border-box;
+        }
+
+
+        @media (max-width: 500px) {
+            h1 {
+                padding-top: 50px; /* Un poco más de espacio para el botón info en móviles */
+            }
+            #info-button {
+                top: 10px;
+                left: 10px;
+                font-size: 1.5rem;
+                width: 38px;
+                height: 38px;
+            }
+            .todo-item .main-task-header {
+                row-gap: 8px;
+            }
+            .todo-item .main-task-header .task-body {
+                 flex-wrap: wrap;
+                 gap: 8px;
+                 align-items: center;
+            }
+            .todo-item .main-task-header .task-body .task-actions-group {
+                margin-left: auto;
+                justify-content: flex-end;
+            }
+            .todo-item .main-task-header .task-body .link-button { order: 1; }
+            .todo-item .main-task-header .task-body .calendar-button { order: 2; } /* Label del calendario */
+            .todo-item .main-task-header .task-body .delete-button { order: 3; }
+
+             #todo-input-container #reorder-button {
+                  margin-left: 0;
+             }
+             #data-management-container {
+                justify-content: center; /* Centra los botones en móvil */
+             }
+        }
+
+        /* --- Estilos para el Icono de Información y Modal --- */
+        #info-button {
+            position: absolute;
+            top: 15px; /* Ajusta según necesites */
+            left: 15px; /* Ajusta según necesites */
+            font-size: 1.6rem;
+            color: var(--button-color);
+            z-index: 900; /* Debajo del modal pero encima de otro contenido si lo hubiera */
+            padding: 8px; /* Para hacerlo un poco más grande al tacto */
+            background-color: var(--item-bg); /* Para que se vea bien sobre el fondo */
+            border-radius: 50%;
+            box-shadow: var(--fixed-button-shadow);
+            width: 40px; /* Tamaño fijo */
+            height: 40px; /* Tamaño fijo */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #info-button:hover {
+            color: var(--button-hover-color);
+            background-color: var(--fixed-button-bg); /* Usar variable para consistencia */
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.65); /* Overlay más oscuro */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1050; /* Más alto que el dark mode toggle */
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0s linear 0.3s;
+        }
+        .modal-overlay.visible {
+            opacity: 1;
+            visibility: visible;
+            transition: opacity 0.3s ease, visibility 0s linear 0s;
+        }
+
+        .modal-content {
+            background-color: var(--item-bg);
+            color: var(--text-color);
+            padding: 25px 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            width: 90%;
+            max-width: 580px; /* Un poco menos que el container principal */
+            max-height: 85vh; /* Para evitar que sea demasiado alto en pantallas pequeñas */
+            overflow-y: auto; /* Scroll si el contenido es muy largo */
+            position: relative; /* Para posicionar el botón de cierre absoluto */
+            transform: scale(0.95);
+            transition: transform 0.3s ease;
+        }
+        .modal-overlay.visible .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-content h2 {
+            margin-top: 0;
+            margin-bottom: 20px;
+            color: var(--heading-color);
+            text-align: center;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1.8rem;
+        }
+
+        .modal-content ol {
+            padding-left: 20px;
+            margin-bottom: 0; /* Quitar margen inferior por si acaso */
+        }
+        .modal-content ol li {
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
+        .modal-content ol li ul { /* Estilo para la lista anidada de sub-tareas */
+            padding-left: 20px;
+            margin-top: 8px;
+            list-style-type: disc; /* O el que prefieras */
+        }
+        .modal-content ol li ul li {
+            margin-bottom: 8px;
+            font-size: 0.95em;
+        }
+
+        .modal-content strong {
+            color: var(--heading-color); /* O un color de acento si prefieres */
+        }
+        /* Para que los iconos dentro de las instrucciones resalten un poco */
+        .modal-content i.fas, .modal-content i.far {
+            color: var(--button-hover-color); /* Usar un color llamativo */
+            margin: 0 2px;
+            font-size: 0.9em; /* Ligeramente más pequeños para no dominar el texto */
+        }
+
+
+        .close-modal {
+            position: absolute;
+            top: 10px;
+            right: 12px;
+            font-size: 1.9rem; /* Más grande para que sea fácil de pulsar */
+            color: var(--button-color);
+            padding: 5px 10px; /* Padding para área de toque */
+            line-height: 1; /* Evitar altura extra */
+            background: none; /* Sin fondo */
+            border: none; /* Sin borde */
+        }
+        .close-modal:hover {
+            color: var(--button-hover-color);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <button id="info-button" class="app-button" aria-label="Información de la aplicación" title="Cómo usar la aplicación">
+            <i class="fas fa-info-circle"></i>
+        </button>
+        <h1>ToDayList</h1>
+        <div id="medal-counter-container">
+            <i class="fas fa-medal"></i> <span id="medal-count">0</span>
+        </div>
+
+        <ul id="todo-list"></ul>
+        <div id="todo-input-container">
+            <input type="text" id="new-todo-input" placeholder="Agregar nueva tarea">
+            <button id="add-todo-button" class="app-button add-button" aria-label="Agregar Tarea"><i class="fas fa-plus"></i></button>
+            <button id="reorder-button" class="app-button sort-button" aria-label="Reordenar Tareas"><i class="fas fa-sort-amount-down-alt"></i></button>
+        </div>
+        <div id="priority-legend">
+            Prioridad:
+            <span class="priority-legend-item"><span class="priority-color-label" data-color="red"></span>Urgente</span>
+            >
+            <span class="priority-legend-item"><span class="priority-color-label" data-color="orange"></span>Alta</span>
+            >
+            <span class="priority-legend-item"><span class="priority-color-label" data-color="yellow"></span>No Olvidar</span>
+            >
+            <span class="priority-legend-item"><span class="priority-color-label" data-color="green"></span>Puede Esperar</span>
+        </div>
+
+        <!-- ZONA DE ANOTACIONES RÁPIDAS -->
+        <div id="quick-notes-container">
+            <textarea id="quick-notes-area" placeholder="Anotaciones rápidas..."></textarea>
+            <button id="clear-notes-button" class="app-button" aria-label="Borrar anotaciones">
+                <i class="fas fa-eraser"></i> Borrar
+            </button>
+        </div>
+        <!-- FIN ZONA DE ANOTACIONES RÁPIDAS -->
+
+        <!-- GESTIÓN DE DATOS (IMPORT/EXPORT) -->
+        <div id="data-management-container">
+            <button id="export-data-button" class="app-button" aria-label="Exportar datos">
+                <i class="fas fa-file-export"></i> Exportar
+            </button>
+            <input type="file" id="import-file-input" accept=".json" style="display: none;">
+            <button id="import-data-button" class="app-button" aria-label="Importar datos">
+                <i class="fas fa-file-import"></i> Importar
+            </button>
+        </div>
+        <!-- FIN GESTIÓN DE DATOS -->
+
+
+    </div> <!-- CIERRE DEL .container -->
+
+    <p class="footer-text">WebApp creada por Enrique Gil</p>
+
+    <button id="dark-mode-toggle" class="app-button" aria-label="Alternar modo oscuro/claro"><i class="fas fa-moon"></i></button>
+
+    <!-- Modal de Información -->
+    <div id="info-modal" class="modal-overlay">
+        <div class="modal-content">
+            <button id="close-modal-button" class="app-button close-modal" aria-label="Cerrar ventana de información">×</button>
+            <h2>Cómo usar ToDayList</h2>
+            <ol>
+                <li><strong>Añadir Tareas:</strong> Escribe tu tarea en el campo inferior y pulsa el botón <i class="fas fa-plus"></i> o la tecla "Enter".</li>
+                <li><strong>Marcar como Completada:</strong> Haz clic en el círculo a la izquierda de la tarea. ¡Ganas una medalla <i class="fas fa-medal"></i> por cada tarea completada en el día!</li>
+                <li><strong>Prioridad:</strong> Haz clic en el cuadrado de color junto al círculo para cambiar la prioridad de la tarea (Rojo: Urgente > Naranja: Alta > Amarillo: No Olvidar > Verde: Puede Esperar > Gris: Sin prioridad).</li>
+                <li><strong>Fecha Límite:</strong> Haz clic en el icono de calendario <i class="fas fa-calendar-alt"></i> para asignar una fecha a la tarea. Las tareas para "hoy" resaltarán su icono de calendario con el color de su prioridad.</li>
+                <li><strong>Enlaces:</strong> Haz clic en el icono de enlace <i class="fas fa-link"></i> para añadir o abrir un enlace web asociado a la tarea.</li>
+                <li><strong>Sub-Tareas:</strong>
+                    <ul>
+                        <li>Pulsa el botón <i class="fas fa-plus"></i> (pequeño, a la derecha de la tarea principal, debajo de la barra de progreso) para mostrar el campo y añadir sub-tareas.</li>
+                        <li>Una vez añadida una sub-tarea, el campo de texto se ocultará. Pulsa el botón <i class="fas fa-plus"></i> de nuevo si deseas añadir más.</li>
+                        <li>Las sub-tareas tienen su propio círculo para marcarlas como completadas, botones para moverlas <i class="fas fa-arrow-up"></i><i class="fas fa-arrow-down"></i>, o eliminarlas <i class="fas fa-trash-alt"></i>.</li>
+                    </ul>
+                </li>
+                <li><strong>Barra de Progreso:</strong> Indica el porcentaje de sub-tareas completadas. Se llena al 100% cuando la tarea principal se marca como completada.</li>
+                <li><strong>Reordenar Tareas:</strong> Pulsa el botón de reordenar <i class="fas fa-sort-amount-down-alt"></i> para organizar automáticamente todas las tareas por prioridad (de más a menos urgente) y luego por fecha (las más antiguas primero).</li>
+                <li><strong>Modo Oscuro/Claro:</strong> Utiliza el botón <i class="fas fa-moon"></i> / <i class="fas fa-sun"></i> situado abajo a la derecha para cambiar el tema visual de la aplicación.</li>
+                <li><strong>Eliminar Tareas:</strong> Haz clic en el icono de papelera <i class="fas fa-trash-alt"></i> para eliminar tareas principales o sub-tareas.</li>
+                <li><strong>Anotaciones Rápidas:</strong> Utiliza el área debajo de la leyenda para notas temporales. Puedes borrarlas con el botón "Borrar".</li>
+                <li><strong>Exportar/Importar Datos:</strong> Usa los botones "Exportar" e "Importar" (debajo de las anotaciones) para guardar una copia de seguridad de todos tus datos (tareas, notas, medallas, tema) o para restaurarlos desde un archivo. <strong>¡Atención!</strong> Importar reemplazará los datos actuales.</li>
+            </ol>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+
+    <script type="module">
+        // No más importaciones de Firebase
+        
+        let todoInput;
+        let addTodoButton;
+        let todoListContainer;
+        let reorderButton;
+        let darkModeToggle;
+        let body;
+        let medalCountDisplay;
+        let infoButton, infoModal, closeModalButton;
+        
+        let quickNotesArea;
+        let clearNotesButton;
+        const QUICK_NOTES_STORAGE_KEY = 'todoListQuickNotes'; // Clave específica para evitar colisiones
+
+        let exportDataButton;
+        let importDataButton;
+        let importFileInput;
+
+        let todos = []; // Array en memoria para las tareas
+
+        // Claves para LocalStorage
+        const TODOS_STORAGE_KEY = 'todoListAppTasks';
+        const MEDALS_STORAGE_KEY = 'todoListDailyMedalData'; // Clave específica
+        const THEME_STORAGE_KEY = 'todoListTheme'; // Clave específica
+
+        const PRIORITY_COLORS = ['none', 'red', 'orange', 'yellow', 'green'];
+        const PRIORITY_ORDER = { 'red': 1, 'orange': 2, 'yellow': 3, 'green': 4, 'none': 5 };
+
+        function generateLocalId() {
+            return '_' + Math.random().toString(36).substring(2, 15);
+        }
+
+        function findTaskById(taskId) {
+            return todos.find(todo => todo.id === taskId);
+        }
+
+        function findTaskIndexById(taskId) {
+            return todos.findIndex(todo => todo.id === taskId);
+        }
+
+        function getTodayDateString() {
+            return new Date().toISOString().split('T')[0];
+        }
+
+        function displayMedalCount(count) {
+            if (medalCountDisplay) {
+                medalCountDisplay.textContent = count;
+            }
+        }
+        
+        function loadTodosFromLocalStorage() {
+            const storedTodos = localStorage.getItem(TODOS_STORAGE_KEY);
+            if (storedTodos) {
+                todos = JSON.parse(storedTodos);
+                // Asegurar que todas las tareas tengan las propiedades esperadas (migración suave)
+                todos = todos.map(task => ({
+                    id: task.id || generateLocalId(),
+                    text: task.text || 'Tarea sin nombre',
+                    completed: typeof task.completed === 'boolean' ? task.completed : false,
+                    completedDate: task.completedDate || null,
+                    subtasks: Array.isArray(task.subtasks) ? task.subtasks.map(sub => ({
+                        id: sub.id || generateLocalId(), text: sub.text || 'Sub-tarea sin nombre',
+                        completed: typeof sub.completed === 'boolean' ? sub.completed : false
+                    })) : [],
+                    showSubtaskUI: typeof task.showSubtaskUI === 'boolean' ? task.showSubtaskUI : false,
+                    priorityColor: PRIORITY_COLORS.includes(task.priorityColor) ? task.priorityColor : 'none',
+                    date: typeof task.date === 'string' && task.date.match(/^\d{4}-\d{2}-\d{2}$/) ? task.date : null,
+                    linkUrl: typeof task.linkUrl === 'string' ? task.linkUrl : null,
+                    order: typeof task.order === 'number' ? task.order : Date.now() // Asegurar 'order'
+                }));
+            } else {
+                todos = [];
+            }
+        }
+
+        function saveTodosToLocalStorage() {
+            localStorage.setItem(TODOS_STORAGE_KEY, JSON.stringify(todos));
+        }
+
+
+        function loadAndRefreshMedalData() {
+            let medalDataString = localStorage.getItem(MEDALS_STORAGE_KEY);
+            let medalData;
+            try {
+                medalData = medalDataString ? JSON.parse(medalDataString) : null;
+            } catch (e) {
+                console.error("Error parsing medal data from localStorage", e);
+                medalData = null;
+            }
+            
+            const today = getTodayDateString();
+
+            if (!medalData || medalData.date !== today) {
+                let countForToday = 0;
+                // Asegúrate que 'todos' esté cargado antes de este conteo si es la primera carga del día
+                if (todos && todos.length > 0) {
+                    todos.forEach(task => {
+                        if (task.completed && task.completedDate === today) countForToday++;
+                    });
+                }
+                medalData = { date: today, count: countForToday };
+                localStorage.setItem(MEDALS_STORAGE_KEY, JSON.stringify(medalData));
+            }
+            return medalData;
+        }
+
+        function updateMedalCount(change) {
+            let medalData = loadAndRefreshMedalData(); // Esto asegura que trabajamos con datos del día actual
+            medalData.count += change;
+            if (medalData.count < 0) medalData.count = 0;
+            localStorage.setItem(MEDALS_STORAGE_KEY, JSON.stringify(medalData));
+            displayMedalCount(medalData.count);
+        }
+        
+        function syncAndRender() {
+            renderTodosUI();
+            // No es necesario guardar aquí, las funciones que modifican 'todos' ya lo hacen.
+        }
+
+        function updateDateHighlight(listItemElement, task) {
+            const calendarLabel = listItemElement.querySelector('.calendar-button');
+            const calendarIcon = calendarLabel ? calendarLabel.querySelector('i') : null;
+
+            if (!calendarLabel || !calendarIcon) return;
+
+            const todayString = getTodayDateString();
+            const isToday = task.date === todayString;
+            const hasDate = !!task.date;
+
+            calendarLabel.classList.remove('date-set', 'date-today');
+            calendarIcon.style.color = ''; // Resetea al color por defecto de CSS
+            calendarIcon.style.fontWeight = 'normal';
+            calendarLabel.title = 'Establecer fecha';
+
+            if (task.completed) {
+                if (hasDate) calendarLabel.title = `Fecha: ${task.date} (Completada)`;
+                else calendarLabel.title = 'Fecha no establecida (Completada)';
+                return;
+            }
+
+            if (hasDate) {
+                calendarLabel.classList.add('date-set');
+                calendarLabel.title = `Fecha: ${task.date}`;
+            } else {
+                 calendarLabel.title = 'Añadir fecha';
+            }
+
+            if (isToday) {
+                calendarLabel.classList.add('date-today');
+                const computedStyle = getComputedStyle(listItemElement);
+                const priorityColorForToday = computedStyle.borderLeftColor;
+                calendarIcon.style.color = priorityColorForToday; // Usa el color de la prioridad
+                calendarLabel.title = `Fecha: ${task.date} (Hoy)`;
+            }
+        }
+
+        function calculateSubtaskProgress(subtasks) {
+            if (!subtasks || subtasks.length === 0) return 0;
+            const completed = subtasks.filter(sub => sub.completed).length;
+            return (completed / subtasks.length) * 100;
+        }
+
+        function createMainTaskHeader(mainTask) {
+            const mainTaskHeader = document.createElement('div');
+            mainTaskHeader.classList.add('main-task-header');
+
+            const mainCheckbox = document.createElement('input');
+            mainCheckbox.type = 'checkbox';
+            mainCheckbox.classList.add('custom-checkbox');
+            mainCheckbox.checked = mainTask.completed;
+            mainCheckbox.addEventListener('change', (event) => {
+                toggleMainCompletion(mainTask.id, event.target.checked);
+            });
+
+            const priorityLabel = document.createElement('div');
+            priorityLabel.classList.add('priority-color-label');
+            priorityLabel.dataset.color = mainTask.priorityColor;
+            priorityLabel.title = `Prioridad: ${mainTask.priorityColor.charAt(0).toUpperCase() + mainTask.priorityColor.slice(1)}`;
+            priorityLabel.addEventListener('click', () => {
+                 if (!mainTask.completed) cyclePriorityColor(mainTask.id);
+            });
+
+            const taskBody = document.createElement('div');
+            taskBody.classList.add('task-body');
+
+            const mainTaskSpan = document.createElement('span');
+            mainTaskSpan.textContent = mainTask.text;
+            mainTaskSpan.title = mainTask.text;
+
+            const taskActionsGroup = document.createElement('div');
+            taskActionsGroup.classList.add('task-actions-group');
+
+            const linkButton = document.createElement('button');
+            linkButton.classList.add('app-button', 'link-button');
+            linkButton.innerHTML = '<i class="fas fa-link"></i>';
+            linkButton.setAttribute('aria-label', 'Gestionar enlace');
+            if (mainTask.linkUrl) {
+                linkButton.classList.add('link-on');
+                linkButton.title = `Abrir enlace: ${mainTask.linkUrl}`;
+            } else {
+                linkButton.classList.add('link-off');
+                linkButton.title = 'Añadir enlace';
+            }
+            linkButton.addEventListener('click', () => {
+                const task = findTaskById(mainTask.id);
+                if (!task) return;
+                if (task.completed && !task.linkUrl) return;
+                if (task.linkUrl) {
+                    window.open(task.linkUrl, '_blank');
+                } else if (!task.completed) {
+                    const newUrl = prompt("Introduce la URL (ej: https://ejemplo.com):", task.linkUrl || "");
+                    if (newUrl === null) return;
+                    let finalUrl = newUrl.trim();
+                    if (finalUrl !== "" && !finalUrl.toLowerCase().startsWith('http://') && !finalUrl.toLowerCase().startsWith('https://')) {
+                        finalUrl = 'https://' + finalUrl;
+                    }
+                    task.linkUrl = finalUrl || null;
+                    saveTodosToLocalStorage();
+                    syncAndRender();
+                }
+            });
+
+            const calendarLabel = document.createElement('label');
+            calendarLabel.classList.add('app-button', 'calendar-button');
+            calendarLabel.innerHTML = '<i class="fas fa-calendar-alt"></i>';
+            calendarLabel.setAttribute('aria-label', 'Establecer fecha');
+
+            const actualDateInput = document.createElement('input');
+            actualDateInput.type = 'date';
+            actualDateInput.classList.add('task-date-input-real');
+            const dateInputId = `date-input-${mainTask.id || generateLocalId()}`;
+            actualDateInput.id = dateInputId;
+            calendarLabel.htmlFor = dateInputId;
+            actualDateInput.value = mainTask.date || '';
+
+            actualDateInput.addEventListener('change', (event) => {
+                const task = findTaskById(mainTask.id);
+                if (!task) return;
+                updateTaskDate(task.id, event.target.value);
+            });
+
+            const deleteMainButton = document.createElement('button');
+            deleteMainButton.classList.add('app-button', 'delete-button');
+            deleteMainButton.innerHTML = '<i class="fas fa-trash-alt"></i>';
+            deleteMainButton.setAttribute('aria-label', 'Eliminar tarea');
+            deleteMainButton.addEventListener('click', () => {
+                const task = findTaskById(mainTask.id);
+                if (!task) return;
+                 if ((task.subtasks && task.subtasks.length > 0) || task.completed) {
+                     if (!confirm(`¿Seguro que quieres eliminar "${task.text}"?`)) return;
+                 }
+                deleteTodo(task.id);
+            });
+
+            taskActionsGroup.append(linkButton, calendarLabel, actualDateInput, deleteMainButton);
+            taskBody.append(mainTaskSpan, taskActionsGroup);
+            mainTaskHeader.append(mainCheckbox, priorityLabel, taskBody);
+            return mainTaskHeader;
+        }
+
+        function createProgressBar(mainTask) {
+             const progressContainer = document.createElement('div');
+             progressContainer.classList.add('progress-container');
+             const progressBar = document.createElement('div');
+             progressBar.classList.add('progress-bar');
+             let displayedProgress = 0;
+             if (mainTask.completed) {
+                 displayedProgress = 100;
+             } else if (mainTask.subtasks && mainTask.subtasks.length > 0) {
+                 const subtaskProgress = calculateSubtaskProgress(mainTask.subtasks);
+                 displayedProgress = subtaskProgress === 100 ? 90 : subtaskProgress;
+             }
+             progressBar.style.width = `${displayedProgress}%`;
+             progressContainer.appendChild(progressBar);
+             return progressContainer;
+        }
+
+        function createAddSubtasksToggle(mainTaskId) {
+             const addSubtasksToggle = document.createElement('button');
+             addSubtasksToggle.classList.add('app-button', 'add-button', 'add-subtasks-toggle');
+             addSubtasksToggle.innerHTML = '<i class="fas fa-plus"></i>';
+             addSubtasksToggle.setAttribute('aria-label', 'Agregar sub-tarea');
+             addSubtasksToggle.addEventListener('click', () => {
+                 const task = findTaskById(mainTaskId);
+                 if (task) {
+                     if (task.completed) return;
+                     task.showSubtaskUI = !task.showSubtaskUI;
+                     if (task.showSubtaskUI && (!task.subtasks || task.subtasks.length === 0)) {
+                         task.subtasks = [];
+                     }
+                     saveTodosToLocalStorage();
+                     syncAndRender();
+                     if (task.showSubtaskUI) {
+                         const listItemElement = todoListContainer.querySelector(`li[data-task-id="${mainTaskId}"]`);
+                         if (listItemElement) {
+                           setTimeout(() => {
+                               const inputElement = listItemElement.querySelector('.subtask-input-container input[type="text"]');
+                               if (inputElement) inputElement.focus();
+                           }, 0);
+                         }
+                     }
+                 }
+             });
+             return addSubtasksToggle;
+        }
+
+        function createSubtasksList(mainTask) {
+            const subtasksList = document.createElement('ul');
+            subtasksList.classList.add('subtasks-list');
+            if (mainTask.subtasks && mainTask.subtasks.length > 0) {
+                mainTask.subtasks.forEach((subtask, subIndex) => {
+                    const subtaskItem = document.createElement('li');
+                    subtaskItem.dataset.subtaskId = subtask.id;
+                    const checkbox = document.createElement('input');
+                    checkbox.type = 'checkbox';
+                    checkbox.classList.add('custom-checkbox');
+                    checkbox.checked = subtask.completed;
+                    if (mainTask.completed) checkbox.disabled = true;
+                    checkbox.addEventListener('change', () => {
+                         if (!mainTask.completed) toggleSubtaskCompletion(mainTask.id, subtask.id);
+                    });
+                    const subtaskSpan = document.createElement('span');
+                    subtaskSpan.textContent = subtask.text;
+                    subtaskSpan.title = subtask.text;
+                    const moveUpButton = document.createElement('button');
+                    moveUpButton.classList.add('app-button', 'subtask-move-button');
+                    moveUpButton.innerHTML = '<i class="fas fa-arrow-up"></i>';
+                    moveUpButton.setAttribute('aria-label', 'Mover sub-tarea arriba');
+                    if (mainTask.completed || subIndex === 0) moveUpButton.disabled = true;
+                    moveUpButton.addEventListener('click', () => {
+                         if (!mainTask.completed) moveSubtaskUp(mainTask.id, subtask.id);
+                    });
+                    const moveDownButton = document.createElement('button');
+                    moveDownButton.classList.add('app-button', 'subtask-move-button');
+                    moveDownButton.innerHTML = '<i class="fas fa-arrow-down"></i>';
+                    moveDownButton.setAttribute('aria-label', 'Mover sub-tarea abajo');
+                    if (mainTask.completed || subIndex === mainTask.subtasks.length - 1) moveDownButton.disabled = true;
+                    moveDownButton.addEventListener('click', () => {
+                         if (!mainTask.completed) moveSubtaskDown(mainTask.id, subtask.id);
+                    });
+                    const deleteSubtaskButton = document.createElement('button');
+                    deleteSubtaskButton.classList.add('app-button', 'delete-button');
+                    deleteSubtaskButton.innerHTML = '<i class="fas fa-trash-alt"></i>';
+                    deleteSubtaskButton.setAttribute('aria-label', 'Eliminar sub-tarea');
+                     if (mainTask.completed) deleteSubtaskButton.disabled = true;
+                    deleteSubtaskButton.addEventListener('click', () => {
+                         if (!mainTask.completed) deleteSubtask(mainTask.id, subtask.id);
+                    });
+                    subtaskItem.append(checkbox, subtaskSpan, moveUpButton, moveDownButton, deleteSubtaskButton);
+                    subtasksList.appendChild(subtaskItem);
+                });
+            }
+            return subtasksList;
+        }
+
+        function createSubtaskInputContainer(mainTaskId) {
+             const subtaskInputContainer = document.createElement('div');
+             subtaskInputContainer.classList.add('subtask-input-container');
+             const subtaskInput = document.createElement('input');
+             subtaskInput.type = 'text';
+             subtaskInput.placeholder = 'Agregar nueva sub-tarea...';
+             const addSubtaskButton = document.createElement('button');
+             addSubtaskButton.classList.add('app-button', 'add-button');
+             addSubtaskButton.innerHTML = '<i class="fas fa-plus"></i>';
+             const handleAddSubtask = () => addSubtask(mainTaskId, subtaskInput);
+             addSubtaskButton.addEventListener('click', handleAddSubtask);
+             subtaskInput.addEventListener('keypress', (e) => { if (e.key==='Enter'){ e.preventDefault(); handleAddSubtask();}});
+             subtaskInputContainer.append(subtaskInput, addSubtaskButton);
+             return subtaskInputContainer;
+        }
+
+        function renderTodosUI() {
+            if (!todoListContainer) return;
+            todoListContainer.innerHTML = '';
+            todos.forEach((mainTask) => {
+                const listItem = document.createElement('li');
+                listItem.classList.add('todo-item');
+                listItem.dataset.taskId = mainTask.id;
+                listItem.dataset.priorityColor = mainTask.priorityColor || 'none';
+                if (mainTask.completed) listItem.classList.add('completed');
+                if (mainTask.showSubtaskUI) listItem.classList.add('show-subtask-ui');
+
+                listItem.appendChild(createMainTaskHeader(mainTask));
+                listItem.appendChild(createProgressBar(mainTask));
+                if (!mainTask.completed) {
+                    listItem.appendChild(createAddSubtasksToggle(mainTask.id));
+                } else { mainTask.showSubtaskUI = false; } // Asegurar que no se muestre si está completada
+                
+                if (mainTask.subtasks && mainTask.subtasks.length > 0) {
+                    listItem.appendChild(createSubtasksList(mainTask));
+                }
+                if (mainTask.showSubtaskUI && !mainTask.completed) { 
+                     listItem.appendChild(createSubtaskInputContainer(mainTask.id));
+                }
+                todoListContainer.appendChild(listItem);
+                updateDateHighlight(listItem, mainTask);
+            });
+            if (todoInput) todoInput.value = '';
+        }
+
+        function cyclePriorityColor(taskId) {
+             const task = findTaskById(taskId);
+             if (task && !task.completed) {
+                 const currentIndex = PRIORITY_COLORS.indexOf(task.priorityColor || 'none');
+                 task.priorityColor = PRIORITY_COLORS[(currentIndex + 1) % PRIORITY_COLORS.length];
+                 saveTodosToLocalStorage();
+                 // Actualización visual directa sin re-render completo
+                 const listItemElement = todoListContainer.querySelector(`li[data-task-id="${task.id}"]`);
+                 if (listItemElement) {
+                     listItemElement.dataset.priorityColor = task.priorityColor;
+                     const priorityLabelElement = listItemElement.querySelector('.priority-color-label');
+                     if (priorityLabelElement) {
+                         priorityLabelElement.dataset.color = task.priorityColor;
+                         priorityLabelElement.title = `Prioridad: ${task.priorityColor.charAt(0).toUpperCase() + task.priorityColor.slice(1)}`;
+                     }
+                     updateDateHighlight(listItemElement, task); // Re-evaluar el color del calendario
+                 }
+             }
+        }
+
+        function updateTaskDate(taskId, newDateValue) {
+            const task = findTaskById(taskId);
+            if (task && !task.completed) {
+                task.date = newDateValue || null;
+                saveTodosToLocalStorage();
+                syncAndRender(); // Re-render para actualizar el resaltado de fecha
+            } else if (task && task.completed) {
+                // Si está completada, solo re-render para que el input de fecha oculto tome el valor
+                // pero no se guardará un cambio de fecha en la tarea completada.
+                syncAndRender();
+            }
+        }
+
+        function addTodo() {
+            const newTodoText = todoInput.value.trim();
+            if (newTodoText === '') return alert('Ingresa el nombre de la tarea.');
+            const maxOrder = todos.length > 0 ? Math.max(...todos.map(t => t.order || 0)) : -1;
+            const newTodo = {
+                id: generateLocalId(), 
+                text: newTodoText, 
+                completed: false,
+                completedDate: null, 
+                subtasks: [], 
+                showSubtaskUI: false, 
+                priorityColor: 'none',
+                date: null, 
+                linkUrl: null, 
+                order: maxOrder + 1
+            };
+            todos.push(newTodo);
+            saveTodosToLocalStorage();
+            syncAndRender();
+            if (todoInput) todoInput.value = '';
+        }
+
+        function addSubtask(mainTaskId, subtaskInput) {
+             const newSubtaskText = subtaskInput.value.trim();
+             if (newSubtaskText === '') return alert('Ingresa el nombre de la sub-tarea.');
+             const mainTask = findTaskById(mainTaskId);
+             if (mainTask && !mainTask.completed) {
+                 if (!mainTask.subtasks) mainTask.subtasks = [];
+                 mainTask.subtasks.push({ id: generateLocalId(), text: newSubtaskText, completed: false });
+                 mainTask.completed = false; // Si se añade subtarea, la principal no puede estar completada
+                 mainTask.completedDate = null;
+                 mainTask.showSubtaskUI = false; // Oculta el input después de agregar
+                 saveTodosToLocalStorage();
+                 syncAndRender();
+                 if (subtaskInput) subtaskInput.value = '';
+             }
+        }
+
+        function deleteTodo(taskId) {
+            const taskIndex = findTaskIndexById(taskId);
+            if (taskIndex > -1) {
+                const taskToDelete = todos[taskIndex];
+                if (taskToDelete.completed && taskToDelete.completedDate === getTodayDateString()) {
+                    updateMedalCount(-1); // Restar medalla si se borra una completada hoy
+                }
+                todos.splice(taskIndex, 1);
+                saveTodosToLocalStorage();
+                syncAndRender();
+            }
+        }
+
+        function deleteSubtask(mainTaskId, subtaskId) {
+             const mainTask = findTaskById(mainTaskId);
+             if (mainTask && mainTask.subtasks && !mainTask.completed) {
+                 const subtaskIndex = mainTask.subtasks.findIndex(sub => sub.id === subtaskId);
+                 if (subtaskIndex > -1) {
+                     mainTask.subtasks.splice(subtaskIndex, 1);
+                     mainTask.completed = false; // Al eliminar sub-tarea, asegurar que la principal no esté completada
+                     mainTask.completedDate = null;
+                     saveTodosToLocalStorage();
+                     syncAndRender();
+                 }
+             }
+        }
+
+        function toggleSubtaskCompletion(mainTaskId, subtaskId) {
+             const mainTask = findTaskById(mainTaskId);
+             if (mainTask && mainTask.subtasks && !mainTask.completed) {
+                const subtask = mainTask.subtasks.find(sub => sub.id === subtaskId);
+                if (subtask) {
+                     subtask.completed = !subtask.completed;
+                     saveTodosToLocalStorage();
+                     syncAndRender();
+                 }
+             }
+        }
+
+        function toggleMainCompletion(taskId, isChecked) {
+            const task = findTaskById(taskId);
+            if (task) {
+                const wasCompletedTodayBefore = task.completed && task.completedDate === getTodayDateString();
+                
+                task.completed = isChecked;
+                const today = getTodayDateString();
+
+                if (isChecked) {
+                    task.completedDate = today;
+                    task.priorityColor = 'none'; // Resetear prioridad al completar
+                    task.showSubtaskUI = false; // Ocultar UI de subtareas
+                    if (!wasCompletedTodayBefore) { // Solo sumar medalla si no estaba ya completada hoy
+                        updateMedalCount(1);
+                    }
+                    if (typeof confetti === 'function') confetti({ particleCount: 150, spread: 90, origin: { y: 0.55 }});
+                } else {
+                    if (wasCompletedTodayBefore) { // Solo restar medalla si se desmarca una completada hoy
+                        updateMedalCount(-1);
+                    }
+                    task.completedDate = null;
+                }
+                // Marcar/desmarcar todas las subtareas
+                if (task.subtasks) {
+                    task.subtasks.forEach(sub => sub.completed = isChecked);
+                }
+                saveTodosToLocalStorage();
+                syncAndRender();
+            }
+        }
+
+        function moveSubtask(mainTaskId, subtaskId, direction) {
+            const mainTask = findTaskById(mainTaskId);
+            if (mainTask && mainTask.subtasks && !mainTask.completed) {
+                const subtaskIndex = mainTask.subtasks.findIndex(sub => sub.id === subtaskId);
+                if (subtaskIndex === -1) return;
+
+                const newIndex = subtaskIndex + direction;
+                if (newIndex >= 0 && newIndex < mainTask.subtasks.length) {
+                    // Intercambiar elementos
+                    [mainTask.subtasks[subtaskIndex], mainTask.subtasks[newIndex]] = 
+                    [mainTask.subtasks[newIndex], mainTask.subtasks[subtaskIndex]];
+                    saveTodosToLocalStorage();
+                    syncAndRender();
+                }
+            }
+        }
+        function moveSubtaskUp(mainTaskId, subtaskId) { moveSubtask(mainTaskId, subtaskId, -1); }
+        function moveSubtaskDown(mainTaskId, subtaskId) { moveSubtask(mainTaskId, subtaskId, 1); }
+
+        function performManualSort() {
+             todos.sort((a, b) => {
+                 const rankA = PRIORITY_ORDER[a.priorityColor] || PRIORITY_ORDER['none'];
+                 const rankB = PRIORITY_ORDER[b.priorityColor] || PRIORITY_ORDER['none'];
+                 if (rankA !== rankB) return rankA - rankB;
+
+                 const dateA = a.date ? new Date(a.date).getTime() : Infinity;
+                 const dateB = b.date ? new Date(b.date).getTime() : Infinity;
+                 if (dateA !== dateB) return dateA - dateB;
+                 
+                 return (a.order || 0) - (b.order || 0); // Mantener orden original si todo es igual
+             });
+             // Actualizar el índice 'order' para persistir el nuevo orden
+             todos.forEach((task, index) => {
+                 task.order = index;
+             });
+             saveTodosToLocalStorage();
+             syncAndRender();
+        }
+
+        function enableDarkMode() {
+            body.classList.add('dark-mode');
+            localStorage.setItem(THEME_STORAGE_KEY, 'dark');
+            if (darkModeToggle) {
+                darkModeToggle.querySelector('i').className = 'fas fa-sun';
+                darkModeToggle.setAttribute('aria-label', 'Alternar a modo claro');
+                darkModeToggle.title = 'Alternar a modo claro';
+            }
+            syncAndRender(); // Para actualizar colores que dependen de variables CSS
+        }
+
+        function disableDarkMode() {
+            body.classList.remove('dark-mode');
+            localStorage.setItem(THEME_STORAGE_KEY, 'light');
+            if (darkModeToggle) {
+                 darkModeToggle.querySelector('i').className = 'fas fa-moon';
+                 darkModeToggle.setAttribute('aria-label', 'Alternar a modo oscuro');
+                 darkModeToggle.title = 'Alternar a modo oscuro';
+            }
+            syncAndRender(); // Para actualizar colores
+        }
+
+        function toggleDarkMode() {
+            body.classList.contains('dark-mode') ? disableDarkMode() : enableDarkMode();
+        }
+
+        function exportAllData() {
+            const dataToExport = {
+                theme: localStorage.getItem(THEME_STORAGE_KEY) || 'light',
+                dailyMedalData: JSON.parse(localStorage.getItem(MEDALS_STORAGE_KEY) || '{}'),
+                quickNotesContent: localStorage.getItem(QUICK_NOTES_STORAGE_KEY) || '',
+                tasks: todos // Usamos el array en memoria que ya está actualizado
+            };
+
+            const jsonString = JSON.stringify(dataToExport, null, 2); // El '2' es para indentación (pretty print)
+            const blob = new Blob([jsonString], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            const dateStr = new Date().toISOString().slice(0,10).replace(/-/g,'');
+            a.download = `todolist-backup-${dateStr}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            alert('Datos exportados exitosamente como ' + a.download);
+        }
+
+        function importAllData(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            if (!confirm("¡Atención! Importar datos reemplazará todos los datos actuales (tareas, notas, medallas, tema). ¿Deseas continuar?")) {
+                importFileInput.value = ''; // Resetear el input de archivo
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    const importedData = JSON.parse(e.target.result);
+
+                    // Validación básica de la estructura importada
+                    if (typeof importedData !== 'object' || importedData === null || !Array.isArray(importedData.tasks)) {
+                        throw new Error('El formato del archivo es inválido o no contiene tareas.');
+                    }
+
+                    // Aplicar tema
+                    const themeToApply = importedData.theme === 'dark' ? 'dark' : 'light';
+                    localStorage.setItem(THEME_STORAGE_KEY, themeToApply);
+                    if (themeToApply === 'dark') enableDarkMode(); else disableDarkMode();
+                    
+                    // Aplicar datos de medallas
+                    if (importedData.dailyMedalData && typeof importedData.dailyMedalData === 'object') {
+                        localStorage.setItem(MEDALS_STORAGE_KEY, JSON.stringify(importedData.dailyMedalData));
+                        displayMedalCount(importedData.dailyMedalData.count || 0);
+                    } else {
+                        localStorage.removeItem(MEDALS_STORAGE_KEY); // Limpiar si no vienen datos válidos
+                        displayMedalCount(0); // Resetear contador visual
+                    }
+
+                    // Aplicar notas rápidas
+                    if (typeof importedData.quickNotesContent === 'string') {
+                        quickNotesArea.value = importedData.quickNotesContent;
+                        localStorage.setItem(QUICK_NOTES_STORAGE_KEY, importedData.quickNotesContent);
+                    } else {
+                        quickNotesArea.value = ''; // Limpiar si no vienen notas válidas
+                        localStorage.removeItem(QUICK_NOTES_STORAGE_KEY);
+                    }
+
+                    // Aplicar tareas (con saneamiento)
+                    todos = importedData.tasks.map(task => ({
+                        id: task.id || generateLocalId(),
+                        text: task.text || 'Tarea importada',
+                        completed: !!task.completed, // Convertir a booleano
+                        completedDate: task.completedDate || null,
+                        subtasks: Array.isArray(task.subtasks) ? task.subtasks.map(sub => ({
+                            id: sub.id || generateLocalId(),
+                            text: sub.text || 'Sub-tarea importada',
+                            completed: !!sub.completed
+                        })) : [],
+                        showSubtaskUI: !!task.showSubtaskUI,
+                        priorityColor: PRIORITY_COLORS.includes(task.priorityColor) ? task.priorityColor : 'none',
+                        date: (typeof task.date === 'string' && task.date.match(/^\d{4}-\d{2}-\d{2}$/)) ? task.date : null,
+                        linkUrl: typeof task.linkUrl === 'string' ? task.linkUrl : null,
+                        order: typeof task.order === 'number' ? task.order : Date.now()
+                    }));
+                    
+                    saveTodosToLocalStorage(); // Guardar las nuevas tareas
+                    syncAndRender(); // Re-renderizar toda la UI
+
+                    alert('Datos importados exitosamente.');
+
+                } catch (error) {
+                    console.error('Error al importar datos:', error);
+                    alert(`Error al importar datos: ${error.message}`);
+                } finally {
+                    importFileInput.value = ''; // Resetear el input de archivo para permitir re-seleccionar el mismo archivo
+                }
+            };
+            reader.onerror = () => {
+                alert('Error al leer el archivo.');
+                importFileInput.value = '';
+            };
+            reader.readAsText(file);
+        }
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+            todoInput = document.getElementById('new-todo-input');
+            addTodoButton = document.getElementById('add-todo-button');
+            todoListContainer = document.getElementById('todo-list');
+            reorderButton = document.getElementById('reorder-button');
+            darkModeToggle = document.getElementById('dark-mode-toggle');
+            body = document.body;
+            medalCountDisplay = document.getElementById('medal-count');
+
+            infoButton = document.getElementById('info-button');
+            infoModal = document.getElementById('info-modal');
+            closeModalButton = document.getElementById('close-modal-button');
+
+            quickNotesArea = document.getElementById('quick-notes-area');
+            clearNotesButton = document.getElementById('clear-notes-button');
+
+            exportDataButton = document.getElementById('export-data-button');
+            importDataButton = document.getElementById('import-data-button');
+            importFileInput = document.getElementById('import-file-input');
+
+            // Cargar tema
+            if (localStorage.getItem(THEME_STORAGE_KEY) === 'dark') enableDarkMode(); else disableDarkMode();
+            
+            // Cargar tareas
+            loadTodosFromLocalStorage();
+
+            // Cargar y mostrar medallas (asegúrate que 'todos' está cargado)
+            const initialMedalData = loadAndRefreshMedalData();
+            displayMedalCount(initialMedalData.count);
+            
+            // Renderizar UI
+            renderTodosUI();
+
+            addTodoButton.addEventListener('click', addTodo);
+            todoInput.addEventListener('keypress', (e) => { if (e.key==='Enter'){ e.preventDefault(); addTodo();}});
+            reorderButton.addEventListener('click', performManualSort);
+            darkModeToggle.addEventListener('click', toggleDarkMode);
+
+            if (infoButton && infoModal && closeModalButton) {
+                infoButton.addEventListener('click', () => infoModal.classList.add('visible'));
+                closeModalButton.addEventListener('click', () => infoModal.classList.remove('visible'));
+                infoModal.addEventListener('click', (event) => {
+                    if (event.target === infoModal) infoModal.classList.remove('visible');
+                });
+                document.addEventListener('keydown', (event) => {
+                    if (event.key === 'Escape' && infoModal.classList.contains('visible')) {
+                        infoModal.classList.remove('visible');
+                    }
+                });
+            }
+
+            if (quickNotesArea && clearNotesButton) {
+                const savedNotes = localStorage.getItem(QUICK_NOTES_STORAGE_KEY);
+                if (savedNotes) quickNotesArea.value = savedNotes;
+                quickNotesArea.addEventListener('input', () => {
+                    localStorage.setItem(QUICK_NOTES_STORAGE_KEY, quickNotesArea.value);
+                });
+                clearNotesButton.addEventListener('click', () => {
+                    quickNotesArea.value = '';
+                    localStorage.removeItem(QUICK_NOTES_STORAGE_KEY); 
+                    quickNotesArea.focus();
+                });
+            }
+
+            // Event listeners para Importar/Exportar
+            if (exportDataButton) {
+                exportDataButton.addEventListener('click', exportAllData);
+            }
+            if (importDataButton && importFileInput) {
+                importDataButton.addEventListener('click', () => importFileInput.click()); // Abre el diálogo de archivo
+                importFileInput.addEventListener('change', importAllData);
+            }
+        });
+    </script>
+
+</body>
+</html>
