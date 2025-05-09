@@ -7,14 +7,18 @@
     <!-- SEO Meta Tags -->
     <title>ToDayList - Simplifica Tu Día, Organiza Tus Tareas</title>
     <meta name="description" content="ToDayList es tu gestor de tareas diarias minimalista y eficiente. Organiza tus pendientes, establece prioridades, añade subtareas y fechas límite. ¡Mejora tu productividad hoy!">
-    <meta name="keywords" content="lista de tareas, to-do list, gestor de tareas diarias, organizador personal, productividad, planificación diaria, tareas pendientes, subtareas, prioridades, web app, enrique gil, ToDayList">
+    <meta name="keywords" content="lista de tareas, to-do list, gestor de tareas diarias, organizador personal, productividad, planificación diaria, tareas pendientes, subtareas, prioridades, web app, pwa, enrique gil, ToDayList">
     <meta name="author" content="Enrique Gil">
     <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://www.todaylist.es/"> <!-- URL ACTUALIZADA -->
+    <link rel="canonical" href="https://www.todaylist.es/">
+
+    <!-- PWA Manifest & Theme Color -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#e74c3c"> <!-- Coincide con theme_color en manifest.json -->
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://www.todaylist.es/"> <!-- URL ACTUALIZADA -->
+    <meta property="og:url" content="https://www.todaylist.es/">
     <meta property="og:title" content="ToDayList - Simplifica Tu Día, Organiza Tus Tareas">
     <meta property="og:description" content="Organiza tus pendientes con ToDayList: tu gestor de tareas diarias minimalista.">
     <meta property="og:image" content="https://www.todaylist.es/ToDayList.png">
@@ -22,12 +26,15 @@
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://www.todaylist.es/"> <!-- URL ACTUALIZADA -->
+    <meta property="twitter:url" content="https://www.todaylist.es/">
     <meta property="twitter:title" content="ToDayList - Simplifica Tu Día, Organiza Tus Tareas">
     <meta property="twitter:description" content="Organiza tus pendientes con ToDayList: tu gestor de tareas diarias minimalista.">
     <meta property="twitter:image" content="https://www.todaylist.es/ToDayList.png">
 
     <link rel="icon" href="https://www.todaylist.es/ToDayList.png" type="image/png">
+    <!-- Opcional: Apple Touch Icon para iOS -->
+    <link rel="apple-touch-icon" href="https://www.todaylist.es/ToDayList-192.png"> <!-- Usa uno de tus iconos PWA de buen tamaño -->
+
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -44,7 +51,7 @@
       "applicationCategory": ["ProductivityApplication", "UtilityApplication"],
       "operatingSystem": "Web Browser",
       "description": "ToDayList es un gestor de tareas diarias minimalista y eficiente que te ayuda a organizar tus pendientes, establecer prioridades, añadir subtareas y fechas límite para mejorar tu productividad.",
-      "url": "https://www.todaylist.es/", /* URL ACTUALIZADA */
+      "url": "https://www.todaylist.es/",
       "author": {
         "@type": "Person",
         "name": "Enrique Gil"
@@ -55,10 +62,10 @@
         "priceCurrency": "USD"
       },
       "image": "https://www.todaylist.es/ToDayList.png",
-      "screenshot": "https://www.todaylist.es/images/todaylist-screenshot.jpg", /* URL ACTUALIZADA - Asegúrate de que la imagen exista en esta ruta en tu servidor */
-      "softwareVersion": "1.0.6", /* Actualiza la versión si es necesario */
-      "datePublished": "2024-03-11", /* Actualiza la fecha si es necesario */
-      "keywords": "lista de tareas, to-do list, gestor de tareas diarias, productividad, organización, planificación, web app, tareas pendientes, subtareas, prioridades"
+      "screenshot": "https://www.todaylist.es/images/todaylist-screenshot.jpg",
+      "softwareVersion": "1.0.7", /* Actualiza la versión si es necesario */
+      "datePublished": "2024-03-11",
+      "keywords": "lista de tareas, to-do list, gestor de tareas diarias, productividad, organización, planificación, web app, pwa, tareas pendientes, subtareas, prioridades"
     }
     </script>
 
@@ -129,7 +136,7 @@
             --sort-button-color: #bdc3c7;
             --sort-button-hover-color: #3498db;
             --checkbox-checkmark-color: var(--bg-color);
-            --footer-text-color: #777; /* Ligeramente más claro en modo oscuro */
+            --footer-text-color: #777;
             --medal-text-color: var(--text-color);
             --subtitle-color: #bdc3c7;
             --app-description-color: #a0a0a0;
@@ -145,13 +152,12 @@
             background-color: var(--bg-color);
             color: var(--text-color);
             line-height: 1.6;
-            /* padding-bottom original era 80px, aumentamos para el footer con logo */
-            padding-bottom: 120px; /* Aumentado para dar espacio al footer */
+            padding-bottom: 120px;
             transition: background-color 0.3s ease, color 0.3s ease;
             display: flex;
             flex-direction: column;
             align-items: center;
-            min-height: 100vh; /* Asegura que el footer esté abajo si hay poco contenido */
+            min-height: 100vh;
             box-sizing: border-box;
         }
 
@@ -160,9 +166,9 @@
             max-width: 600px;
             padding: 0 10px;
             box-sizing: border-box;
-            flex-grow: 1; /* Permite que el contenido empuje el footer hacia abajo */
+            flex-grow: 1;
             position: relative;
-            padding-bottom: 20px; /* Espacio antes del footer dentro del container */
+            padding-bottom: 20px;
         }
 
         h1 {
@@ -901,29 +907,28 @@
             margin-right: 5px;
         }
 
-        /* Footer con logo */
         footer {
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
-            font-size: 0.8rem; /* Ajustado para el texto y el logo */
+            font-size: 0.8rem;
             color: var(--footer-text-color);
             margin-top: 40px;
-            padding: 15px 10px; /* Un poco más de padding */
+            padding: 15px 10px;
             width: 100%;
-            max-width: 600px; /* Coincide con el .container */
+            max-width: 600px;
             box-sizing: border-box;
-            border-top: 1px solid var(--border-color); /* Línea sutil arriba */
+            border-top: 1px solid var(--border-color);
         }
         .footer-logo {
-            width: 24px; /* Tamaño del logo en el footer */
+            width: 24px;
             height: 24px;
-            margin-right: 8px; /* Espacio entre logo y texto */
-            vertical-align: middle; /* Ayuda a alinear si no se usa flex */
+            margin-right: 8px;
+            vertical-align: middle;
         }
-        .footer-text { /* Estilos específicos para el texto del footer si es necesario */
-            margin: 0; /* Resetear margen del párrafo si se usa */
+        .footer-text {
+            margin: 0;
             color: var(--footer-text-color);
         }
 
@@ -982,7 +987,7 @@
                 font-size: 1rem;
             }
             footer {
-                font-size: 0.75rem; /* Texto un poco más pequeño en móvil */
+                font-size: 0.75rem;
             }
             .footer-logo {
                 width: 20px;
@@ -1111,7 +1116,7 @@
             <i class="fas fa-info-circle"></i>
         </button>
         <h1>ToDayList</h1>
-        <h2 class="subtitle">Tu Gestor de Tareas Diarias</h2>
+        <h2 class="subtitle">Tu Gestor de Tareas Diarias Inteligente</h2>
         <p class="app-description-static">
             Organiza tu día y aumenta tu productividad de forma sencilla y eficaz.
         </p>
@@ -1183,10 +1188,9 @@
 
     </div> <!-- Fin de .container -->
 
-    <!-- Footer fuera del .container principal para que ocupe el ancho del body si es necesario, pero centrado con max-width -->
     <footer>
         <img src="https://www.todaylist.es/ToDayList.png" alt="Logo ToDayList" class="footer-logo">
-        <p class="footer-text">WebApp creada por Henry Gil</p>
+        <p class="footer-text">WebApp creada por Enrique Gil</p>
     </footer>
 
     <button id="dark-mode-toggle" class="app-button" aria-label="Alternar modo oscuro/claro"><i class="fas fa-moon"></i></button>
@@ -2018,6 +2022,19 @@
             if (importDataButton && importFileInput) {
                 importDataButton.addEventListener('click', () => importFileInput.click());
                 importFileInput.addEventListener('change', importAllData);
+            }
+
+            // PWA: Registrar el Service Worker
+            if ('serviceWorker' in navigator) {
+                window.addEventListener('load', () => { // Esperar a que la página cargue completamente
+                    navigator.serviceWorker.register('/sw.js') // Asegúrate que sw.js esté en la raíz
+                        .then(registration => {
+                            console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                        })
+                        .catch(err => {
+                            console.log('ServiceWorker registration failed: ', err);
+                        });
+                });
             }
         });
     </script>
