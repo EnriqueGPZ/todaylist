@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
     
     <!-- SEO Meta Tags -->
-    <title>ToDayList - Tu Gestor de Tareas Diarias</title>
-    <meta name="description" content="Organiza tu día a día con ToDayList, tu gestor de tareas diarias personal. Crea listas, subtareas, establece prioridades y fechas límite. Funciona offline y guarda tus datos localmente.">
-    <meta name="keywords" content="lista de tareas, to-do list, gestor de tareas diarias, productividad, organización, tareas pendientes, subtareas, prioridades, localstorage, offline, web app, enrique gil">
+    <title>ToDayList - Simplifica Tu Día, Organiza Tus Tareas</title>
+    <meta name="description" content="ToDayList es tu gestor de tareas diarias minimalista y eficiente. Organiza tus pendientes, establece prioridades, añade subtareas y fechas límite. Funciona offline, 100% en tu navegador. ¡Mejora tu productividad hoy!">
+    <meta name="keywords" content="lista de tareas, to-do list, gestor de tareas diarias, organizador personal, productividad, planificación diaria, tareas pendientes, subtareas, prioridades, localstorage, app offline, web app, enrique gil, ToDayList">
     <meta name="author" content="Enrique Gil">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://enriquegpz.github.io/todaylist/">
@@ -15,15 +15,17 @@
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://enriquegpz.github.io/todaylist/">
-    <meta property="og:title" content="ToDayList - Tu Gestor de Tareas Diarias">
-    <meta property="og:description" content="Organiza tu día a día con ToDayList, tu gestor de tareas diarias personal. Crea listas, subtareas, establece prioridades y fechas límite. Funciona offline.">
+    <meta property="og:title" content="ToDayList - Simplifica Tu Día, Organiza Tus Tareas">
+    <meta property="og:description" content="Organiza tus pendientes con ToDayList: tu gestor de tareas diarias minimalista. Funciona offline, directo en tu navegador.">
     <meta property="og:image" content="https://enriquegpz.github.io/todaylist/iconToDayList.png"> 
+    <meta property="og:site_name" content="ToDayList">
+
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://enriquegpz.github.io/todaylist/">
-    <meta property="twitter:title" content="ToDayList - Tu Gestor de Tareas Diarias">
-    <meta property="twitter:description" content="Organiza tu día a día con ToDayList, tu gestor de tareas diarias personal. Crea listas, subtareas, establece prioridades y fechas límite. Funciona offline.">
+    <meta property="twitter:title" content="ToDayList - Simplifica Tu Día, Organiza Tus Tareas">
+    <meta property="twitter:description" content="Organiza tus pendientes con ToDayList: tu gestor de tareas diarias minimalista. Funciona offline, directo en tu navegador.">
     <meta property="twitter:image" content="https://enriquegpz.github.io/todaylist/iconToDayList.png">
 
     <link rel="icon" href="iconToDayList.png" type="image/png"> 
@@ -33,6 +35,30 @@
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <!-- Schema.org markup for Google -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "ToDayList",
+      "applicationCategory": "ProductivityApplication",
+      "operatingSystem": "Web Browser",
+      "description": "ToDayList es un gestor de tareas diarias minimalista y eficiente que te ayuda a organizar tus pendientes, establecer prioridades, añadir subtareas y fechas límite. Funciona completamente offline en tu navegador, guardando los datos localmente.",
+      "url": "https://enriquegpz.github.io/todaylist/",
+      "author": {
+        "@type": "Person",
+        "name": "Enrique Gil"
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD" 
+      },
+      "image": "https://enriquegpz.github.io/todaylist/iconToDayList.png",
+      "keywords": "lista de tareas, to-do list, gestor de tareas diarias, productividad, organización, localstorage, offline"
+    }
+    </script>
 
     <style>
         /* --- Variables CSS para Colores (Modo Claro por defecto) --- */
@@ -45,8 +71,8 @@
             --input-bg: #f8f8f8;
             --input-text-color: #333;
             --placeholder-color: #888;
-            --button-color: #555; /* Color base para iconos/botones */
-            --button-hover-color: #e74c3c; /* Color de hover para botones generales */
+            --button-color: #555; 
+            --button-hover-color: #e74c3c; 
             --delete-button-color: var(--button-color);
             --delete-button-hover-color: var(--button-hover-color);
             --completed-text-color: #999;
@@ -64,6 +90,8 @@
             --medal-color: #ffd700;
             --medal-text-color: var(--text-color);
             --subtitle-color: #777;
+            --app-description-color: #555;
+
 
             --priority-red-color: #e74c3c;
             --priority-orange-color: #f39c12;
@@ -71,12 +99,10 @@
             --priority-green-color: #2ecc71;
             --priority-none-color: var(--border-color);
 
-            /* Colores para el icono de calendario */
             --calendar-icon-default-color: var(--button-color);
             --calendar-icon-set-color: var(--text-color);
         }
 
-        /* --- Variables CSS para Colores (Modo Oscuro) --- */
         body.dark-mode {
             --bg-color: #2c3e50;
             --text-color: #ecf0f1;
@@ -104,7 +130,7 @@
             --footer-text-color: #666;
             --medal-text-color: var(--text-color);
             --subtitle-color: #bdc3c7;
-
+            --app-description-color: #a0a0a0;
 
             --priority-red-color: #e74c3c;
             --priority-orange-color: #f39c12;
@@ -112,12 +138,10 @@
             --priority-green-color: #2ecc71;
             --priority-none-color: var(--border-color);
 
-            /* Colores para el icono de calendario en modo oscuro */
             --calendar-icon-default-color: var(--button-color);
             --calendar-icon-set-color: var(--text-color);
         }
 
-        /* --- Estilos Generales --- */
         body {
             font-family: 'Lexend', sans-serif;
             margin: 0;
@@ -146,9 +170,9 @@
             color: var(--heading-color);
             text-align: center;
             margin-top: 0;
-            margin-bottom: 2px; /* Reducido para acercar el subtítulo */
+            margin-bottom: 2px; 
             font-weight: 700;
-            font-size: 2.8rem; /* Ligeramente más grande si el subtítulo lo permite */
+            font-size: 2.8rem; 
             letter-spacing: -0.5px;
             padding-top: 45px; 
         }
@@ -159,8 +183,21 @@
             font-weight: 300;
             color: var(--subtitle-color);
             margin-top: 0;
-            margin-bottom: 15px; /* Espacio antes del contador de medallas */
+            margin-bottom: 5px; /* Menos espacio antes de la descripción */
             letter-spacing: 0.2px;
+        }
+        .app-description {
+            text-align: center;
+            font-family: 'Lexend', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 300;
+            color: var(--app-description-color);
+            margin-top: 0;
+            margin-bottom: 15px; /* Espacio antes del contador de medallas */
+            line-height: 1.4;
+            max-width: 90%; /* Para que no ocupe todo el ancho */
+            margin-left: auto;
+            margin-right: auto;
         }
 
         #medal-counter-container {
@@ -176,7 +213,6 @@
         #medal-count {
             font-weight: bold;
         }
-
 
         #priority-legend {
             text-align: center;
@@ -329,7 +365,6 @@
              opacity: 1;
         }
 
-        /* --- ESTILOS CHECKBOX --- */
          .custom-checkbox {
              margin-right: 10px;
              border: 1px solid var(--text-color);
@@ -784,12 +819,54 @@
             margin-right: 5px;
         }
 
+        /* Sección de Características (Opcional) */
+        #features-section {
+            margin-top: 30px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: var(--item-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        #features-section h2 {
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1.3rem;
+            color: var(--heading-color);
+            margin-top: 0;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        #features-section ul {
+            list-style: none;
+            padding-left: 0;
+            margin: 0;
+        }
+        #features-section ul li {
+            font-size: 0.9rem;
+            color: var(--text-color);
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+        #features-section ul li::before {
+            content: "\f00c"; /* Icono de check de FontAwesome */
+            font-family: "Font Awesome 5 Free";
+            font-weight: 900; /* Para iconos sólidos */
+            position: absolute;
+            left: 0;
+            color: var(--progress-bar-completed-color); /* Un color de acento positivo */
+        }
+         body.dark-mode #features-section ul li::before {
+            color: var(--progress-bar-color); /* Ajuste para modo oscuro */
+         }
+
 
         .footer-text {
             text-align: center;
             font-size: 0.75rem;
             color: var(--footer-text-color);
-            margin-top: 40px;
+            margin-top: 40px; /* Ajustado si se activa la sección de características */
             padding: 10px;
             width: 100%;
             max-width: 600px;
@@ -800,10 +877,13 @@
         @media (max-width: 500px) {
             h1 {
                 padding-top: 50px; 
-                font-size: 2.3rem; /* Ajustar tamaño en móvil */
+                font-size: 2.3rem; 
             }
             .subtitle {
-                font-size: 0.9rem; /* Ajustar tamaño subtítulo en móvil */
+                font-size: 0.9rem; 
+            }
+            .app-description {
+                font-size: 0.8rem;
             }
             #info-button {
                 top: 10px;
@@ -958,6 +1038,10 @@
         </button>
         <h1>ToDayList</h1>
         <p class="subtitle">Gestor de Tareas Diarias</p>
+        <p class="app-description">
+            Tu herramienta sencilla y eficaz para organizar tareas, establecer prioridades y gestionar tu día. 
+            Funciona sin conexión y guarda todo en tu navegador.
+        </p>
         <div id="medal-counter-container">
             <i class="fas fa-medal"></i> <span id="medal-count">0</span>
         </div>
@@ -996,6 +1080,23 @@
             </button>
         </div>
 
+        <!-- 
+        Sección de Características (Opcional - Descomentar para mostrar)
+        <div id="features-section">
+            <h2>Características Principales de ToDayList</h2>
+            <ul>
+                <li>Crea y gestiona listas de tareas de forma intuitiva.</li>
+                <li>Organiza tareas complejas con subtareas detalladas.</li>
+                <li>Asigna prioridades visuales para enfocarte en lo importante.</li>
+                <li>Establece fechas límite para no olvidar nada.</li>
+                <li>Añade enlaces relevantes a tus tareas.</li>
+                <li>Funciona completamente offline, tus datos se guardan localmente.</li>
+                <li>Personaliza la apariencia con el modo oscuro/claro.</li>
+                <li>Exporta e importa todos tus datos fácilmente.</li>
+            </ul>
+        </div>
+        -->
+
     </div> 
 
     <p class="footer-text">WebApp creada por Enrique Gil</p>
@@ -1032,6 +1133,8 @@
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
 
     <script type="module">
+        // ... (El JavaScript se mantiene igual que en la respuesta anterior) ...
+        // ... (No se han realizado cambios en el bloque <script type="module">) ...
         let todoInput;
         let addTodoButton;
         let todoListContainer;
@@ -1743,7 +1846,6 @@
             importDataButton = document.getElementById('import-data-button');
             importFileInput = document.getElementById('import-file-input');
 
-            // Cargar y aplicar tema PRIMERO para que el resto de la UI se renderice con el tema correcto
             if (localStorage.getItem(THEME_STORAGE_KEY) === 'dark') {
                 enableDarkMode(); 
             } else {
@@ -1755,7 +1857,7 @@
             const initialMedalData = loadAndRefreshMedalData();
             displayMedalCount(initialMedalData.count);
             
-            renderTodosUI(); // Renderizar UI después de cargar todo
+            renderTodosUI(); 
 
             addTodoButton.addEventListener('click', addTodo);
             todoInput.addEventListener('keypress', (e) => { if (e.key==='Enter'){ e.preventDefault(); addTodo();}});
