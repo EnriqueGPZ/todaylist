@@ -3,22 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
+
+    <!-- SEO Meta Tags -->
     <title>ToDayList - Simplifica Tu Día, Organiza Tus Tareas</title>
-    <!-- Tus meta tags, links de fuentes, etc. -->
+    <meta name="description" content="ToDayList es tu gestor de tareas diarias minimalista y eficiente. Organiza tus pendientes, establece prioridades, añade subtareas y fechas límite. ¡Mejora tu productividad hoy!">
+    <meta name="keywords" content="lista de tareas, to-do list, gestor de tareas diarias, organizador personal, productividad, planificación diaria, tareas pendientes, subtareas, prioridades, web app, enrique gil, ToDayList">
+    <meta name="author" content="Enrique Gil">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://www.todaylist.es/">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.todaylist.es/">
+    <meta property="og:title" content="ToDayList - Simplifica Tu Día, Organiza Tus Tareas">
+    <meta property="og:description" content="Organiza tus pendientes con ToDayList: tu gestor de tareas diarias minimalista.">
+    <meta property="og:image" content="https://www.todaylist.es/ToDayList.png">
+    <meta property="og:site_name" content="ToDayList">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://www.todaylist.es/">
+    <meta property="twitter:title" content="ToDayList - Simplifica Tu Día, Organiza Tus Tareas">
+    <meta property="twitter:description" content="Organiza tus pendientes con ToDayList: tu gestor de tareas diarias minimalista.">
+    <meta property="twitter:image" content="https://www.todaylist.es/ToDayList.png">
+
     <link rel="icon" href="https://www.todaylist.es/ToDayList.png" type="image/png">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
-    <!-- Firebase SDKs (Versiones COMPAT - Recomendado v10.x.x para 'compat') -->
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <!-- Schema.org markup for Google -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "ToDayList",
+      "applicationCategory": ["ProductivityApplication", "UtilityApplication"],
+      "operatingSystem": "Web Browser",
+      "description": "ToDayList es un gestor de tareas diarias minimalista y eficiente que te ayuda a organizar tus pendientes, establecer prioridades, añadir subtareas y fechas límite para mejorar tu productividad.",
+      "url": "https://www.todaylist.es/",
+      "author": {
+        "@type": "Person",
+        "name": "Enrique Gil"
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "image": "https://www.todaylist.es/ToDayList.png",
+      "screenshot": "https://www.todaylist.es/images/todaylist-screenshot.jpg",
+      "softwareVersion": "1.0.6",
+      "datePublished": "2024-03-11",
+      "keywords": "lista de tareas, to-do list, gestor de tareas diarias, productividad, organización, planificación, web app, tareas pendientes, subtareas, prioridades"
+    }
+    </script>
 
     <style>
-        /* ... (TU CSS COMPLETO VA AQUÍ - SIN CAMBIOS RESPECTO A LA VERSIÓN ANTERIOR QUE FUNCIONABA CON LOCALSTORAGE, MÁS LOS ESTILOS DE AUTH) ... */
         :root {
             --bg-color: #f4f7f6;
             --text-color: #333;
@@ -130,7 +174,7 @@
             letter-spacing: -0.5px;
             padding-top: 45px;
         }
-         .subtitle {
+        .subtitle {
             text-align: center;
             font-family: 'Lexend', sans-serif;
             font-size: 1.1rem;
@@ -154,95 +198,6 @@
             margin-right: auto;
         }
 
-        .hidden { display: none !important; }
-
-        /* --- AUTH SECTION STYLES --- */
-        #auth-section {
-            margin-top: 30px;
-            padding: 20px;
-            background-color: var(--item-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            text-align: center;
-        }
-        #auth-section h3 {
-            margin-top: 0;
-            margin-bottom: 15px;
-            color: var(--heading-color);
-        }
-        #auth-section input[type="email"],
-        #auth-section input[type="password"] {
-            width: calc(100% - 24px); /* Para padding */
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid var(--border-color);
-            border-radius: 4px;
-            background-color: var(--input-bg);
-            color: var(--input-text-color);
-            font-size: 0.9rem;
-            box-sizing: border-box;
-        }
-        #auth-section button {
-            padding: 10px 15px;
-            margin: 5px;
-            border: none;
-            border-radius: 4px;
-            background-color: var(--button-hover-color); /* Un color que destaque */
-            color: white; /* O var(--welcome-button-text) */
-            cursor: pointer;
-            transition: background-color 0.2s, opacity 0.2s;
-            font-size: 0.95rem;
-        }
-        #auth-section button:hover {
-            opacity: 0.9;
-        }
-        #auth-section button.google-button { /* Estilo específico para botón Google */
-            background-color: #4285F4; /* Color de Google */
-            color: white;
-        }
-        #auth-section button.google-button:hover {
-            background-color: #357ae8;
-        }
-        #auth-section .auth-toggle-button {
-            background: none;
-            color: var(--button-hover-color);
-            text-decoration: underline;
-            font-size: 0.9em;
-            margin-top: 10px;
-            padding: 5px; /* Para mejor clickeabilidad */
-        }
-        #auth-error, #auth-error-signup {
-            color: var(--priority-red-color);
-            font-size: 0.85em;
-            margin-top: 10px;
-            min-height: 1.2em; /* Para que no salte la UI */
-        }
-        #user-info {
-            text-align: right;
-            margin-bottom: 10px;
-            font-size: 0.9em;
-            color: var(--legend-text-color);
-        }
-        #user-info #logout-button {
-            margin-left: 10px;
-            padding: 5px 10px;
-            font-size: 0.9em;
-            background-color: var(--button-color);
-            color: var(--bg-color); /* O un color de texto que contraste bien */
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-         body.dark-mode #user-info #logout-button {
-            color: var(--text-color); /* Ajuste para modo oscuro */
-         }
-        #user-info #logout-button:hover {
-             background-color: var(--button-hover-color);
-        }
-
-
-        /* --- ESTILOS WELCOME SECTION --- */
         #welcome-section {
             margin-top: 20px;
             margin-bottom: 30px;
@@ -288,16 +243,16 @@
             line-height: 1.5;
         }
         #welcome-section ul li::before {
-            content: "\f00c"; /* Icono check de Font Awesome */
+            content: "\f00c";
             font-family: "Font Awesome 6 Free";
-            font-weight: 900; /* Para iconos sólidos */
+            font-weight: 900;
             position: absolute;
             left: 0;
-            top: 3px; /* Ajustar según la línea base de la fuente */
-            color: var(--progress-bar-completed-color); /* Un color verde o de éxito */
+            top: 3px;
+            color: var(--progress-bar-completed-color);
         }
         body.dark-mode #welcome-section ul li::before {
-            color: var(--progress-bar-color); /* Un color que contraste en modo oscuro */
+            color: var(--progress-bar-color);
         }
         #start-app-button {
             background-color: var(--welcome-button-bg);
@@ -310,18 +265,18 @@
             cursor: pointer;
             transition: background-color 0.2s ease, transform 0.2s ease;
             margin-top: 20px;
-            display: inline-block; /* Para que el margen superior funcione */
+            display: inline-block;
         }
         #start-app-button:hover {
             background-color: var(--welcome-button-hover-bg);
-            transform: translateY(-2px); /* Efecto sutil al pasar el mouse */
+            transform: translateY(-2px);
         }
         #start-app-button:focus, #start-app-button:focus-visible {
-             outline: 3px solid var(--button-hover-color); /* Mejorar accesibilidad del foco */
+             outline: 3px solid var(--button-hover-color);
              outline-offset: 2px;
         }
 
-        /* --- ESTILOS INSTALL SECTION --- */
+        /* --- ESTILOS PARA LA SECCIÓN DE INSTALACIÓN (CON ICONOS CORREGIDOS) --- */
         #install-instructions-section {
             margin-top: 20px;
             margin-bottom: 30px;
@@ -330,7 +285,7 @@
             border: 1px solid var(--border-color);
             border-radius: 10px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.07);
-            font-size: 0.85rem; /* Reducido ligeramente */
+            font-size: 0.85rem;
             color: var(--text-color);
         }
 
@@ -344,7 +299,7 @@
         }
 
         #install-instructions-section p {
-            font-size: 0.95em; /* Relativo al font-size de la sección */
+            font-size: 0.95em;
             color: var(--text-color);
             margin-bottom: 12px;
             line-height: 1.45;
@@ -353,55 +308,57 @@
 
         #install-instructions-section ul {
             list-style: none;
-            padding-left: 5px; /* Un poco de padding */
+            padding-left: 5px;
             margin: 0 auto;
-            max-width: 480px; /* Para centrar en pantallas anchas */
+            max-width: 480px;
         }
 
         #install-instructions-section ul li {
             margin-bottom: 8px;
             line-height: 1.5;
-            font-size: 0.92em; /* Relativo al font-size de la sección */
-            padding-left: 25px; /* Espacio para el ícono */
-            position: relative; /* Para posicionar el ::before */
-            text-align: left; /* Alinear texto a la izquierda */
+            font-size: 0.92em;
+            padding-left: 25px; 
+            position: relative;
+            text-align: left;
         }
 
         #install-instructions-section ul li::before {
-            font-family: "Font Awesome 6 Brands", "Font Awesome 6 Free"; /* Intentar Brands primero, luego Free */
+            font-family: "Font Awesome 6 Brands", "Font Awesome 6 Free"; 
             font-weight: 400; /* Para iconos de marca (fab) en FA6 */
             position: absolute;
             left: 0px;
-            top: 1px; /* Ajustar alineación vertical del ícono */
-            width: 20px; /* Ancho fijo para el ícono */
-            text-align: center; /* Centrar el ícono en su espacio */
-            color: var(--button-color); /* Color del ícono */
-            font-size: 1.1em; /* Tamaño del ícono */
-            -webkit-font-smoothing: antialiased; /* Mejorar renderizado de fuentes */
-            -moz-osx-font-smoothing: grayscale; /* Mejorar renderizado de fuentes */
+            top: 1px; 
+            width: 20px; 
+            text-align: center;
+            color: var(--button-color);
+            font-size: 1.1em; 
+            -webkit-font-smoothing: antialiased; 
+            -moz-osx-font-smoothing: grayscale; 
         }
 
-        /* Íconos específicos */
-        #install-instructions-section ul li:nth-child(1)::before { content: "\f268"; } /* fa-chrome */
-        #install-instructions-section ul li:nth-child(2)::before { content: "\f17b"; } /* fa-android */
-        #install-instructions-section ul li:nth-child(3)::before { content: "\f179"; } /* fa-apple */
-        #install-instructions-section ul li:nth-child(4)::before { content: "\f267"; } /* fa-safari */
+        #install-instructions-section ul li:nth-child(1)::before { content: "\f268"; } /* Chrome */
+        #install-instructions-section ul li:nth-child(2)::before { content: "\f17b"; } /* Android */
+        #install-instructions-section ul li:nth-child(3)::before { content: "\f179"; } /* Apple */
+        #install-instructions-section ul li:nth-child(4)::before { content: "\f267"; } /* Safari */
 
         #install-instructions-section ul li strong {
             color: var(--heading-color);
             font-weight: 700;
         }
 
-        /* Estilo para los íconos dentro del texto de las instrucciones */
         #install-instructions-section ul li i.fas.fa-download,
         #install-instructions-section ul li i.fas.fa-ellipsis-v,
         #install-instructions-section ul li i.fas.fa-share-square {
-            color: var(--button-hover-color); /* Un color que destaque */
+            color: var(--button-hover-color);
             margin-left: 0.1em;
             margin-right: 0.1em;
-            font-size: 0.9em; /* Un poco más pequeño que el texto circundante */
+            font-size: 0.9em;
         }
+        /* --- FIN ESTILOS SECCIÓN DE INSTALACIÓN --- */
 
+        .hidden {
+            display: none !important;
+        }
 
         #medal-counter-container {
             text-align: center;
@@ -426,30 +383,28 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            flex-wrap: wrap; /* Para que se ajuste en pantallas pequeñas */
-            gap: 5px 10px; /* Espacio entre ítems y entre líneas */
+            flex-wrap: wrap;
+            gap: 5px 10px;
         }
         #priority-legend .priority-legend-item {
-             display: inline-flex; /* Para alinear el cuadrado y el texto */
+             display: inline-flex;
              align-items: center;
-             gap: 4px; /* Espacio entre el cuadrado y el texto */
+             gap: 4px;
         }
          #priority-legend .priority-color-label {
              width: 10px;
              height: 10px;
-             /* border: 1px solid var(--border-color); No es necesario si tienen fondo */
-             /* border-radius: 2px; Opcional, si quieres cuadrados */
-             margin-right: 0; /* Ya manejado por gap */
-             flex-shrink: 0; /* Para que no se encoja */
+             margin-right: 0;
+             flex-shrink: 0;
          }
          #priority-legend .priority-color-label:hover {
-             transform: none; /* Sin efecto hover en la leyenda */
+             transform: none;
          }
 
         #todo-list {
             list-style: none;
             padding: 0;
-            margin: 0 0 30px 0; /* Espacio debajo de la lista */
+            margin: 0 0 30px 0;
         }
 
         .todo-item {
@@ -461,15 +416,13 @@
             box-sizing: border-box;
             transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
             box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-            /* Borde izquierdo para prioridad */
-            border-left: 5px solid var(--border-color); /* Default, se sobreescribe */
-            padding-left: 10px; /* Ajustar padding por el borde izquierdo */
+            border-left: 5px solid var(--border-color);
+            padding-left: 10px;
         }
          .todo-item:last-child {
-             margin-bottom: 0; /* Quitar margen del último ítem */
+             margin-bottom: 0;
          }
 
-        /* Colores de prioridad para el borde izquierdo */
         .todo-item[data-priority-color="red"] { border-left-color: var(--priority-red-color); }
         .todo-item[data-priority-color="orange"] { border-left-color: var(--priority-orange-color); }
         .todo-item[data-priority-color="yellow"] { border-left-color: var(--priority-yellow-color); }
@@ -480,28 +433,28 @@
          .app-button {
              background: none;
              border: none;
-             border-radius: 4px; /* Bordes redondeados sutiles */
+             border-radius: 4px;
              cursor: pointer;
              transition: color 0.2s ease, background-color 0.2s ease, opacity 0.2s ease;
-             flex-shrink: 0; /* Para que no se encojan en flex containers */
-             padding: 6px 10px; /* Espaciado interno */
-             font-size: 1rem; /* Tamaño de fuente base para íconos/texto */
-             line-height: 1; /* Para alinear íconos correctamente */
-             display: inline-flex; /* Para alinear íconos y texto si los hay */
+             flex-shrink: 0;
+             padding: 6px 10px;
+             font-size: 1rem;
+             line-height: 1;
+             display: inline-flex;
              align-items: center;
              justify-content: center;
-             text-decoration: none; /* Quitar subrayado si es un <a> estilizado como botón */
+             text-decoration: none;
          }
          .app-button:hover {
-             color: var(--button-hover-color); /* Cambia color al pasar el mouse */
+             color: var(--button-hover-color);
          }
-         .app-button:focus, .app-button:focus-visible { /* Mejorar accesibilidad del foco */
+         .app-button:focus, .app-button:focus-visible {
               outline: 2px solid var(--button-hover-color);
               outline-offset: 2px;
          }
          .add-button {
              color: var(--button-color);
-             font-weight: bold; /* Hacer los botones de añadir más prominentes */
+             font-weight: bold;
          }
          .add-button:hover {
              color: var(--button-hover-color);
@@ -515,25 +468,24 @@
          .sort-button {
              color: var(--sort-button-color);
              font-weight: normal;
-             padding: 10px 15px; /* Más padding para botones principales */
-             font-size: 1.1rem; /* Ligeramente más grande */
+             padding: 10px 15px;
+             font-size: 1.1rem;
          }
          .sort-button:hover {
              color: var(--sort-button-hover-color);
          }
 
-         /* Estilo para el botón de modo oscuro/claro */
          #dark-mode-toggle {
              position: fixed;
              bottom: 20px;
              right: 20px;
-             font-size: 1.3rem; /* Tamaño del ícono */
+             font-size: 1.3rem;
              color: var(--button-color);
-             z-index: 1000; /* Para que esté sobre otros elementos */
+             z-index: 1000;
              background-color: var(--fixed-button-bg);
              border: 1px solid var(--fixed-button-border);
-             border-radius: 50%; /* hacerlo circular */
-             width: 45px;  /* Ancho y alto iguales para círculo */
+             border-radius: 50%;
+             width: 45px;
              height: 45px;
              display: flex;
              justify-content: center;
@@ -543,93 +495,81 @@
          }
          #dark-mode-toggle:hover {
              color: var(--button-hover-color);
-             /* background-color: var(--item-bg); Opcional: cambiar fondo al hover */
          }
          #dark-mode-toggle i {
-             line-height: 1; /* Asegurar que el ícono esté centrado */
+             line-height: 1;
          }
 
-        /* Estilos para inputs de texto */
         #new-todo-input,
         .todo-item .subtask-input-container input[type="text"] {
             padding: 10px 12px;
             border: 1px solid var(--border-color);
             border-radius: 4px;
-            flex-grow: 1; /* Para que ocupe el espacio disponible */
-            min-width: 150px; /* Ancho mínimo antes de envolver */
+            flex-grow: 1;
+            min-width: 150px;
             font-size: 0.95rem;
-            box-sizing: border-box; /* Incluir padding y border en el width/height */
+            box-sizing: border-box;
             background-color: var(--input-bg);
             color: var(--input-text-color);
-            outline: none; /* Quitar el outline por defecto del navegador */
+            outline: none;
             transition: border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease;
         }
         #new-todo-input:focus,
         .todo-item .subtask-input-container input[type="text"]:focus {
-            border-color: var(--button-hover-color); /* Resaltar borde al enfocar */
-            box-shadow: 0 0 0 0.2rem rgba(231, 76, 60, 0.25); /* Sombra sutil al enfocar (ajustar color) */
+            border-color: var(--button-hover-color);
+            box-shadow: 0 0 0 0.2rem rgba(231, 76, 60, 0.25);
         }
-         body.dark-mode #new-todo-input:focus,
-         body.dark-mode .todo-item .subtask-input-container input[type="text"]:focus {
-             box-shadow: 0 0 0 0.2rem rgba(243, 156, 18, 0.25); /* Sombra para modo oscuro */
-         }
         #new-todo-input::placeholder,
         .todo-item .subtask-input-container input[type="text"]::placeholder {
              color: var(--placeholder-color);
-             opacity: 1; /* Asegurar que el placeholder sea visible en todos los navegadores */
+             opacity: 1;
         }
 
-         /* Estilos para Checkbox Personalizado */
          .custom-checkbox {
-             margin-right: 10px; /* Espacio a la derecha del checkbox */
-             border: 1px solid var(--text-color); /* Borde del checkbox */
-             border-radius: 50%; /* Hacerlo circular */
-             appearance: none; /* Quitar estilos por defecto del navegador */
+             margin-right: 10px;
+             border: 1px solid var(--text-color);
+             border-radius: 50%;
+             appearance: none;
              -webkit-appearance: none;
-             width: 20px;  /* Tamaño del checkbox */
+             width: 20px;
              height: 20px;
-             background-color: var(--item-bg); /* Fondo del checkbox */
+             background-color: var(--item-bg);
              cursor: pointer;
-             position: relative; /* Para posicionar el checkmark (::after) */
-             flex-shrink: 0; /* Para que no se encoja en flex containers */
+             position: relative;
+             flex-shrink: 0;
              box-sizing: border-box;
              transition: background-color 0.2s ease, border-color 0.2s ease;
          }
          .custom-checkbox:checked {
-              background-color: var(--text-color); /* Fondo cuando está chequeado */
-              border-color: var(--text-color); /* Borde cuando está chequeado */
+              background-color: var(--text-color);
+              border-color: var(--text-color);
          }
 
-         /* Checkmark para el checkbox */
          .custom-checkbox:checked::after {
              content: '';
              position: absolute;
-             box-sizing: content-box; /* Importante para el tamaño del checkmark */
-             /* Dimensiones y borde del checkmark */
+             box-sizing: content-box;
              width: 5px;
              height: 9px;
-             border: solid var(--item-bg); /* Color del checkmark (contraste con el fondo del checkbox) */
-             border-width: 0 2px 2px 0; /* Forma de L para el checkmark */
-             /* Posicionamiento del checkmark */
-             top: 3px;   /* Ajustar según sea necesario */
-             left: 6px;  /* Ajustar según sea necesario */
-             transform: rotate(45deg); /* Rotar para formar el check */
+             border: solid var(--item-bg);
+             border-width: 0 2px 2px 0;
+             top: 3px;
+             left: 6px;
+             transform: rotate(45deg);
          }
-         /* Checkmark en modo oscuro */
          body.dark-mode .custom-checkbox:checked::after {
-             border-color: var(--checkbox-checkmark-color) !important; /* Usar variable específica para modo oscuro */
+             border-color: var(--checkbox-checkmark-color) !important;
          }
 
 
-        /* Cabecera de la tarea principal */
         .todo-item .main-task-header {
             display: flex;
-            align-items: center; /* Alinear verticalmente checkbox, prioridad, texto y botones */
-            margin-bottom: 15px; /* Espacio antes de la barra de progreso o sub-tareas */
-            padding: 0; /* Resetear padding si es necesario */
-            gap: 10px; /* Espacio entre elementos directos (checkbox, label prioridad, task-body) */
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 0;
+            gap: 10px;
         }
-        .todo-item .main-task-header input[type="checkbox"] { /* Checkbox de la tarea principal */
+        .todo-item .main-task-header input[type="checkbox"] {
              border-color: var(--text-color);
              background-color: var(--item-bg);
         }
@@ -639,89 +579,80 @@
          }
 
 
-        /* Etiqueta de color para prioridad en la tarea */
         .todo-item .priority-color-label {
              display: inline-block;
-             width: 16px;  /* Tamaño del cuadrado de prioridad */
+             width: 16px;
              height: 16px;
-             border: 1px solid var(--border-color); /* Borde sutil */
-             border-radius: 4px; /* Bordes ligeramente redondeados */
+             border: 1px solid var(--border-color);
+             border-radius: 4px;
              cursor: pointer;
-             flex-shrink: 0; /* Para que no se encoja */
+             flex-shrink: 0;
              transition: border-color 0.2s ease, transform 0.1s ease, background-color 0.2s ease;
              box-sizing: border-box;
         }
          .todo-item .priority-color-label:hover {
-             transform: scale(1.1); /* Efecto sutil al pasar el mouse */
+             transform: scale(1.1);
          }
-        /* Colores de fondo para la etiqueta de prioridad */
         .priority-color-label[data-color="red"] { background-color: var(--priority-red-color); border-color: var(--priority-red-color); }
         .priority-color-label[data-color="orange"] { background-color: var(--priority-orange-color); border-color: var(--priority-orange-color); }
         .priority-color-label[data-color="yellow"] { background-color: var(--priority-yellow-color); border-color: var(--priority-yellow-color); }
         .priority-color-label[data-color="green"] { background-color: var(--priority-green-color); border-color: var(--priority-green-color); }
-        .priority-color-label[data-color="none"] { background-color: transparent; border-color: var(--border-color); } /* Sin prioridad */
+        .priority-color-label[data-color="none"] { background-color: transparent; border-color: var(--border-color); }
 
 
-        /* Contenedor para el texto de la tarea y los botones de acción */
         .todo-item .main-task-header .task-body {
             display: flex;
-            flex-grow: 1; /* Para que ocupe el espacio restante */
-            align-items: center; /* Alinear texto y grupo de acciones */
-            gap: 10px; /* Espacio entre el texto y el grupo de acciones */
-            min-width: 0; /* Importante para que el texto con `word-break` no desborde */
-            flex-wrap: wrap; /* Permitir que los botones de acción se muevan abajo si no hay espacio */
+            flex-grow: 1;
+            align-items: center;
+            gap: 10px;
+            min-width: 0;
+            flex-wrap: wrap;
         }
 
 
-        /* Texto de la tarea principal */
         .todo-item .main-task-header .task-body span {
-            font-weight: 700; /* Texto en negrita */
-            font-size: 1.1rem; /* Tamaño de fuente */
-            flex-grow: 1; /* Para que ocupe espacio y empuje los botones a la derecha */
+            font-weight: 700;
+            font-size: 1.1rem;
+            flex-grow: 1;
             color: var(--text-color);
             transition: color 0.3s ease, text-decoration 0.3s ease;
-            min-width: 0; /* Para permitir `word-break` */
-            word-break: break-word; /* Para que el texto largo se divida y no desborde */
+            min-width: 0;
+            word-break: break-word;
         }
 
-        /* Grupo de botones de acción (link, calendario, borrar) */
         .todo-item .main-task-header .task-body .task-actions-group {
             display: flex;
             align-items: center;
-            gap: 5px; /* Espacio entre botones de acción */
-            margin-left: auto; /* Empujar a la derecha si task-body es flex y el span no tiene flex-grow */
-            flex-shrink: 0; /* Para que no se encojan */
+            gap: 5px;
+            margin-left: auto;
+            flex-shrink: 0;
         }
 
-        /* Botón de enlace */
         .todo-item .main-task-header .task-body .link-button {
             color: var(--button-color);
-            padding: 4px 8px; /* Padding más pequeño para botones de acción */
-            font-size: 1rem;  /* Tamaño de ícono estándar */
-            opacity: 0.5; /* Hacerlo más sutil si no hay enlace */
+            padding: 4px 8px;
+            font-size: 1rem;
+            opacity: 0.5;
         }
         .todo-item .main-task-header .task-body .link-button.link-on {
-            opacity: 1; /* Opacidad completa si hay enlace */
+            opacity: 1;
         }
 
-        /* Botón de calendario */
         .todo-item .main-task-header .task-body .calendar-button {
             padding: 4px 8px;
             font-size: 1rem;
         }
         .todo-item .main-task-header .task-body .calendar-button i {
-            color: var(--calendar-icon-default-color); /* Color por defecto del ícono */
+            color: var(--calendar-icon-default-color);
             transition: color 0.2s ease, font-weight 0.2s ease;
         }
         .todo-item .main-task-header .task-body .calendar-button.date-set i {
-            color: var(--calendar-icon-set-color); /* Color cuando hay fecha establecida */
+            color: var(--calendar-icon-set-color);
         }
         .todo-item .main-task-header .task-body .calendar-button.date-today i {
-            /* El color para "hoy" se maneja en JS con el color de prioridad */
-            font-weight: bold; /* Hacerlo negrita si es para hoy */
+            font-weight: bold;
         }
 
-        /* Input de fecha real (oculto) */
         .task-date-input-real {
             opacity: 0;
             position: absolute;
@@ -733,66 +664,61 @@
             margin: -1px;
             padding: 0;
             border: 0;
-            white-space: nowrap; /* Evitar que ocupe espacio */
+            white-space: nowrap;
         }
 
-        /* Botón de borrar tarea principal */
         .todo-item .main-task-header .task-body .task-actions-group .delete-button {
              padding: 4px 8px;
              font-size: 1rem;
         }
 
 
-        /* Botón para mostrar/ocultar UI de añadir sub-tareas */
-         .todo-item .add-subtasks-toggle {
-             display: block; /* O inline-block si se prefiere */
-             width: fit-content; /* Ajustar ancho al contenido */
-             margin: 10px 0 0 auto; /* Alinear a la derecha, con margen superior */
+        .todo-item .add-subtasks-toggle {
+             display: block;
+             width: fit-content;
+             margin: 10px 0 0 auto;
              padding: 4px 8px;
-             font-size: 1.1rem; /* Ícono un poco más grande */
+             font-size: 1.1rem;
              font-weight: normal;
-             color: var(--legend-text-color); /* Color sutil */
+             color: var(--legend-text-color);
         }
          .todo-item .add-subtasks-toggle:hover {
              color: var(--button-hover-color);
          }
 
-        /* Contenedor para input y botón de añadir sub-tarea */
         .todo-item .subtask-input-container {
-            display: none; /* Oculto por defecto, se muestra con clase .show-subtask-ui */
-            flex-wrap: wrap; /* Para que se ajuste en pantallas pequeñas */
-            gap: 8px; /* Espacio entre input y botón */
-            margin-top: 15px; /* Espacio superior */
-            padding: 0; /* Resetear padding si es necesario */
-            align-items: center; /* Alinear input y botón verticalmente */
+            display: none;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 15px;
+            padding: 0;
+            align-items: center;
         }
-         .todo-item .subtask-input-container button { /* Botón de añadir sub-tarea */
-             padding: 8px 12px; /* Padding adecuado */
-             font-size: 1rem; /* Tamaño de ícono/texto */
+         .todo-item .subtask-input-container button {
+             padding: 8px 12px;
+             font-size: 1rem;
          }
 
-        /* Lista de sub-tareas */
         .todo-item .subtasks-list {
             list-style: none;
             padding: 0;
-            margin-top: 15px; /* Espacio superior */
-            border-left: 2px solid var(--border-color); /* Línea visual de indentación */
-            padding-left: 20px; /* Indentación para sub-tareas */
+            margin-top: 15px;
+            border-left: 2px solid var(--border-color);
+            padding-left: 20px;
             transition: border-left-color 0.3s ease;
         }
         .todo-item .subtasks-list li {
             display: flex;
-            align-items: center; /* Alinear checkbox, texto y botones de sub-tarea */
-            margin-bottom: 4px; /* Espacio pequeño entre sub-tareas */
-            gap: 5px; /* Espacio entre elementos de la sub-tarea */
+            align-items: center;
+            margin-bottom: 4px;
+            gap: 5px;
         }
          .todo-item .subtasks-list li:last-child {
-             margin-bottom: 0; /* Quitar margen del último ítem */
+             margin-bottom: 0;
          }
 
-        /* Checkbox de sub-tarea */
         .todo-item .subtasks-list li input[type="checkbox"] {
-             width: 18px; /* Ligeramente más pequeño que el principal */
+             width: 18px;
              height: 18px;
              border-color: var(--text-color);
              background-color: var(--item-bg);
@@ -802,40 +728,36 @@
               border-color: var(--text-color);
          }
 
-        /* Checkmark para checkbox de sub-tarea */
         .todo-item .subtasks-list li input[type="checkbox"]:checked::after {
             content: '';
             position: absolute;
             box-sizing: content-box;
-            width: 4px;  /* Ajustar tamaño del checkmark */
+            width: 4px;
             height: 8px;
             border: solid var(--item-bg);
-            border-width: 0 1.8px 1.8px 0; /* Grosor del checkmark */
-            top: 2.5px; /* Ajustar posición */
-            left: 5px;  /* Ajustar posición */
+            border-width: 0 1.8px 1.8px 0;
+            top: 2.5px;
+            left: 5px;
             transform: rotate(45deg);
         }
-         /* Checkmark de sub-tarea en modo oscuro */
          body.dark-mode .todo-item .subtasks-list li input[type="checkbox"]:checked::after {
              border-color: var(--checkbox-checkmark-color) !important;
          }
 
-        /* Texto de la sub-tarea */
         .todo-item .subtasks-list li span {
-             flex-grow: 1; /* Para que ocupe espacio */
-             margin-right: 5px; /* Espacio antes de los botones de mover/borrar */
-             color: var(--button-color); /* Un color más sutil que la tarea principal */
+             flex-grow: 1;
+             margin-right: 5px;
+             color: var(--button-color);
              text-decoration: none;
              transition: color 0.3s ease, text-decoration 0.3s ease;
-             word-break: break-word; /* Para texto largo */
-             font-size: 0.85em; /* Más pequeño que la tarea principal */
-             font-weight: 300; /* Más ligero */
+             word-break: break-word;
+             font-size: 0.85em;
+             font-weight: 300;
         }
-         /* Botones de mover sub-tarea */
          .todo-item .subtasks-list li .subtask-move-button {
              color: var(--button-color);
-             padding: 4px; /* Padding muy pequeño */
-             font-size: 0.9rem; /* Íconos pequeños */
+             padding: 4px;
+             font-size: 0.9rem;
          }
          .todo-item .subtasks-list li .subtask-move-button:hover {
              color: var(--button-hover-color);
@@ -843,38 +765,34 @@
          .todo-item .subtasks-list li .subtask-move-button:disabled {
              opacity: 0.3;
              cursor: not-allowed;
-             color: var(--button-color); /* Mantener color base al deshabilitar */
+             color: var(--button-color);
          }
          .todo-item .subtasks-list li .subtask-move-button:disabled:hover {
-             color: var(--button-color); /* Evitar cambio de color al pasar mouse si está deshabilitado */
+             color: var(--button-color);
          }
-         /* Botón de borrar sub-tarea */
          .todo-item .subtasks-list li .delete-button {
-             padding: 4px 8px; /* Padding pequeño */
-             font-size: 1rem; /* Tamaño de ícono estándar, pero el botón es pequeño */
+             padding: 4px 8px;
+             font-size: 1rem;
          }
 
-        /* Contenedor de la barra de progreso */
         .todo-item .progress-container {
             width: 100%;
-            height: 6px; /* Altura de la barra */
-            border-radius: 3px; /* Bordes redondeados */
-            margin-top: 15px; /* Espacio superior */
-            margin-bottom: 0; /* Sin espacio inferior si es el último elemento visual antes del toggle */
-            overflow: hidden; /* Para que la barra interna no se salga */
-            background-color: var(--progress-bg); /* Color de fondo de la barra */
+            height: 6px;
+            border-radius: 3px;
+            margin-top: 15px;
+            margin-bottom: 0;
+            overflow: hidden;
+            background-color: var(--progress-bg);
             transition: background-color 0.3s ease;
         }
-        /* Barra de progreso interna */
         .todo-item .progress-bar {
             height: 100%;
-            background-color: var(--progress-bar-color); /* Color de la barra de progreso */
-            width: 0%; /* Se actualiza con JS */
+            background-color: var(--progress-bar-color);
+            width: 0%;
             transition: width 0.5s ease-in-out, background-color 0.3s ease;
         }
-         .todo-item .progress-text { display: none; } /* Ocultar texto de progreso si no se usa */
+         .todo-item .progress-text { display: none; }
 
-        /* Mensaje cuando la lista de tareas está vacía */
         #todo-list:empty:before {
             content: "No hay tareas. ¡Agrega una!";
             display: block;
@@ -885,87 +803,72 @@
             transition: color 0.3s ease;
         }
 
-        /* Clases para mostrar/ocultar UI de sub-tareas */
         .todo-item.show-subtask-ui .subtask-input-container {
-             display: flex; /* Mostrar el input de sub-tarea */
+             display: flex;
         }
         .todo-item.show-subtask-ui .add-subtasks-toggle {
-             display: none; /* Ocultar el botón "+" grande cuando el input está visible */
+             display: none;
         }
 
-        /* Estilos para tareas completadas */
         .todo-item.completed .main-task-header .task-body span,
         .todo-item.completed .subtasks-list li span {
             color: var(--completed-text-color);
             text-decoration: line-through;
         }
         .todo-item.completed .progress-bar {
-            background-color: var(--progress-bar-completed-color); /* Color diferente para progreso completado */
+            background-color: var(--progress-bar-completed-color);
         }
 
-        /* Atenuar elementos no interactivos en tareas completadas */
         .todo-item.completed .priority-color-label,
-        .todo-item.completed .subtasks-list li .app-button { /* Atenuar botones de sub-tareas */
+        .todo-item.completed .subtasks-list li .app-button {
             opacity: 0.7;
-            cursor: default; /* Indicar que no son clickeables */
+            cursor: default;
         }
-        /* Hacer botones de sub-tarea no clickeables si la principal está completa */
-        .todo-item.completed .subtasks-list li .subtask-move-button,
-        .todo-item.completed .subtasks-list li .delete-button {
-            pointer-events: none;
-        }
-
 
         .todo-item.completed .main-task-header .task-body .calendar-button {
             opacity: 0.7;
             cursor: default;
-            pointer-events: none; /* Deshabilitar clicks en el label del calendario */
+            pointer-events: none;
         }
         .todo-item.completed .main-task-header .task-body .calendar-button i {
-            color: var(--completed-text-color) !important; /* Forzar color de completado */
-            font-weight: normal !important; /* Quitar negrita si era para "hoy" */
+            color: var(--completed-text-color) !important;
+            font-weight: normal !important;
         }
 
 
-        /* Botón de borrar principal en tarea completada */
         .todo-item.completed .main-task-header .task-body .task-actions-group .delete-button {
-            opacity: 0.7; /* Sigue siendo clickeable pero atenuado */
+            opacity: 0.7;
         }
         .todo-item.completed .main-task-header .task-body .task-actions-group .delete-button:hover {
-            opacity: 0.7; /* Mantener opacidad en hover */
-            color: var(--delete-button-color); /* No cambiar a color de hover */
+            opacity: 0.7;
+            color: var(--delete-button-color);
         }
 
-        /* Botón de enlace en tarea completada */
-        .todo-item.completed .main-task-header .task-body .link-button.link-on { /* Si hay enlace */
-            opacity: 0.8; /* Ligeramente atenuado pero usable */
+        .todo-item.completed .main-task-header .task-body .link-button.link-on {
+            opacity: 0.8;
             cursor: pointer;
         }
         .todo-item.completed .main-task-header .task-body .link-button.link-on:hover {
-            color: var(--button-hover-color); /* Permitir hover si hay enlace */
+            color: var(--button-hover-color);
             opacity: 1;
         }
-        .todo-item.completed .main-task-header .task-body .link-button.link-off { /* Si no hay enlace */
-            opacity: 0.4; /* Muy atenuado, no usable */
+        .todo-item.completed .main-task-header .task-body .link-button.link-off {
+            opacity: 0.4;
             cursor: default;
         }
         .todo-item.completed .main-task-header .task-body .link-button.link-off:hover {
-            color: var(--button-color); /* Sin efecto hover */
+            color: var(--button-color);
             opacity: 0.4;
         }
 
-        /* Evitar efectos hover en elementos atenuados de tareas completadas */
         .todo-item.completed .priority-color-label:hover,
         .todo-item.completed .subtasks-list li .app-button:hover {
-            /* Estos ya tienen cursor: default, así que no es necesario anular transformaciones
-               a menos que las tengan definidas por defecto. */
-            color: inherit; /* Mantener el color de completado */
+            color: inherit;
             text-decoration: none;
             transform: none;
         }
 
 
-         /* Checkbox principal en tarea completada */
          .todo-item.completed .main-task-header input[type="checkbox"] {
              border-color: var(--completed-text-color);
              background-color: var(--completed-text-color);
@@ -974,56 +877,52 @@
               border-color: var(--completed-text-color);
               background-color: var(--completed-text-color);
           }
-         /* Checkmark del checkbox principal en tarea completada */
          .todo-item.completed .main-task-header input[type="checkbox"]:checked::after {
-              border-color: var(--item-bg) !important; /* Color del checkmark debe contrastar con el fondo del checkbox */
+              border-color: var(--item-bg) !important;
          }
           body.dark-mode .todo-item.completed .main-task-header input[type="checkbox"]:checked::after {
-              border-color: var(--item-bg) !important; /* Ajustar para modo oscuro si es necesario, o usar var(--checkbox-checkmark-color) */
+              border-color: var(--item-bg) !important;
           }
 
-         /* Contenedor para input principal y botones de añadir/reordenar */
          #todo-input-container {
              display: flex;
-             gap: 10px; /* Espacio entre input y botones */
-             padding: 0; /* Resetear padding */
-             align-items: center; /* Alinear verticalmente */
-             margin-bottom: 20px; /* Espacio debajo */
-             flex-wrap: wrap; /* Para que se ajuste en pantallas pequeñas */
+             gap: 10px;
+             padding: 0;
+             align-items: center;
+             margin-bottom: 20px;
+             flex-wrap: wrap;
          }
           #todo-input-container #add-todo-button {
-               margin-left: 0; /* Quitar margen si estaba auto */
-               padding: 10px 15px; /* Padding para botón principal */
-               font-size: 1.1rem; /* Tamaño de ícono/texto */
+               margin-left: 0;
+               padding: 10px 15px;
+               font-size: 1.1rem;
           }
           #todo-input-container #reorder-button {
-               margin-left: auto; /* Empujar a la derecha si hay espacio */
+               margin-left: auto;
           }
 
-        /* Contenedor para notas rápidas */
         #quick-notes-container {
-            margin-top: 25px; /* Espacio superior */
-            margin-bottom: 10px; /* Espacio inferior */
+            margin-top: 25px;
+            margin-bottom: 10px;
             display: flex;
-            flex-direction: column; /* Textarea y botón debajo */
-            gap: 8px; /* Espacio entre textarea y botón */
+            flex-direction: column;
+            gap: 8px;
         }
 
-        /* Textarea para notas rápidas */
         #quick-notes-area {
-            width: 100%; /* Ocupar todo el ancho disponible */
-            min-height: 70px; /* Altura mínima */
+            width: 100%;
+            min-height: 70px;
             padding: 10px 12px;
             border: 1px solid var(--border-color);
-            border-radius: 6px; /* Bordes redondeados */
-            font-family: 'Lexend', sans-serif; /* Usar la fuente de la app */
+            border-radius: 6px;
+            font-family: 'Lexend', sans-serif;
             font-weight: 300;
-            font-size: 0.85rem; /* Tamaño de fuente para notas */
+            font-size: 0.85rem;
             line-height: 1.4;
             background-color: var(--input-bg);
             color: var(--input-text-color);
             box-sizing: border-box;
-            resize: vertical; /* Permitir redimensionar verticalmente */
+            resize: vertical;
             outline: none;
             transition: border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
         }
@@ -1033,43 +932,41 @@
         }
         #quick-notes-area:focus {
             border-color: var(--button-hover-color);
-            box-shadow: 0 0 0 2px rgba(231, 76, 60, 0.15); /* Sombra sutil al enfocar (ajustar color) */
+            box-shadow: 0 0 0 2px rgba(231, 76, 60, 0.15);
         }
         body.dark-mode #quick-notes-area:focus {
-            box-shadow: 0 0 0 2px rgba(243, 156, 18, 0.2); /* Sombra para modo oscuro */
+            box-shadow: 0 0 0 2px rgba(243, 156, 18, 0.2);
         }
 
 
-        /* Botón para borrar notas rápidas */
         #clear-notes-button {
-            align-self: flex-end; /* Alinear a la derecha */
+            align-self: flex-end;
             padding: 5px 10px;
-            font-size: 0.8rem; /* Pequeño */
+            font-size: 0.8rem;
             color: var(--button-color);
-            background-color: var(--item-bg); /* Fondo sutil */
+            background-color: var(--item-bg);
             border: 1px solid var(--border-color);
-            box-shadow: 0 1px 2px rgba(0,0,0,0.05); /* Sombra muy sutil */
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
         }
         #clear-notes-button:hover {
             color: var(--button-hover-color);
-            border-color: var(--button-hover-color); /* Resaltar borde al hover */
-            background-color: var(--fixed-button-bg); /* Cambiar fondo al hover */
+            border-color: var(--button-hover-color);
+            background-color: var(--fixed-button-bg);
         }
         #clear-notes-button i {
-            margin-right: 4px; /* Espacio entre ícono y texto */
+            margin-right: 4px;
         }
 
-        /* Contenedor para botones de gestión de datos (exportar/importar) */
         #data-management-container {
             display: flex;
-            justify-content: flex-end; /* Alinear a la derecha */
-            gap: 10px; /* Espacio entre botones */
+            justify-content: flex-end;
+            gap: 10px;
             margin-top: 10px;
-            margin-bottom: 20px; /* Espacio inferior antes del footer */
+            margin-bottom: 20px;
         }
         #data-management-container .app-button {
             padding: 6px 12px;
-            font-size: 0.85rem; /* Pequeños */
+            font-size: 0.85rem;
             background-color: var(--item-bg);
             border: 1px solid var(--border-color);
             box-shadow: 0 1px 2px rgba(0,0,0,0.05);
@@ -1079,103 +976,103 @@
             background-color: var(--fixed-button-bg);
         }
         #data-management-container .app-button i {
-            margin-right: 5px; /* Espacio entre ícono y texto */
+            margin-right: 5px;
         }
 
         /* --- ESTILOS PARA EL BOTÓN DE INFORMACIÓN (MÁS DISCRETO) --- */
         #info-button {
-            position: absolute; /* Posicionamiento absoluto relativo al .container */
+            position: absolute;
             top: 15px;
             left: 15px;
-            font-family: 'Quicksand', sans-serif; /* Fuente del título */
-            font-weight: bold; /* Para que la 'i' sea más visible */
-            font-size: 1.3rem;  /* Tamaño de la 'i' */
+            font-family: 'Quicksand', sans-serif; 
+            font-weight: bold; 
+            font-size: 1.3rem;  
             color: var(--button-color);
-            background-color: var(--item-bg); /* Fondo sutil */
-            border: 1px solid var(--border-color); /* Borde sutil */
-            border-radius: 50%; /* Hacerlo circular */
-            width: 36px;  /* Ancho y alto iguales */
-            height: 36px;
-            display: flex; /* Para centrar la 'i' */
+            background-color: var(--item-bg);
+            border: 1px solid var(--border-color); 
+            border-radius: 50%;
+            width: 36px;  
+            height: 36px; 
+            display: flex;
             justify-content: center;
             align-items: center;
-            text-decoration: none; /* Quitar subrayado si es un <a> */
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1); /* Sombra discreta */
-            z-index: 900; /* Para que esté sobre el contenido pero debajo de modales/fixed buttons */
-            line-height: 1; /* Para centrar la 'i' verticalmente */
-            padding: 0; /* Quitar padding extra si lo hereda */
+            text-decoration: none; 
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1); 
+            z-index: 900;
+            line-height: 1; 
+            padding: 0; 
             transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
         }
         #info-button:hover {
             color: var(--button-hover-color);
-            background-color: var(--fixed-button-bg); /* Cambiar fondo al hover */
-            border-color: var(--button-hover-color); /* Resaltar borde al hover */
+            background-color: var(--fixed-button-bg); 
+            border-color: var(--button-hover-color);
         }
 
         /* Footer */
         footer {
             display: flex;
-            flex-direction: column; /* Logo arriba, texto/link debajo */
-            align-items: center; /* Centrar contenido */
+            flex-direction: column; 
+            align-items: center;
             justify-content: center;
             text-align: center;
-            font-size: 0.8rem; /* Tamaño base para el footer */
+            font-size: 0.8rem; 
             color: var(--footer-text-color);
-            margin-top: 30px; /* Espacio sobre el footer */
-            padding: 20px 10px 15px; /* Padding interno */
+            margin-top: 30px; 
+            padding: 20px 10px 15px; 
             width: 100%;
-            max-width: 600px; /* Para que coincida con el .container */
+            max-width: 600px;
             box-sizing: border-box;
-            border-top: 1px solid var(--border-color); /* Línea separadora sutil */
+            border-top: 1px solid var(--border-color);
         }
         .footer-logo {
-            width: 48px;  /* Tamaño del logo */
-            height: 48px;
-            margin-bottom: 10px; /* Espacio debajo del logo */
+            width: 48px;  
+            height: 48px; 
+            margin-bottom: 10px; 
         }
         .footer-text {
-            margin: 0 0 8px 0; /* Margen entre líneas de texto */
-            color: var(--footer-text-color); /* Asegurar color */
-            font-size: 0.85em; /* Relativo al font-size del footer */
+            margin: 0 0 8px 0; 
+            color: var(--footer-text-color); 
+            font-size: 0.85em; 
         }
 
         #support-section-footer {
-            margin-top: 5px; /* Espacio sobre la sección de apoyo */
+            margin-top: 5px; 
             display: flex;
-            flex-direction: column; /* Alinear elementos verticalmente */
-            align-items: center; /* Centrar */
+            flex-direction: column; 
+            align-items: center; 
         }
 
-        .support-intro-text { /* Texto introductorio para el link de PayPal */
-            font-size: 0.7rem; /* Muy pequeño y discreto */
-            color: var(--legend-text-color); /* Color sutil */
-            margin-bottom: 3px; /* Espacio antes del link */
-            line-height: 1.3; /* Espaciado de línea */
+        .support-intro-text { 
+            font-size: 0.7rem; 
+            color: var(--legend-text-color); 
+            margin-bottom: 3px; 
+            line-height: 1.3; 
         }
 
-        .paypal-link-footer { /* Link de PayPal */
-            display: inline-flex; /* Para alinear ícono y texto */
+        .paypal-link-footer {
+            display: inline-flex;
             align-items: center;
-            font-size: 0.7rem; /* Pequeño */
-            color: var(--legend-text-color); /* Color sutil */
+            font-size: 0.7rem; 
+            color: var(--legend-text-color); 
             text-decoration: none;
             transition: color 0.2s ease;
         }
 
         .paypal-link-footer:hover {
-            color: var(--button-hover-color); /* Resaltar al pasar el mouse */
+            color: var(--button-hover-color); 
             text-decoration: underline;
         }
 
-        .paypal-link-footer i.fab.fa-paypal { /* Ícono de PayPal */
-            margin-right: 4px; /* Espacio entre ícono y texto */
-            font-size: 0.9em;  /* Tamaño del ícono relativo al texto del link */
+        .paypal-link-footer i.fab.fa-paypal {
+            margin-right: 4px; 
+            font-size: 0.9em;  
         }
 
 
         @media (max-width: 500px) {
             h1 {
-                padding-top: 50px; /* Más espacio si el botón de info es más grande */
+                padding-top: 50px;
                 font-size: 2.3rem;
             }
             .subtitle {
@@ -1191,32 +1088,28 @@
                 top: 10px;
                 left: 10px;
             }
-            /* Ajustes para task-body en móviles */
             .todo-item .main-task-header {
-                row-gap: 8px; /* Espacio si se envuelven los elementos */
+                row-gap: 8px;
             }
             .todo-item .main-task-header .task-body {
-                 flex-wrap: wrap; /* Permitir que los elementos se envuelvan */
-                 gap: 8px; /* Espacio entre elementos envueltos */
-                 align-items: center; /* Alinear al centro si se envuelven */
+                 flex-wrap: wrap;
+                 gap: 8px;
+                 align-items: center;
             }
             .todo-item .main-task-header .task-body .task-actions-group {
-                margin-left: auto; /* Mantener a la derecha si hay espacio */
-                justify-content: flex-end; /* Alinear botones a la derecha dentro del grupo */
-                /* width: 100%; Si se quiere que ocupe todo el ancho al envolverse */
+                margin-left: auto;
+                justify-content: flex-end;
             }
-            /* Orden visual de los botones de acción en móviles (opcional) */
             .todo-item .main-task-header .task-body .link-button { order: 1; }
             .todo-item .main-task-header .task-body .calendar-button { order: 2; }
-            .todo-item .main-task-header .task-body .delete-button { order: 3; } /* El de borrar al final */
+            .todo-item .main-task-header .task-body .delete-button { order: 3; }
 
              #todo-input-container #reorder-button {
-                  margin-left: 0; /* Que no se vaya a la derecha si no hay espacio */
+                  margin-left: 0;
              }
              #data-management-container {
-                justify-content: center; /* Centrar botones de exportar/importar */
+                justify-content: center;
              }
-             /* Welcome Section en móviles */
              #welcome-section h2 {
                  font-size: 1.5rem;
              }
@@ -1231,7 +1124,6 @@
                 font-size: 1rem;
             }
 
-            /* Install Instructions en móviles */
             #install-instructions-section {
                 padding: 15px 18px;
                 font-size: 0.8rem;
@@ -1240,76 +1132,74 @@
                 font-size: 1.1rem;
             }
             #install-instructions-section ul li {
-                font-size: 0.95em; /* Relativo al 0.8rem de la sección */
-                padding-left: 22px; /* Menos padding para el ícono */
+                font-size: 0.95em;
+                padding-left: 22px;
                 margin-bottom: 7px;
             }
             #install-instructions-section ul li::before {
-                top: 0px; /* Ajustar ícono */
-                font-size: 1em; /* Tamaño del ícono relativo al li */
+                top: 0px;
+                font-size: 1em;
             }
             
-            /* Footer en móviles */
             footer {
-                font-size: 0.75rem; /* Más pequeño */
-                padding-top: 15px; /* Menos padding */
+                font-size: 0.75rem; 
+                padding-top: 15px; 
             }
             .footer-logo {
-                width: 40px; /* Logo más pequeño */
+                width: 40px; 
                 height: 40px;
                 margin-bottom: 8px;
             }
             .footer-text {
                 margin-bottom: 6px;
-                font-size: 0.9em; /* Relativo al 0.75rem del footer */
+                font-size: 0.9em; 
             }
             .support-intro-text,
             .paypal-link-footer {
-                font-size: 0.7em; /* Relativo al 0.75rem del footer, muy pequeño */
+                font-size: 0.7em; 
             }
             .support-intro-text {
                 margin-bottom: 2px;
             }
         }
 
-        /* Estilos para el Modal de Información */
         .modal-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.65); /* Fondo oscuro semi-transparente */
-            display: flex; /* Para centrar el contenido del modal */
+            background-color: rgba(0, 0, 0, 0.65);
+            display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 1050; /* Asegurar que esté sobre otros elementos como el dark-mode-toggle */
-            opacity: 0; /* Oculto por defecto */
-            visibility: hidden; /* Oculto por defecto y no interactuable */
-            transition: opacity 0.3s ease, visibility 0s linear 0.3s; /* Transición para aparecer */
+            z-index: 1050;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0s linear 0.3s;
         }
         .modal-overlay.visible {
             opacity: 1;
             visibility: visible;
-            transition: opacity 0.3s ease, visibility 0s linear 0s; /* Transición para desaparecer */
+            transition: opacity 0.3s ease, visibility 0s linear 0s;
         }
 
         .modal-content {
             background-color: var(--item-bg);
             color: var(--text-color);
             padding: 25px 30px;
-            border-radius: 10px; /* Bordes redondeados */
-            box-shadow: 0 5px 20px rgba(0,0,0,0.3); /* Sombra pronunciada */
-            width: 90%; /* Ancho en móviles */
-            max-width: 580px; /* Ancho máximo en escritorio */
-            max-height: 85vh; /* Altura máxima, permitir scroll si el contenido es largo */
-            overflow-y: auto; /* Scroll vertical si es necesario */
-            position: relative; /* Para el botón de cerrar */
-            transform: scale(0.95); /* Efecto de zoom al aparecer */
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            width: 90%;
+            max-width: 580px;
+            max-height: 85vh;
+            overflow-y: auto;
+            position: relative;
+            transform: scale(0.95);
             transition: transform 0.3s ease;
         }
         .modal-overlay.visible .modal-content {
-            transform: scale(1); /* Escala normal al ser visible */
+            transform: scale(1);
         }
 
         .modal-content h2 {
@@ -1322,51 +1212,47 @@
         }
 
         .modal-content ol {
-            padding-left: 20px; /* Indentación para la lista ordenada */
-            margin-bottom: 0; /* Quitar margen inferior si no es necesario */
+            padding-left: 20px;
+            margin-bottom: 0;
         }
         .modal-content ol li {
-            margin-bottom: 12px; /* Espacio entre ítems de la lista */
+            margin-bottom: 12px;
             line-height: 1.5;
         }
-        .modal-content ol li ul { /* Sub-listas si las hay */
+        .modal-content ol li ul {
             padding-left: 20px;
             margin-top: 8px;
-            list-style-type: disc; /* Viñetas para sub-listas */
+            list-style-type: disc;
         }
         .modal-content ol li ul li {
             margin-bottom: 8px;
-            font-size: 0.95em; /* Ligeramente más pequeño */
+            font-size: 0.95em;
         }
 
-        .modal-content strong { /* Resaltar texto en negrita */
+        .modal-content strong {
             color: var(--heading-color);
         }
-        /* Estilo para íconos dentro del modal */
         .modal-content i.fas, .modal-content i.far {
-            color: var(--button-hover-color); /* Color distintivo para íconos */
-            margin: 0 2px; /* Pequeño espacio alrededor de los íconos */
-            font-size: 0.9em; /* Ligeramente más pequeño que el texto */
+            color: var(--button-hover-color);
+            margin: 0 2px;
+            font-size: 0.9em;
         }
 
 
-        /* Botón para cerrar el modal */
         .close-modal {
             position: absolute;
             top: 10px;
             right: 12px;
-            font-size: 1.9rem; /* Tamaño del '×' */
+            font-size: 1.9rem;
             color: var(--button-color);
-            padding: 5px 10px; /* Área clickeable */
-            line-height: 1; /* Alinear el '×' */
+            padding: 5px 10px;
+            line-height: 1;
             background: none;
             border: none;
-            /* No necesita ser .app-button si no se quiere el outline del foco global */
         }
         .close-modal:hover {
             color: var(--button-hover-color);
         }
-
     </style>
 </head>
 <body>
@@ -1381,38 +1267,6 @@
             Organiza tu día y aumenta tu productividad de forma sencilla y eficaz.
         </p>
 
-        <!-- Auth Section -->
-        <section id="auth-section">
-            <div id="login-form">
-                <h3>Iniciar Sesión</h3>
-                <input type="email" id="login-email" placeholder="Correo electrónico" autocomplete="email">
-                <input type="password" id="login-password" placeholder="Contraseña" autocomplete="current-password">
-                <button id="login-button">Iniciar Sesión</button>
-                <button id="google-signin-button" class="google-button">
-                    <i class="fab fa-google"></i> Iniciar con Google
-                </button>
-                <p id="auth-error"></p>
-                <button class="auth-toggle-button" id="show-signup-form-button">¿No tienes cuenta? Regístrate</button>
-            </div>
-            <div id="signup-form" class="hidden">
-                <h3>Crear Cuenta</h3>
-                <input type="email" id="signup-email" placeholder="Correo electrónico" autocomplete="email">
-                <input type="password" id="signup-password" placeholder="Contraseña (mín. 6 caracteres)" autocomplete="new-password">
-                <button id="signup-button">Registrarse</button>
-                 <button id="google-signup-button" class="google-button">
-                    <i class="fab fa-google"></i> Registrarse con Google
-                </button>
-                <p id="auth-error-signup"></p>
-                <button class="auth-toggle-button" id="show-login-form-button">¿Ya tienes cuenta? Inicia Sesión</button>
-            </div>
-        </section>
-
-        <div id="user-info" class="hidden">
-            <span id="user-email-display"></span>
-            <button id="logout-button">Cerrar Sesión</button>
-        </div>
-
-        <!-- Welcome Section -->
         <section id="welcome-section" class="hidden">
             <img src="https://www.todaylist.es/ToDayList.png" alt="ToDayList Icono" class="welcome-icon">
             <h2>¡Bienvenido a ToDayList!</h2>
@@ -1438,7 +1292,6 @@
             <button id="start-app-button" class="app-button">Empezar a Organizar</button>
         </section>
 
-        <!-- Install Instructions -->
         <section id="install-instructions-section" class="hidden">
             <h4>¡Acceso Rápido a ToDayList!</h4>
             <p>Guarda ToDayList en tu dispositivo para acceder como una app:</p>
@@ -1463,13 +1316,13 @@
             </div>
             <div id="priority-legend">
                 Prioridad:
-                <span class="priority-legend-item"><span class="priority-color-label" data-color="red" style="background-color: var(--priority-red-color);"></span>Urgente</span>
+                <span class="priority-legend-item"><span class="priority-color-label" data-color="red"></span>Urgente</span>
                 >
-                <span class="priority-legend-item"><span class="priority-color-label" data-color="orange" style="background-color: var(--priority-orange-color);"></span>Alta</span>
+                <span class="priority-legend-item"><span class="priority-color-label" data-color="orange"></span>Alta</span>
                 >
-                <span class="priority-legend-item"><span class="priority-color-label" data-color="yellow" style="background-color: var(--priority-yellow-color);"></span>No Olvidar</span>
+                <span class="priority-legend-item"><span class="priority-color-label" data-color="yellow"></span>No Olvidar</span>
                 >
-                <span class="priority-legend-item"><span class="priority-color-label" data-color="green" style="background-color: var(--priority-green-color);"></span>Puede Esperar</span>
+                <span class="priority-legend-item"><span class="priority-color-label" data-color="green"></span>Puede Esperar</span>
             </div>
 
             <div id="quick-notes-container">
@@ -1496,7 +1349,7 @@
     <footer>
         <img src="https://www.todaylist.es/ToDayList.png" alt="Logo ToDayList" class="footer-logo">
         <p class="footer-text">WebApp creada por Henry Gil</p>
-
+        
         <div id="support-section-footer">
             <p class="support-intro-text">¿Te gusta ToDayList? Si te ha sido útil...</p>
             <a href="https://paypal.me/todaylistHenry" target="_blank" rel="noopener noreferrer" class="paypal-link-footer">
@@ -1537,335 +1390,119 @@
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
 
     <script type="module">
-        // --- FIREBASE CONFIG ---
-        // Tu configuración de Firebase (ya integrada)
-        const firebaseConfig = {
-            apiKey: "AIzaSyDyJ0DJ-4jgzyT1kf5U4mBZLZJVT_MQ2To",
-            authDomain: "todaylist-43353.firebaseapp.com",
-            projectId: "todaylist-43353",
-            storageBucket: "todaylist-43353.appspot.com", // Corregido .appspot.com
-            messagingSenderId: "673096442524",
-            appId: "1:673096442524:web:8d5e35e3cb1a5a9a7c4359",
-            measurementId: "G-M5TSNXX2DX" // Puedes mantenerlo o quitarlo si solo usas Auth/Firestore
-        };
-
-        // Inicializa Firebase usando la API global de los scripts 'compat'
-        firebase.initializeApp(firebaseConfig);
-
-        const auth = firebase.auth();
-        const db = firebase.firestore();
-        const googleProvider = new firebase.auth.GoogleAuthProvider();
-
-
-        // --- DOM Elements ---
-        let todoInput, addTodoButton, todoListContainer, reorderButton, darkModeToggle, body, medalCountDisplay;
+        let todoInput;
+        let addTodoButton;
+        let todoListContainer;
+        let reorderButton;
+        let darkModeToggle;
+        let body;
+        let medalCountDisplay;
         let infoButton, infoModal, closeModalButton;
-        let quickNotesArea, clearNotesButton;
-        let exportDataButton, importDataButton, importFileInput;
-        let welcomeSection, startAppButton, appMainInterface, installInstructionsSection;
 
-        // Auth UI Elements
-        const authSection = document.getElementById('auth-section');
-        const loginForm = document.getElementById('login-form');
-        const signupForm = document.getElementById('signup-form');
-        const loginEmailInput = document.getElementById('login-email');
-        const loginPasswordInput = document.getElementById('login-password');
-        const loginButton = document.getElementById('login-button');
-        const googleSigninButton = document.getElementById('google-signin-button');
-        const signupEmailInput = document.getElementById('signup-email');
-        const signupPasswordInput = document.getElementById('signup-password');
-        const signupButton = document.getElementById('signup-button');
-        const googleSignupButton = document.getElementById('google-signup-button');
-        const showSignupFormButton = document.getElementById('show-signup-form-button');
-        const showLoginFormButton = document.getElementById('show-login-form-button');
-        const authErrorDisplay = document.getElementById('auth-error');
-        const authErrorSignupDisplay = document.getElementById('auth-error-signup');
+        let quickNotesArea;
+        let clearNotesButton;
+        const QUICK_NOTES_STORAGE_KEY = 'todoListQuickNotes';
+
+        let exportDataButton;
+        let importDataButton;
+        let importFileInput;
+
+        let welcomeSection;
+        let startAppButton;
+        let appMainInterface;
+        let installInstructionsSection;
 
 
-        const userInfoDisplay = document.getElementById('user-info');
-        const userEmailDisplay = document.getElementById('user-email-display');
-        const logoutButton = document.getElementById('logout-button');
-
-        // --- App State ---
         let todos = [];
-        let currentUser = null;
-        let medalData = { date: getTodayDateString(), count: 0 };
-        let currentTheme = 'light';
-        let currentQuickNotes = '';
+
+        const TODOS_STORAGE_KEY = 'todoListAppTasks';
+        const MEDALS_STORAGE_KEY = 'todoListDailyMedalData';
+        const THEME_STORAGE_KEY = 'todoListTheme';
 
         const PRIORITY_COLORS = ['none', 'red', 'orange', 'yellow', 'green'];
         const PRIORITY_ORDER = { 'red': 1, 'orange': 2, 'yellow': 3, 'green': 4, 'none': 5 };
 
-        // --- Helper Functions ---
         function generateLocalId() {
             return '_' + Math.random().toString(36).substring(2, 15);
         }
+
+        function findTaskById(taskId) {
+            return todos.find(todo => todo.id === taskId);
+        }
+
+        function findTaskIndexById(taskId) {
+            return todos.findIndex(todo => todo.id === taskId);
+        }
+
         function getTodayDateString() {
             return new Date().toISOString().split('T')[0];
         }
-        function displayAuthError(message, isSignup = false) {
-            if (isSignup && authErrorSignupDisplay) {
-                authErrorSignupDisplay.textContent = message;
-            } else if (authErrorDisplay) {
-                authErrorDisplay.textContent = message;
-            }
-        }
-        function clearAuthErrors() {
-            if(authErrorDisplay) authErrorDisplay.textContent = '';
-            if(authErrorSignupDisplay) authErrorSignupDisplay.textContent = '';
-        }
-
-
-        // --- Firebase Auth Functions ---
-        async function handleGoogleSignIn() {
-            clearAuthErrors();
-            try {
-                await auth.signInWithPopup(googleProvider);
-            } catch (error) {
-                console.error("Error en Google Sign-In:", error);
-                displayAuthError(mapAuthCodeToMessage(error.code));
-            }
-        }
-
-        async function handleEmailSignup() {
-            clearAuthErrors();
-            const email = signupEmailInput.value;
-            const password = signupPasswordInput.value;
-            if (!email || !password) {
-                displayAuthError("Por favor, completa todos los campos.", true);
-                return;
-            }
-            if (password.length < 6) {
-                displayAuthError("La contraseña debe tener al menos 6 caracteres.", true);
-                return;
-            }
-            try {
-                const userCredential = await auth.createUserWithEmailAndPassword(email, password);
-                // Opcional: Enviar email de verificación
-                // if (userCredential.user) {
-                //     await userCredential.user.sendEmailVerification();
-                //     alert("¡Registro exitoso! Se ha enviado un correo de verificación.");
-                // }
-            } catch (error) {
-                console.error("Error en Signup:", error);
-                displayAuthError(mapAuthCodeToMessage(error.code), true);
-            }
-        }
-
-        async function handleEmailLogin() {
-            clearAuthErrors();
-            const email = loginEmailInput.value;
-            const password = loginPasswordInput.value;
-            if (!email || !password) {
-                displayAuthError("Por favor, completa todos los campos.");
-                return;
-            }
-            try {
-                await auth.signInWithEmailAndPassword(email, password);
-            } catch (error) {
-                console.error("Error en Login:", error);
-                displayAuthError(mapAuthCodeToMessage(error.code));
-            }
-        }
-
-        async function handleLogout() {
-            try {
-                await auth.signOut();
-            } catch (error) {
-                console.error("Error en Logout:", error);
-                alert("Error al cerrar sesión.");
-            }
-        }
-
-        function mapAuthCodeToMessage(authCode) {
-            switch (authCode) {
-                case 'auth/invalid-email': return 'El formato del correo es inválido.';
-                case 'auth/user-disabled': return 'Este usuario ha sido deshabilitado.';
-                case 'auth/user-not-found': return 'No se encontró un usuario con este correo.';
-                case 'auth/wrong-password': return 'Contraseña incorrecta.';
-                case 'auth/email-already-in-use': return 'Este correo ya está registrado.';
-                case 'auth/weak-password': return 'La contraseña es demasiado débil (mínimo 6 caracteres).';
-                case 'auth/requires-recent-login': return 'Esta operación requiere re-autenticación. Cierra sesión y vuelve a entrar.';
-                case 'auth/popup-closed-by-user': return 'Ventana de inicio de sesión cerrada.';
-                case 'auth/cancelled-popup-request': return 'Se canceló la solicitud de inicio de sesión.';
-                case 'auth/operation-not-allowed': return 'El inicio de sesión con este método no está habilitado.';
-                case 'auth/network-request-failed': return 'Error de red. Verifica tu conexión a internet.';
-                default:
-                    console.warn("Código de error no mapeado:", authCode);
-                    return 'Ocurrió un error. Inténtalo de nuevo.';
-            }
-        }
-
-        // --- Firestore Data Functions ---
-        async function getUserDocRef(userId) {
-            return db.collection('users').doc(userId);
-        }
-
-        async function getTasksCollectionRef(userId) {
-            return db.collection('users').doc(userId).collection('tasks');
-        }
-
-        async function loadUserDataFromFirestore(userId) {
-            try {
-                const userDocRef = await getUserDocRef(userId);
-                const userDoc = await userDocRef.get();
-
-                if (userDoc.exists) {
-                    const userData = userDoc.data();
-                    currentTheme = userData.theme || 'light';
-                    currentQuickNotes = userData.quickNotes || '';
-                    medalData = userData.medalData || { date: getTodayDateString(), count: 0 };
-
-                    if (medalData.date !== getTodayDateString()) {
-                        medalData = { date: getTodayDateString(), count: 0 }; // Se recalculará después de cargar tareas
-                    }
-                } else { // Nuevo usuario
-                    currentTheme = 'light';
-                    currentQuickNotes = '';
-                    medalData = { date: getTodayDateString(), count: 0 };
-                    await userDocRef.set({
-                        theme: currentTheme,
-                        quickNotes: currentQuickNotes,
-                        medalData: medalData,
-                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
-                    });
-                }
-
-                const tasksCollectionRef = await getTasksCollectionRef(userId);
-                const snapshot = await tasksCollectionRef.orderBy("order").get();
-                todos = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-
-                // Recalcular medallas de hoy si la fecha no coincidía o es nuevo usuario
-                if (medalData.date !== getTodayDateString() || !userDoc.exists || (userDoc.exists && !userDoc.data().medalData)) {
-                    let countForToday = 0;
-                    todos.forEach(task => {
-                        if (task.completed && task.completedDate === getTodayDateString()) countForToday++;
-                    });
-                    medalData.count = countForToday;
-                    await saveMedalDataToFirestore(userId, medalData); // Guardar el recálculo
-                }
-
-
-                applyTheme();
-                if (quickNotesArea) quickNotesArea.value = currentQuickNotes;
-                displayMedalCount(medalData.count);
-                renderTodosUI();
-
-                if (todos.length === 0 && welcomeSection && installInstructionsSection) {
-                    welcomeSection.classList.remove('hidden');
-                    installInstructionsSection.classList.remove('hidden');
-                } else if (welcomeSection && installInstructionsSection) {
-                    welcomeSection.classList.add('hidden');
-                    installInstructionsSection.classList.add('hidden');
-                }
-
-            } catch (error) {
-                console.error("Error cargando datos del usuario:", error);
-                if (error.code === 'permission-denied') {
-                    alert("Error de permisos al cargar tus datos. Verifica las reglas de Firestore o contacta al administrador.");
-                } else {
-                    alert("Hubo un error al cargar tus datos. Intenta recargar la página.");
-                }
-            }
-        }
-
-
-        async function saveTaskToFirestore(userId, taskData) {
-            const tasksCollectionRef = await getTasksCollectionRef(userId);
-            if (taskData.id) {
-                const taskId = taskData.id;
-                const dataToSave = { ...taskData };
-                delete dataToSave.id;
-                return tasksCollectionRef.doc(taskId).set(dataToSave, { merge: true });
-            } else {
-                const dataToSave = { ...taskData };
-                 dataToSave.createdAt = firebase.firestore.FieldValue.serverTimestamp();
-                return tasksCollectionRef.add(dataToSave);
-            }
-        }
-        async function deleteTaskFromFirestore(userId, taskId) {
-            const taskDocRef = (await getTasksCollectionRef(userId)).doc(taskId);
-            return taskDocRef.delete();
-        }
-        async function saveThemeToFirestore(userId, theme) {
-            const userDocRef = await getUserDocRef(userId);
-            return userDocRef.update({ theme: theme });
-        }
-        async function saveQuickNotesToFirestore(userId, notes) {
-            const userDocRef = await getUserDocRef(userId);
-            return userDocRef.update({ quickNotes: notes });
-        }
-        async function saveMedalDataToFirestore(userId, data) {
-            const userDocRef = await getUserDocRef(userId);
-            return userDocRef.update({ medalData: data });
-        }
-
-        // --- UI Management based on Auth State ---
-        auth.onAuthStateChanged(async user => {
-            clearAuthErrors();
-            if (user) {
-                currentUser = user;
-                if (authSection) authSection.classList.add('hidden');
-                if (appMainInterface) appMainInterface.classList.remove('hidden');
-                if (userInfoDisplay) userInfoDisplay.classList.remove('hidden');
-                if (userEmailDisplay) userEmailDisplay.textContent = `Hola, ${user.displayName || user.email}`;
-
-                await loadUserDataFromFirestore(user.uid);
-                if (todoInput) todoInput.focus();
-
-            } else {
-                currentUser = null;
-                todos = [];
-                if(authSection) authSection.classList.remove('hidden');
-                if(loginForm) loginForm.classList.remove('hidden');
-                if(signupForm) signupForm.classList.add('hidden');
-                if(appMainInterface) appMainInterface.classList.add('hidden');
-                if(userInfoDisplay) userInfoDisplay.classList.add('hidden');
-                if(userEmailDisplay) userEmailDisplay.textContent = '';
-
-                if (welcomeSection) welcomeSection.classList.add('hidden');
-                if (installInstructionsSection) installInstructionsSection.classList.add('hidden');
-                renderTodosUI();
-                displayMedalCount(0);
-                if (quickNotesArea) quickNotesArea.value = '';
-                currentTheme = 'light';
-                applyTheme();
-            }
-        });
-
-
-        // --- Core App Logic (Modificada para usar Firestore) ---
-        function findTaskById(taskId) { return todos.find(todo => todo.id === taskId); }
-        function findTaskIndexById(taskId) { return todos.findIndex(todo => todo.id === taskId); }
 
         function displayMedalCount(count) {
-            if (medalCountDisplay) medalCountDisplay.textContent = count;
+            if (medalCountDisplay) {
+                medalCountDisplay.textContent = count;
+            }
         }
 
-        function loadAndRefreshMedalDataLocal() { // Renombrado para claridad
+        function loadTodosFromLocalStorage() {
+            const storedTodos = localStorage.getItem(TODOS_STORAGE_KEY);
+            if (storedTodos) {
+                todos = JSON.parse(storedTodos);
+                todos = todos.map(task => ({
+                    id: task.id || generateLocalId(),
+                    text: task.text || 'Tarea sin nombre',
+                    completed: typeof task.completed === 'boolean' ? task.completed : false,
+                    completedDate: task.completedDate || null,
+                    subtasks: Array.isArray(task.subtasks) ? task.subtasks.map(sub => ({
+                        id: sub.id || generateLocalId(), text: sub.text || 'Sub-tarea sin nombre',
+                        completed: typeof sub.completed === 'boolean' ? sub.completed : false
+                    })) : [],
+                    showSubtaskUI: typeof task.showSubtaskUI === 'boolean' ? task.showSubtaskUI : false,
+                    priorityColor: PRIORITY_COLORS.includes(task.priorityColor) ? task.priorityColor : 'none',
+                    date: typeof task.date === 'string' && task.date.match(/^\d{4}-\d{2}-\d{2}$/) ? task.date : null,
+                    linkUrl: typeof task.linkUrl === 'string' ? task.linkUrl : null,
+                    order: typeof task.order === 'number' ? task.order : Date.now()
+                }));
+            } else {
+                todos = [];
+            }
+        }
+
+        function saveTodosToLocalStorage() {
+            localStorage.setItem(TODOS_STORAGE_KEY, JSON.stringify(todos));
+        }
+
+
+        function loadAndRefreshMedalData() {
+            let medalDataString = localStorage.getItem(MEDALS_STORAGE_KEY);
+            let medalData;
+            try {
+                medalData = medalDataString ? JSON.parse(medalDataString) : null;
+            } catch (e) {
+                console.error("Error parsing medal data from localStorage", e);
+                medalData = null;
+            }
+
             const today = getTodayDateString();
-            if (medalData.date !== today) { // Si la fecha en estado no es hoy
+
+            if (!medalData || medalData.date !== today) {
                 let countForToday = 0;
-                // Recalcular basado en las tareas ya cargadas en `todos`
-                todos.forEach(task => {
-                    if (task.completed && task.completedDate === today) countForToday++;
-                });
-                medalData = { date: today, count: countForToday }; // Actualizar estado local
-                if (currentUser) { // Si hay usuario, guardar en Firestore
-                     saveMedalDataToFirestore(currentUser.uid, medalData).catch(err => console.error("Error guardando medallas reseteadas:", err));
+                if (todos && todos.length > 0) {
+                    todos.forEach(task => {
+                        if (task.completed && task.completedDate === today) countForToday++;
+                    });
                 }
+                medalData = { date: today, count: countForToday };
+                localStorage.setItem(MEDALS_STORAGE_KEY, JSON.stringify(medalData));
             }
             return medalData;
         }
 
-
-        async function updateMedalCount(change) {
-            if (!currentUser) return;
-            let currentMedalData = loadAndRefreshMedalDataLocal(); // Asegura que estamos trabajando con datos de hoy
-            currentMedalData.count += change;
-            if (currentMedalData.count < 0) currentMedalData.count = 0;
-            medalData = currentMedalData; // Actualizar estado global
-            await saveMedalDataToFirestore(currentUser.uid, medalData);
+        function updateMedalCount(change) {
+            let medalData = loadAndRefreshMedalData();
+            medalData.count += change;
+            if (medalData.count < 0) medalData.count = 0;
+            localStorage.setItem(MEDALS_STORAGE_KEY, JSON.stringify(medalData));
             displayMedalCount(medalData.count);
         }
 
@@ -1957,9 +1594,9 @@
                 linkButton.classList.add('link-off');
                 linkButton.title = 'Añadir enlace';
             }
-            linkButton.addEventListener('click', async () => {
+            linkButton.addEventListener('click', () => {
                 const task = findTaskById(mainTask.id);
-                if (!task || !currentUser) return;
+                if (!task) return;
                 if (task.completed && !task.linkUrl) return;
                 if (task.linkUrl) {
                     window.open(task.linkUrl, '_blank');
@@ -1971,7 +1608,7 @@
                         finalUrl = 'https://' + finalUrl;
                     }
                     task.linkUrl = finalUrl || null;
-                    await saveTaskToFirestore(currentUser.uid, {id: task.id, linkUrl: task.linkUrl });
+                    saveTodosToLocalStorage();
                     syncAndRender();
                 }
             });
@@ -1991,7 +1628,7 @@
 
             actualDateInput.addEventListener('change', (event) => {
                 const task = findTaskById(mainTask.id);
-                if (!task || !currentUser) return;
+                if (!task) return;
                 updateTaskDate(task.id, event.target.value);
             });
 
@@ -2001,7 +1638,7 @@
             deleteMainButton.setAttribute('aria-label', 'Eliminar tarea');
             deleteMainButton.addEventListener('click', () => {
                 const task = findTaskById(mainTask.id);
-                if (!task || !currentUser) return;
+                if (!task) return;
                  if ((task.subtasks && task.subtasks.length > 0) || task.completed) {
                      if (!confirm(`¿Seguro que quieres eliminar "${task.text}"?`)) return;
                  }
@@ -2036,15 +1673,15 @@
              addSubtasksToggle.classList.add('app-button', 'add-button', 'add-subtasks-toggle');
              addSubtasksToggle.innerHTML = '<i class="fas fa-plus"></i>';
              addSubtasksToggle.setAttribute('aria-label', 'Agregar sub-tarea');
-             addSubtasksToggle.addEventListener('click', async () => {
+             addSubtasksToggle.addEventListener('click', () => {
                  const task = findTaskById(mainTaskId);
-                 if (task && currentUser) {
+                 if (task) {
                      if (task.completed) return;
                      task.showSubtaskUI = !task.showSubtaskUI;
                      if (task.showSubtaskUI && (!task.subtasks || task.subtasks.length === 0)) {
-                         task.subtasks = task.subtasks || [];
+                         task.subtasks = [];
                      }
-                     await saveTaskToFirestore(currentUser.uid, { id: task.id, showSubtaskUI: task.showSubtaskUI, subtasks: task.subtasks });
+                     saveTodosToLocalStorage();
                      syncAndRender();
                      if (task.showSubtaskUI) {
                          const listItemElement = todoListContainer.querySelector(`li[data-task-id="${mainTaskId}"]`);
@@ -2154,13 +1791,12 @@
             if (todoInput) todoInput.value = '';
         }
 
-        async function cyclePriorityColor(taskId) {
-             if (!currentUser) return;
+        function cyclePriorityColor(taskId) {
              const task = findTaskById(taskId);
              if (task && !task.completed) {
                  const currentIndex = PRIORITY_COLORS.indexOf(task.priorityColor || 'none');
                  task.priorityColor = PRIORITY_COLORS[(currentIndex + 1) % PRIORITY_COLORS.length];
-                 await saveTaskToFirestore(currentUser.uid, { id: task.id, priorityColor: task.priorityColor });
+                 saveTodosToLocalStorage();
                  const listItemElement = todoListContainer.querySelector(`li[data-task-id="${task.id}"]`);
                  if (listItemElement) {
                      listItemElement.dataset.priorityColor = task.priorityColor;
@@ -2174,32 +1810,30 @@
              }
         }
 
-        async function updateTaskDate(taskId, newDateValue) {
-            if (!currentUser) return;
+        function updateTaskDate(taskId, newDateValue) {
             const task = findTaskById(taskId);
             if (task && !task.completed) {
                 task.date = newDateValue || null;
-                await saveTaskToFirestore(currentUser.uid, { id: task.id, date: task.date });
+                saveTodosToLocalStorage();
                 syncAndRender();
             } else if (task && task.completed) {
                 syncAndRender();
             }
         }
 
-        function showAppInterfaceOnly() {
+        function showAppInterface() {
             if (welcomeSection) welcomeSection.classList.add('hidden');
             if (installInstructionsSection) installInstructionsSection.classList.add('hidden');
             if (appMainInterface) appMainInterface.classList.remove('hidden');
             if (todoInput) todoInput.focus();
         }
 
-        async function addTodo() {
-            if (!currentUser || !todoInput) return;
+        function addTodo() {
             const newTodoText = todoInput.value.trim();
             if (newTodoText === '') return alert('Ingresa el nombre de la tarea.');
-
             const maxOrder = todos.length > 0 ? Math.max(...todos.map(t => t.order || 0)) : -1;
-            const newTodoData = {
+            const newTodo = {
+                id: generateLocalId(),
                 text: newTodoText,
                 completed: false,
                 completedDate: null,
@@ -2210,28 +1844,19 @@
                 linkUrl: null,
                 order: maxOrder + 1
             };
+            todos.push(newTodo);
+            saveTodosToLocalStorage();
+            syncAndRender();
+            if (todoInput) todoInput.value = '';
 
-            try {
-                const docRef = await saveTaskToFirestore(currentUser.uid, newTodoData);
-                todos.push({ id: docRef.id, ...newTodoData });
-                syncAndRender();
-                if (todoInput) todoInput.value = '';
-
-                if (todos.length === 1 && welcomeSection && !welcomeSection.classList.contains('hidden')) {
-                    showAppInterfaceOnly();
-                }
-            } catch (error) {
-                console.error("Error adding todo to Firestore: ", error);
-                alert("Error al guardar la tarea. Inténtalo de nuevo.");
+            if (todos.length === 1 && welcomeSection && !welcomeSection.classList.contains('hidden')) {
+                showAppInterface();
             }
         }
 
-
-        async function addSubtask(mainTaskId, subtaskInput) {
-             if (!currentUser || !subtaskInput) return;
+        function addSubtask(mainTaskId, subtaskInput) {
              const newSubtaskText = subtaskInput.value.trim();
              if (newSubtaskText === '') return alert('Ingresa el nombre de la sub-tarea.');
-
              const mainTask = findTaskById(mainTaskId);
              if (mainTask && !mainTask.completed) {
                  if (!mainTask.subtasks) mainTask.subtasks = [];
@@ -2239,39 +1864,31 @@
                  mainTask.completed = false;
                  mainTask.completedDate = null;
                  mainTask.showSubtaskUI = false;
-                 await saveTaskToFirestore(currentUser.uid, {
-                     id: mainTask.id,
-                     subtasks: mainTask.subtasks,
-                     completed: mainTask.completed,
-                     completedDate: mainTask.completedDate,
-                     showSubtaskUI: mainTask.showSubtaskUI
-                 });
+                 saveTodosToLocalStorage();
                  syncAndRender();
                  if (subtaskInput) subtaskInput.value = '';
              }
         }
 
-        async function deleteTodo(taskId) {
-            if (!currentUser) return;
+        function deleteTodo(taskId) {
             const taskIndex = findTaskIndexById(taskId);
             if (taskIndex > -1) {
                 const taskToDelete = todos[taskIndex];
                 if (taskToDelete.completed && taskToDelete.completedDate === getTodayDateString()) {
-                    await updateMedalCount(-1);
+                    updateMedalCount(-1);
                 }
-                await deleteTaskFromFirestore(currentUser.uid, taskId);
                 todos.splice(taskIndex, 1);
+                saveTodosToLocalStorage();
                 syncAndRender();
-
                 if (todos.length === 0 && welcomeSection && appMainInterface && installInstructionsSection) {
                     welcomeSection.classList.remove('hidden');
                     installInstructionsSection.classList.remove('hidden');
+                    appMainInterface.classList.add('hidden');
                 }
             }
         }
 
-        async function deleteSubtask(mainTaskId, subtaskId) {
-             if (!currentUser) return;
+        function deleteSubtask(mainTaskId, subtaskId) {
              const mainTask = findTaskById(mainTaskId);
              if (mainTask && mainTask.subtasks && !mainTask.completed) {
                  const subtaskIndex = mainTask.subtasks.findIndex(sub => sub.id === subtaskId);
@@ -2279,32 +1896,25 @@
                      mainTask.subtasks.splice(subtaskIndex, 1);
                      mainTask.completed = false;
                      mainTask.completedDate = null;
-                     await saveTaskToFirestore(currentUser.uid, {
-                        id: mainTask.id,
-                        subtasks: mainTask.subtasks,
-                        completed: mainTask.completed,
-                        completedDate: mainTask.completedDate
-                    });
+                     saveTodosToLocalStorage();
                      syncAndRender();
                  }
              }
         }
 
-        async function toggleSubtaskCompletion(mainTaskId, subtaskId) {
-             if (!currentUser) return;
+        function toggleSubtaskCompletion(mainTaskId, subtaskId) {
              const mainTask = findTaskById(mainTaskId);
              if (mainTask && mainTask.subtasks && !mainTask.completed) {
                 const subtask = mainTask.subtasks.find(sub => sub.id === subtaskId);
                 if (subtask) {
                      subtask.completed = !subtask.completed;
-                     await saveTaskToFirestore(currentUser.uid, { id: mainTask.id, subtasks: mainTask.subtasks });
+                     saveTodosToLocalStorage();
                      syncAndRender();
                  }
              }
         }
 
-        async function toggleMainCompletion(taskId, isChecked) {
-            if (!currentUser) return;
+        function toggleMainCompletion(taskId, isChecked) {
             const task = findTaskById(taskId);
             if (task) {
                 const wasCompletedTodayBefore = task.completed && task.completedDate === getTodayDateString();
@@ -2317,32 +1927,24 @@
                     task.priorityColor = 'none';
                     task.showSubtaskUI = false;
                     if (!wasCompletedTodayBefore) {
-                        await updateMedalCount(1);
+                        updateMedalCount(1);
                     }
                     if (typeof confetti === 'function') confetti({ particleCount: 150, spread: 90, origin: { y: 0.55 }});
                 } else {
                     if (wasCompletedTodayBefore) {
-                        await updateMedalCount(-1);
+                        updateMedalCount(-1);
                     }
                     task.completedDate = null;
                 }
                 if (task.subtasks) {
                     task.subtasks.forEach(sub => sub.completed = isChecked);
                 }
-                await saveTaskToFirestore(currentUser.uid, {
-                    id: task.id,
-                    completed: task.completed,
-                    completedDate: task.completedDate,
-                    priorityColor: task.priorityColor,
-                    showSubtaskUI: task.showSubtaskUI,
-                    subtasks: task.subtasks
-                });
+                saveTodosToLocalStorage();
                 syncAndRender();
             }
         }
 
-        async function moveSubtask(mainTaskId, subtaskId, direction) {
-            if (!currentUser) return;
+        function moveSubtask(mainTaskId, subtaskId, direction) {
             const mainTask = findTaskById(mainTaskId);
             if (mainTask && mainTask.subtasks && !mainTask.completed) {
                 const subtaskIndex = mainTask.subtasks.findIndex(sub => sub.id === subtaskId);
@@ -2352,8 +1954,7 @@
                 if (newIndex >= 0 && newIndex < mainTask.subtasks.length) {
                     [mainTask.subtasks[subtaskIndex], mainTask.subtasks[newIndex]] =
                     [mainTask.subtasks[newIndex], mainTask.subtasks[subtaskIndex]];
-
-                    await saveTaskToFirestore(currentUser.uid, { id: mainTask.id, subtasks: mainTask.subtasks });
+                    saveTodosToLocalStorage();
                     syncAndRender();
                 }
             }
@@ -2361,10 +1962,7 @@
         function moveSubtaskUp(mainTaskId, subtaskId) { moveSubtask(mainTaskId, subtaskId, -1); }
         function moveSubtaskDown(mainTaskId, subtaskId) { moveSubtask(mainTaskId, subtaskId, 1); }
 
-
-        async function performManualSort() {
-             if (!currentUser || todos.length === 0) return;
-
+        function performManualSort() {
              todos.sort((a, b) => {
                  const rankA = PRIORITY_ORDER[a.priorityColor] || PRIORITY_ORDER['none'];
                  const rankB = PRIORITY_ORDER[b.priorityColor] || PRIORITY_ORDER['none'];
@@ -2376,69 +1974,44 @@
 
                  return (a.order || 0) - (b.order || 0);
              });
-
-             const batch = db.batch();
-             const tasksCollectionRef = await getTasksCollectionRef(currentUser.uid);
-
              todos.forEach((task, index) => {
                  task.order = index;
-                 const taskDocRef = tasksCollectionRef.doc(task.id);
-                 batch.update(taskDocRef, { order: index });
              });
-
-             try {
-                 await batch.commit();
-                 syncAndRender();
-             } catch (error) {
-                 console.error("Error reordering tasks in Firestore: ", error);
-                 alert("Error al reordenar las tareas. Inténtalo de nuevo.");
-             }
+             saveTodosToLocalStorage();
+             syncAndRender();
         }
 
-        function applyTheme() {
-            if (!body) return;
-            if (currentTheme === 'dark') {
-                body.classList.add('dark-mode');
-                if (darkModeToggle && darkModeToggle.querySelector('i')) {
-                    darkModeToggle.querySelector('i').className = 'fas fa-sun';
-                    darkModeToggle.setAttribute('aria-label', 'Alternar a modo claro');
-                    darkModeToggle.title = 'Alternar a modo claro';
-                }
-            } else {
-                body.classList.remove('dark-mode');
-                if (darkModeToggle && darkModeToggle.querySelector('i')) {
-                     darkModeToggle.querySelector('i').className = 'fas fa-moon';
-                     darkModeToggle.setAttribute('aria-label', 'Alternar a modo oscuro');
-                     darkModeToggle.title = 'Alternar a modo oscuro';
-                }
+        function enableDarkMode() {
+            body.classList.add('dark-mode');
+            localStorage.setItem(THEME_STORAGE_KEY, 'dark');
+            if (darkModeToggle) {
+                darkModeToggle.querySelector('i').className = 'fas fa-sun';
+                darkModeToggle.setAttribute('aria-label', 'Alternar a modo claro');
+                darkModeToggle.title = 'Alternar a modo claro';
             }
+        }
+
+        function disableDarkMode() {
+            body.classList.remove('dark-mode');
+            localStorage.setItem(THEME_STORAGE_KEY, 'light');
+            if (darkModeToggle) {
+                 darkModeToggle.querySelector('i').className = 'fas fa-moon';
+                 darkModeToggle.setAttribute('aria-label', 'Alternar a modo oscuro');
+                 darkModeToggle.title = 'Alternar a modo oscuro';
+            }
+        }
+
+        function toggleDarkMode() {
+            body.classList.contains('dark-mode') ? disableDarkMode() : enableDarkMode();
             syncAndRender();
         }
-        async function toggleDarkMode() {
-            if (!currentUser) { // Si no hay usuario, solo cambia visualmente
-                 currentTheme = body.classList.contains('dark-mode') ? 'light' : 'dark';
-            } else { // Si hay usuario, actualiza preferencia en Firestore
-                 currentTheme = (currentTheme === 'dark' ? 'light' : 'dark');
-                 await saveThemeToFirestore(currentUser.uid, currentTheme);
-            }
-            applyTheme();
-        }
-
 
         function exportAllData() {
-            if (!currentUser) {
-                alert("Debes iniciar sesión para exportar tus datos.");
-                return;
-            }
             const dataToExport = {
-                theme: currentTheme,
-                dailyMedalData: medalData,
-                quickNotesContent: currentQuickNotes,
-                tasks: todos.map(task => {
-                    const { ...taskData } = task; // Clonar para no modificar el array 'todos'
-                    // delete taskData.id; // Opcional: quitar el ID de Firestore si no se quiere en el export
-                    return taskData;
-                })
+                theme: localStorage.getItem(THEME_STORAGE_KEY) || 'light',
+                dailyMedalData: JSON.parse(localStorage.getItem(MEDALS_STORAGE_KEY) || '{}'),
+                quickNotesContent: localStorage.getItem(QUICK_NOTES_STORAGE_KEY) || '',
+                tasks: todos
             };
 
             const jsonString = JSON.stringify(dataToExport, null, 2);
@@ -2447,7 +2020,7 @@
             const a = document.createElement('a');
             a.href = url;
             const dateStr = new Date().toISOString().slice(0,10).replace(/-/g,'');
-            a.download = `todolist-backup-${currentUser.uid.substring(0,6)}-${dateStr}.json`;
+            a.download = `todolist-backup-${dateStr}.json`;
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
@@ -2455,22 +2028,17 @@
             alert('Datos exportados exitosamente como ' + a.download);
         }
 
-        async function importAllData(event) {
-            if (!currentUser) {
-                alert("Debes iniciar sesión para importar datos.");
-                if(importFileInput) importFileInput.value = '';
-                return;
-            }
+        function importAllData(event) {
             const file = event.target.files[0];
             if (!file) return;
 
-            if (!confirm("¡Atención! Importar datos reemplazará todos los datos actuales de TU CUENTA (tareas, notas, medallas, tema). ¿Deseas continuar?")) {
-                if(importFileInput) importFileInput.value = '';
+            if (!confirm("¡Atención! Importar datos reemplazará todos los datos actuales (tareas, notas, medallas, tema). ¿Deseas continuar?")) {
+                importFileInput.value = '';
                 return;
             }
 
             const reader = new FileReader();
-            reader.onload = async (e) => {
+            reader.onload = (e) => {
                 try {
                     const importedData = JSON.parse(e.target.result);
 
@@ -2478,32 +2046,29 @@
                         throw new Error('El formato del archivo es inválido o no contiene tareas.');
                     }
 
-                    // Actualizar datos del perfil del usuario
-                    currentTheme = importedData.theme === 'dark' ? 'dark' : 'light';
-                    medalData = importedData.dailyMedalData || { date: getTodayDateString(), count: 0 };
-                    currentQuickNotes = importedData.quickNotesContent || '';
+                    const themeToApply = importedData.theme === 'dark' ? 'dark' : 'light';
+                    localStorage.setItem(THEME_STORAGE_KEY, themeToApply);
+                    if (themeToApply === 'dark') enableDarkMode(); else disableDarkMode();
 
-                    const userDocRef = await getUserDocRef(currentUser.uid);
-                    await userDocRef.update({
-                        theme: currentTheme,
-                        medalData: medalData,
-                        quickNotes: currentQuickNotes
-                    });
-                    applyTheme(); // Aplicar tema visualmente
-                    displayMedalCount(medalData.count);
-                    if(quickNotesArea) quickNotesArea.value = currentQuickNotes;
+                    if (importedData.dailyMedalData && typeof importedData.dailyMedalData === 'object') {
+                        localStorage.setItem(MEDALS_STORAGE_KEY, JSON.stringify(importedData.dailyMedalData));
+                        displayMedalCount(importedData.dailyMedalData.count || 0);
+                    } else {
+                        localStorage.removeItem(MEDALS_STORAGE_KEY);
+                        displayMedalCount(0);
+                    }
 
+                    if (typeof importedData.quickNotesContent === 'string') {
+                        quickNotesArea.value = importedData.quickNotesContent;
+                        localStorage.setItem(QUICK_NOTES_STORAGE_KEY, importedData.quickNotesContent);
+                    } else {
+                        quickNotesArea.value = '';
+                        localStorage.removeItem(QUICK_NOTES_STORAGE_KEY);
+                    }
 
-                    // Borrar tareas antiguas y añadir las nuevas
-                    const tasksCollectionRef = await getTasksCollectionRef(currentUser.uid);
-                    const oldTasksSnapshot = await tasksCollectionRef.get();
-                    const deleteBatch = db.batch();
-                    oldTasksSnapshot.docs.forEach(doc => deleteBatch.delete(doc.ref));
-                    await deleteBatch.commit(); // Ejecutar borrado
-
-                    const addBatch = db.batch();
-                    const importedTasksWithOrder = importedData.tasks.map((task, index) => ({
-                        text: task.text || "Tarea importada",
+                    todos = importedData.tasks.map(task => ({
+                        id: task.id || generateLocalId(),
+                        text: task.text || 'Tarea importada',
                         completed: !!task.completed,
                         completedDate: task.completedDate || null,
                         subtasks: Array.isArray(task.subtasks) ? task.subtasks.map(sub => ({
@@ -2515,45 +2080,38 @@
                         priorityColor: PRIORITY_COLORS.includes(task.priorityColor) ? task.priorityColor : 'none',
                         date: (typeof task.date === 'string' && task.date.match(/^\d{4}-\d{2}-\d{2}$/)) ? task.date : null,
                         linkUrl: typeof task.linkUrl === 'string' ? task.linkUrl : null,
-                        order: typeof task.order === 'number' ? task.order : index, // Mantener orden o asignar nuevo
-                        // No incluir 'id' aquí, Firestore lo genera
+                        order: typeof task.order === 'number' ? task.order : Date.now()
                     }));
 
-                    let newLocalTodos = [];
-                    for (const taskData of importedTasksWithOrder) {
-                        const newDocRef = tasksCollectionRef.doc(); // Generar referencia con ID nuevo
-                        addBatch.set(newDocRef, taskData); // Añadir al batch
-                        newLocalTodos.push({ id: newDocRef.id, ...taskData }); // Guardar en array local con el nuevo ID
-                    }
-                    await addBatch.commit(); // Ejecutar adición
-                    todos = newLocalTodos; // Actualizar estado local
+                    saveTodosToLocalStorage();
 
-                    if (todos.length === 0 && welcomeSection && installInstructionsSection) {
-                        welcomeSection.classList.remove('hidden');
-                        installInstructionsSection.classList.remove('hidden');
+                    if (todos.length === 0) {
+                        if (welcomeSection) welcomeSection.classList.remove('hidden');
+                        if (installInstructionsSection) installInstructionsSection.classList.remove('hidden');
+                        if (appMainInterface) appMainInterface.classList.add('hidden');
                     } else {
-                        showAppInterfaceOnly();
+                        showAppInterface();
                     }
                     syncAndRender();
-                    alert('Datos importados exitosamente para tu cuenta.');
+
+                    alert('Datos importados exitosamente.');
 
                 } catch (error) {
                     console.error('Error al importar datos:', error);
                     alert(`Error al importar datos: ${error.message}`);
                 } finally {
-                    if(importFileInput) importFileInput.value = '';
+                    importFileInput.value = '';
                 }
             };
             reader.onerror = () => {
                 alert('Error al leer el archivo.');
-                if(importFileInput) importFileInput.value = '';
+                importFileInput.value = '';
             };
             reader.readAsText(file);
         }
 
-        // --- DOMContentLoaded ---
+
         document.addEventListener('DOMContentLoaded', () => {
-            // Asignación de elementos del DOM
             todoInput = document.getElementById('new-todo-input');
             addTodoButton = document.getElementById('add-todo-button');
             todoListContainer = document.getElementById('todo-list');
@@ -2578,41 +2136,36 @@
             appMainInterface = document.getElementById('app-main-interface');
             installInstructionsSection = document.getElementById('install-instructions-section');
 
-            // Event Listeners de Autenticación
-            if(loginButton) loginButton.addEventListener('click', handleEmailLogin);
-            if(signupButton) signupButton.addEventListener('click', handleEmailSignup);
-            if(googleSigninButton) googleSigninButton.addEventListener('click', handleGoogleSignIn);
-            if(googleSignupButton) googleSignupButton.addEventListener('click', handleGoogleSignIn);
-            if(logoutButton) logoutButton.addEventListener('click', handleLogout);
 
-            if(showSignupFormButton) showSignupFormButton.addEventListener('click', () => {
-                if(loginForm) loginForm.classList.add('hidden');
-                if(signupForm) signupForm.classList.remove('hidden');
-                clearAuthErrors();
-            });
-            if(showLoginFormButton) showLoginFormButton.addEventListener('click', () => {
-                if(signupForm) signupForm.classList.add('hidden');
-                if(loginForm) loginForm.classList.remove('hidden');
-                clearAuthErrors();
-            });
+            if (localStorage.getItem(THEME_STORAGE_KEY) === 'dark') {
+                enableDarkMode();
+            } else {
+                disableDarkMode();
+            }
 
+            loadTodosFromLocalStorage();
 
-            // Event Listeners de la App
-            if(addTodoButton) addTodoButton.addEventListener('click', addTodo);
-            if(todoInput) todoInput.addEventListener('keypress', (e) => { if (e.key==='Enter'){ e.preventDefault(); addTodo();}});
-            if(reorderButton) reorderButton.addEventListener('click', performManualSort);
-            if(darkModeToggle) darkModeToggle.addEventListener('click', toggleDarkMode);
+            if (todos.length === 0) {
+                if (welcomeSection) welcomeSection.classList.remove('hidden');
+                if (installInstructionsSection) installInstructionsSection.classList.remove('hidden');
+                if (appMainInterface) appMainInterface.classList.add('hidden');
+            } else {
+                if (welcomeSection) welcomeSection.classList.add('hidden');
+                if (installInstructionsSection) installInstructionsSection.classList.add('hidden');
+                if (appMainInterface) appMainInterface.classList.remove('hidden');
+                renderTodosUI();
+            }
+
+            const initialMedalData = loadAndRefreshMedalData();
+            displayMedalCount(initialMedalData.count);
+
+            addTodoButton.addEventListener('click', addTodo);
+            todoInput.addEventListener('keypress', (e) => { if (e.key==='Enter'){ e.preventDefault(); addTodo();}});
+            reorderButton.addEventListener('click', performManualSort);
+            darkModeToggle.addEventListener('click', toggleDarkMode);
 
             if (startAppButton) {
-                startAppButton.addEventListener('click', () => {
-                    if(currentUser) { // Si el usuario ya está logueado (improbable si ve el welcome), muestra la app
-                        showAppInterfaceOnly();
-                    } else { // Si no, es que la app aún no ha determinado el estado de auth o no hay nadie
-                        alert("Por favor, inicia sesión o regístrate para comenzar.");
-                        // Podrías también hacer que authSection sea visible aquí
-                        // if(authSection) authSection.classList.remove('hidden');
-                    }
-                });
+                startAppButton.addEventListener('click', showAppInterface);
             }
 
             if (infoButton && infoModal && closeModalButton) {
@@ -2629,30 +2182,25 @@
             }
 
             if (quickNotesArea && clearNotesButton) {
+                const savedNotes = localStorage.getItem(QUICK_NOTES_STORAGE_KEY);
+                if (savedNotes) quickNotesArea.value = savedNotes;
                 quickNotesArea.addEventListener('input', () => {
-                    if(currentUser) {
-                        currentQuickNotes = quickNotesArea.value;
-                        // Considera usar debounce para no escribir en Firestore en cada tecleo
-                        saveQuickNotesToFirestore(currentUser.uid, currentQuickNotes)
-                            .catch(err => console.error("Error guardando notas:", err));
-                    }
+                    localStorage.setItem(QUICK_NOTES_STORAGE_KEY, quickNotesArea.value);
                 });
-                clearNotesButton.addEventListener('click', async () => {
+                clearNotesButton.addEventListener('click', () => {
                     quickNotesArea.value = '';
-                    if(currentUser) {
-                        currentQuickNotes = '';
-                        await saveQuickNotesToFirestore(currentUser.uid, currentQuickNotes);
-                    }
+                    localStorage.removeItem(QUICK_NOTES_STORAGE_KEY);
                     quickNotesArea.focus();
                 });
             }
 
-            if (exportDataButton) exportDataButton.addEventListener('click', exportAllData);
+            if (exportDataButton) {
+                exportDataButton.addEventListener('click', exportAllData);
+            }
             if (importDataButton && importFileInput) {
                 importDataButton.addEventListener('click', () => importFileInput.click());
                 importFileInput.addEventListener('change', importAllData);
             }
-            applyTheme(); // Aplicar tema inicial al cargar (antes de que onAuthStateChanged se dispare)
         });
     </script>
 
