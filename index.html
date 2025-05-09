@@ -3,7 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
-    <title>ToDayList</title>
+    
+    <!-- SEO Meta Tags -->
+    <title>ToDayList - Tu Gestor de Tareas Sencillo y Eficaz</title>
+    <meta name="description" content="Organiza tu día a día con ToDayList, una aplicación web para gestionar tareas pendientes, subtareas, prioridades y fechas límite. Funciona offline y guarda tus datos localmente. ¡Prueba ToDayList ahora!">
+    <meta name="keywords" content="lista de tareas, to-do list, gestor de tareas, productividad, organización, tareas pendientes, subtareas, prioridades, localstorage, offline, web app, enrique gil">
+    <meta name="author" content="Enrique Gil">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://TU_URL_COMPLETA_DE_LA_APP/"> <!-- CAMBIA ESTO -->
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://TU_URL_COMPLETA_DE_LA_APP/"> <!-- CAMBIA ESTO -->
+    <meta property="og:title" content="ToDayList - Tu Gestor de Tareas Sencillo y Eficaz">
+    <meta property="og:description" content="Organiza tu día a día con ToDayList, una aplicación web para gestionar tareas pendientes, subtareas, prioridades y fechas límite. Funciona offline y guarda tus datos localmente.">
+    <meta property="og:image" content="https://TU_URL_COMPLETA_DE_LA_APP/iconToDayList.png"> <!-- CAMBIA ESTO si es necesario -->
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://TU_URL_COMPLETA_DE_LA_APP/"> <!-- CAMBIA ESTO -->
+    <meta property="twitter:title" content="ToDayList - Tu Gestor de Tareas Sencillo y Eficaz">
+    <meta property="twitter:description" content="Organiza tu día a día con ToDayList, una aplicación web para gestionar tareas pendientes, subtareas, prioridades y fechas límite. Funciona offline y guarda tus datos localmente.">
+    <meta property="twitter:image" content="https://TU_URL_COMPLETA_DE_LA_APP/iconToDayList.png"> <!-- CAMBIA ESTO si es necesario -->
+
     <link rel="icon" href="iconToDayList.png" type="image/png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -122,7 +144,7 @@
             margin-top: 0;
             margin-bottom: 10px;
             font-weight: 700;
-            font-size: 2.5rem;
+            font-size: 2.5rem; /* Considera si el título es muy largo, podría ajustarse */
             letter-spacing: -0.5px;
             padding-top: 45px; /* Ajuste para no solaparse con el botón de info */
         }
@@ -934,7 +956,7 @@
         <button id="info-button" class="app-button" aria-label="Información de la aplicación" title="Cómo usar la aplicación">
             <i class="fas fa-info-circle"></i>
         </button>
-        <h1>ToDayList</h1>
+        <h1>ToDayList - Gestor de Tareas</h1> <!-- Título más descriptivo para SEO y usuario -->
         <div id="medal-counter-container">
             <i class="fas fa-medal"></i> <span id="medal-count">0</span>
         </div>
@@ -1008,6 +1030,7 @@
                 <li><strong>Eliminar Tareas:</strong> Haz clic en el icono de papelera <i class="fas fa-trash-alt"></i> para eliminar tareas principales o sub-tareas.</li>
                 <li><strong>Anotaciones Rápidas:</strong> Utiliza el área debajo de la leyenda para notas temporales. Puedes borrarlas con el botón "Borrar".</li>
                 <li><strong>Exportar/Importar Datos:</strong> Usa los botones "Exportar" e "Importar" (debajo de las anotaciones) para guardar una copia de seguridad de todos tus datos (tareas, notas, medallas, tema) o para restaurarlos desde un archivo. <strong>¡Atención!</strong> Importar reemplazará los datos actuales.</li>
+
             </ol>
         </div>
     </div>
@@ -1028,18 +1051,17 @@
         
         let quickNotesArea;
         let clearNotesButton;
-        const QUICK_NOTES_STORAGE_KEY = 'todoListQuickNotes'; // Clave específica para evitar colisiones
+        const QUICK_NOTES_STORAGE_KEY = 'todoListQuickNotes'; 
 
         let exportDataButton;
         let importDataButton;
         let importFileInput;
 
-        let todos = []; // Array en memoria para las tareas
+        let todos = []; 
 
-        // Claves para LocalStorage
         const TODOS_STORAGE_KEY = 'todoListAppTasks';
-        const MEDALS_STORAGE_KEY = 'todoListDailyMedalData'; // Clave específica
-        const THEME_STORAGE_KEY = 'todoListTheme'; // Clave específica
+        const MEDALS_STORAGE_KEY = 'todoListDailyMedalData'; 
+        const THEME_STORAGE_KEY = 'todoListTheme'; 
 
         const PRIORITY_COLORS = ['none', 'red', 'orange', 'yellow', 'green'];
         const PRIORITY_ORDER = { 'red': 1, 'orange': 2, 'yellow': 3, 'green': 4, 'none': 5 };
@@ -1070,7 +1092,6 @@
             const storedTodos = localStorage.getItem(TODOS_STORAGE_KEY);
             if (storedTodos) {
                 todos = JSON.parse(storedTodos);
-                // Asegurar que todas las tareas tengan las propiedades esperadas (migración suave)
                 todos = todos.map(task => ({
                     id: task.id || generateLocalId(),
                     text: task.text || 'Tarea sin nombre',
@@ -1084,7 +1105,7 @@
                     priorityColor: PRIORITY_COLORS.includes(task.priorityColor) ? task.priorityColor : 'none',
                     date: typeof task.date === 'string' && task.date.match(/^\d{4}-\d{2}-\d{2}$/) ? task.date : null,
                     linkUrl: typeof task.linkUrl === 'string' ? task.linkUrl : null,
-                    order: typeof task.order === 'number' ? task.order : Date.now() // Asegurar 'order'
+                    order: typeof task.order === 'number' ? task.order : Date.now() 
                 }));
             } else {
                 todos = [];
@@ -1110,7 +1131,6 @@
 
             if (!medalData || medalData.date !== today) {
                 let countForToday = 0;
-                // Asegúrate que 'todos' esté cargado antes de este conteo si es la primera carga del día
                 if (todos && todos.length > 0) {
                     todos.forEach(task => {
                         if (task.completed && task.completedDate === today) countForToday++;
@@ -1123,7 +1143,7 @@
         }
 
         function updateMedalCount(change) {
-            let medalData = loadAndRefreshMedalData(); // Esto asegura que trabajamos con datos del día actual
+            let medalData = loadAndRefreshMedalData(); 
             medalData.count += change;
             if (medalData.count < 0) medalData.count = 0;
             localStorage.setItem(MEDALS_STORAGE_KEY, JSON.stringify(medalData));
@@ -1132,7 +1152,6 @@
         
         function syncAndRender() {
             renderTodosUI();
-            // No es necesario guardar aquí, las funciones que modifican 'todos' ya lo hacen.
         }
 
         function updateDateHighlight(listItemElement, task) {
@@ -1146,7 +1165,7 @@
             const hasDate = !!task.date;
 
             calendarLabel.classList.remove('date-set', 'date-today');
-            calendarIcon.style.color = ''; // Resetea al color por defecto de CSS
+            calendarIcon.style.color = ''; 
             calendarIcon.style.fontWeight = 'normal';
             calendarLabel.title = 'Establecer fecha';
 
@@ -1167,7 +1186,7 @@
                 calendarLabel.classList.add('date-today');
                 const computedStyle = getComputedStyle(listItemElement);
                 const priorityColorForToday = computedStyle.borderLeftColor;
-                calendarIcon.style.color = priorityColorForToday; // Usa el color de la prioridad
+                calendarIcon.style.color = priorityColorForToday; 
                 calendarLabel.title = `Fecha: ${task.date} (Hoy)`;
             }
         }
@@ -1402,7 +1421,7 @@
                 listItem.appendChild(createProgressBar(mainTask));
                 if (!mainTask.completed) {
                     listItem.appendChild(createAddSubtasksToggle(mainTask.id));
-                } else { mainTask.showSubtaskUI = false; } // Asegurar que no se muestre si está completada
+                } else { mainTask.showSubtaskUI = false; } 
                 
                 if (mainTask.subtasks && mainTask.subtasks.length > 0) {
                     listItem.appendChild(createSubtasksList(mainTask));
@@ -1422,7 +1441,6 @@
                  const currentIndex = PRIORITY_COLORS.indexOf(task.priorityColor || 'none');
                  task.priorityColor = PRIORITY_COLORS[(currentIndex + 1) % PRIORITY_COLORS.length];
                  saveTodosToLocalStorage();
-                 // Actualización visual directa sin re-render completo
                  const listItemElement = todoListContainer.querySelector(`li[data-task-id="${task.id}"]`);
                  if (listItemElement) {
                      listItemElement.dataset.priorityColor = task.priorityColor;
@@ -1431,7 +1449,7 @@
                          priorityLabelElement.dataset.color = task.priorityColor;
                          priorityLabelElement.title = `Prioridad: ${task.priorityColor.charAt(0).toUpperCase() + task.priorityColor.slice(1)}`;
                      }
-                     updateDateHighlight(listItemElement, task); // Re-evaluar el color del calendario
+                     updateDateHighlight(listItemElement, task); 
                  }
              }
         }
@@ -1441,10 +1459,8 @@
             if (task && !task.completed) {
                 task.date = newDateValue || null;
                 saveTodosToLocalStorage();
-                syncAndRender(); // Re-render para actualizar el resaltado de fecha
+                syncAndRender(); 
             } else if (task && task.completed) {
-                // Si está completada, solo re-render para que el input de fecha oculto tome el valor
-                // pero no se guardará un cambio de fecha en la tarea completada.
                 syncAndRender();
             }
         }
@@ -1478,9 +1494,9 @@
              if (mainTask && !mainTask.completed) {
                  if (!mainTask.subtasks) mainTask.subtasks = [];
                  mainTask.subtasks.push({ id: generateLocalId(), text: newSubtaskText, completed: false });
-                 mainTask.completed = false; // Si se añade subtarea, la principal no puede estar completada
+                 mainTask.completed = false; 
                  mainTask.completedDate = null;
-                 mainTask.showSubtaskUI = false; // Oculta el input después de agregar
+                 mainTask.showSubtaskUI = false; 
                  saveTodosToLocalStorage();
                  syncAndRender();
                  if (subtaskInput) subtaskInput.value = '';
@@ -1492,7 +1508,7 @@
             if (taskIndex > -1) {
                 const taskToDelete = todos[taskIndex];
                 if (taskToDelete.completed && taskToDelete.completedDate === getTodayDateString()) {
-                    updateMedalCount(-1); // Restar medalla si se borra una completada hoy
+                    updateMedalCount(-1); 
                 }
                 todos.splice(taskIndex, 1);
                 saveTodosToLocalStorage();
@@ -1506,7 +1522,7 @@
                  const subtaskIndex = mainTask.subtasks.findIndex(sub => sub.id === subtaskId);
                  if (subtaskIndex > -1) {
                      mainTask.subtasks.splice(subtaskIndex, 1);
-                     mainTask.completed = false; // Al eliminar sub-tarea, asegurar que la principal no esté completada
+                     mainTask.completed = false; 
                      mainTask.completedDate = null;
                      saveTodosToLocalStorage();
                      syncAndRender();
@@ -1536,19 +1552,18 @@
 
                 if (isChecked) {
                     task.completedDate = today;
-                    task.priorityColor = 'none'; // Resetear prioridad al completar
-                    task.showSubtaskUI = false; // Ocultar UI de subtareas
-                    if (!wasCompletedTodayBefore) { // Solo sumar medalla si no estaba ya completada hoy
+                    task.priorityColor = 'none'; 
+                    task.showSubtaskUI = false; 
+                    if (!wasCompletedTodayBefore) { 
                         updateMedalCount(1);
                     }
                     if (typeof confetti === 'function') confetti({ particleCount: 150, spread: 90, origin: { y: 0.55 }});
                 } else {
-                    if (wasCompletedTodayBefore) { // Solo restar medalla si se desmarca una completada hoy
+                    if (wasCompletedTodayBefore) { 
                         updateMedalCount(-1);
                     }
                     task.completedDate = null;
                 }
-                // Marcar/desmarcar todas las subtareas
                 if (task.subtasks) {
                     task.subtasks.forEach(sub => sub.completed = isChecked);
                 }
@@ -1565,7 +1580,6 @@
 
                 const newIndex = subtaskIndex + direction;
                 if (newIndex >= 0 && newIndex < mainTask.subtasks.length) {
-                    // Intercambiar elementos
                     [mainTask.subtasks[subtaskIndex], mainTask.subtasks[newIndex]] = 
                     [mainTask.subtasks[newIndex], mainTask.subtasks[subtaskIndex]];
                     saveTodosToLocalStorage();
@@ -1586,9 +1600,8 @@
                  const dateB = b.date ? new Date(b.date).getTime() : Infinity;
                  if (dateA !== dateB) return dateA - dateB;
                  
-                 return (a.order || 0) - (b.order || 0); // Mantener orden original si todo es igual
+                 return (a.order || 0) - (b.order || 0); 
              });
-             // Actualizar el índice 'order' para persistir el nuevo orden
              todos.forEach((task, index) => {
                  task.order = index;
              });
@@ -1604,7 +1617,7 @@
                 darkModeToggle.setAttribute('aria-label', 'Alternar a modo claro');
                 darkModeToggle.title = 'Alternar a modo claro';
             }
-            syncAndRender(); // Para actualizar colores que dependen de variables CSS
+            // No es necesario syncAndRender() aquí si el CSS se actualiza bien solo con la clase
         }
 
         function disableDarkMode() {
@@ -1615,11 +1628,12 @@
                  darkModeToggle.setAttribute('aria-label', 'Alternar a modo oscuro');
                  darkModeToggle.title = 'Alternar a modo oscuro';
             }
-            syncAndRender(); // Para actualizar colores
+            // No es necesario syncAndRender() aquí
         }
 
         function toggleDarkMode() {
             body.classList.contains('dark-mode') ? disableDarkMode() : enableDarkMode();
+            syncAndRender(); // Llamar a syncAndRender después de cambiar el tema para que los colores de los elementos se actualicen.
         }
 
         function exportAllData() {
@@ -1627,10 +1641,10 @@
                 theme: localStorage.getItem(THEME_STORAGE_KEY) || 'light',
                 dailyMedalData: JSON.parse(localStorage.getItem(MEDALS_STORAGE_KEY) || '{}'),
                 quickNotesContent: localStorage.getItem(QUICK_NOTES_STORAGE_KEY) || '',
-                tasks: todos // Usamos el array en memoria que ya está actualizado
+                tasks: todos 
             };
 
-            const jsonString = JSON.stringify(dataToExport, null, 2); // El '2' es para indentación (pretty print)
+            const jsonString = JSON.stringify(dataToExport, null, 2); 
             const blob = new Blob([jsonString], { type: 'application/json' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
@@ -1649,7 +1663,7 @@
             if (!file) return;
 
             if (!confirm("¡Atención! Importar datos reemplazará todos los datos actuales (tareas, notas, medallas, tema). ¿Deseas continuar?")) {
-                importFileInput.value = ''; // Resetear el input de archivo
+                importFileInput.value = ''; 
                 return;
             }
 
@@ -1658,39 +1672,34 @@
                 try {
                     const importedData = JSON.parse(e.target.result);
 
-                    // Validación básica de la estructura importada
                     if (typeof importedData !== 'object' || importedData === null || !Array.isArray(importedData.tasks)) {
                         throw new Error('El formato del archivo es inválido o no contiene tareas.');
                     }
 
-                    // Aplicar tema
                     const themeToApply = importedData.theme === 'dark' ? 'dark' : 'light';
                     localStorage.setItem(THEME_STORAGE_KEY, themeToApply);
                     if (themeToApply === 'dark') enableDarkMode(); else disableDarkMode();
                     
-                    // Aplicar datos de medallas
                     if (importedData.dailyMedalData && typeof importedData.dailyMedalData === 'object') {
                         localStorage.setItem(MEDALS_STORAGE_KEY, JSON.stringify(importedData.dailyMedalData));
                         displayMedalCount(importedData.dailyMedalData.count || 0);
                     } else {
-                        localStorage.removeItem(MEDALS_STORAGE_KEY); // Limpiar si no vienen datos válidos
-                        displayMedalCount(0); // Resetear contador visual
+                        localStorage.removeItem(MEDALS_STORAGE_KEY); 
+                        displayMedalCount(0); 
                     }
 
-                    // Aplicar notas rápidas
                     if (typeof importedData.quickNotesContent === 'string') {
                         quickNotesArea.value = importedData.quickNotesContent;
                         localStorage.setItem(QUICK_NOTES_STORAGE_KEY, importedData.quickNotesContent);
                     } else {
-                        quickNotesArea.value = ''; // Limpiar si no vienen notas válidas
+                        quickNotesArea.value = ''; 
                         localStorage.removeItem(QUICK_NOTES_STORAGE_KEY);
                     }
 
-                    // Aplicar tareas (con saneamiento)
                     todos = importedData.tasks.map(task => ({
                         id: task.id || generateLocalId(),
                         text: task.text || 'Tarea importada',
-                        completed: !!task.completed, // Convertir a booleano
+                        completed: !!task.completed, 
                         completedDate: task.completedDate || null,
                         subtasks: Array.isArray(task.subtasks) ? task.subtasks.map(sub => ({
                             id: sub.id || generateLocalId(),
@@ -1704,8 +1713,8 @@
                         order: typeof task.order === 'number' ? task.order : Date.now()
                     }));
                     
-                    saveTodosToLocalStorage(); // Guardar las nuevas tareas
-                    syncAndRender(); // Re-renderizar toda la UI
+                    saveTodosToLocalStorage(); 
+                    syncAndRender(); 
 
                     alert('Datos importados exitosamente.');
 
@@ -1713,7 +1722,7 @@
                     console.error('Error al importar datos:', error);
                     alert(`Error al importar datos: ${error.message}`);
                 } finally {
-                    importFileInput.value = ''; // Resetear el input de archivo para permitir re-seleccionar el mismo archivo
+                    importFileInput.value = ''; 
                 }
             };
             reader.onerror = () => {
@@ -1744,17 +1753,17 @@
             importDataButton = document.getElementById('import-data-button');
             importFileInput = document.getElementById('import-file-input');
 
-            // Cargar tema
-            if (localStorage.getItem(THEME_STORAGE_KEY) === 'dark') enableDarkMode(); else disableDarkMode();
+            if (localStorage.getItem(THEME_STORAGE_KEY) === 'dark') {
+                enableDarkMode(); // Aplicar visualmente
+            } else {
+                disableDarkMode(); // Aplicar visualmente
+            }
             
-            // Cargar tareas
             loadTodosFromLocalStorage();
 
-            // Cargar y mostrar medallas (asegúrate que 'todos' está cargado)
             const initialMedalData = loadAndRefreshMedalData();
             displayMedalCount(initialMedalData.count);
             
-            // Renderizar UI
             renderTodosUI();
 
             addTodoButton.addEventListener('click', addTodo);
@@ -1788,12 +1797,11 @@
                 });
             }
 
-            // Event listeners para Importar/Exportar
             if (exportDataButton) {
                 exportDataButton.addEventListener('click', exportAllData);
             }
             if (importDataButton && importFileInput) {
-                importDataButton.addEventListener('click', () => importFileInput.click()); // Abre el diálogo de archivo
+                importDataButton.addEventListener('click', () => importFileInput.click()); 
                 importFileInput.addEventListener('change', importAllData);
             }
         });
