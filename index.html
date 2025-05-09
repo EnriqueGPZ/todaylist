@@ -5,28 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
     
     <!-- SEO Meta Tags -->
-    <title>ToDayList - Tu Gestor de Tareas Sencillo y Eficaz</title>
-    <meta name="description" content="Organiza tu día a día con ToDayList, una aplicación web para gestionar tareas pendientes, subtareas, prioridades y fechas límite. Funciona offline y guarda tus datos localmente. ¡Prueba ToDayList ahora!">
-    <meta name="keywords" content="lista de tareas, to-do list, gestor de tareas, productividad, organización, tareas pendientes, subtareas, prioridades, localstorage, offline, web app, enrique gil">
+    <title>ToDayList - Tu Gestor de Tareas Diarias</title>
+    <meta name="description" content="Organiza tu día a día con ToDayList, tu gestor de tareas diarias personal. Crea listas, subtareas, establece prioridades y fechas límite. Funciona offline y guarda tus datos localmente.">
+    <meta name="keywords" content="lista de tareas, to-do list, gestor de tareas diarias, productividad, organización, tareas pendientes, subtareas, prioridades, localstorage, offline, web app, enrique gil">
     <meta name="author" content="Enrique Gil">
     <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://TU_URL_COMPLETA_DE_LA_APP/"> <!-- CAMBIA ESTO -->
+    <link rel="canonical" href="https://enriquegpz.github.io/todaylist/">
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://TU_URL_COMPLETA_DE_LA_APP/"> <!-- CAMBIA ESTO -->
-    <meta property="og:title" content="ToDayList - Tu Gestor de Tareas Sencillo y Eficaz">
-    <meta property="og:description" content="Organiza tu día a día con ToDayList, una aplicación web para gestionar tareas pendientes, subtareas, prioridades y fechas límite. Funciona offline y guarda tus datos localmente.">
-    <meta property="og:image" content="https://TU_URL_COMPLETA_DE_LA_APP/iconToDayList.png"> <!-- CAMBIA ESTO si es necesario -->
+    <meta property="og:url" content="https://enriquegpz.github.io/todaylist/">
+    <meta property="og:title" content="ToDayList - Tu Gestor de Tareas Diarias">
+    <meta property="og:description" content="Organiza tu día a día con ToDayList, tu gestor de tareas diarias personal. Crea listas, subtareas, establece prioridades y fechas límite. Funciona offline.">
+    <meta property="og:image" content="https://enriquegpz.github.io/todaylist/iconToDayList.png"> 
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://TU_URL_COMPLETA_DE_LA_APP/"> <!-- CAMBIA ESTO -->
-    <meta property="twitter:title" content="ToDayList - Tu Gestor de Tareas Sencillo y Eficaz">
-    <meta property="twitter:description" content="Organiza tu día a día con ToDayList, una aplicación web para gestionar tareas pendientes, subtareas, prioridades y fechas límite. Funciona offline y guarda tus datos localmente.">
-    <meta property="twitter:image" content="https://TU_URL_COMPLETA_DE_LA_APP/iconToDayList.png"> <!-- CAMBIA ESTO si es necesario -->
+    <meta property="twitter:url" content="https://enriquegpz.github.io/todaylist/">
+    <meta property="twitter:title" content="ToDayList - Tu Gestor de Tareas Diarias">
+    <meta property="twitter:description" content="Organiza tu día a día con ToDayList, tu gestor de tareas diarias personal. Crea listas, subtareas, establece prioridades y fechas límite. Funciona offline.">
+    <meta property="twitter:image" content="https://enriquegpz.github.io/todaylist/iconToDayList.png">
 
-    <link rel="icon" href="iconToDayList.png" type="image/png">
+    <link rel="icon" href="iconToDayList.png" type="image/png"> 
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
@@ -62,6 +63,7 @@
             --footer-text-color: #aaa;
             --medal-color: #ffd700;
             --medal-text-color: var(--text-color);
+            --subtitle-color: #777;
 
             --priority-red-color: #e74c3c;
             --priority-orange-color: #f39c12;
@@ -101,6 +103,8 @@
             --checkbox-checkmark-color: var(--bg-color);
             --footer-text-color: #666;
             --medal-text-color: var(--text-color);
+            --subtitle-color: #bdc3c7;
+
 
             --priority-red-color: #e74c3c;
             --priority-orange-color: #f39c12;
@@ -134,7 +138,7 @@
             padding: 0 10px;
             box-sizing: border-box;
             flex-grow: 1;
-            position: relative; /* Para el botón de información */
+            position: relative; 
         }
 
         h1 {
@@ -142,11 +146,21 @@
             color: var(--heading-color);
             text-align: center;
             margin-top: 0;
-            margin-bottom: 10px;
+            margin-bottom: 2px; /* Reducido para acercar el subtítulo */
             font-weight: 700;
-            font-size: 2.5rem; /* Considera si el título es muy largo, podría ajustarse */
+            font-size: 2.8rem; /* Ligeramente más grande si el subtítulo lo permite */
             letter-spacing: -0.5px;
-            padding-top: 45px; /* Ajuste para no solaparse con el botón de info */
+            padding-top: 45px; 
+        }
+        .subtitle {
+            text-align: center;
+            font-family: 'Lexend', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 300;
+            color: var(--subtitle-color);
+            margin-top: 0;
+            margin-bottom: 15px; /* Espacio antes del contador de medallas */
+            letter-spacing: 0.2px;
         }
 
         #medal-counter-container {
@@ -238,7 +252,7 @@
          .app-button:hover {
              color: var(--button-hover-color);
          }
-         .app-button:focus, .app-button:focus-visible { /* Mejorado para visibilidad de foco */
+         .app-button:focus, .app-button:focus-visible { 
               outline: 2px solid var(--button-hover-color);
               outline-offset: 2px;
          }
@@ -336,20 +350,19 @@
               border-color: var(--text-color);
          }
 
-         /* Tick para checkbox principal (20px) */
          .custom-checkbox:checked::after {
              content: '';
              position: absolute;
-             box-sizing: content-box; /* Importante para que el borde no aumente el tamaño efectivo */
-             width: 5px;  /* Ancho de la base del tick */
-             height: 9px; /* Altura del lado más largo del tick */
+             box-sizing: content-box; 
+             width: 5px;  
+             height: 9px; 
              border: solid var(--item-bg);
-             border-width: 0 2px 2px 0; /* Grosor del tick */
-             top: 3px;  /* Ajuste vertical */
-             left: 6px; /* Ajuste horizontal */
+             border-width: 0 2px 2px 0; 
+             top: 3px;  
+             left: 6px; 
              transform: rotate(45deg);
          }
-         body.dark-mode .custom-checkbox:checked::after { /* Mantenemos el mismo color de tick */
+         body.dark-mode .custom-checkbox:checked::after { 
              border-color: var(--checkbox-checkmark-color) !important;
          }
 
@@ -420,7 +433,6 @@
             flex-shrink: 0;
         }
 
-        /* Estilos para el botón de enlace */
         .todo-item .main-task-header .task-body .link-button {
             color: var(--button-color);
             padding: 4px 8px;
@@ -431,11 +443,9 @@
             opacity: 1;
         }
 
-        /* Estilos para la label del calendario */
-        .todo-item .main-task-header .task-body .calendar-button { /* Clase se mantiene para la label */
+        .todo-item .main-task-header .task-body .calendar-button { 
             padding: 4px 8px;
             font-size: 1rem;
-            /* app-button ya define cursor: pointer */
         }
         .todo-item .main-task-header .task-body .calendar-button i {
             color: var(--calendar-icon-default-color);
@@ -448,22 +458,20 @@
             font-weight: bold;
         }
 
-        /* Input de fecha real oculto de forma accesible */
         .task-date-input-real {
             opacity: 0;
             position: absolute;
             width: 1px;
             height: 1px;
             overflow: hidden;
-            clip: rect(0 0 0 0); /* Para navegadores antiguos */
-            clip-path: inset(50%); /* Para navegadores modernos */
+            clip: rect(0 0 0 0); 
+            clip-path: inset(50%); 
             margin: -1px;
             padding: 0;
             border: 0;
-            white-space: nowrap; /* Para algunos lectores de pantalla */
+            white-space: nowrap; 
         }
 
-        /* Estilos para el botón de eliminar */
         .todo-item .main-task-header .task-body .task-actions-group .delete-button {
              padding: 4px 8px;
              font-size: 1rem;
@@ -507,18 +515,16 @@
         .todo-item .subtasks-list li {
             display: flex;
             align-items: center;
-            margin-bottom: 4px; /* MODIFICADO: Reducido para menor interlineado */
+            margin-bottom: 4px; 
             gap: 5px;
         }
          .todo-item .subtasks-list li:last-child {
              margin-bottom: 0;
          }
 
-        /* Checkbox de subtarea (18px) hereda .custom-checkbox */
         .todo-item .subtasks-list li input[type="checkbox"] {
              width: 18px;
              height: 18px;
-             /* border-radius: 50%; ya está aplicado por .custom-checkbox */
              border-color: var(--text-color);
              background-color: var(--item-bg);
         }
@@ -527,26 +533,22 @@
               border-color: var(--text-color);
          }
 
-        /* Tick específico para checkbox de subtarea (18px) */
         .todo-item .subtasks-list li input[type="checkbox"]:checked::after {
             content: '';
             position: absolute;
             box-sizing: content-box;
-            width: 4px;  /* Un poco más pequeño para el checkbox de 18px */
-            height: 8px; /* Un poco más pequeño */
-            border: solid var(--item-bg); /* Color del tick en modo claro */
-            border-width: 0 1.8px 1.8px 0; /* Ligeramente más fino si se desea, o mantener 2px */
-            top: 2.5px; /* Ajuste vertical para 18px */
-            left: 5px;  /* Ajuste horizontal para 18px */
+            width: 4px;  
+            height: 8px; 
+            border: solid var(--item-bg); 
+            border-width: 0 1.8px 1.8px 0; 
+            top: 2.5px; 
+            left: 5px;  
             transform: rotate(45deg);
         }
          body.dark-mode .todo-item .subtasks-list li input[type="checkbox"]:checked::after {
              border-color: var(--checkbox-checkmark-color) !important;
          }
-        /* --- FIN ESTILOS CHECKBOX --- */
 
-
-        /* --- Estilos para el texto de la subtarea (más pequeño y fino) --- */
         .todo-item .subtasks-list li span {
              flex-grow: 1;
              margin-right: 5px;
@@ -554,7 +556,7 @@
              text-decoration: none;
              transition: color 0.3s ease, text-decoration 0.3s ease;
              word-break: break-word;
-             font-size: 0.85em; /* Relativo al li padre (que hereda del body) */
+             font-size: 0.85em; 
              font-weight: 300;
         }
          .todo-item .subtasks-list li .subtask-move-button {
@@ -631,7 +633,7 @@
         .todo-item.completed .main-task-header .task-body .calendar-button {
             opacity: 0.7;
             cursor: default;
-            pointer-events: none; /* Evita que la label sea clickeable cuando está completada */
+            pointer-events: none; 
         }
         .todo-item.completed .main-task-header .task-body .calendar-button i {
             color: var(--completed-text-color) !important;
@@ -704,29 +706,28 @@
                margin-left: auto;
           }
 
-        /* --- ESTILOS PARA ZONA DE ANOTACIONES RÁPIDAS --- */
         #quick-notes-container {
-            margin-top: 25px; /* Espacio después de la leyenda */
-            margin-bottom: 10px; /* Reducido para dar espacio a botones import/export */
+            margin-top: 25px; 
+            margin-bottom: 10px; 
             display: flex;
             flex-direction: column;
-            gap: 8px; /* Espacio entre textarea y botón */
+            gap: 8px; 
         }
 
         #quick-notes-area {
             width: 100%;
-            min-height: 70px; /* Altura mínima discreta */
+            min-height: 70px; 
             padding: 10px 12px;
             border: 1px solid var(--border-color);
-            border-radius: 6px; /* Consistente con otros elementos */
-            font-family: 'Lexend', sans-serif; /* Consistente con el resto de la app */
-            font-weight: 300; /* Igual que las subtareas */
-            font-size: 0.85rem; /* Ajustado para parecerse a las subtareas */
-            line-height: 1.4; /* Interlineado ajustado para legibilidad y espacio */
+            border-radius: 6px; 
+            font-family: 'Lexend', sans-serif; 
+            font-weight: 300; 
+            font-size: 0.85rem; 
+            line-height: 1.4; 
             background-color: var(--input-bg);
             color: var(--input-text-color);
             box-sizing: border-box;
-            resize: vertical; /* Permitir redimensionar verticalmente */
+            resize: vertical; 
             outline: none;
             transition: border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
         }
@@ -736,39 +737,37 @@
         }
         #quick-notes-area:focus {
             border-color: var(--button-hover-color);
-            box-shadow: 0 0 0 2px rgba(231, 76, 60, 0.15); /* Sombra de foco sutil, usando el color rojo de hover */
+            box-shadow: 0 0 0 2px rgba(231, 76, 60, 0.15); 
         }
         body.dark-mode #quick-notes-area:focus {
-            box-shadow: 0 0 0 2px rgba(243, 156, 18, 0.2); /* Sombra de foco sutil para modo oscuro, usando el naranja de hover */
+            box-shadow: 0 0 0 2px rgba(243, 156, 18, 0.2); 
         }
 
 
         #clear-notes-button {
-            align-self: flex-end; /* Botón a la derecha, debajo del textarea */
-            padding: 5px 10px; /* Más pequeño */
-            font-size: 0.8rem; /* Texto más pequeño */
+            align-self: flex-end; 
+            padding: 5px 10px; 
+            font-size: 0.8rem; 
             color: var(--button-color);
-            background-color: var(--item-bg); /* Fondo sutil para integrarse */
+            background-color: var(--item-bg); 
             border: 1px solid var(--border-color);
             box-shadow: 0 1px 2px rgba(0,0,0,0.05);
         }
         #clear-notes-button:hover {
             color: var(--button-hover-color);
             border-color: var(--button-hover-color);
-            background-color: var(--fixed-button-bg); /* Ligero cambio de fondo al pasar el ratón */
+            background-color: var(--fixed-button-bg); 
         }
         #clear-notes-button i {
             margin-right: 4px;
         }
-        /* --- FIN ESTILOS PARA ZONA DE ANOTACIONES RÁPIDAS --- */
 
-        /* --- ESTILOS PARA BOTONES IMPORT/EXPORT --- */
         #data-management-container {
             display: flex;
-            justify-content: flex-end; /* Alinea los botones a la derecha */
-            gap: 10px; /* Espacio entre botones */
-            margin-top: 10px; /* Espacio después de las notas rápidas */
-            margin-bottom: 20px; /* Espacio antes del footer */
+            justify-content: flex-end; 
+            gap: 10px; 
+            margin-top: 10px; 
+            margin-bottom: 20px; 
         }
         #data-management-container .app-button {
             padding: 6px 12px;
@@ -784,7 +783,6 @@
         #data-management-container .app-button i {
             margin-right: 5px;
         }
-        /* --- FIN ESTILOS PARA BOTONES IMPORT/EXPORT --- */
 
 
         .footer-text {
@@ -801,7 +799,11 @@
 
         @media (max-width: 500px) {
             h1 {
-                padding-top: 50px; /* Un poco más de espacio para el botón info en móviles */
+                padding-top: 50px; 
+                font-size: 2.3rem; /* Ajustar tamaño en móvil */
+            }
+            .subtitle {
+                font-size: 0.9rem; /* Ajustar tamaño subtítulo en móvil */
             }
             #info-button {
                 top: 10px;
@@ -823,38 +825,37 @@
                 justify-content: flex-end;
             }
             .todo-item .main-task-header .task-body .link-button { order: 1; }
-            .todo-item .main-task-header .task-body .calendar-button { order: 2; } /* Label del calendario */
+            .todo-item .main-task-header .task-body .calendar-button { order: 2; } 
             .todo-item .main-task-header .task-body .delete-button { order: 3; }
 
              #todo-input-container #reorder-button {
                   margin-left: 0;
              }
              #data-management-container {
-                justify-content: center; /* Centra los botones en móvil */
+                justify-content: center; 
              }
         }
 
-        /* --- Estilos para el Icono de Información y Modal --- */
         #info-button {
             position: absolute;
-            top: 15px; /* Ajusta según necesites */
-            left: 15px; /* Ajusta según necesites */
+            top: 15px; 
+            left: 15px; 
             font-size: 1.6rem;
             color: var(--button-color);
-            z-index: 900; /* Debajo del modal pero encima de otro contenido si lo hubiera */
-            padding: 8px; /* Para hacerlo un poco más grande al tacto */
-            background-color: var(--item-bg); /* Para que se vea bien sobre el fondo */
+            z-index: 900; 
+            padding: 8px; 
+            background-color: var(--item-bg); 
             border-radius: 50%;
             box-shadow: var(--fixed-button-shadow);
-            width: 40px; /* Tamaño fijo */
-            height: 40px; /* Tamaño fijo */
+            width: 40px; 
+            height: 40px; 
             display: flex;
             justify-content: center;
             align-items: center;
         }
         #info-button:hover {
             color: var(--button-hover-color);
-            background-color: var(--fixed-button-bg); /* Usar variable para consistencia */
+            background-color: var(--fixed-button-bg); 
         }
 
         .modal-overlay {
@@ -863,11 +864,11 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.65); /* Overlay más oscuro */
+            background-color: rgba(0, 0, 0, 0.65); 
             display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 1050; /* Más alto que el dark mode toggle */
+            z-index: 1050; 
             opacity: 0;
             visibility: hidden;
             transition: opacity 0.3s ease, visibility 0s linear 0.3s;
@@ -885,10 +886,10 @@
             border-radius: 10px;
             box-shadow: 0 5px 20px rgba(0,0,0,0.3);
             width: 90%;
-            max-width: 580px; /* Un poco menos que el container principal */
-            max-height: 85vh; /* Para evitar que sea demasiado alto en pantallas pequeñas */
-            overflow-y: auto; /* Scroll si el contenido es muy largo */
-            position: relative; /* Para posicionar el botón de cierre absoluto */
+            max-width: 580px; 
+            max-height: 85vh; 
+            overflow-y: auto; 
+            position: relative; 
             transform: scale(0.95);
             transition: transform 0.3s ease;
         }
@@ -907,16 +908,16 @@
 
         .modal-content ol {
             padding-left: 20px;
-            margin-bottom: 0; /* Quitar margen inferior por si acaso */
+            margin-bottom: 0; 
         }
         .modal-content ol li {
             margin-bottom: 12px;
             line-height: 1.5;
         }
-        .modal-content ol li ul { /* Estilo para la lista anidada de sub-tareas */
+        .modal-content ol li ul { 
             padding-left: 20px;
             margin-top: 8px;
-            list-style-type: disc; /* O el que prefieras */
+            list-style-type: disc; 
         }
         .modal-content ol li ul li {
             margin-bottom: 8px;
@@ -924,13 +925,12 @@
         }
 
         .modal-content strong {
-            color: var(--heading-color); /* O un color de acento si prefieres */
+            color: var(--heading-color); 
         }
-        /* Para que los iconos dentro de las instrucciones resalten un poco */
         .modal-content i.fas, .modal-content i.far {
-            color: var(--button-hover-color); /* Usar un color llamativo */
+            color: var(--button-hover-color); 
             margin: 0 2px;
-            font-size: 0.9em; /* Ligeramente más pequeños para no dominar el texto */
+            font-size: 0.9em; 
         }
 
 
@@ -938,12 +938,12 @@
             position: absolute;
             top: 10px;
             right: 12px;
-            font-size: 1.9rem; /* Más grande para que sea fácil de pulsar */
+            font-size: 1.9rem; 
             color: var(--button-color);
-            padding: 5px 10px; /* Padding para área de toque */
-            line-height: 1; /* Evitar altura extra */
-            background: none; /* Sin fondo */
-            border: none; /* Sin borde */
+            padding: 5px 10px; 
+            line-height: 1; 
+            background: none; 
+            border: none; 
         }
         .close-modal:hover {
             color: var(--button-hover-color);
@@ -956,7 +956,8 @@
         <button id="info-button" class="app-button" aria-label="Información de la aplicación" title="Cómo usar la aplicación">
             <i class="fas fa-info-circle"></i>
         </button>
-        <h1>ToDayList - Gestor de Tareas</h1> <!-- Título más descriptivo para SEO y usuario -->
+        <h1>ToDayList</h1>
+        <p class="subtitle">Gestor de Tareas Diarias</p>
         <div id="medal-counter-container">
             <i class="fas fa-medal"></i> <span id="medal-count">0</span>
         </div>
@@ -978,16 +979,13 @@
             <span class="priority-legend-item"><span class="priority-color-label" data-color="green"></span>Puede Esperar</span>
         </div>
 
-        <!-- ZONA DE ANOTACIONES RÁPIDAS -->
         <div id="quick-notes-container">
             <textarea id="quick-notes-area" placeholder="Anotaciones rápidas..."></textarea>
             <button id="clear-notes-button" class="app-button" aria-label="Borrar anotaciones">
                 <i class="fas fa-eraser"></i> Borrar
             </button>
         </div>
-        <!-- FIN ZONA DE ANOTACIONES RÁPIDAS -->
-
-        <!-- GESTIÓN DE DATOS (IMPORT/EXPORT) -->
+        
         <div id="data-management-container">
             <button id="export-data-button" class="app-button" aria-label="Exportar datos">
                 <i class="fas fa-file-export"></i> Exportar
@@ -997,16 +995,13 @@
                 <i class="fas fa-file-import"></i> Importar
             </button>
         </div>
-        <!-- FIN GESTIÓN DE DATOS -->
 
-
-    </div> <!-- CIERRE DEL .container -->
+    </div> 
 
     <p class="footer-text">WebApp creada por Enrique Gil</p>
 
     <button id="dark-mode-toggle" class="app-button" aria-label="Alternar modo oscuro/claro"><i class="fas fa-moon"></i></button>
 
-    <!-- Modal de Información -->
     <div id="info-modal" class="modal-overlay">
         <div class="modal-content">
             <button id="close-modal-button" class="app-button close-modal" aria-label="Cerrar ventana de información">×</button>
@@ -1030,7 +1025,6 @@
                 <li><strong>Eliminar Tareas:</strong> Haz clic en el icono de papelera <i class="fas fa-trash-alt"></i> para eliminar tareas principales o sub-tareas.</li>
                 <li><strong>Anotaciones Rápidas:</strong> Utiliza el área debajo de la leyenda para notas temporales. Puedes borrarlas con el botón "Borrar".</li>
                 <li><strong>Exportar/Importar Datos:</strong> Usa los botones "Exportar" e "Importar" (debajo de las anotaciones) para guardar una copia de seguridad de todos tus datos (tareas, notas, medallas, tema) o para restaurarlos desde un archivo. <strong>¡Atención!</strong> Importar reemplazará los datos actuales.</li>
-
             </ol>
         </div>
     </div>
@@ -1038,8 +1032,6 @@
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
 
     <script type="module">
-        // No más importaciones de Firebase
-        
         let todoInput;
         let addTodoButton;
         let todoListContainer;
@@ -1617,7 +1609,6 @@
                 darkModeToggle.setAttribute('aria-label', 'Alternar a modo claro');
                 darkModeToggle.title = 'Alternar a modo claro';
             }
-            // No es necesario syncAndRender() aquí si el CSS se actualiza bien solo con la clase
         }
 
         function disableDarkMode() {
@@ -1628,12 +1619,11 @@
                  darkModeToggle.setAttribute('aria-label', 'Alternar a modo oscuro');
                  darkModeToggle.title = 'Alternar a modo oscuro';
             }
-            // No es necesario syncAndRender() aquí
         }
 
         function toggleDarkMode() {
             body.classList.contains('dark-mode') ? disableDarkMode() : enableDarkMode();
-            syncAndRender(); // Llamar a syncAndRender después de cambiar el tema para que los colores de los elementos se actualicen.
+            syncAndRender(); 
         }
 
         function exportAllData() {
@@ -1753,10 +1743,11 @@
             importDataButton = document.getElementById('import-data-button');
             importFileInput = document.getElementById('import-file-input');
 
+            // Cargar y aplicar tema PRIMERO para que el resto de la UI se renderice con el tema correcto
             if (localStorage.getItem(THEME_STORAGE_KEY) === 'dark') {
-                enableDarkMode(); // Aplicar visualmente
+                enableDarkMode(); 
             } else {
-                disableDarkMode(); // Aplicar visualmente
+                disableDarkMode(); 
             }
             
             loadTodosFromLocalStorage();
@@ -1764,7 +1755,7 @@
             const initialMedalData = loadAndRefreshMedalData();
             displayMedalCount(initialMedalData.count);
             
-            renderTodosUI();
+            renderTodosUI(); // Renderizar UI después de cargar todo
 
             addTodoButton.addEventListener('click', addTodo);
             todoInput.addEventListener('keypress', (e) => { if (e.key==='Enter'){ e.preventDefault(); addTodo();}});
