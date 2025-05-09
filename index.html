@@ -38,7 +38,6 @@
     <!-- Schema.org markup for Google -->
     <script type="application/ld+json">
     {
-      // ... (tu schema.org actual, no necesita cambios directos por Supabase)
       "@context": "https://schema.org",
       "@type": "SoftwareApplication",
       "name": "ToDayList",
@@ -57,7 +56,7 @@
       },
       "image": "https://www.todaylist.es/ToDayList.png",
       "screenshot": "https://www.todaylist.es/images/todaylist-screenshot.jpg",
-      "softwareVersion": "1.1.0", // Actualizado por integración con Supabase
+      "softwareVersion": "1.1.0",
       "datePublished": "2024-03-11",
       "keywords": "lista de tareas, to-do list, gestor de tareas diarias, productividad, organización, planificación, web app, tareas pendientes, subtareas, prioridades"
     }
@@ -119,7 +118,23 @@
             --placeholder-color: #bdc3c7;
             --button-color: #bdc3c7;
             --button-hover-color: #f39c12;
-            /* ...otros colores dark mode... */
+            --delete-button-color: var(--button-color);
+            --delete-button-hover-color: var(--button-hover-color);
+            --completed-text-color: #7f8c8d;
+            --progress-bg: #4a627a;
+            --progress-bar-color: #8bc34a;
+            --empty-list-color: #bdc3c7;
+            --fixed-button-bg: #34495e;
+            --fixed-button-border: #4a627a;
+            --fixed-button-shadow: 0 2px 5px rgba(0,0,0,0.4);
+            --legend-text-color: #a0a0a0;
+            --sort-button-color: #bdc3c7;
+            --sort-button-hover-color: #3498db;
+            --checkbox-checkmark-color: var(--bg-color);
+            --footer-text-color: #777;
+            --medal-text-color: var(--text-color);
+            --subtitle-color: #bdc3c7;
+            --app-description-color: #a0a0a0;
             --welcome-button-bg: #f39c12;
             --welcome-button-text: #2c3e50;
             --welcome-button-hover-bg: #e67e22;
@@ -193,7 +208,6 @@
             display: none !important;
         }
 
-        /* --- ESTILOS AUTH --- */
         #auth-section {
             margin-top: 30px;
             padding: 25px;
@@ -237,7 +251,7 @@
         .auth-form-field input[type="email"]:focus,
         .auth-form-field input[type="password"]:focus {
             border-color: var(--auth-button-bg);
-            box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25); /* Ajusta el color si es necesario */
+            box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
         }
         #auth-button {
             background-color: var(--auth-button-bg);
@@ -259,14 +273,14 @@
         #auth-message {
             margin-top: 15px;
             font-size: 0.85rem;
-            color: var(--button-hover-color);
+            color: var(--button-hover-color); /* Error color */
+            min-height: 1.2em; /* Reserve space for message */
         }
-        /* --- FIN ESTILOS AUTH --- */
+        #auth-message.success {
+            color: var(--progress-bar-completed-color); /* Success color */
+        }
 
 
-        /* --- ESTILOS WELCOME, INSTALL, APP-MAIN, MODAL, etc. (COMO ANTES) --- */
-        /* ... (COPIA Y PEGA AQUÍ TODOS TUS ESTILOS EXISTENTES DESDE #welcome-section hasta .close-modal:hover, EXCLUYENDO :root y body.dark-mode que ya están arriba) ... */
-        /* Asegúrate de que todos los elementos que deben ocultarse/mostrarse tienen la clase .hidden aplicada en el HTML cuando sea necesario */
         #welcome-section {
             margin-top: 20px;
             margin-bottom: 30px;
@@ -345,7 +359,6 @@
              outline-offset: 2px;
         }
 
-        /* --- ESTILOS PARA LA SECCIÓN DE INSTALACIÓN (CON ICONOS CORREGIDOS) --- */
         #install-instructions-section {
             margin-top: 20px;
             margin-bottom: 30px;
@@ -357,7 +370,6 @@
             font-size: 0.85rem;
             color: var(--text-color);
         }
-
         #install-instructions-section h4 {
             font-family: 'Quicksand', sans-serif;
             font-size: 1.2rem;
@@ -366,7 +378,6 @@
             margin-bottom: 8px;
             text-align: center;
         }
-
         #install-instructions-section p {
             font-size: 0.95em;
             color: var(--text-color);
@@ -374,14 +385,12 @@
             line-height: 1.45;
             text-align: center;
         }
-
         #install-instructions-section ul {
             list-style: none;
             padding-left: 5px;
             margin: 0 auto;
             max-width: 480px;
         }
-
         #install-instructions-section ul li {
             margin-bottom: 8px;
             line-height: 1.5;
@@ -390,10 +399,9 @@
             position: relative;
             text-align: left;
         }
-
         #install-instructions-section ul li::before {
             font-family: "Font Awesome 6 Brands", "Font Awesome 6 Free"; 
-            font-weight: 400; /* Para iconos de marca (fab) en FA6 */
+            font-weight: 400; 
             position: absolute;
             left: 0px;
             top: 1px; 
@@ -404,17 +412,14 @@
             -webkit-font-smoothing: antialiased; 
             -moz-osx-font-smoothing: grayscale; 
         }
-
-        #install-instructions-section ul li:nth-child(1)::before { content: "\f268"; } /* Chrome */
-        #install-instructions-section ul li:nth-child(2)::before { content: "\f17b"; } /* Android */
-        #install-instructions-section ul li:nth-child(3)::before { content: "\f179"; } /* Apple */
-        #install-instructions-section ul li:nth-child(4)::before { content: "\f267"; } /* Safari */
-
+        #install-instructions-section ul li:nth-child(1)::before { content: "\f268"; } 
+        #install-instructions-section ul li:nth-child(2)::before { content: "\f17b"; } 
+        #install-instructions-section ul li:nth-child(3)::before { content: "\f179"; } 
+        #install-instructions-section ul li:nth-child(4)::before { content: "\f267"; } 
         #install-instructions-section ul li strong {
             color: var(--heading-color);
             font-weight: 700;
         }
-
         #install-instructions-section ul li i.fas.fa-download,
         #install-instructions-section ul li i.fas.fa-ellipsis-v,
         #install-instructions-section ul li i.fas.fa-share-square {
@@ -423,7 +428,6 @@
             margin-right: 0.1em;
             font-size: 0.9em;
         }
-        /* --- FIN ESTILOS SECCIÓN DE INSTALACIÓN --- */
 
         #medal-counter-container {
             text-align: center;
@@ -471,7 +475,6 @@
             padding: 0;
             margin: 0 0 30px 0;
         }
-
         .todo-item {
             background-color: var(--item-bg);
             border: 1px solid var(--border-color);
@@ -487,13 +490,11 @@
          .todo-item:last-child {
              margin-bottom: 0;
          }
-
         .todo-item[data-priority-color="red"] { border-left-color: var(--priority-red-color); }
         .todo-item[data-priority-color="orange"] { border-left-color: var(--priority-orange-color); }
         .todo-item[data-priority-color="yellow"] { border-left-color: var(--priority-yellow-color); }
         .todo-item[data-priority-color="green"] { border-left-color: var(--priority-green-color); }
         .todo-item[data-priority-color="none"] { border-left-color: var(--priority-none-color); }
-
 
          .app-button {
              background: none;
@@ -609,7 +610,6 @@
               background-color: var(--text-color);
               border-color: var(--text-color);
          }
-
          .custom-checkbox:checked::after {
              content: '';
              position: absolute;
@@ -626,7 +626,6 @@
              border-color: var(--checkbox-checkmark-color) !important;
          }
 
-
         .todo-item .main-task-header {
             display: flex;
             align-items: center;
@@ -642,7 +641,6 @@
               background-color: var(--text-color);
               border-color: var(--text-color);
          }
-
 
         .todo-item .priority-color-label {
              display: inline-block;
@@ -664,7 +662,6 @@
         .priority-color-label[data-color="green"] { background-color: var(--priority-green-color); border-color: var(--priority-green-color); }
         .priority-color-label[data-color="none"] { background-color: transparent; border-color: var(--border-color); }
 
-
         .todo-item .main-task-header .task-body {
             display: flex;
             flex-grow: 1;
@@ -673,8 +670,6 @@
             min-width: 0;
             flex-wrap: wrap;
         }
-
-
         .todo-item .main-task-header .task-body span {
             font-weight: 700;
             font-size: 1.1rem;
@@ -684,7 +679,6 @@
             min-width: 0;
             word-break: break-word;
         }
-
         .todo-item .main-task-header .task-body .task-actions-group {
             display: flex;
             align-items: center;
@@ -692,7 +686,6 @@
             margin-left: auto;
             flex-shrink: 0;
         }
-
         .todo-item .main-task-header .task-body .link-button {
             color: var(--button-color);
             padding: 4px 8px;
@@ -702,7 +695,6 @@
         .todo-item .main-task-header .task-body .link-button.link-on {
             opacity: 1;
         }
-
         .todo-item .main-task-header .task-body .calendar-button {
             padding: 4px 8px;
             font-size: 1rem;
@@ -717,7 +709,6 @@
         .todo-item .main-task-header .task-body .calendar-button.date-today i {
             font-weight: bold;
         }
-
         .task-date-input-real {
             opacity: 0;
             position: absolute;
@@ -731,12 +722,10 @@
             border: 0;
             white-space: nowrap;
         }
-
         .todo-item .main-task-header .task-body .task-actions-group .delete-button {
              padding: 4px 8px;
              font-size: 1rem;
         }
-
 
         .todo-item .add-subtasks-toggle {
              display: block;
@@ -750,7 +739,6 @@
          .todo-item .add-subtasks-toggle:hover {
              color: var(--button-hover-color);
          }
-
         .todo-item .subtask-input-container {
             display: none;
             flex-wrap: wrap;
@@ -763,7 +751,6 @@
              padding: 8px 12px;
              font-size: 1rem;
          }
-
         .todo-item .subtasks-list {
             list-style: none;
             padding: 0;
@@ -781,7 +768,6 @@
          .todo-item .subtasks-list li:last-child {
              margin-bottom: 0;
          }
-
         .todo-item .subtasks-list li input[type="checkbox"] {
              width: 18px;
              height: 18px;
@@ -792,7 +778,6 @@
               background-color: var(--text-color);
               border-color: var(--text-color);
          }
-
         .todo-item .subtasks-list li input[type="checkbox"]:checked::after {
             content: '';
             position: absolute;
@@ -808,7 +793,6 @@
          body.dark-mode .todo-item .subtasks-list li input[type="checkbox"]:checked::after {
              border-color: var(--checkbox-checkmark-color) !important;
          }
-
         .todo-item .subtasks-list li span {
              flex-grow: 1;
              margin-right: 5px;
@@ -839,7 +823,6 @@
              padding: 4px 8px;
              font-size: 1rem;
          }
-
         .todo-item .progress-container {
             width: 100%;
             height: 6px;
@@ -857,7 +840,6 @@
             transition: width 0.5s ease-in-out, background-color 0.3s ease;
         }
          .todo-item .progress-text { display: none; }
-
         #todo-list:empty:before {
             content: "No hay tareas. ¡Agrega una!";
             display: block;
@@ -867,14 +849,12 @@
             font-style: italic;
             transition: color 0.3s ease;
         }
-
         .todo-item.show-subtask-ui .subtask-input-container {
              display: flex;
         }
         .todo-item.show-subtask-ui .add-subtasks-toggle {
              display: none;
         }
-
         .todo-item.completed .main-task-header .task-body span,
         .todo-item.completed .subtasks-list li span {
             color: var(--completed-text-color);
@@ -883,13 +863,11 @@
         .todo-item.completed .progress-bar {
             background-color: var(--progress-bar-completed-color);
         }
-
         .todo-item.completed .priority-color-label,
         .todo-item.completed .subtasks-list li .app-button {
             opacity: 0.7;
             cursor: default;
         }
-
         .todo-item.completed .main-task-header .task-body .calendar-button {
             opacity: 0.7;
             cursor: default;
@@ -899,8 +877,6 @@
             color: var(--completed-text-color) !important;
             font-weight: normal !important;
         }
-
-
         .todo-item.completed .main-task-header .task-body .task-actions-group .delete-button {
             opacity: 0.7;
         }
@@ -908,7 +884,6 @@
             opacity: 0.7;
             color: var(--delete-button-color);
         }
-
         .todo-item.completed .main-task-header .task-body .link-button.link-on {
             opacity: 0.8;
             cursor: pointer;
@@ -925,15 +900,12 @@
             color: var(--button-color);
             opacity: 0.4;
         }
-
         .todo-item.completed .priority-color-label:hover,
         .todo-item.completed .subtasks-list li .app-button:hover {
             color: inherit;
             text-decoration: none;
             transform: none;
         }
-
-
          .todo-item.completed .main-task-header input[type="checkbox"] {
              border-color: var(--completed-text-color);
              background-color: var(--completed-text-color);
@@ -948,7 +920,6 @@
           body.dark-mode .todo-item.completed .main-task-header input[type="checkbox"]:checked::after {
               border-color: var(--item-bg) !important;
           }
-
          #todo-input-container {
              display: flex;
              gap: 10px;
@@ -965,7 +936,6 @@
           #todo-input-container #reorder-button {
                margin-left: auto;
           }
-
         #quick-notes-container {
             margin-top: 25px;
             margin-bottom: 10px;
@@ -973,7 +943,6 @@
             flex-direction: column;
             gap: 8px;
         }
-
         #quick-notes-area {
             width: 100%;
             min-height: 70px;
@@ -1002,8 +971,6 @@
         body.dark-mode #quick-notes-area:focus {
             box-shadow: 0 0 0 2px rgba(243, 156, 18, 0.2);
         }
-
-
         #clear-notes-button {
             align-self: flex-end;
             padding: 5px 10px;
@@ -1021,37 +988,9 @@
         #clear-notes-button i {
             margin-right: 4px;
         }
-
-        /* Ya no se usa el data-management-container para export/import local */
         #data-management-container {
-            display: none; /* Ocultar por ahora */
-            /*
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-            margin-top: 10px;
-            margin-bottom: 20px;
-            */
+            display: none; 
         }
-        /* Estilos de botones de data-management (si los reutilizas) */
-        /*
-        #data-management-container .app-button {
-            padding: 6px 12px;
-            font-size: 0.85rem;
-            background-color: var(--item-bg);
-            border: 1px solid var(--border-color);
-            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-        }
-        #data-management-container .app-button:hover {
-            border-color: var(--button-hover-color);
-            background-color: var(--fixed-button-bg);
-        }
-        #data-management-container .app-button i {
-            margin-right: 5px;
-        }
-        */
-
-        /* --- ESTILOS PARA EL BOTÓN DE INFORMACIÓN (MÁS DISCRETO) --- */
         #info-button {
             position: absolute;
             top: 15px;
@@ -1083,7 +1022,7 @@
          #logout-button {
             position: absolute;
             top: 15px;
-            right: 15px; /* Ajustado para estar a la derecha */
+            right: 15px; 
             font-size: 0.9rem;
             color: var(--button-color);
             background-color: var(--item-bg);
@@ -1103,7 +1042,6 @@
             border-color: var(--button-hover-color);
         }
 
-        /* Footer */
         footer {
             display: flex;
             flex-direction: column; 
@@ -1129,21 +1067,18 @@
             color: var(--footer-text-color); 
             font-size: 0.85em; 
         }
-
         #support-section-footer {
             margin-top: 5px; 
             display: flex;
             flex-direction: column; 
             align-items: center; 
         }
-
         .support-intro-text { 
             font-size: 0.7rem; 
             color: var(--legend-text-color); 
             margin-bottom: 3px; 
             line-height: 1.3; 
         }
-
         .paypal-link-footer {
             display: inline-flex;
             align-items: center;
@@ -1152,17 +1087,14 @@
             text-decoration: none;
             transition: color 0.2s ease;
         }
-
         .paypal-link-footer:hover {
             color: var(--button-hover-color); 
             text-decoration: underline;
         }
-
         .paypal-link-footer i.fab.fa-paypal {
             margin-right: 4px; 
             font-size: 0.9em;  
         }
-
 
         @media (max-width: 500px) {
             h1 {
@@ -1181,8 +1113,6 @@
                 padding: 5px 8px;
                 font-size: 0.8rem;
             }
-            /* ... (tus otros media queries existentes) ... */
-
             .subtitle {
                 font-size: 1rem;
             }
@@ -1211,13 +1141,9 @@
             .todo-item .main-task-header .task-body .link-button { order: 1; }
             .todo-item .main-task-header .task-body .calendar-button { order: 2; }
             .todo-item .main-task-header .task-body .delete-button { order: 3; }
-
              #todo-input-container #reorder-button {
                   margin-left: 0;
              }
-             /* #data-management-container { // Si se vuelve a usar
-                justify-content: center;
-             } */
              #welcome-section h2 {
                  font-size: 1.5rem;
              }
@@ -1231,7 +1157,6 @@
                 padding: 10px 20px;
                 font-size: 1rem;
             }
-
             #install-instructions-section {
                 padding: 15px 18px;
                 font-size: 0.8rem;
@@ -1248,7 +1173,6 @@
                 top: 0px;
                 font-size: 1em;
             }
-            
             footer {
                 font-size: 0.75rem; 
                 padding-top: 15px; 
@@ -1291,7 +1215,6 @@
             visibility: visible;
             transition: opacity 0.3s ease, visibility 0s linear 0s;
         }
-
         .modal-content {
             background-color: var(--item-bg);
             color: var(--text-color);
@@ -1309,7 +1232,6 @@
         .modal-overlay.visible .modal-content {
             transform: scale(1);
         }
-
         .modal-content h2 {
             margin-top: 0;
             margin-bottom: 20px;
@@ -1318,7 +1240,6 @@
             font-family: 'Quicksand', sans-serif;
             font-size: 1.8rem;
         }
-
         .modal-content ol {
             padding-left: 20px;
             margin-bottom: 0;
@@ -1336,7 +1257,6 @@
             margin-bottom: 8px;
             font-size: 0.95em;
         }
-
         .modal-content strong {
             color: var(--heading-color);
         }
@@ -1345,8 +1265,6 @@
             margin: 0 2px;
             font-size: 0.9em;
         }
-
-
         .close-modal {
             position: absolute;
             top: 10px;
@@ -1361,7 +1279,6 @@
         .close-modal:hover {
             color: var(--button-hover-color);
         }
-
     </style>
 </head>
 <body>
@@ -1379,7 +1296,7 @@
             Organiza tu día y aumenta tu productividad de forma sencilla y eficaz.
         </p>
 
-        <section id="auth-section">
+        <section id="auth-section" class="hidden"> <!-- Inicialmente oculto hasta que JS decida -->
             <h2>Acceder / Registrarse</h2>
             <div class="auth-form-field">
                 <label for="auth-email">Email:</label>
@@ -1409,7 +1326,6 @@
                 <li><strong>Enlaces Relevantes:</strong> Asocia URLs directamente a tus tareas.</li>
                 <li><strong>Modo Oscuro/Claro:</strong> Adapta la interfaz a tus preferencias visuales.</li>
                 <li><strong>Progreso y Motivación:</strong> Visualiza el avance y gana medallas por completar tareas.</li>
-                <!-- <li><strong>Exportación e Importación de Datos:</strong> Realiza copias de seguridad o transfiere tus datos.</li> -->
                 <li><strong>Anotaciones Rápidas:</strong> Un espacio para tomar notas sin crear una tarea formal.</li>
             </ul>
             <p>
@@ -1458,17 +1374,9 @@
                 </button>
             </div>
 
-            <!-- Quitado por ahora, ya que los datos están en Supabase
-            <div id="data-management-container">
-                <button id="export-data-button" class="app-button" aria-label="Exportar datos">
-                    <i class="fas fa-file-export"></i> Exportar
-                </button>
-                <input type="file" id="import-file-input" accept=".json" style="display: none;">
-                <button id="import-data-button" class="app-button" aria-label="Importar datos">
-                    <i class="fas fa-file-import"></i> Importar
-                </button>
+            <div id="data-management-container" class="hidden">
+                <!-- Oculto por ahora, ya que los datos están en Supabase -->
             </div>
-            -->
 
         </div> <!-- Fin de #app-main-interface -->
 
@@ -1510,7 +1418,6 @@
                 <li><strong>Modo Oscuro/Claro:</strong> Utiliza el botón <i class="fas fa-moon"></i> / <i class="fas fa-sun"></i> situado abajo a la derecha para cambiar el tema visual de la aplicación.</li>
                 <li><strong>Eliminar Tareas:</strong> Haz clic en el icono de papelera <i class="fas fa-trash-alt"></i> para eliminar tareas principales o sub-tareas.</li>
                 <li><strong>Anotaciones Rápidas:</strong> Utiliza el área debajo de la leyenda para notas temporales. Puedes borrarlas con el botón "Borrar".</li>
-                <!-- <li><strong>Exportar/Importar Datos:</strong> Ya no es necesario, tus datos se guardan en la nube.</li> -->
             </ol>
         </div>
     </div>
@@ -1520,8 +1427,8 @@
 
     <script type="module">
         // --- SUPABASE Setup ---
-        const SUPABASE_URL = 'TU_SUPABASE_URL'; // <-- Reemplaza esto
-        const SUPABASE_ANON_KEY = 'TU_SUPABASE_ANON_KEY'; // <-- Reemplaza esto
+        const SUPABASE_URL = 'https://kucqltjqixjelbfcrtgc.supabase.co'; 
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt1Y3FsdGpxaXhqZWxiZmNydGdjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY4MTkzODgsImV4cCI6MjA2MjM5NTM4OH0.nhG4BI7E60mHaLdLvvnpW0xKzceleYvyov4HqFOMe2I';
         const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
         
         let currentUser = null;
@@ -1536,13 +1443,12 @@
         let medalCountDisplay;
         let infoButton, infoModal, closeModalButton;
         let quickNotesArea, clearNotesButton;
-        // let exportDataButton, importDataButton, importFileInput; // No se usan con Supabase por ahora
 
         let welcomeSection, startAppButton, appMainInterface, installInstructionsSection;
         
         let authSection, authEmailInput, authPasswordInput, authButton, authMessage, logoutButton;
 
-        let todos = []; // Local cache of todos
+        let todos = []; 
 
         const PRIORITY_COLORS = ['none', 'red', 'orange', 'yellow', 'green'];
         const PRIORITY_ORDER = { 'red': 1, 'orange': 2, 'yellow': 3, 'green': 4, 'none': 5 };
@@ -1555,7 +1461,7 @@
 
 
         // --- Helper Functions ---
-        function generateLocalId() { // Sigue siendo útil para subtasks que son JSONB
+        function generateLocalId() { 
             return '_' + Math.random().toString(36).substring(2, 15);
         }
 
@@ -1568,35 +1474,41 @@
         }
 
         function getTodayDateString() {
-            return new Date().toISOString().split('T')[0];
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = (now.getMonth() + 1).toString().padStart(2, '0');
+            const day = now.getDate().toString().padStart(2, '0');
+            return `${year}-${month}-${day}`;
         }
 
         // --- UI Update Functions ---
         function showAuthSection() {
-            authSection.classList.remove('hidden');
-            appMainInterface.classList.add('hidden');
-            welcomeSection.classList.add('hidden');
-            installInstructionsSection.classList.add('hidden');
-            infoButton.classList.add('hidden');
-            logoutButton.classList.add('hidden');
+            if (authSection) authSection.classList.remove('hidden');
+            if (appMainInterface) appMainInterface.classList.add('hidden');
+            if (welcomeSection) welcomeSection.classList.add('hidden');
+            if (installInstructionsSection) installInstructionsSection.classList.add('hidden');
+            if (infoButton) infoButton.classList.add('hidden');
+            if (logoutButton) logoutButton.classList.add('hidden');
             if (darkModeToggle) darkModeToggle.classList.add('hidden');
+            if (authEmailInput) authEmailInput.focus();
         }
 
         function showAppInterface() {
-            authSection.classList.add('hidden');
-            // Decide si mostrar welcome o app-main
-            if (todos.length === 0 && !localStorage.getItem('hasSeenWelcome')) {
-                 welcomeSection.classList.remove('hidden');
-                 installInstructionsSection.classList.remove('hidden'); // Podrías querer mostrar esto también
-                 appMainInterface.classList.add('hidden');
+            if (authSection) authSection.classList.add('hidden');
+            const welcomeSeenKey = 'hasSeenWelcome-' + (currentUser ? currentUser.id : 'guest');
+            
+            if (todos.length === 0 && localStorage.getItem(welcomeSeenKey) !== 'true') {
+                 if (welcomeSection) welcomeSection.classList.remove('hidden');
+                 if (installInstructionsSection) installInstructionsSection.classList.remove('hidden');
+                 if (appMainInterface) appMainInterface.classList.add('hidden');
             } else {
-                 welcomeSection.classList.add('hidden');
-                 installInstructionsSection.classList.add('hidden');
-                 appMainInterface.classList.remove('hidden');
+                 if (welcomeSection) welcomeSection.classList.add('hidden');
+                 if (installInstructionsSection) installInstructionsSection.classList.add('hidden');
+                 if (appMainInterface) appMainInterface.classList.remove('hidden');
                  if (todoInput) todoInput.focus();
             }
-            infoButton.classList.remove('hidden');
-            logoutButton.classList.remove('hidden');
+            if (infoButton) infoButton.classList.remove('hidden');
+            if (logoutButton) logoutButton.classList.remove('hidden');
             if (darkModeToggle) darkModeToggle.classList.remove('hidden');
         }
         
@@ -1606,33 +1518,47 @@
             }
         }
         
-        // --- Supabase Data Functions ---
         async function loadUserSettings() {
-            if (!currentUser) return;
+            if (!currentUser) {
+                userSettings = { ...USER_SETTINGS_DEFAULTS }; 
+                if (USER_SETTINGS_DEFAULTS.theme === 'dark') enableDarkMode(false); else disableDarkMode(false);
+                if (quickNotesArea) quickNotesArea.value = USER_SETTINGS_DEFAULTS.quick_notes;
+                refreshMedalData(); 
+                return;
+            }
+            
             const { data, error } = await supabase
                 .from('user_settings')
                 .select('*')
                 .eq('user_id', currentUser.id)
                 .single();
 
-            if (error && error.code !== 'PGRST116') { // PGRST116: single row not found
-                console.error('Error loading user settings:', error);
+            if (error && error.code !== 'PGRST116') { 
+                console.error('Error loading user settings:', error.message);
                 userSettings = { ...USER_SETTINGS_DEFAULTS, user_id: currentUser.id };
             } else if (data) {
                 userSettings = {
-                    ...USER_SETTINGS_DEFAULTS, // Start with defaults
-                    ...data, // Override with fetched data
-                    medal_data: data.medal_data || { date: getTodayDateString(), count: 0 } // Ensure medal_data structure
+                    ...USER_SETTINGS_DEFAULTS, 
+                    ...data, 
+                    medal_data: data.medal_data || { date: getTodayDateString(), count: 0 } 
                 };
-            } else { // No settings found, use defaults and prepare for upsert
+            } else { 
                  userSettings = { ...USER_SETTINGS_DEFAULTS, user_id: currentUser.id };
+                 const { error: upsertError } = await supabase
+                    .from('user_settings')
+                    .upsert({
+                        user_id: currentUser.id,
+                        medal_data: userSettings.medal_data,
+                        quick_notes: userSettings.quick_notes,
+                        theme: userSettings.theme
+                    }, { onConflict: 'user_id' });
+                 if (upsertError) console.error('Error saving initial default user settings:', upsertError.message);
             }
             
-            // Apply loaded settings
             if (userSettings.theme === 'dark') enableDarkMode(false); else disableDarkMode(false);
             if (quickNotesArea) quickNotesArea.value = userSettings.quick_notes || '';
             
-            refreshMedalData(); // This will also update display
+            refreshMedalData(); 
         }
 
         async function saveUserSetting(key, value) {
@@ -1643,8 +1569,8 @@
 
             const { error } = await supabase
                 .from('user_settings')
-                .upsert(settingToSave, { onConflict: 'user_id' });
-            if (error) console.error(`Error saving user setting ${key}:`, error);
+                .upsert(settingToSave, { onConflict: 'user_id' }); 
+            if (error) console.error(`Error saving user setting ${key}:`, error.message);
         }
         
         async function loadTodosFromSupabase() {
@@ -1660,36 +1586,46 @@
                 .order('order_val', { ascending: true });
 
             if (error) {
-                console.error('Error fetching todos:', error);
+                console.error('Error fetching todos:', error.message);
                 todos = [];
             } else {
                 todos = data.map(task => ({
                     ...task,
-                    order: task.order_val, // Map order_val back to order for JS logic
-                    subtasks: task.subtasks || [], // Ensure subtasks is an array
+                    order: task.order_val, 
+                    subtasks: task.subtasks || [], 
                 }));
             }
             renderTodosUI();
         }
         
-        // --- Medal Logic (Modified for Supabase) ---
-        function refreshMedalData() { // Renamed from loadAndRefreshMedalData
+        function refreshMedalData() { 
             const today = getTodayDateString();
-            if (!userSettings.medal_data || userSettings.medal_data.date !== today) {
+            if (!userSettings.medal_data || typeof userSettings.medal_data !== 'object' || userSettings.medal_data.date !== today) {
                 let countForToday = 0;
-                todos.forEach(task => {
-                    if (task.completed && task.completed_date === today) countForToday++;
-                });
+                if(currentUser) { 
+                    todos.forEach(task => {
+                        if (task.completed && task.completed_date === today) countForToday++;
+                    });
+                }
                 userSettings.medal_data = { date: today, count: countForToday };
-                saveUserSetting('medal_data', userSettings.medal_data);
+                if (currentUser) saveUserSetting('medal_data', userSettings.medal_data);
             }
-            displayMedalCount(userSettings.medal_data.count);
+            displayMedalCount(userSettings.medal_data ? userSettings.medal_data.count : 0);
         }
 
         async function updateMedalCount(change) {
-            if (!userSettings.medal_data) refreshMedalData(); // Ensure it's initialized
+            if (!currentUser) return;
             
-            userSettings.medal_data.count += change;
+            if (typeof userSettings.medal_data !== 'object' || userSettings.medal_data === null) {
+                refreshMedalData(); // Attempt to initialize/refresh
+                 // Check again after refresh
+                if (typeof userSettings.medal_data !== 'object' || userSettings.medal_data === null) {
+                    console.error("Medal data still not an object after refresh. Aborting updateMedalCount.");
+                    return; 
+                }
+            }
+            
+            userSettings.medal_data.count = (userSettings.medal_data.count || 0) + change; // Ensure count is a number
             if (userSettings.medal_data.count < 0) userSettings.medal_data.count = 0;
             
             await saveUserSetting('medal_data', userSettings.medal_data);
@@ -1697,10 +1633,7 @@
         }
 
 
-        // --- Original App Logic (adapted for Supabase where needed) ---
-        // The create...UI functions are mostly the same, ensure they use the `todos` array
-
-        function syncAndRender() { // Kept for consistency, but data source is Supabase now
+        function syncAndRender() { 
             renderTodosUI();
         }
 
@@ -1715,7 +1648,7 @@
             const hasDate = !!task.date;
 
             calendarLabel.classList.remove('date-set', 'date-today');
-            calendarIcon.style.color = ''; // Reset color
+            calendarIcon.style.color = ''; 
             calendarIcon.style.fontWeight = 'normal';
             calendarLabel.title = 'Establecer fecha';
 
@@ -1723,7 +1656,6 @@
             if (task.completed) {
                 if (hasDate) calendarLabel.title = `Fecha: ${task.date} (Completada)`;
                 else calendarLabel.title = 'Fecha no establecida (Completada)';
-                // Icon style for completed handled by .completed CSS generally
                 return;
             }
 
@@ -1736,7 +1668,6 @@
 
             if (isToday) {
                 calendarLabel.classList.add('date-today');
-                // Get the actual border color for dynamic priority highlighting
                 const computedStyle = getComputedStyle(listItemElement);
                 const priorityColorForToday = computedStyle.borderLeftColor; 
                 calendarIcon.style.color = priorityColorForToday;
@@ -1800,7 +1731,7 @@
                     window.open(task.link_url, '_blank');
                 } else if (!task.completed) {
                     const newUrl = prompt("Introduce la URL (ej: https://ejemplo.com):", task.link_url || "");
-                    if (newUrl === null) return; // User cancelled
+                    if (newUrl === null) return; 
                     let finalUrl = newUrl.trim();
                     if (finalUrl !== "" && !finalUrl.toLowerCase().startsWith('http://') && !finalUrl.toLowerCase().startsWith('https://')) {
                         finalUrl = 'https://' + finalUrl;
@@ -1808,7 +1739,7 @@
                     task.link_url = finalUrl || null;
                     
                     const { error } = await supabase.from('todos').update({ link_url: task.link_url }).eq('id', task.id);
-                    if (error) console.error("Error updating link_url:", error);
+                    if (error) console.error("Error updating link_url:", error.message);
                     else syncAndRender();
                 }
             });
@@ -1861,7 +1792,6 @@
                  displayedProgress = 100;
              } else if (mainTask.subtasks && mainTask.subtasks.length > 0) {
                  const subtaskProgress = calculateSubtaskProgress(mainTask.subtasks);
-                 // Si todas las subtareas están hechas, pero la principal no, mostrar 90%
                  displayedProgress = subtaskProgress === 100 ? 90 : subtaskProgress; 
              }
              progressBar.style.width = `${displayedProgress}%`;
@@ -1880,16 +1810,16 @@
                      if (task.completed) return;
                      task.show_subtask_ui = !task.show_subtask_ui;
                      if (task.show_subtask_ui && (!task.subtasks || task.subtasks.length === 0)) {
-                         task.subtasks = []; // Initialize if not present
+                         task.subtasks = []; 
                      }
                      const { error } = await supabase.from('todos').update({ show_subtask_ui: task.show_subtask_ui, subtasks: task.subtasks }).eq('id', task.id);
-                     if (error) console.error("Error updating show_subtask_ui:", error);
+                     if (error) console.error("Error updating show_subtask_ui:", error.message);
                      else {
                         syncAndRender();
                         if (task.show_subtask_ui) {
                              const listItemElement = todoListContainer.querySelector(`li[data-task-id="${mainTaskId}"]`);
                              if (listItemElement) {
-                               setTimeout(() => { // Ensure DOM is updated
+                               setTimeout(() => { 
                                    const inputElement = listItemElement.querySelector('.subtask-input-container input[type="text"]');
                                    if (inputElement) inputElement.focus();
                                }, 0);
@@ -1974,7 +1904,7 @@
 
         function renderTodosUI() {
             if (!todoListContainer) return;
-            todoListContainer.innerHTML = ''; // Clear existing list
+            todoListContainer.innerHTML = ''; 
             
             todos.forEach((mainTask) => {
                 const listItem = document.createElement('li');
@@ -1991,7 +1921,6 @@
                 if (!mainTask.completed) {
                     listItem.appendChild(createAddSubtasksToggle(mainTask.id));
                 } else {
-                    // Ensure show_subtask_ui is false if completed, though Supabase update should handle this
                     mainTask.show_subtask_ui = false; 
                 }
 
@@ -2004,10 +1933,10 @@
                 }
 
                 todoListContainer.appendChild(listItem);
-                updateDateHighlight(listItem, mainTask); // Call after appending to DOM
+                updateDateHighlight(listItem, mainTask); 
             });
 
-            if (todoInput) todoInput.value = ''; // Clear main input
+            if (todoInput) todoInput.value = ''; 
         }
         
         async function cyclePriorityColor(taskId) {
@@ -2017,9 +1946,8 @@
                  task.priority_color = PRIORITY_COLORS[(currentIndex + 1) % PRIORITY_COLORS.length];
                  
                  const { error } = await supabase.from('todos').update({ priority_color: task.priority_color }).eq('id', task.id);
-                 if (error) console.error("Error updating priority_color:", error);
+                 if (error) console.error("Error updating priority_color:", error.message);
                  else {
-                    // Update UI directly for responsiveness instead of full re-render
                     const listItemElement = todoListContainer.querySelector(`li[data-task-id="${task.id}"]`);
                     if (listItemElement) {
                         listItemElement.dataset.priorityColor = task.priority_color;
@@ -2028,7 +1956,7 @@
                             priorityLabelElement.dataset.color = task.priority_color;
                             priorityLabelElement.title = `Prioridad: ${task.priority_color.charAt(0).toUpperCase() + task.priority_color.slice(1)}`;
                         }
-                        updateDateHighlight(listItemElement, task); // Date highlight might depend on priority color
+                        updateDateHighlight(listItemElement, task); 
                     }
                  }
              }
@@ -2037,12 +1965,11 @@
         async function updateTaskDate(taskId, newDateValue) {
             const task = findTaskById(taskId);
             if (task && !task.completed) {
-                task.date = newDateValue || null; // Store null if empty
+                task.date = newDateValue || null; 
                 const { error } = await supabase.from('todos').update({ date: task.date }).eq('id', task.id);
-                if (error) console.error("Error updating date:", error);
-                else syncAndRender(); // Re-render to update highlights correctly
+                if (error) console.error("Error updating date:", error.message);
+                else syncAndRender(); 
             } else if (task && task.completed) {
-                // If task is completed, date input is usually disabled, but if somehow changed, revert
                 syncAndRender(); 
             }
         }
@@ -2064,23 +1991,24 @@
                 priority_color: 'none',
                 date: null,
                 link_url: null,
-                order_val: maxOrder + 1 // Use order_val for DB
+                order_val: maxOrder + 1 
             };
 
             const { data, error } = await supabase.from('todos').insert([newTodoData]).select();
 
             if (error) {
-                console.error('Error adding todo:', error);
+                console.error('Error adding todo:', error.message);
                 alert('Error al agregar la tarea.');
             } else if (data && data.length > 0) {
-                const createdTodo = { ...data[0], order: data[0].order_val }; // Map back order_val
+                const createdTodo = { ...data[0], order: data[0].order_val }; 
                 todos.push(createdTodo);
                 syncAndRender();
                 if (todoInput) todoInput.value = '';
 
-                if (localStorage.getItem('hasSeenWelcome') !== 'true' && welcomeSection && !welcomeSection.classList.contains('hidden')) {
-                    localStorage.setItem('hasSeenWelcome', 'true');
-                    showAppInterface(); // This will hide welcome and show main app
+                const welcomeSeenKey = 'hasSeenWelcome-' + (currentUser ? currentUser.id : 'guest');
+                if (localStorage.getItem(welcomeSeenKey) !== 'true' && welcomeSection && !welcomeSection.classList.contains('hidden')) {
+                    localStorage.setItem(welcomeSeenKey, 'true');
+                    showAppInterface(); 
                 }
             }
         }
@@ -2091,11 +2019,11 @@
              const mainTask = findTaskById(mainTaskId);
 
              if (mainTask && !mainTask.completed) {
-                 if (!mainTask.subtasks) mainTask.subtasks = []; // Should be initialized as [] from DB
+                 if (!mainTask.subtasks) mainTask.subtasks = []; 
                  mainTask.subtasks.push({ id: generateLocalId(), text: newSubtaskText, completed: false });
-                 mainTask.completed = false; // Ensure main task isn't marked completed
+                 mainTask.completed = false; 
                  mainTask.completed_date = null;
-                 mainTask.show_subtask_ui = false; // Hide input after adding
+                 mainTask.show_subtask_ui = false; 
 
                  const { error } = await supabase
                     .from('todos')
@@ -2107,7 +2035,7 @@
                     })
                     .eq('id', mainTask.id);
 
-                 if (error) console.error("Error adding subtask:", error);
+                 if (error) console.error("Error adding subtask:", error.message);
                  else {
                     syncAndRender();
                     if (subtaskInput) subtaskInput.value = '';
@@ -2122,19 +2050,19 @@
                 
                 const { error } = await supabase.from('todos').delete().eq('id', taskId);
                 if (error) {
-                    console.error('Error deleting todo:', error);
+                    console.error('Error deleting todo:', error.message);
                     alert('Error al eliminar la tarea.');
                 } else {
                     if (taskToDelete.completed && taskToDelete.completed_date === getTodayDateString()) {
-                        updateMedalCount(-1); // This will also save to Supabase
+                        updateMedalCount(-1); 
                     }
                     todos.splice(taskIndex, 1);
                     syncAndRender();
                     
-                    // If list becomes empty and welcome was previously hidden by tasks, show it
-                    if (todos.length === 0 && localStorage.getItem('hasSeenWelcome') === 'true') {
-                        localStorage.removeItem('hasSeenWelcome'); // Allow welcome to show again
-                        showAppInterface(); // This will re-evaluate and show welcome
+                    const welcomeSeenKey = 'hasSeenWelcome-' + (currentUser ? currentUser.id : 'guest');
+                    if (todos.length === 0 && localStorage.getItem(welcomeSeenKey) === 'true') {
+                        localStorage.removeItem(welcomeSeenKey); 
+                        showAppInterface(); 
                     }
                 }
             }
@@ -2146,7 +2074,7 @@
                  const subtaskIndex = mainTask.subtasks.findIndex(sub => sub.id === subtaskId);
                  if (subtaskIndex > -1) {
                      mainTask.subtasks.splice(subtaskIndex, 1);
-                     mainTask.completed = false; // Ensure main task isn't marked completed by subtask deletion
+                     mainTask.completed = false; 
                      mainTask.completed_date = null;
 
                      const { error } = await supabase
@@ -2158,7 +2086,7 @@
                         })
                         .eq('id', mainTask.id);
                      
-                     if (error) console.error("Error deleting subtask:", error);
+                     if (error) console.error("Error deleting subtask:", error.message);
                      else syncAndRender();
                  }
              }
@@ -2170,10 +2098,8 @@
                 const subtask = mainTask.subtasks.find(sub => sub.id === subtaskId);
                 if (subtask) {
                      subtask.completed = !subtask.completed;
-                     // Main task completion status might change based on this, but let's keep it simple
-                     // The progress bar will reflect this.
                      const { error } = await supabase.from('todos').update({ subtasks: mainTask.subtasks }).eq('id', mainTask.id);
-                     if (error) console.error("Error toggling subtask completion:", error);
+                     if (error) console.error("Error toggling subtask completion:", error.message);
                      else syncAndRender();
                  }
              }
@@ -2187,8 +2113,8 @@
 
                 task.completed = isChecked;
                 task.completed_date = isChecked ? today : null;
-                task.priority_color = isChecked ? 'none' : (task.priority_color || 'none'); // Reset priority if completed
-                task.show_subtask_ui = false; // Hide subtask UI on completion
+                task.priority_color = isChecked ? 'none' : (task.priority_color || 'none'); 
+                task.show_subtask_ui = false; 
 
                 if (task.subtasks) {
                     task.subtasks.forEach(sub => sub.completed = isChecked);
@@ -2206,17 +2132,16 @@
                     .eq('id', task.id);
 
                 if (error) {
-                    console.error('Error toggling main completion:', error);
-                    // Revert local state if Supabase fails? For simplicity, no for now.
+                    console.error('Error toggling main completion:', error.message);
                 } else {
                     if (isChecked) {
                         if (!wasCompletedTodayBefore) {
-                            updateMedalCount(1); // Async, will save to Supabase
+                            updateMedalCount(1); 
                         }
                         if (typeof confetti === 'function') confetti({ particleCount: 150, spread: 90, origin: { y: 0.55 }});
                     } else {
                         if (wasCompletedTodayBefore) {
-                            updateMedalCount(-1); // Async, will save to Supabase
+                            updateMedalCount(-1); 
                         }
                     }
                     syncAndRender();
@@ -2236,7 +2161,7 @@
                     [mainTask.subtasks[newIndex], mainTask.subtasks[subtaskIndex]];
                     
                     const { error } = await supabase.from('todos').update({ subtasks: mainTask.subtasks }).eq('id', mainTask.id);
-                    if (error) console.error("Error moving subtask:", error);
+                    if (error) console.error("Error moving subtask:", error.message);
                     else syncAndRender();
                 }
             }
@@ -2254,30 +2179,27 @@
                  const dateB = b.date ? new Date(b.date).getTime() : Infinity;
                  if (dateA !== dateB) return dateA - dateB;
                  
-                 // Use created_at for tie-breaking if order_val is the same or not reliable yet
                  const createdA = new Date(a.created_at || 0).getTime();
                  const createdB = new Date(b.created_at || 0).getTime();
                  return createdA - createdB;
              });
 
-             // Update order_val in local todos and prepare for batch update
              const updates = todos.map((task, index) => {
-                 task.order = index; // Update local 'order' used by JS
-                 task.order_val = index; // Update 'order_val' for DB
+                 task.order = index; 
+                 task.order_val = index; 
                  return { id: task.id, order_val: index };
              });
 
-            // Batch update order_val in Supabase
-            // Supabase JS v2 doesn't have a direct batch update for different rows with different values easily.
-            // We'll update one by one, or you'd use a custom RPC function for true batching.
-            // For simplicity here, individual updates or a full re-render after local sort is often enough.
-            // Let's just re-render locally. A full save operation would be complex.
-            // To truly save order to Supabase, you'd iterate and update each task's order_val.
-            for (const update of updates) {
-                // This could be slow for many tasks. Consider an RPC for bulk updates.
-                await supabase.from('todos').update({ order_val: update.order_val }).eq('id', update.id);
+            try {
+                for (const update of updates) {
+                    const { error } = await supabase.from('todos').update({ order_val: update.order_val }).eq('id', update.id);
+                    if (error) throw error;
+                }
+                syncAndRender();
+            } catch (error) {
+                console.error("Error batch updating order:", error.message);
+                // Optionally, revert local sort or show user an error
             }
-             syncAndRender();
         }
 
         function enableDarkMode(saveToDb = true) {
@@ -2288,7 +2210,7 @@
                 darkModeToggle.title = 'Alternar a modo claro';
             }
             if (saveToDb) saveUserSetting('theme', 'dark');
-            userSettings.theme = 'dark'; // Update local cache
+            userSettings.theme = 'dark'; 
         }
 
         function disableDarkMode(saveToDb = true) {
@@ -2299,90 +2221,96 @@
                  darkModeToggle.title = 'Alternar a modo oscuro';
             }
             if (saveToDb) saveUserSetting('theme', 'light');
-            userSettings.theme = 'light'; // Update local cache
+            userSettings.theme = 'light'; 
         }
 
         function toggleDarkMode() {
             body.classList.contains('dark-mode') ? disableDarkMode() : enableDarkMode();
-            // No need to call syncAndRender() unless theme change affects task rendering directly,
-            // which it does for things like calendar icon color based on priority.
             syncAndRender();
         }
         
-        // --- Authentication ---
         async function handleLoginSignup() {
             const email = authEmailInput.value;
             const password = authPasswordInput.value;
-            authMessage.textContent = ''; // Clear previous messages
+            authMessage.textContent = ''; 
+            authMessage.className = 'auth-message'; // Reset class
 
             if (!email || !password) {
                 authMessage.textContent = "Email y contraseña son requeridos.";
                 return;
             }
+            authButton.disabled = true;
+            authButton.textContent = "Procesando...";
 
-            // Try to sign in
             const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({ email, password });
 
             if (signInError) {
-                if (signInError.message.includes("Invalid login credentials")) { // Or check specific error codes
-                    // If sign-in fails (e.g. user doesn't exist), try to sign up
+                if (signInError.message.includes("Invalid login credentials") || signInError.message.includes("User not found")) { 
                     authMessage.textContent = "Usuario no encontrado, intentando crear cuenta...";
                     const { data: signUpData, error: signUpError } = await supabase.auth.signUp({ email, password });
 
                     if (signUpError) {
                         authMessage.textContent = "Error creando cuenta: " + signUpError.message;
-                        return;
-                    }
-                    if (signUpData.user && signUpData.user.identities && signUpData.user.identities.length === 0) {
-                        authMessage.textContent = "Cuenta creada. Por favor, revisa tu email para confirmar la cuenta antes de iniciar sesión.";
-                        // User needs to confirm email, so don't proceed to app interface yet.
-                        // currentUser will be null until confirmed and logged in again.
+                    } else if (signUpData.user && signUpData.user.identities && signUpData.user.identities.length === 0) {
+                        authMessage.textContent = "Cuenta creada. Revisa tu email para confirmar la cuenta.";
+                        authMessage.classList.add('success');
                     } else if (signUpData.user) {
-                         // If email confirmation is disabled, or user is auto-confirmed
                         authMessage.textContent = "Cuenta creada y sesión iniciada.";
+                        authMessage.classList.add('success');
                         currentUser = signUpData.user;
                         await loadUserSettings();
                         await loadTodosFromSupabase();
                         showAppInterface();
                     } else {
-                         authMessage.textContent = "Cuenta creada. Por favor, revisa tu email para confirmar.";
+                         authMessage.textContent = "Cuenta creada. Revisa tu email para confirmar.";
+                         authMessage.classList.add('success');
                     }
-
                 } else {
                     authMessage.textContent = "Error iniciando sesión: " + signInError.message;
                 }
             } else {
                 authMessage.textContent = "Sesión iniciada.";
+                authMessage.classList.add('success');
                 currentUser = signInData.user;
                 await loadUserSettings();
                 await loadTodosFromSupabase();
                 showAppInterface();
             }
+            authButton.disabled = false;
+            authButton.textContent = "Continuar";
         }
 
         async function handleLogout() {
             const { error } = await supabase.auth.signOut();
             if (error) {
-                console.error('Error logging out:', error);
+                console.error('Error logging out:', error.message);
                 alert('Error al cerrar sesión.');
             } else {
                 currentUser = null;
-                todos = []; // Clear local cache
-                userSettings = { ...USER_SETTINGS_DEFAULTS }; // Reset settings
+                todos = []; 
+                userSettings = { ...USER_SETTINGS_DEFAULTS }; 
+                const welcomeSeenKey = 'hasSeenWelcome-' + (currentUser ? currentUser.id : 'guest'); // Use old ID for removal
+                localStorage.removeItem(welcomeSeenKey); 
                 showAuthSection();
-                // Clear inputs if needed
                 if (authEmailInput) authEmailInput.value = '';
                 if (authPasswordInput) authPasswordInput.value = '';
-                localStorage.removeItem('hasSeenWelcome'); // Allow welcome screen for next login if list is empty
             }
         }
 
         async function checkUserSession() {
-            const { data: { session } } = await supabase.auth.getSession();
+            const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+            
+            if (sessionError) {
+                console.error("Error getting session:", sessionError.message);
+                currentUser = null;
+                showAuthSection();
+                return;
+            }
+
             if (session && session.user) {
                 currentUser = session.user;
-                await loadUserSettings(); // Load settings before todos
-                await loadTodosFromSupabase(); // Load todos for the user
+                await loadUserSettings(); 
+                await loadTodosFromSupabase(); 
                 showAppInterface();
             } else {
                 currentUser = null;
@@ -2391,9 +2319,7 @@
         }
 
 
-        // --- DOMContentLoaded ---
         document.addEventListener('DOMContentLoaded', () => {
-            // Auth elements
             authSection = document.getElementById('auth-section');
             authEmailInput = document.getElementById('auth-email');
             authPasswordInput = document.getElementById('auth-password');
@@ -2401,7 +2327,6 @@
             authMessage = document.getElementById('auth-message');
             logoutButton = document.getElementById('logout-button');
 
-            // App elements
             todoInput = document.getElementById('new-todo-input');
             addTodoButton = document.getElementById('add-todo-button');
             todoListContainer = document.getElementById('todo-list');
@@ -2419,13 +2344,10 @@
             appMainInterface = document.getElementById('app-main-interface');
             installInstructionsSection = document.getElementById('install-instructions-section');
 
-            // Initial setup
-            checkUserSession(); // This will show auth or app
-            // Theme is applied within loadUserSettings now
+            checkUserSession(); 
 
-            // Event Listeners
             if (authButton) authButton.addEventListener('click', handleLoginSignup);
-            if (authPasswordInput) { // Allow Enter key submission for login
+            if (authPasswordInput) { 
                 authPasswordInput.addEventListener('keypress', (e) => {
                     if (e.key === 'Enter') {
                         e.preventDefault();
@@ -2440,10 +2362,11 @@
             if (reorderButton) reorderButton.addEventListener('click', performManualSort);
             if (darkModeToggle) darkModeToggle.addEventListener('click', toggleDarkMode);
 
-            if (startAppButton) { // Button on the welcome screen
+            if (startAppButton) { 
                 startAppButton.addEventListener('click', () => {
-                    localStorage.setItem('hasSeenWelcome', 'true');
-                    showAppInterface(); // This will hide welcome and show main app
+                    const welcomeSeenKey = 'hasSeenWelcome-' + (currentUser ? currentUser.id : 'guest');
+                    localStorage.setItem(welcomeSeenKey, 'true');
+                    showAppInterface(); 
                 });
             }
 
@@ -2461,16 +2384,40 @@
             }
 
             if (quickNotesArea && clearNotesButton) {
-                // Loaded from userSettings
                 quickNotesArea.addEventListener('input', () => {
-                    saveUserSetting('quick_notes', quickNotesArea.value);
+                    if(currentUser) saveUserSetting('quick_notes', quickNotesArea.value);
                 });
                 clearNotesButton.addEventListener('click', () => {
                     quickNotesArea.value = '';
-                    saveUserSetting('quick_notes', '');
+                    if(currentUser) saveUserSetting('quick_notes', '');
                     quickNotesArea.focus();
                 });
             }
+             // Listen for auth state changes
+            supabase.auth.onAuthStateChange(async (event, session) => {
+                console.log("Auth event:", event, "Session:", session);
+                if (event === 'SIGNED_IN') {
+                    currentUser = session.user;
+                    await loadUserSettings();
+                    await loadTodosFromSupabase();
+                    showAppInterface();
+                } else if (event === 'SIGNED_OUT') {
+                    currentUser = null;
+                    todos = [];
+                    userSettings = { ...USER_SETTINGS_DEFAULTS };
+                    const welcomeSeenKey = 'hasSeenWelcome-' + (currentUser ? currentUser.id : 'guest'); // Clear for potential old user
+                    localStorage.removeItem(welcomeSeenKey);
+                    renderTodosUI(); // Clear the list UI
+                    showAuthSection();
+                } else if (event === 'USER_UPDATED') {
+                    currentUser = session.user;
+                    // Potentially reload settings if relevant user data changed
+                } else if (event === 'PASSWORD_RECOVERY') {
+                    // Handle UI for password recovery if needed
+                } else if (event === 'TOKEN_REFRESHED') {
+                    // Token refreshed, session is still valid
+                }
+            });
         });
     </script>
 
