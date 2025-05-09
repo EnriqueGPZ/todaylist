@@ -6,7 +6,7 @@
     
     <!-- SEO Meta Tags -->
     <title>ToDayList - Simplifica Tu Día, Organiza Tus Tareas</title>
-    <meta name="description" content="ToDayList es tu gestor de tareas diarias minimalista y eficiente. Organiza tus pendientes, establece prioridades, añade subtareas y fechas límite. Funciona offline, 100% en tu navegador. ¡Mejora tu productividad hoy!">
+    <meta name="description" content="ToDayList es tu gestor de tareas diarias minimalista y eficiente. Organiza tus pendientes, establece prioridades, añade subtareas y fechas límite. ¡Mejora tu productividad hoy!">
     <meta name="keywords" content="lista de tareas, to-do list, gestor de tareas diarias, organizador personal, productividad, planificación diaria, tareas pendientes, subtareas, prioridades, localstorage, app offline, web app, enrique gil, ToDayList">
     <meta name="author" content="Enrique Gil">
     <meta name="robots" content="index, follow">
@@ -16,7 +16,7 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://enriquegpz.github.io/todaylist/">
     <meta property="og:title" content="ToDayList - Simplifica Tu Día, Organiza Tus Tareas">
-    <meta property="og:description" content="Organiza tus pendientes con ToDayList: tu gestor de tareas diarias minimalista. Funciona offline, directo en tu navegador.">
+    <meta property="og:description" content="Organiza tus pendientes con ToDayList: tu gestor de tareas diarias minimalista.">
     <meta property="og:image" content="https://enriquegpz.github.io/todaylist/iconToDayList.png"> 
     <meta property="og:site_name" content="ToDayList">
 
@@ -25,7 +25,7 @@
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://enriquegpz.github.io/todaylist/">
     <meta property="twitter:title" content="ToDayList - Simplifica Tu Día, Organiza Tus Tareas">
-    <meta property="twitter:description" content="Organiza tus pendientes con ToDayList: tu gestor de tareas diarias minimalista. Funciona offline, directo en tu navegador.">
+    <meta property="twitter:description" content="Organiza tus pendientes con ToDayList: tu gestor de tareas diarias minimalista.">
     <meta property="twitter:image" content="https://enriquegpz.github.io/todaylist/iconToDayList.png">
 
     <link rel="icon" href="iconToDayList.png" type="image/png"> 
@@ -44,7 +44,7 @@
       "name": "ToDayList",
       "applicationCategory": "ProductivityApplication",
       "operatingSystem": "Web Browser",
-      "description": "ToDayList es un gestor de tareas diarias minimalista y eficiente que te ayuda a organizar tus pendientes, establecer prioridades, añadir subtareas y fechas límite. Funciona completamente offline en tu navegador, guardando los datos localmente.",
+      "description": "ToDayList es un gestor de tareas diarias minimalista y eficiente que te ayuda a organizar tus pendientes, establecer prioridades, añadir subtareas y fechas límite.",
       "url": "https://enriquegpz.github.io/todaylist/",
       "author": {
         "@type": "Person",
@@ -183,7 +183,7 @@
             font-weight: 300;
             color: var(--subtitle-color);
             margin-top: 0;
-            margin-bottom: 5px; /* Menos espacio antes de la descripción */
+            margin-bottom: 5px; 
             letter-spacing: 0.2px;
         }
         .app-description {
@@ -193,9 +193,9 @@
             font-weight: 300;
             color: var(--app-description-color);
             margin-top: 0;
-            margin-bottom: 15px; /* Espacio antes del contador de medallas */
+            margin-bottom: 15px; 
             line-height: 1.4;
-            max-width: 90%; /* Para que no ocupe todo el ancho */
+            max-width: 90%; 
             margin-left: auto;
             margin-right: auto;
         }
@@ -850,15 +850,15 @@
             position: relative;
         }
         #features-section ul li::before {
-            content: "\f00c"; /* Icono de check de FontAwesome */
+            content: "\f00c"; 
             font-family: "Font Awesome 5 Free";
-            font-weight: 900; /* Para iconos sólidos */
+            font-weight: 900; 
             position: absolute;
             left: 0;
-            color: var(--progress-bar-completed-color); /* Un color de acento positivo */
+            color: var(--progress-bar-completed-color); 
         }
          body.dark-mode #features-section ul li::before {
-            color: var(--progress-bar-color); /* Ajuste para modo oscuro */
+            color: var(--progress-bar-color); 
          }
 
 
@@ -866,7 +866,7 @@
             text-align: center;
             font-size: 0.75rem;
             color: var(--footer-text-color);
-            margin-top: 40px; /* Ajustado si se activa la sección de características */
+            margin-top: 40px; 
             padding: 10px;
             width: 100%;
             max-width: 600px;
@@ -1039,8 +1039,7 @@
         <h1>ToDayList</h1>
         <p class="subtitle">Gestor de Tareas Diarias</p>
         <p class="app-description">
-            Tu herramienta sencilla y eficaz para organizar tareas, establecer prioridades y gestionar tu día. 
-            Funciona sin conexión y guarda todo en tu navegador.
+            Tu herramienta sencilla y eficaz para organizar tareas, establecer prioridades y gestionar tu día.
         </p>
         <div id="medal-counter-container">
             <i class="fas fa-medal"></i> <span id="medal-count">0</span>
@@ -1133,8 +1132,6 @@
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
 
     <script type="module">
-        // ... (El JavaScript se mantiene igual que en la respuesta anterior) ...
-        // ... (No se han realizado cambios en el bloque <script type="module">) ...
         let todoInput;
         let addTodoButton;
         let todoListContainer;
