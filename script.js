@@ -44,7 +44,11 @@ const PRIORITY_ORDER = { 'red': 1, 'orange': 2, 'yellow': 3, 'green': 4, 'none':
 
 // --- Funciones de Google API (SOLO PARA DRIVE) ---
 // Estas funciones deben estar disponibles globalmente para ser llamadas por los onload de los scripts de Google
-function gisLoaded() {
+
+// ***** IMPORTANTE: Las funciones gisLoaded y gapiLoaded se definen aquí *****
+// ***** y luego se asignan a window más abajo para que sean globales *****
+
+function internalGisLoaded() { // Renombrada para evitar posible confusión de hoisting si se declara después de la asignación a window
     if (typeof google === 'undefined' || !google.accounts || !google.accounts.oauth2) {
         console.error("Objeto 'google.accounts.oauth2' no encontrado. GIS no cargó correctamente (para Drive).");
         return;
@@ -63,7 +67,7 @@ function gisLoaded() {
     }
 }
 
-function gapiLoaded() {
+function internalGapiLoaded() { // Renombrada para evitar posible confusión
     if (typeof gapi === 'undefined' || !gapi.load) {
         console.error("Objeto 'gapi' no encontrado. Google API Client no cargó correctamente (para Drive).");
         return;
@@ -78,12 +82,7 @@ function gapiLoaded() {
         console.error("Error cargando gapi client:picker (for Drive):", e);
     }
 }
-
-// ***** INICIO: Exponer funciones a window *****
-// Esto hace que gisLoaded y gapiLoaded sean accesibles globalmente por los atributos onload
-window.gisLoaded = gisLoaded;
-window.gapiLoaded = gapiLoaded;
-// ***** FIN: Exponer funciones a window *****
+// --- Fin definiciones de internalGisLoaded e internalGapiLoaded ---
 
 
 function maybeEnableDriveButtons() {
@@ -1140,9 +1139,5 @@ document.addEventListener('DOMContentLoaded', () => {
         importDriveButton.addEventListener('click', importFromGoogleDrive);
     }
 
-    // No es necesario llamar a maybeEnableDriveButtons() aquí si gisLoaded y gapiLoaded lo hacen.
-    // Pero tampoco hace daño si ya está.
     maybeEnableDriveButtons();
 });
-
-// Las asignaciones a window ya están hechas arriba, después de la definición de las funciones.
