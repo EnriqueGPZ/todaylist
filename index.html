@@ -56,7 +56,7 @@
       },
       "image": "https://www.todaylist.es/ToDayList.png",
       "screenshot": "https://www.todaylist.es/images/todaylist-screenshot.jpg",
-      "softwareVersion": "1.0.8", // Incrementada versión por cambios UX/UI
+      "softwareVersion": "1.0.8", 
       "datePublished": "2024-03-11", 
       "keywords": "lista de tareas, to-do list, gestor de tareas diarias, productividad, organización, planificación, web app, tareas pendientes, subtareas, prioridades, google drive"
     }
@@ -106,7 +106,7 @@
             --welcome-button-bg: #e74c3c;
             --welcome-button-text: #fff;
             --welcome-button-hover-bg: #c0392b;
-            --drive-icon-color: #4285F4; /* Google Blue para el icono */
+            --drive-icon-color: #4285F4; 
         }
 
         body.dark-mode {
@@ -140,7 +140,7 @@
             --welcome-button-bg: #f39c12;
             --welcome-button-text: #2c3e50;
             --welcome-button-hover-bg: #e67e22;
-            --drive-icon-color: #4A90E2; /* Un azul un poco más claro para contraste en modo oscuro si es necesario */
+            --drive-icon-color: #4A90E2; 
         }
 
         body {
@@ -953,29 +953,28 @@
             margin-right: 4px;
         }
 
-        /* NUEVOS ESTILOS PARA DATA MANAGEMENT SECTION */
-        #data-management-section {
+        #data-management-section { 
             margin-top: 30px;
             margin-bottom: 20px;
-            padding: 20px; /* Aumentado padding */
+            padding: 20px; 
             background-color: var(--item-bg);
             border: 1px solid var(--border-color);
             border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.07); /* Sombra un poco más pronunciada */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.07); 
         }
         #data-management-section h4 {
             font-family: 'Quicksand', sans-serif;
-            font-size: 1.2rem; /* Un poco más grande */
+            font-size: 1.2rem; 
             color: var(--heading-color);
             margin-top: 0;
-            margin-bottom: 10px; /* Más espacio */
+            margin-bottom: 10px; 
             text-align: center;
         }
         .data-management-intro {
-            font-size: 0.85rem; /* Un poco más grande */
+            font-size: 0.85rem; 
             color: var(--legend-text-color);
             text-align: center;
-            margin-bottom: 20px; /* Más espacio */
+            margin-bottom: 20px; 
             line-height: 1.5;
             max-width: 90%;
             margin-left: auto;
@@ -993,14 +992,14 @@
         }
         .data-action-button { 
             flex-grow: 1; 
-            min-width: 200px; /* Ancho mínimo para mejor distribución */
+            min-width: 200px; 
             padding: 9px 15px !important; 
             font-size: 0.9rem !important;
-            background-color: var(--item-bg); /* Fondo explícito */
+            background-color: var(--item-bg); 
             border: 1px solid var(--border-color) !important; 
             box-shadow: 0 1px 2px rgba(0,0,0,0.06);
             color: var(--button-color); 
-            font-weight: 400; /* Un poco más de peso */
+            font-weight: 400; 
         }
         .data-action-button:hover {
             border-color: var(--button-hover-color) !important;
@@ -1009,26 +1008,21 @@
         }
         .data-action-button i {
             margin-right: 8px; 
-            font-size: 0.95em; /* Icono ligeramente más grande */
+            font-size: 0.95em; 
         }
         .drive-button-style i.fab.fa-google-drive {
              color: var(--drive-icon-color); 
-        }
-        .drive-button-style:hover i.fab.fa-google-drive {
-            /* Opcional: cambiar color del icono en hover */
-            /* color: #fff; */
         }
         .drive-button-style:disabled i.fab.fa-google-drive {
             color: inherit; 
             opacity: 0.7;
         }
         .drive-button-style:disabled {
-            background-color: var(--input-bg) !important; /* Fondo más claro para deshabilitado */
+            background-color: var(--input-bg) !important; 
             border-color: var(--border-color) !important;
             color: var(--placeholder-color) !important;
             opacity: 0.7;
         }
-        /* FIN NUEVOS ESTILOS PARA DATA MANAGEMENT SECTION */
 
         #info-button {
             position: absolute;
@@ -1112,6 +1106,23 @@
             margin-right: 4px; 
             font-size: 0.9em;  
         }
+        .footer-legal-links { /* Estilo para los enlaces legales */
+            margin-top: 15px; 
+            font-size: 0.75em;
+        }
+        .footer-legal-links a {
+            margin: 0 5px;
+            color: var(--legend-text-color);
+            text-decoration: none;
+        }
+        .footer-legal-links a:hover {
+            text-decoration: underline;
+            color: var(--button-hover-color);
+        }
+        .footer-legal-links span {
+            color: var(--legend-text-color);
+        }
+
 
         @media (max-width: 500px) {
             h1 {
@@ -1150,7 +1161,6 @@
              #todo-input-container #reorder-button {
                   margin-left: 0;
              }
-             /* Ajustes para data management en móvil */
             #data-management-section {
                 padding: 15px;
             }
@@ -1164,14 +1174,17 @@
              .data-options-row {
                 flex-direction: column; 
                 align-items: stretch; 
-                gap: 10px; /* Espacio entre botones apilados */
+                gap: 10px; 
             }
             .data-action-button {
                 min-width: unset; 
                 width: 100%; 
-                margin-bottom: 0; /* Quitar margen inferior individual si se apilan */
+                margin-bottom: 0; 
             }
-            /* Fin ajustes data management en móvil */
+            .data-options-row .data-action-button + .data-action-button { /* Añadir espacio si se apilan */
+                 margin-top: 10px;
+            }
+
 
              #welcome-section h2 {
                  font-size: 1.5rem;
@@ -1221,6 +1234,9 @@
             }
             .support-intro-text {
                 margin-bottom: 2px;
+            }
+            .footer-legal-links {
+                font-size: 0.7em;
             }
         }
 
@@ -1425,6 +1441,11 @@
             <a href="https://paypal.me/todaylistHenry" target="_blank" rel="noopener noreferrer" class="paypal-link-footer">
                 <i class="fab fa-paypal"></i> Apoya este proyecto
             </a>
+        </div>
+        <div class="footer-legal-links">
+            <a href="privacy-policy.html" target="_blank" rel="noopener noreferrer">Política de Privacidad</a>
+            <span>|</span>
+            <a href="terms-of-service.html" target="_blank" rel="noopener noreferrer">Condiciones del Servicio</a>
         </div>
     </footer>
 
