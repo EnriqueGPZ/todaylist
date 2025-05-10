@@ -625,8 +625,9 @@ function updateTaskDate(taskId, newDateValue) {
 function showAppInterface() {
     if (authBox) authBox.hidden = true;
     if (app) app.hidden = false; // Use the #app div
-    if (welcomeSection) welcomeSection.classList.remove('hidden'); // Show welcome/install initially
-    if (installInstructionsSection) installInstructionsSection.classList.remove('hidden');
+    // Welcome/install sections visibility handled by checkInitialState based on tasks
+    // if (welcomeSection) welcomeSection.classList.remove('hidden');
+    // if (installInstructionsSection) installInstructionsSection.classList.remove('hidden');
     if (todoInput) todoInput.focus();
 }
 
