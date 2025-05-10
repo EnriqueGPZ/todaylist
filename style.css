@@ -707,7 +707,7 @@ body.dark-mode #welcome-section ul li::before {
      text-decoration: none;
      transition: color 0.3s ease, text-decoration 0.3s ease;
      word-break: break-word;
-     font-size: 0.85em;
+     font-size: 0.85em; /* Este es el tamaño de fuente de las subtareas */
      font-weight: 300;
 }
  .todo-item .subtasks-list li .subtask-move-button {
@@ -1226,7 +1226,7 @@ footer {
     border-radius: 10px;
     box-shadow: 0 5px 20px rgba(0,0,0,0.3);
     width: 90%;
-    max-width: 580px;
+    max-width: 450px; /* REDUCIDO: Ancho máximo */
     max-height: 85vh;
     overflow-y: auto;
     position: relative;
@@ -1249,6 +1249,8 @@ footer {
 /* Estilos específicos para el modal de recordatorio */
 #reminder-modal .modal-content h2 {
     color: var(--accent-color); /* Usar color de acento para el título del recordatorio */
+    font-size: 1.5rem; /* Ajustar tamaño del título del modal de recordatorio */
+    margin-bottom: 15px;
 }
 
 #reminder-modal p#reminder-task-text {
@@ -1257,7 +1259,7 @@ footer {
     margin-bottom: 20px;
     word-break: break-word; /* Romper palabras largas */
     color: var(--text-color);
-    font-size: 1rem; /* Ajustar tamaño de texto de la tarea */
+    font-size: 0.85rem; /* REDUCIDO: Tamaño de fuente como subtareas */
     font-weight: normal;
 }
 
@@ -1270,7 +1272,7 @@ footer {
     margin-bottom: 5px;
     font-weight: bold;
     color: var(--text-color);
-    font-size: 0.95rem; /* Ajustar tamaño etiqueta */
+    font-size: 0.85rem; /* REDUCIDO: Tamaño de fuente como subtareas */
 }
 
 .modal-input-group input[type="date"],
@@ -1281,7 +1283,7 @@ footer {
     border-radius: 4px;
     background-color: var(--modal-input-background-color); /* Usar color de fondo de input del tema */
     color: var(--input-text-color); /* Usar color de texto del tema */
-    font-size: 1rem;
+    font-size: 0.85rem; /* REDUCIDO: Tamaño de fuente como subtareas */
     box-sizing: border-box;
     outline: none;
     transition: border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease;
@@ -1310,13 +1312,13 @@ body.dark-mode .modal-input-group input[type="time"]:focus {
 #reminder-modal .modal-content button.app-button {
     display: block; /* Botón en su propia línea */
     width: 100%; /* Ancho completo */
-    padding: 12px;
+    padding: 10px; /* REDUCIDO: Padding del botón */
     background-color: var(--modal-button-background-color); /* Usar color de acento */
     color: var(--modal-button-text-color); /* Color de texto del botón */
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    font-size: 1.1rem;
+    font-size: 1rem; /* REDUCIDO: Tamaño de fuente del botón */
     transition: background-color 0.2s ease;
     font-weight: bold;
 }
@@ -1368,7 +1370,7 @@ body.dark-mode .modal-input-group input[type="time"]:focus {
     position: absolute;
     top: 10px;
     right: 12px;
-    font-size: 1.9rem; /* Tamaño del icono */
+    font-size: 1.6rem; /* REDUCIDO: Tamaño del icono 'x' */
     color: var(--button-color);
     padding: 5px 10px; /* Padding para el área clickeable */
     line-height: 1;
@@ -1400,26 +1402,31 @@ body.dark-mode .modal-input-group input[type="time"]:focus {
     .modal-content {
         padding: 20px 25px; /* Reducir padding */
         max-height: 90vh; /* Permitir que ocupe más alto si es necesario */
+        max-width: 95%; /* Asegurarse de que no sea demasiado ancho en móviles */
+        width: 95%; /* Usar width en lugar de max-width para asegurar el tamaño */
     }
     .modal-content h2 {
         font-size: 1.5rem; /* Reducir tamaño título */
         margin-bottom: 15px;
     }
+    #reminder-modal .modal-content h2 {
+         font-size: 1.3rem; /* Ajustar tamaño del título del modal de recordatorio en móvil */
+    }
     #reminder-modal p#reminder-task-text {
-        font-size: 0.9rem; /* Reducir tamaño texto tarea */
+        font-size: 0.85rem; /* Mantener tamaño texto tarea */
         margin-bottom: 15px;
     }
     .modal-input-group {
         margin-bottom: 10px;
     }
     .modal-input-group label {
-        font-size: 0.9rem;
+        font-size: 0.85rem; /* Mantener tamaño etiqueta */
         margin-bottom: 3px;
     }
     .modal-input-group input[type="date"],
     .modal-input-group input[type="time"] {
         padding: 8px;
-        font-size: 0.95rem;
+        font-size: 0.85rem; /* Mantener tamaño input */
     }
     #reminder-modal .modal-content button.app-button {
         padding: 10px;
@@ -1434,7 +1441,7 @@ body.dark-mode .modal-input-group input[type="time"]:focus {
         margin-bottom: 6px;
     }
     .close-modal {
-        font-size: 1.7rem;
+        font-size: 1.5rem; /* REDUCIDO: Tamaño del icono 'x' en móvil */
         top: 8px;
         right: 10px;
         padding: 3px 8px;
