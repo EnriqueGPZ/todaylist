@@ -62,6 +62,10 @@
     }
     </script>
 
+    <!-- Google API Scripts -->
+    <script async defer src="https://accounts.google.com/gsi/client" onload="gisLoaded()"></script>
+    <script async defer src="https://apis.google.com/js/api.js" onload="gapiLoaded()"></script>
+
     <style>
         :root {
             --bg-color: #f4f7f6;
@@ -102,6 +106,8 @@
             --welcome-button-bg: #e74c3c;
             --welcome-button-text: #fff;
             --welcome-button-hover-bg: #c0392b;
+            --drive-button-color: #4285F4; /* Google Blue */
+            --drive-button-hover-color: #3578E5;
         }
 
         body.dark-mode {
@@ -135,6 +141,8 @@
             --welcome-button-bg: #f39c12;
             --welcome-button-text: #2c3e50;
             --welcome-button-hover-bg: #e67e22;
+            --drive-button-color: #4A90E2;
+            --drive-button-hover-color: #357ABD;
         }
 
         body {
@@ -317,23 +325,23 @@
             margin-bottom: 8px;
             line-height: 1.5;
             font-size: 0.92em;
-            padding-left: 25px;
+            padding-left: 25px; 
             position: relative;
             text-align: left;
         }
 
         #install-instructions-section ul li::before {
-            font-family: "Font Awesome 6 Brands", "Font Awesome 6 Free";
+            font-family: "Font Awesome 6 Brands", "Font Awesome 6 Free"; 
             font-weight: 400; /* Para iconos de marca (fab) en FA6 */
             position: absolute;
             left: 0px;
-            top: 1px;
-            width: 20px;
+            top: 1px; 
+            width: 20px; 
             text-align: center;
             color: var(--button-color);
-            font-size: 1.1em;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
+            font-size: 1.1em; 
+            -webkit-font-smoothing: antialiased; 
+            -moz-osx-font-smoothing: grayscale; 
         }
 
         #install-instructions-section ul li:nth-child(1)::before { content: "\f268"; } /* Chrome */
@@ -452,6 +460,14 @@
               outline: 2px solid var(--button-hover-color);
               outline-offset: 2px;
          }
+         .app-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+         }
+         .app-button:disabled:hover {
+            color: var(--button-color); /* O el color original del botón */
+         }
+
          .add-button {
              color: var(--button-color);
              font-weight: bold;
@@ -474,6 +490,29 @@
          .sort-button:hover {
              color: var(--sort-button-hover-color);
          }
+        .drive-button { /* Estilo para botones de Drive */
+            color: #fff;
+            background-color: var(--drive-button-color);
+            border: 1px solid var(--drive-button-color) !important; /* Sobrescribir borde de .app-button */
+        }
+        .drive-button:hover {
+            background-color: var(--drive-button-hover-color);
+            color: #fff;
+            border-color: var(--drive-button-hover-color) !important;
+        }
+        .drive-button:disabled {
+            background-color: #aaa;
+            color: #eee;
+            opacity: 0.7;
+        }
+        .drive-button:disabled:hover {
+            background-color: #aaa;
+            color: #eee;
+        }
+        .drive-button i.fab.fa-google-drive {
+            margin-right: 6px;
+        }
+
 
          #dark-mode-toggle {
              position: fixed;
@@ -647,7 +686,7 @@
             transition: color 0.2s ease, font-weight 0.2s ease;
         }
         .todo-item .main-task-header .task-body .calendar-button.date-set i {
-            color: var(--text-color);
+            color: var(--calendar-icon-set-color);
         }
         .todo-item .main-task-header .task-body .calendar-button.date-today i {
             font-weight: bold;
@@ -740,8 +779,8 @@
             left: 5px;
             transform: rotate(45deg);
         }
-         body.dark-mode .todo-item.completed .subtasks-list li input[type="checkbox"]:checked::after {
-             border-color: var(--item-bg) !important;
+         body.dark-mode .todo-item .subtasks-list li input[type="checkbox"]:checked::after {
+             border-color: var(--checkbox-checkmark-color) !important;
          }
 
         .todo-item .subtasks-list li span {
@@ -959,10 +998,11 @@
 
         #data-management-container {
             display: flex;
-            justify-content: flex-end;
+            justify-content: flex-end; /* Cambiado para alinear a la derecha por defecto */
             gap: 10px;
             margin-top: 10px;
             margin-bottom: 20px;
+            flex-wrap: wrap; /* Para que los botones se ajusten en pantallas pequeñas */
         }
         #data-management-container .app-button {
             padding: 6px 12px;
@@ -984,89 +1024,89 @@
             position: absolute;
             top: 15px;
             left: 15px;
-            font-family: 'Quicksand', sans-serif;
-            font-weight: bold;
-            font-size: 1.3rem;
+            font-family: 'Quicksand', sans-serif; 
+            font-weight: bold; 
+            font-size: 1.3rem;  
             color: var(--button-color);
             background-color: var(--item-bg);
-            border: 1px solid var(--border-color);
+            border: 1px solid var(--border-color); 
             border-radius: 50%;
-            width: 36px;
-            height: 36px;
+            width: 36px;  
+            height: 36px; 
             display: flex;
             justify-content: center;
             align-items: center;
-            text-decoration: none;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            text-decoration: none; 
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1); 
             z-index: 900;
-            line-height: 1;
-            padding: 0;
+            line-height: 1; 
+            padding: 0; 
             transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
         }
         #info-button:hover {
             color: var(--button-hover-color);
-            background-color: var(--fixed-button-bg);
+            background-color: var(--fixed-button-bg); 
             border-color: var(--button-hover-color);
         }
 
         /* Footer */
         footer {
             display: flex;
-            flex-direction: column;
+            flex-direction: column; 
             align-items: center;
             justify-content: center;
             text-align: center;
-            font-size: 0.8rem;
+            font-size: 0.8rem; 
             color: var(--footer-text-color);
-            margin-top: 30px;
-            padding: 20px 10px 15px;
+            margin-top: 30px; 
+            padding: 20px 10px 15px; 
             width: 100%;
             max-width: 600px;
             box-sizing: border-box;
             border-top: 1px solid var(--border-color);
         }
         .footer-logo {
-            width: 48px;
-            height: 48px;
-            margin-bottom: 10px;
+            width: 48px;  
+            height: 48px; 
+            margin-bottom: 10px; 
         }
         .footer-text {
-            margin: 0 0 8px 0;
-            color: var(--footer-text-color);
-            font-size: 0.85em;
+            margin: 0 0 8px 0; 
+            color: var(--footer-text-color); 
+            font-size: 0.85em; 
         }
 
         #support-section-footer {
-            margin-top: 5px;
+            margin-top: 5px; 
             display: flex;
-            flex-direction: column;
-            align-items: center;
+            flex-direction: column; 
+            align-items: center; 
         }
 
-        .support-intro-text {
-            font-size: 0.7rem;
-            color: var(--legend-text-color);
-            margin-bottom: 3px;
-            line-height: 1.3;
+        .support-intro-text { 
+            font-size: 0.7rem; 
+            color: var(--legend-text-color); 
+            margin-bottom: 3px; 
+            line-height: 1.3; 
         }
 
         .paypal-link-footer {
             display: inline-flex;
             align-items: center;
-            font-size: 0.7rem;
-            color: var(--legend-text-color);
+            font-size: 0.7rem; 
+            color: var(--legend-text-color); 
             text-decoration: none;
             transition: color 0.2s ease;
         }
 
         .paypal-link-footer:hover {
-            color: var(--button-hover-color);
+            color: var(--button-hover-color); 
             text-decoration: underline;
         }
 
         .paypal-link-footer i.fab.fa-paypal {
-            margin-right: 4px;
-            font-size: 0.9em;
+            margin-right: 4px; 
+            font-size: 0.9em;  
         }
 
 
@@ -1108,7 +1148,7 @@
                   margin-left: 0;
              }
              #data-management-container {
-                justify-content: center;
+                justify-content: center; /* Centrar botones en pantallas pequeñas */
              }
              #welcome-section h2 {
                  font-size: 1.5rem;
@@ -1140,23 +1180,23 @@
                 top: 0px;
                 font-size: 1em;
             }
-
+            
             footer {
-                font-size: 0.75rem;
-                padding-top: 15px;
+                font-size: 0.75rem; 
+                padding-top: 15px; 
             }
             .footer-logo {
-                width: 40px;
+                width: 40px; 
                 height: 40px;
                 margin-bottom: 8px;
             }
             .footer-text {
                 margin-bottom: 6px;
-                font-size: 0.9em;
+                font-size: 0.9em; 
             }
             .support-intro-text,
             .paypal-link-footer {
-                font-size: 0.7em;
+                font-size: 0.7em; 
             }
             .support-intro-text {
                 margin-bottom: 2px;
@@ -1267,15 +1307,7 @@
             Organiza tu día y aumenta tu productividad de forma sencilla y eficaz.
         </p>
 
-        <!-- Removed the separate auth-ui-container as startAppButton handles sign-in -->
-        <!-- <div id="auth-ui-container" class="hidden" style="text-align: center; margin-bottom: 20px;">
-            <button id="google-sign-in-button" class="app-button" style="background-color: #4285F4; color: white; border: none; padding: 10px 20px; font-size: 1.1rem; font-weight: bold; border-radius: 6px; cursor: pointer; transition: background-color 0.2s ease, transform 0.2s ease;">
-                <i class="fab fa-google" style="margin-right: 8px;"></i> Iniciar sesión con Google
-            </button>
-        </div> -->
-        <!-- End Removed Auth UI Container -->
-
-        <section id="welcome-section" class="">
+        <section id="welcome-section" class="hidden">
             <img src="https://www.todaylist.es/ToDayList.png" alt="ToDayList Icono" class="welcome-icon">
             <h2>¡Bienvenido a ToDayList!</h2>
             <p>
@@ -1291,17 +1323,16 @@
                 <li><strong>Enlaces Relevantes:</strong> Asocia URLs directamente a tus tareas.</li>
                 <li><strong>Modo Oscuro/Claro:</strong> Adapta la interfaz a tus preferencias visuales.</li>
                 <li><strong>Progreso y Motivación:</strong> Visualiza el avance y gana medallas por completar tareas.</li>
-                <li><strong>Exportación e Importación de Datos:</strong> Realiza copias de seguridad o transfiere tus datos.</li>
+                <li><strong>Exportación e Importación de Datos:</strong> Realiza copias de seguridad o transfiere tus datos (local o Google Drive).</li>
                 <li><strong>Anotaciones Rápidas:</strong> Un espacio para tomar notas sin crear una tarea formal.</li>
             </ul>
             <p>
-                Para guardar y sincronizar tus tareas, por favor, inicia sesión.
+                ¡Comienza a organizar tu día ahora!
             </p>
-            <!-- This button will now trigger Google Sign-In -->
-            <button id="start-app-button" class="app-button">Iniciar sesión para empezar</button>
+            <button id="start-app-button" class="app-button">Empezar a Organizar</button>
         </section>
 
-        <section id="install-instructions-section" class="">
+        <section id="install-instructions-section" class="hidden">
             <h4>¡Acceso Rápido a ToDayList!</h4>
             <p>Guarda ToDayList en tu dispositivo para acceder como una app:</p>
             <ul>
@@ -1342,17 +1373,18 @@
             </div>
 
             <div id="data-management-container">
-                 <!-- Added Sign Out Button -->
-                 <button id="sign-out-button" class="app-button" aria-label="Cerrar sesión" style="margin-left: 10px;">
-                     <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
-                 </button>
-                 <!-- End Sign Out Button -->
-                <button id="export-data-button" class="app-button" aria-label="Exportar datos">
-                    <i class="fas fa-file-export"></i> Exportar
+                <button id="export-data-button" class="app-button" aria-label="Exportar datos locales">
+                    <i class="fas fa-file-export"></i> Exportar Local
                 </button>
                 <input type="file" id="import-file-input" accept=".json" style="display: none;">
-                <button id="import-data-button" class="app-button" aria-label="Importar datos">
-                    <i class="fas fa-file-import"></i> Importar
+                <button id="import-data-button" class="app-button" aria-label="Importar datos locales">
+                    <i class="fas fa-file-import"></i> Importar Local
+                </button>
+                <button id="export-drive-button" class="app-button drive-button" aria-label="Exportar a Google Drive" disabled>
+                    <i class="fab fa-google-drive"></i> Exportar a Drive
+                </button>
+                <button id="import-drive-button" class="app-button drive-button" aria-label="Importar desde Google Drive" disabled>
+                    <i class="fab fa-google-drive"></i> Importar de Drive
                 </button>
             </div>
 
@@ -1363,7 +1395,7 @@
     <footer>
         <img src="https://www.todaylist.es/ToDayList.png" alt="Logo ToDayList" class="footer-logo">
         <p class="footer-text">WebApp creada por Henry Gil</p>
-
+        
         <div id="support-section-footer">
             <p class="support-intro-text">¿Te gusta ToDayList? Si te ha sido útil...</p>
             <a href="https://paypal.me/todaylistHenry" target="_blank" rel="noopener noreferrer" class="paypal-link-footer">
@@ -1396,46 +1428,14 @@
                 <li><strong>Modo Oscuro/Claro:</strong> Utiliza el botón <i class="fas fa-moon"></i> / <i class="fas fa-sun"></i> situado abajo a la derecha para cambiar el tema visual de la aplicación.</li>
                 <li><strong>Eliminar Tareas:</strong> Haz clic en el icono de papelera <i class="fas fa-trash-alt"></i> para eliminar tareas principales o sub-tareas.</li>
                 <li><strong>Anotaciones Rápidas:</strong> Utiliza el área debajo de la leyenda para notas temporales. Puedes borrarlas con el botón "Borrar".</li>
-                <li><strong>Exportar/Importar Datos:</strong> Usa los botones "Exportar" e "Importar" (debajo de las anotaciones) para guardar una copia de seguridad de todos tus datos (tareas, notas, medallas, tema) o para restaurarlos desde un archivo. <strong>¡Atención!</strong> Importar reemplazará los datos actuales.</li>
+                <li><strong>Exportar/Importar Datos:</strong> Usa los botones "Exportar Local" e "Importar Local" para guardar/restaurar datos desde un archivo en tu dispositivo. Usa "Exportar a Drive" e "Importar de Drive" para usar tu Google Drive. <strong>¡Atención!</strong> Importar reemplazará los datos actuales.</li>
             </ol>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
 
-    <!-- Firebase SDKs (using compat versions) -->
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-
     <script type="module">
-        // Import the necessary Firebase modules using the compat syntax
-        // The firebase object is made available globally by firebase-app-compat.js
-        import 'https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js';
-        import 'https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js';
-        import 'https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js';
-
-        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-        const firebaseConfig = {
-          apiKey: "AIzaSyDyJ0DJ-4jgzyT1kf5U4mBZLZJVT_MQ2To", // <-- TU API KEY REAL
-          authDomain: "todaylist-43353.firebaseapp.com", // <-- TU AUTH DOMAIN REAL
-          projectId: "todaylist-43353", // <-- TU PROJECT ID REAL
-          storageBucket: "todaylist-43353.firebasestorage.app", // <-- TU STORAGE BUCKET REAL
-          messagingSenderId: "673096442524", // <-- TU MESSAGING SENDER ID REAL
-          appId: "1:673096442524:web:8d5e35e3cb1a5a9a7c4359", // <-- TU APP ID REAL
-          measurementId: "G-M5TSNXX2DX" // <-- TU MEASUREMENT ID REAL (Opcional)
-        };
-
-        // Initialize Firebase
-        // Access the global 'firebase' object after importing firebase-app-compat.js
-        const app = firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth(); // Get Auth instance using compat syntax
-        const db = firebase.firestore(); // Get Firestore instance using compat syntax
-        const provider = new firebase.auth.GoogleAuthProvider(); // Get GoogleAuthProvider using compat syntax
-
-        // Request Google Drive scope (optional, only if you still want to explore Drive API integration later)
-        // provider.addScope('https://www.googleapis.com/auth/drive.file'); // Example scope
-
         let todoInput;
         let addTodoButton;
         let todoListContainer;
@@ -1447,33 +1447,228 @@
 
         let quickNotesArea;
         let clearNotesButton;
-        const QUICK_NOTES_STORAGE_KEY = 'todoListQuickNotes'; // Still using local storage for quick notes
+        const QUICK_NOTES_STORAGE_KEY = 'todoListQuickNotes';
 
-        let exportDataButton; // Keep export/import for local file backup
-        let importDataButton;
-        let importFileInput;
+        let exportDataButton; // Local export
+        let importDataButton; // Local import
+        let importFileInput;  // Local import file input
+
+        // Google Drive Integration Variables
+        let exportDriveButton;
+        let importDriveButton;
+        const CLIENT_ID = '25607067695-mgv7jfvio4vr1goi5ci6o952mgpii8nf.apps.googleusercontent.com'; // <<<< REEMPLAZA CON TU CLIENT_ID REAL
+        const API_KEY = 'TU_API_KEY_PARA_GOOGLE_PICKER'; // <<<< REEMPLAZA CON TU API_KEY REAL (para Google Picker)
+        const SCOPES = 'https://www.googleapis.com/auth/drive.file';
+        let tokenClient;
+        let gapiInited = false;
+        let gisInited = false;
+        // Fin Google Drive Integration Variables
+
 
         let welcomeSection;
         let startAppButton;
         let appMainInterface;
         let installInstructionsSection;
 
-        // Firebase Auth UI elements
-        // Removed authUiContainer and googleSignInButton as startAppButton is used
-        let signOutButton;
 
-        let currentUser = null; // To store the authenticated user object
-        let todos = []; // Local representation of tasks for the current user
+        let todos = [];
 
-        const MEDALS_STORAGE_KEY = 'todoListDailyMedalData'; // Still using local storage for medals
-        const THEME_STORAGE_KEY = 'todoListTheme'; // Still using local storage for theme
+        const TODOS_STORAGE_KEY = 'todoListAppTasks';
+        const MEDALS_STORAGE_KEY = 'todoListDailyMedalData';
+        const THEME_STORAGE_KEY = 'todoListTheme';
 
         const PRIORITY_COLORS = ['none', 'red', 'orange', 'yellow', 'green'];
         const PRIORITY_ORDER = { 'red': 1, 'orange': 2, 'yellow': 3, 'green': 4, 'none': 5 };
 
-        // --- Helper Functions (Mostly unchanged, adapted for Firebase data structure) ---
+        // --- Funciones de Google API ---
+        // Estas funciones deben estar en el ámbito global para ser llamadas por los scripts de Google
+        window.gisLoaded = () => {
+            tokenClient = google.accounts.oauth2.initTokenClient({
+                client_id: CLIENT_ID,
+                scope: SCOPES,
+                callback: '', // Se define dinámicamente antes de solicitar el token
+            });
+            gisInited = true;
+            console.log("Google Identity Services (GIS) loaded.");
+            maybeEnableDriveButtons();
+        };
 
-        // generateLocalId is still useful for subtask IDs if not storing them as separate documents
+        window.gapiLoaded = () => {
+            gapi.load('client:picker', () => {
+                gapiInited = true;
+                console.log("Google API Client (gapi) and Picker loaded.");
+                maybeEnableDriveButtons();
+            });
+        };
+
+        function maybeEnableDriveButtons() {
+            if (gapiInited && gisInited) {
+                if (exportDriveButton) exportDriveButton.disabled = false;
+                if (importDriveButton) importDriveButton.disabled = false;
+                console.log("Google Drive buttons enabled.");
+            } else {
+                console.log("Google APIs not fully loaded yet. gapiInited:", gapiInited, "gisInited:", gisInited);
+            }
+        }
+
+        function handleAuthClick(callbackFn) {
+            if (!tokenClient) {
+                alert("El cliente de autenticación de Google no está listo.");
+                return;
+            }
+            tokenClient.callback = async (resp) => {
+                if (resp.error !== undefined) {
+                    console.error("Error de autenticación de Google:", resp);
+                    alert("Error de autenticación con Google: " + (resp.error_description || resp.error));
+                    throw (resp);
+                }
+                console.log("Autenticación con Google exitosa.");
+                if (callbackFn) callbackFn();
+            };
+
+            if (gapi.client.getToken() === null) {
+                tokenClient.requestAccessToken({prompt: 'consent'});
+            } else {
+                // Intenta obtener token sin prompt si ya hay sesión,
+                // o si el token expiró, pedirá consentimiento de nuevo.
+                tokenClient.requestAccessToken({prompt: ''});
+            }
+        }
+
+        async function exportToGoogleDrive() {
+            if (!gapi.client.getToken()) {
+                 alert("Por favor, conéctate con Google Drive primero.");
+                 handleAuthClick(exportToGoogleDrive); // Intenta autenticar y luego reintentar
+                 return;
+            }
+            try {
+                if (!gapi.client.drive) { // Asegurarse que el cliente de Drive está cargado
+                    await new Promise((resolve, reject) => {
+                        gapi.client.load('drive', 'v3', resolve).then(null, reject);
+                    });
+                    console.log("Google Drive API client loaded for export.");
+                }
+
+
+                const dataToExport = {
+                    theme: localStorage.getItem(THEME_STORAGE_KEY) || 'light',
+                    dailyMedalData: JSON.parse(localStorage.getItem(MEDALS_STORAGE_KEY) || '{}'),
+                    quickNotesContent: localStorage.getItem(QUICK_NOTES_STORAGE_KEY) || '',
+                    tasks: todos
+                };
+                const jsonString = JSON.stringify(dataToExport, null, 2);
+                const dateStr = new Date().toISOString().slice(0,10).replace(/-/g,'');
+                const fileName = `todaylist_backup_${dateStr}.json`;
+
+                const boundary = '-------314159265358979323846';
+                const delimiter = "\r\n--" + boundary + "\r\n";
+                const close_delim = "\r\n--" + boundary + "--";
+
+                const metadata = {
+                    'name': fileName,
+                    'mimeType': 'application/json'
+                };
+
+                const multipartRequestBody =
+                    delimiter +
+                    'Content-Type: application/json\r\n\r\n' +
+                    JSON.stringify(metadata) +
+                    delimiter +
+                    'Content-Type: application/json\r\n\r\n' +
+                    jsonString +
+                    close_delim;
+
+                console.log("Iniciando subida a Google Drive...");
+                const request = gapi.client.request({
+                    'path': '/upload/drive/v3/files',
+                    'method': 'POST',
+                    'params': {'uploadType': 'multipart'},
+                    'headers': {
+                        'Content-Type': 'multipart/related; boundary="' + boundary + '"'
+                    },
+                    'body': multipartRequestBody
+                });
+
+                const response = await request;
+                console.log('Archivo exportado a Google Drive:', response.result);
+                alert('¡Datos exportados a Google Drive con éxito como ' + fileName + '!');
+
+            } catch (error) {
+                console.error('Error exportando a Google Drive:', error);
+                alert('Error al exportar datos a Google Drive: ' + (error.result?.error?.message || error.message || "Error desconocido. Revisa la consola."));
+            }
+        }
+
+        function loadPicker(callbackFn) {
+            // gapi.load('picker') ya se hizo en gapiLoaded, aquí solo verificamos
+            if (typeof google !== 'undefined' && google.picker) {
+                 if (callbackFn) callbackFn();
+            } else {
+                console.error("Google Picker API no está cargada.");
+                alert("Error: La API de selección de archivos de Google no está lista.");
+            }
+        }
+
+        function importFromGoogleDrive() {
+            if (!gapi.client.getToken()) {
+                alert("Por favor, conéctate con Google Drive primero.");
+                handleAuthClick(importFromGoogleDrive);
+                return;
+            }
+
+            loadPicker(() => {
+                const view = new google.picker.View(google.picker.ViewId.DOCS);
+                view.setMimeTypes("application/json");
+
+                const picker = new google.picker.PickerBuilder()
+                    .setAppId(null) // No es necesario si se usa OAuth Token
+                    .setOAuthToken(gapi.client.getToken().access_token)
+                    .addView(view)
+                    .setDeveloperKey(API_KEY)
+                    .setCallback(pickerCallback)
+                    .build();
+                picker.setVisible(true);
+                console.log("Google Picker abierto.");
+            });
+        }
+
+        async function pickerCallback(data) {
+            if (data.action === google.picker.Action.PICKED) {
+                const fileId = data.docs[0].id;
+                console.log("Archivo seleccionado de Drive, ID:", fileId);
+                try {
+                    if (!gapi.client.drive) { // Asegurarse que el cliente de Drive está cargado
+                         await new Promise((resolve, reject) => {
+                            gapi.client.load('drive', 'v3', resolve).then(null, reject);
+                        });
+                        console.log("Google Drive API client loaded for import.");
+                    }
+
+                    console.log("Descargando archivo de Google Drive...");
+                    const response = await gapi.client.drive.files.get({
+                        fileId: fileId,
+                        alt: 'media'
+                    });
+                    
+                    const importedData = JSON.parse(response.body); // response.body ya es el contenido del archivo
+                    console.log("Datos parseados desde Google Drive:", importedData);
+                    
+                    if (!confirm("¡Atención! Importar datos desde Google Drive reemplazará todos los datos actuales (tareas, notas, medallas, tema). ¿Deseas continuar?")) {
+                        return;
+                    }
+                    applyImportedData(importedData, "Google Drive");
+
+                } catch (error) {
+                    console.error('Error importando desde Google Drive:', error);
+                    alert('Error al importar datos desde Google Drive: ' + (error.result?.error?.message || error.message || "Error desconocido. Revisa la consola."));
+                }
+            } else if (data.action === google.picker.Action.CANCEL) {
+                console.log("Selección de archivo de Google Drive cancelada.");
+            }
+        }
+        // --- Fin Funciones de Google API ---
+
+
         function generateLocalId() {
             return '_' + Math.random().toString(36).substring(2, 15);
         }
@@ -1496,6 +1691,35 @@
             }
         }
 
+        function loadTodosFromLocalStorage() {
+            const storedTodos = localStorage.getItem(TODOS_STORAGE_KEY);
+            if (storedTodos) {
+                todos = JSON.parse(storedTodos);
+                todos = todos.map(task => ({
+                    id: task.id || generateLocalId(),
+                    text: task.text || 'Tarea sin nombre',
+                    completed: typeof task.completed === 'boolean' ? task.completed : false,
+                    completedDate: task.completedDate || null,
+                    subtasks: Array.isArray(task.subtasks) ? task.subtasks.map(sub => ({
+                        id: sub.id || generateLocalId(), text: sub.text || 'Sub-tarea sin nombre',
+                        completed: typeof sub.completed === 'boolean' ? sub.completed : false
+                    })) : [],
+                    showSubtaskUI: typeof task.showSubtaskUI === 'boolean' ? task.showSubtaskUI : false,
+                    priorityColor: PRIORITY_COLORS.includes(task.priorityColor) ? task.priorityColor : 'none',
+                    date: typeof task.date === 'string' && task.date.match(/^\d{4}-\d{2}-\d{2}$/) ? task.date : null,
+                    linkUrl: typeof task.linkUrl === 'string' ? task.linkUrl : null,
+                    order: typeof task.order === 'number' ? task.order : Date.now()
+                }));
+            } else {
+                todos = [];
+            }
+        }
+
+        function saveTodosToLocalStorage() {
+            localStorage.setItem(TODOS_STORAGE_KEY, JSON.stringify(todos));
+        }
+
+
         function loadAndRefreshMedalData() {
             let medalDataString = localStorage.getItem(MEDALS_STORAGE_KEY);
             let medalData;
@@ -1508,10 +1732,8 @@
 
             const today = getTodayDateString();
 
-            // Recalculate today's medals based on loaded Firebase data if date changes
             if (!medalData || medalData.date !== today) {
                 let countForToday = 0;
-                // Only count completed tasks from the current user's loaded data
                 if (todos && todos.length > 0) {
                     todos.forEach(task => {
                         if (task.completed && task.completedDate === today) countForToday++;
@@ -1524,14 +1746,13 @@
         }
 
         function updateMedalCount(change) {
-            let medalData = loadAndRefreshMedalData(); // Ensure we have today's data
+            let medalData = loadAndRefreshMedalData();
             medalData.count += change;
             if (medalData.count < 0) medalData.count = 0;
             localStorage.setItem(MEDALS_STORAGE_KEY, JSON.stringify(medalData));
             displayMedalCount(medalData.count);
         }
 
-        // syncAndRender is now just renderTodosUI
         function syncAndRender() {
             renderTodosUI();
         }
@@ -1566,7 +1787,6 @@
 
             if (isToday) {
                 calendarLabel.classList.add('date-today');
-                // Get the border color from the list item's computed style
                 const computedStyle = getComputedStyle(listItemElement);
                 const priorityColorForToday = computedStyle.borderLeftColor;
                 calendarIcon.style.color = priorityColorForToday;
@@ -1580,8 +1800,6 @@
             return (completed / subtasks.length) * 100;
         }
 
-        // --- UI Rendering (Mostly unchanged, uses local 'todos' array) ---
-
         function createMainTaskHeader(mainTask) {
             const mainTaskHeader = document.createElement('div');
             mainTaskHeader.classList.add('main-task-header');
@@ -1590,20 +1808,16 @@
             mainCheckbox.type = 'checkbox';
             mainCheckbox.classList.add('custom-checkbox');
             mainCheckbox.checked = mainTask.completed;
-            // Disable checkbox if user is not authenticated
-            if (!currentUser) mainCheckbox.disabled = true;
             mainCheckbox.addEventListener('change', (event) => {
-                if (currentUser) toggleMainCompletion(mainTask.id, event.target.checked);
+                toggleMainCompletion(mainTask.id, event.target.checked);
             });
 
             const priorityLabel = document.createElement('div');
             priorityLabel.classList.add('priority-color-label');
             priorityLabel.dataset.color = mainTask.priorityColor;
             priorityLabel.title = `Prioridad: ${mainTask.priorityColor.charAt(0).toUpperCase() + mainTask.priorityColor.slice(1)}`;
-             // Disable priority change if user is not authenticated or task is completed
-            if (!currentUser || mainTask.completed) priorityLabel.style.cursor = 'default';
             priorityLabel.addEventListener('click', () => {
-                 if (currentUser && !mainTask.completed) cyclePriorityColor(mainTask.id);
+                 if (!mainTask.completed) cyclePriorityColor(mainTask.id);
             });
 
             const taskBody = document.createElement('div');
@@ -1627,21 +1841,22 @@
                 linkButton.classList.add('link-off');
                 linkButton.title = 'Añadir enlace';
             }
-             // Disable link button if user is not authenticated, unless there's a link to open
-            if (!currentUser && !mainTask.linkUrl) linkButton.disabled = true;
             linkButton.addEventListener('click', () => {
                 const task = findTaskById(mainTask.id);
                 if (!task) return;
+                if (task.completed && !task.linkUrl) return;
                 if (task.linkUrl) {
                     window.open(task.linkUrl, '_blank');
-                } else if (currentUser && !task.completed) { // Only allow adding link if authenticated and not completed
+                } else if (!task.completed) {
                     const newUrl = prompt("Introduce la URL (ej: https://ejemplo.com):", task.linkUrl || "");
                     if (newUrl === null) return;
                     let finalUrl = newUrl.trim();
                     if (finalUrl !== "" && !finalUrl.toLowerCase().startsWith('http://') && !finalUrl.toLowerCase().startsWith('https://')) {
                         finalUrl = 'https://' + finalUrl;
                     }
-                    updateTask(task.id, { linkUrl: finalUrl || null }); // Use updateTask
+                    task.linkUrl = finalUrl || null;
+                    saveTodosToLocalStorage();
+                    syncAndRender();
                 }
             });
 
@@ -1649,40 +1864,32 @@
             calendarLabel.classList.add('app-button', 'calendar-button');
             calendarLabel.innerHTML = '<i class="fas fa-calendar-alt"></i>';
             calendarLabel.setAttribute('aria-label', 'Establecer fecha');
-             // Disable calendar if user is not authenticated or task is completed
-            if (!currentUser || mainTask.completed) calendarLabel.style.pointerEvents = 'none';
 
             const actualDateInput = document.createElement('input');
             actualDateInput.type = 'date';
             actualDateInput.classList.add('task-date-input-real');
-            const dateInputId = `date-input-${mainTask.id}`; // Use task.id
+            const dateInputId = `date-input-${mainTask.id || generateLocalId()}`;
             actualDateInput.id = dateInputId;
             calendarLabel.htmlFor = dateInputId;
             actualDateInput.value = mainTask.date || '';
-             // Disable date input if user is not authenticated or task is completed
-            if (!currentUser || mainTask.completed) actualDateInput.disabled = true;
 
             actualDateInput.addEventListener('change', (event) => {
-                if (currentUser && !mainTask.completed) {
-                     updateTaskDate(mainTask.id, event.target.value); // Use updateTaskDate
-                }
+                const task = findTaskById(mainTask.id);
+                if (!task) return;
+                updateTaskDate(task.id, event.target.value);
             });
 
             const deleteMainButton = document.createElement('button');
             deleteMainButton.classList.add('app-button', 'delete-button');
             deleteMainButton.innerHTML = '<i class="fas fa-trash-alt"></i>';
             deleteMainButton.setAttribute('aria-label', 'Eliminar tarea');
-             // Disable delete if user is not authenticated
-            if (!currentUser) deleteMainButton.disabled = true;
             deleteMainButton.addEventListener('click', () => {
-                if (currentUser) {
-                    const task = findTaskById(mainTask.id);
-                     if (!task) return;
-                     if ((task.subtasks && task.subtasks.length > 0) || task.completed) {
-                         if (!confirm(`¿Seguro que quieres eliminar "${task.text}"?`)) return;
-                     }
-                    deleteTodo(task.id); // Use deleteTodo
-                }
+                const task = findTaskById(mainTask.id);
+                if (!task) return;
+                 if ((task.subtasks && task.subtasks.length > 0) || task.completed) {
+                     if (!confirm(`¿Seguro que quieres eliminar "${task.text}"?`)) return;
+                 }
+                deleteTodo(task.id);
             });
 
             taskActionsGroup.append(linkButton, calendarLabel, actualDateInput, deleteMainButton);
@@ -1701,7 +1908,7 @@
                  displayedProgress = 100;
              } else if (mainTask.subtasks && mainTask.subtasks.length > 0) {
                  const subtaskProgress = calculateSubtaskProgress(mainTask.subtasks);
-                 displayedProgress = subtaskProgress === 100 ? 90 : subtaskProgress; // Show 90% if subtasks complete but main not
+                 displayedProgress = subtaskProgress === 100 ? 90 : subtaskProgress;
              }
              progressBar.style.width = `${displayedProgress}%`;
              progressContainer.appendChild(progressBar);
@@ -1713,24 +1920,23 @@
              addSubtasksToggle.classList.add('app-button', 'add-button', 'add-subtasks-toggle');
              addSubtasksToggle.innerHTML = '<i class="fas fa-plus"></i>';
              addSubtasksToggle.setAttribute('aria-label', 'Agregar sub-tarea');
-             // Disable toggle if user is not authenticated or task is completed
-             if (!currentUser || findTaskById(mainTaskId)?.completed) addSubtasksToggle.disabled = true;
              addSubtasksToggle.addEventListener('click', () => {
-                 if (currentUser) {
-                     const task = findTaskById(mainTaskId);
-                     if (task && !task.completed) {
-                         // Toggle showSubtaskUI locally for immediate UI change
-                         task.showSubtaskUI = !task.showSubtaskUI;
-                         // No need to save to DB just for UI state, but re-render
-                         renderTodosUI();
-                         if (task.showSubtaskUI) {
-                             const listItemElement = todoListContainer.querySelector(`li[data-task-id="${mainTaskId}"]`);
-                             if (listItemElement) {
-                               setTimeout(() => {
-                                   const inputElement = listItemElement.querySelector('.subtask-input-container input[type="text"]');
-                                   if (inputElement) inputElement.focus();
-                               }, 0);
-                             }
+                 const task = findTaskById(mainTaskId);
+                 if (task) {
+                     if (task.completed) return;
+                     task.showSubtaskUI = !task.showSubtaskUI;
+                     if (task.showSubtaskUI && (!task.subtasks || task.subtasks.length === 0)) {
+                         task.subtasks = [];
+                     }
+                     saveTodosToLocalStorage();
+                     syncAndRender();
+                     if (task.showSubtaskUI) {
+                         const listItemElement = todoListContainer.querySelector(`li[data-task-id="${mainTaskId}"]`);
+                         if (listItemElement) {
+                           setTimeout(() => {
+                               const inputElement = listItemElement.querySelector('.subtask-input-container input[type="text"]');
+                               if (inputElement) inputElement.focus();
+                           }, 0);
                          }
                      }
                  }
@@ -1749,43 +1955,36 @@
                     checkbox.type = 'checkbox';
                     checkbox.classList.add('custom-checkbox');
                     checkbox.checked = subtask.completed;
-                     // Disable checkbox if user is not authenticated or main task is completed
-                    if (!currentUser || mainTask.completed) checkbox.disabled = true;
+                    if (mainTask.completed) checkbox.disabled = true;
                     checkbox.addEventListener('change', () => {
-                         if (currentUser && !mainTask.completed) toggleSubtaskCompletion(mainTask.id, subtask.id); // Use toggleSubtaskCompletion
+                         if (!mainTask.completed) toggleSubtaskCompletion(mainTask.id, subtask.id);
                     });
                     const subtaskSpan = document.createElement('span');
                     subtaskSpan.textContent = subtask.text;
                     subtaskSpan.title = subtask.text;
-
                     const moveUpButton = document.createElement('button');
                     moveUpButton.classList.add('app-button', 'subtask-move-button');
                     moveUpButton.innerHTML = '<i class="fas fa-arrow-up"></i>';
                     moveUpButton.setAttribute('aria-label', 'Mover sub-tarea arriba');
-                     // Disable move up if user is not authenticated, main task completed, or it's the first subtask
-                    if (!currentUser || mainTask.completed || subIndex === 0) moveUpButton.disabled = true;
+                    if (mainTask.completed || subIndex === 0) moveUpButton.disabled = true;
                     moveUpButton.addEventListener('click', () => {
-                         if (currentUser && !mainTask.completed) moveSubtaskUp(mainTask.id, subtask.id); // Use moveSubtaskUp
+                         if (!mainTask.completed) moveSubtaskUp(mainTask.id, subtask.id);
                     });
-
                     const moveDownButton = document.createElement('button');
                     moveDownButton.classList.add('app-button', 'subtask-move-button');
                     moveDownButton.innerHTML = '<i class="fas fa-arrow-down"></i>';
                     moveDownButton.setAttribute('aria-label', 'Mover sub-tarea abajo');
-                     // Disable move down if user is not authenticated, main task completed, or it's the last subtask
-                    if (!currentUser || mainTask.completed || subIndex === mainTask.subtasks.length - 1) moveDownButton.disabled = true;
+                    if (mainTask.completed || subIndex === mainTask.subtasks.length - 1) moveDownButton.disabled = true;
                     moveDownButton.addEventListener('click', () => {
-                         if (currentUser && !mainTask.completed) moveSubtaskDown(mainTask.id, subtask.id); // Use moveSubtaskDown
+                         if (!mainTask.completed) moveSubtaskDown(mainTask.id, subtask.id);
                     });
-
                     const deleteSubtaskButton = document.createElement('button');
                     deleteSubtaskButton.classList.add('app-button', 'delete-button');
                     deleteSubtaskButton.innerHTML = '<i class="fas fa-trash-alt"></i>';
                     deleteSubtaskButton.setAttribute('aria-label', 'Eliminar sub-tarea');
-                     // Disable delete if user is not authenticated or main task is completed
-                    if (!currentUser || mainTask.completed) deleteSubtaskButton.disabled = true;
+                     if (mainTask.completed) deleteSubtaskButton.disabled = true;
                     deleteSubtaskButton.addEventListener('click', () => {
-                         if (currentUser && !mainTask.completed) deleteSubtask(mainTask.id, subtask.id); // Use deleteSubtask
+                         if (!mainTask.completed) deleteSubtask(mainTask.id, subtask.id);
                     });
                     subtaskItem.append(checkbox, subtaskSpan, moveUpButton, moveDownButton, deleteSubtaskButton);
                     subtasksList.appendChild(subtaskItem);
@@ -1800,39 +1999,19 @@
              const subtaskInput = document.createElement('input');
              subtaskInput.type = 'text';
              subtaskInput.placeholder = 'Agregar nueva sub-tarea...';
-             // Disable input if user is not authenticated
-             if (!currentUser) subtaskInput.disabled = true;
-
              const addSubtaskButton = document.createElement('button');
              addSubtaskButton.classList.add('app-button', 'add-button');
              addSubtaskButton.innerHTML = '<i class="fas fa-plus"></i>';
-             // Disable button if user is not authenticated
-             if (!currentUser) addSubtaskButton.disabled = true;
-
-             const handleAddSubtask = () => {
-                 if (currentUser) addSubtask(mainTaskId, subtaskInput); // Use addSubtask
-             };
+             const handleAddSubtask = () => addSubtask(mainTaskId, subtaskInput);
              addSubtaskButton.addEventListener('click', handleAddSubtask);
-             subtaskInput.addEventListener('keypress', (e) => { if (e.key==='Enter' && currentUser){ e.preventDefault(); handleAddSubtask();}});
+             subtaskInput.addEventListener('keypress', (e) => { if (e.key==='Enter'){ e.preventDefault(); handleAddSubtask();}});
              subtaskInputContainer.append(subtaskInput, addSubtaskButton);
              return subtaskInputContainer;
         }
 
-
         function renderTodosUI() {
             if (!todoListContainer) return;
-            todoListContainer.innerHTML = ''; // Clear current list
-
-            if (!currentUser) {
-                 // If not authenticated, maybe show a message or just the empty state
-                 // The empty state message is handled by CSS :empty:before
-                 return;
-            }
-
-            // Sort todos locally before rendering
-            todos.sort((a, b) => (a.order || 0) - (b.order || 0));
-
-
+            todoListContainer.innerHTML = '';
             todos.forEach((mainTask) => {
                 const listItem = document.createElement('li');
                 listItem.classList.add('todo-item');
@@ -1843,24 +2022,14 @@
 
                 listItem.appendChild(createMainTaskHeader(mainTask));
                 listItem.appendChild(createProgressBar(mainTask));
-
-                // Only show add subtasks toggle if not completed and authenticated
-                if (!mainTask.completed && currentUser) {
+                if (!mainTask.completed) {
                     listItem.appendChild(createAddSubtasksToggle(mainTask.id));
-                } else {
-                     // Ensure showSubtaskUI is false if completed
-                     if (mainTask.completed && mainTask.showSubtaskUI) {
-                          mainTask.showSubtaskUI = false; // Update local state
-                          // No need to save to DB just for UI state
-                     }
-                }
-
+                } else { mainTask.showSubtaskUI = false; }
 
                 if (mainTask.subtasks && mainTask.subtasks.length > 0) {
                     listItem.appendChild(createSubtasksList(mainTask));
                 }
-                 // Only show subtask input if showSubtaskUI is true and authenticated and not completed
-                if (mainTask.showSubtaskUI && currentUser && !mainTask.completed) {
+                if (mainTask.showSubtaskUI && !mainTask.completed) {
                      listItem.appendChild(createSubtaskInputContainer(mainTask.id));
                 }
                 todoListContainer.appendChild(listItem);
@@ -1869,338 +2038,178 @@
             if (todoInput) todoInput.value = '';
         }
 
-        // --- Firebase Integration Functions ---
-
-        // Listener for real-time updates from Firestore
-        let unsubscribeFromFirestore = null;
-
-        function startFirestoreListener(userId) {
-            if (unsubscribeFromFirestore) {
-                unsubscribeFromFirestore(); // Stop previous listener if any
-            }
-
-            const userTasksCollection = db.collection('users').doc(userId).collection('tasks'); // Use compat syntax
-            const q = userTasksCollection.orderBy('order'); // Use compat syntax for query
-
-            unsubscribeFromFirestore = q.onSnapshot((snapshot) => { // Use compat syntax for onSnapshot
-                // Map Firestore documents to your local task structure
-                todos = snapshot.docs.map(doc => {
-                    const data = doc.data();
-                    return {
-                        id: doc.id, // Use Firestore document ID as task ID
-                        text: data.text || 'Tarea sin nombre',
-                        completed: typeof data.completed === 'boolean' ? data.completed : false,
-                        completedDate: data.completedDate || null,
-                        // Ensure subtasks are an array and map their structure
-                        subtasks: Array.isArray(data.subtasks) ? data.subtasks.map(sub => ({
-                            id: sub.id || generateLocalId(), // Keep local ID for subtasks if not stored separately
-                            text: sub.text || 'Sub-tarea sin nombre',
-                            completed: typeof sub.completed === 'boolean' ? sub.completed : false
-                        })) : [],
-                        // showSubtaskUI is local UI state, don't load from DB
-                        showSubtaskUI: findTaskById(doc.id)?.showSubtaskUI || false, // Preserve local UI state if task exists
-                        priorityColor: PRIORITY_COLORS.includes(data.priorityColor) ? data.priorityColor : 'none',
-                        date: (typeof data.date === 'string' && data.date.match(/^\d{4}-\d{2}-\d{2}$/)) ? data.date : null,
-                        linkUrl: typeof data.linkUrl === 'string' ? data.linkUrl : null,
-                        order: typeof data.order === 'number' ? data.order : snapshot.docs.findIndex(d => d.id === doc.id) // Use index as fallback order
-                    };
-                });
-
-                console.log("Tasks loaded/updated from Firestore:", todos); // Debugging
-                renderTodosUI(); // Re-render the UI with the updated tasks
-                loadAndRefreshMedalData(); // Refresh medal count based on new data
-            }, (error) => {
-                console.error("Error fetching tasks:", error);
-                alert("Error al cargar las tareas: " + error.message);
-            });
+        function cyclePriorityColor(taskId) {
+             const task = findTaskById(taskId);
+             if (task && !task.completed) {
+                 const currentIndex = PRIORITY_COLORS.indexOf(task.priorityColor || 'none');
+                 task.priorityColor = PRIORITY_COLORS[(currentIndex + 1) % PRIORITY_COLORS.length];
+                 saveTodosToLocalStorage();
+                 const listItemElement = todoListContainer.querySelector(`li[data-task-id="${task.id}"]`);
+                 if (listItemElement) {
+                     listItemElement.dataset.priorityColor = task.priorityColor;
+                     const priorityLabelElement = listItemElement.querySelector('.priority-color-label');
+                     if (priorityLabelElement) {
+                         priorityLabelElement.dataset.color = task.priorityColor;
+                         priorityLabelElement.title = `Prioridad: ${task.priorityColor.charAt(0).toUpperCase() + task.priorityColor.slice(1)}`;
+                     }
+                     updateDateHighlight(listItemElement, task);
+                 }
+             }
         }
 
-        function stopFirestoreListener() {
-            if (unsubscribeFromFirestore) {
-                unsubscribeFromFirestore();
-                unsubscribeFromFirestore = null;
+        function updateTaskDate(taskId, newDateValue) {
+            const task = findTaskById(taskId);
+            if (task && !task.completed) {
+                task.date = newDateValue || null;
+                saveTodosToLocalStorage();
+                syncAndRender();
+            } else if (task && task.completed) {
+                syncAndRender();
             }
         }
 
-        // --- CRUD Operations using Firestore ---
+        function showAppInterface() {
+            if (welcomeSection) welcomeSection.classList.add('hidden');
+            if (installInstructionsSection) installInstructionsSection.classList.add('hidden');
+            if (appMainInterface) appMainInterface.classList.remove('hidden');
+            if (todoInput) todoInput.focus();
+        }
 
-        async function addTodo() {
-            if (!currentUser) {
-                alert("Debes iniciar sesión para agregar tareas.");
-                return;
-            }
+        function addTodo() {
             const newTodoText = todoInput.value.trim();
-            if (newTodoText === '') {
-                alert('Ingresa el nombre de la tarea.');
-                return;
-            }
-
-            // Determine the order for the new task
+            if (newTodoText === '') return alert('Ingresa el nombre de la tarea.');
             const maxOrder = todos.length > 0 ? Math.max(...todos.map(t => t.order || 0)) : -1;
-            const newOrder = maxOrder + 1;
-
-            const newTask = {
+            const newTodo = {
+                id: generateLocalId(),
                 text: newTodoText,
                 completed: false,
                 completedDate: null,
                 subtasks: [],
+                showSubtaskUI: false,
                 priorityColor: 'none',
                 date: null,
                 linkUrl: null,
-                order: newOrder
+                order: maxOrder + 1
             };
+            todos.push(newTodo);
+            saveTodosToLocalStorage();
+            syncAndRender();
+            if (todoInput) todoInput.value = '';
 
-            try {
-                // Add the new task document to the user's tasks subcollection
-                const docRef = await db.collection('users').doc(currentUser.uid).collection('tasks').add(newTask); // Use compat syntax
-                console.log("Task added with ID:", docRef.id);
-                // The onSnapshot listener will automatically update the local 'todos' array and re-render
-                if (todoInput) todoInput.value = '';
-
-                 // If this is the first task for the user, show the main interface
-                 // This check is now handled by onAuthStateChanged
-                 // if (todos.length === 0 && welcomeSection && !welcomeSection.classList.contains('hidden')) {
-                 //     showAppInterface();
-                 // }
-
-            } catch (e) {
-                console.error("Error adding task: ", e);
-                alert("Error al agregar la tarea: " + e.message);
+            if (todos.length === 1 && welcomeSection && !welcomeSection.classList.contains('hidden')) {
+                showAppInterface();
             }
         }
 
-        async function updateTask(taskId, updates) {
-            if (!currentUser) return;
-            try {
-                const taskRef = db.collection('users').doc(currentUser.uid).collection('tasks').doc(taskId); // Use compat syntax
-                await taskRef.update(updates); // Use compat syntax
-                console.log("Task updated:", taskId, updates);
-                // The onSnapshot listener will automatically update the local 'todos' array and re-render
-            } catch (e) {
-                console.error("Error updating task:", taskId, e);
-                alert("Error al actualizar la tarea: " + e.message);
-            }
+        function addSubtask(mainTaskId, subtaskInput) {
+             const newSubtaskText = subtaskInput.value.trim();
+             if (newSubtaskText === '') return alert('Ingresa el nombre de la sub-tarea.');
+             const mainTask = findTaskById(mainTaskId);
+             if (mainTask && !mainTask.completed) {
+                 if (!mainTask.subtasks) mainTask.subtasks = [];
+                 mainTask.subtasks.push({ id: generateLocalId(), text: newSubtaskText, completed: false });
+                 mainTask.completed = false;
+                 mainTask.completedDate = null;
+                 mainTask.showSubtaskUI = false;
+                 saveTodosToLocalStorage();
+                 syncAndRender();
+                 if (subtaskInput) subtaskInput.value = '';
+             }
         }
 
-        async function deleteTodo(taskId) {
-            if (!currentUser) return;
+        function deleteTodo(taskId) {
             const taskIndex = findTaskIndexById(taskId);
-            if (taskIndex === -1) return;
-
-            const taskToDelete = todos[taskIndex];
-
-            try {
-                // Delete the task document from Firestore
-                await db.collection('users').doc(currentUser.uid).collection('tasks').doc(taskId).delete(); // Use compat syntax
-                console.log("Task deleted:", taskId);
-
-                // Update medal count if it was completed today
+            if (taskIndex > -1) {
+                const taskToDelete = todos[taskIndex];
                 if (taskToDelete.completed && taskToDelete.completedDate === getTodayDateString()) {
                     updateMedalCount(-1);
                 }
-
-                // The onSnapshot listener will automatically update the local 'todos' array and re-render
-
-                 // If the last task was deleted, show welcome/install sections (handled by onAuthStateChanged)
-                 // if (todos.length === 1 && welcomeSection && appMainInterface && installInstructionsSection) {
-                 //     // Wait a moment for the onSnapshot to remove the task locally
-                 //     setTimeout(() => {
-                 //         if (todos.length === 0) {
-                 //             welcomeSection.classList.remove('hidden');
-                 //             installInstructionsSection.classList.remove('hidden');
-                 //             appMainInterface.classList.add('hidden');
-                 //         }
-                 //     }, 100);
-                 // }
-
-            } catch (e) {
-                console.error("Error deleting task:", taskId, e);
-                alert("Error al eliminar la tarea: " + e.message);
-            }
-        }
-
-        async function addSubtask(mainTaskId, subtaskInput) {
-             if (!currentUser) return;
-             const newSubtaskText = subtaskInput.value.trim();
-             if (newSubtaskText === '') {
-                 alert('Ingresa el nombre de la sub-tarea.');
-                 return;
-             }
-             const mainTask = findTaskById(mainTaskId);
-             if (!mainTask || mainTask.completed) return;
-
-             // Add the new subtask to the local array
-             const newSubtasks = [...(mainTask.subtasks || []), { id: generateLocalId(), text: newSubtaskText, completed: false }];
-
-             try {
-                 // Update the main task document in Firestore with the new subtasks array
-                 await updateTask(mainTaskId, {
-                     subtasks: newSubtasks,
-                     completed: false, // Unmark main task if adding subtask
-                     completedDate: null
-                 });
-                 console.log("Subtask added to task:", mainTaskId);
-                 // The onSnapshot listener will update local state and re-render
-                 if (subtaskInput) subtaskInput.value = '';
-
-                 // Hide the subtask input UI after adding
-                 mainTask.showSubtaskUI = false; // Update local UI state
-                 renderTodosUI(); // Re-render to hide the input
-             } catch (e) {
-                 console.error("Error adding subtask:", e);
-                 alert("Error al agregar la sub-tarea: " + e.message);
-             }
-        }
-
-        async function deleteSubtask(mainTaskId, subtaskId) {
-             if (!currentUser) return;
-             const mainTask = findTaskById(mainTaskId);
-             if (!mainTask || !mainTask.subtasks || mainTask.completed) return;
-
-             const subtaskIndex = mainTask.subtasks.findIndex(sub => sub.id === subtaskId);
-             if (subtaskIndex === -1) return;
-
-             // Create a new array without the subtask
-             const newSubtasks = mainTask.subtasks.filter(sub => sub.id !== subtaskId);
-
-             try {
-                 // Update the main task document in Firestore
-                 await updateTask(mainTaskId, { subtasks: newSubtasks });
-                 console.log("Subtask deleted from task:", mainTaskId, subtaskId);
-                 // The onSnapshot listener will update local state and re-render
-             } catch (e) {
-                 console.error("Error deleting subtask:", e);
-                 alert("Error al eliminar la sub-tarea: " + e.message);
-             }
-        }
-
-        async function toggleSubtaskCompletion(mainTaskId, subtaskId) {
-             if (!currentUser) return;
-             const mainTask = findTaskById(mainTaskId);
-             if (!mainTask || !mainTask.subtasks || mainTask.completed) return;
-
-             const subtask = mainTask.subtasks.find(sub => sub.id === subtaskId);
-             if (!subtask) return;
-
-             // Update the completed status locally first
-             subtask.completed = !subtask.completed;
-
-             // Create a new array with the updated subtask
-             const newSubtasks = mainTask.subtasks.map(sub => sub.id === subtaskId ? subtask : sub);
-
-             try {
-                 // Update the main task document in Firestore
-                 await updateTask(mainTaskId, { subtasks: newSubtasks });
-                 console.log("Subtask completion toggled:", mainTaskId, subtaskId);
-                 // The onSnapshot listener will update local state and re-render
-             } catch (e) {
-                 console.error("Error toggling subtask completion:", e);
-                 alert("Error al actualizar la sub-tarea: " + e.message);
-             }
-        }
-
-        async function toggleMainCompletion(taskId, isChecked) {
-            if (!currentUser) return;
-            const task = findTaskById(taskId);
-            if (!task) return;
-
-            const wasCompletedTodayBefore = task.completed && task.completedDate === getTodayDateString();
-            const today = getTodayDateString();
-
-            const updates = {
-                completed: isChecked,
-                completedDate: isChecked ? today : null,
-                priorityColor: isChecked ? 'none' : task.priorityColor, // Reset priority on completion
-                showSubtaskUI: isChecked ? false : task.showSubtaskUI, // Hide subtask UI on completion
-                // Also update subtasks completion status
-                subtasks: task.subtasks ? task.subtasks.map(sub => ({ ...sub, completed: isChecked })) : []
-            };
-
-            try {
-                await updateTask(taskId, updates);
-                console.log("Main task completion toggled:", taskId, isChecked);
-
-                // Update medal count *after* successful Firestore update
-                if (isChecked && !wasCompletedTodayBefore) {
-                    updateMedalCount(1);
-                    if (typeof confetti === 'function') confetti({ particleCount: 150, spread: 90, origin: { y: 0.55 }});
-                } else if (!isChecked && wasCompletedTodayBefore) {
-                     updateMedalCount(-1);
+                todos.splice(taskIndex, 1);
+                saveTodosToLocalStorage();
+                syncAndRender();
+                if (todos.length === 0 && welcomeSection && appMainInterface && installInstructionsSection) {
+                    welcomeSection.classList.remove('hidden');
+                    installInstructionsSection.classList.remove('hidden');
+                    appMainInterface.classList.add('hidden');
                 }
-
-                // The onSnapshot listener will update local state and re-render
-            } catch (e) {
-                console.error("Error toggling main task completion:", e);
-                alert("Error al actualizar la tarea principal: " + e.message);
             }
         }
 
-        async function moveSubtask(mainTaskId, subtaskId, direction) {
-            if (!currentUser) return;
+        function deleteSubtask(mainTaskId, subtaskId) {
+             const mainTask = findTaskById(mainTaskId);
+             if (mainTask && mainTask.subtasks && !mainTask.completed) {
+                 const subtaskIndex = mainTask.subtasks.findIndex(sub => sub.id === subtaskId);
+                 if (subtaskIndex > -1) {
+                     mainTask.subtasks.splice(subtaskIndex, 1);
+                     mainTask.completed = false;
+                     mainTask.completedDate = null;
+                     saveTodosToLocalStorage();
+                     syncAndRender();
+                 }
+             }
+        }
+
+        function toggleSubtaskCompletion(mainTaskId, subtaskId) {
+             const mainTask = findTaskById(mainTaskId);
+             if (mainTask && mainTask.subtasks && !mainTask.completed) {
+                const subtask = mainTask.subtasks.find(sub => sub.id === subtaskId);
+                if (subtask) {
+                     subtask.completed = !subtask.completed;
+                     saveTodosToLocalStorage();
+                     syncAndRender();
+                 }
+             }
+        }
+
+        function toggleMainCompletion(taskId, isChecked) {
+            const task = findTaskById(taskId);
+            if (task) {
+                const wasCompletedTodayBefore = task.completed && task.completedDate === getTodayDateString();
+
+                task.completed = isChecked;
+                const today = getTodayDateString();
+
+                if (isChecked) {
+                    task.completedDate = today;
+                    task.priorityColor = 'none';
+                    task.showSubtaskUI = false;
+                    if (!wasCompletedTodayBefore) {
+                        updateMedalCount(1);
+                    }
+                    if (typeof confetti === 'function') confetti({ particleCount: 150, spread: 90, origin: { y: 0.55 }});
+                } else {
+                    if (wasCompletedTodayBefore) {
+                        updateMedalCount(-1);
+                    }
+                    task.completedDate = null;
+                }
+                if (task.subtasks) {
+                    task.subtasks.forEach(sub => sub.completed = isChecked);
+                }
+                saveTodosToLocalStorage();
+                syncAndRender();
+            }
+        }
+
+        function moveSubtask(mainTaskId, subtaskId, direction) {
             const mainTask = findTaskById(mainTaskId);
-            if (!mainTask || !mainTask.subtasks || mainTask.completed) return;
+            if (mainTask && mainTask.subtasks && !mainTask.completed) {
+                const subtaskIndex = mainTask.subtasks.findIndex(sub => sub.id === subtaskId);
+                if (subtaskIndex === -1) return;
 
-            const subtaskIndex = mainTask.subtasks.findIndex(sub => sub.id === subtaskId);
-            if (subtaskIndex === -1) return;
-
-            const newIndex = subtaskIndex + direction;
-            if (newIndex >= 0 && newIndex < mainTask.subtasks.length) {
-                // Create a new array with the subtask moved
-                const newSubtasks = [...mainTask.subtasks];
-                [newSubtasks[subtaskIndex], newSubtasks[newIndex]] =
-                [newSubtasks[newIndex], newSubtasks[subtaskIndex]];
-
-                try {
-                    // Update the main task document in Firestore
-                    await updateTask(mainTaskId, { subtasks: newSubtasks });
-                    console.log("Subtask moved:", mainTaskId, subtaskId, direction);
-                    // The onSnapshot listener will update local state and re-render
-                } catch (e) {
-                    console.error("Error moving subtask:", e);
-                    alert("Error al mover la sub-tarea: " + e.message);
+                const newIndex = subtaskIndex + direction;
+                if (newIndex >= 0 && newIndex < mainTask.subtasks.length) {
+                    [mainTask.subtasks[subtaskIndex], mainTask.subtasks[newIndex]] =
+                    [mainTask.subtasks[newIndex], mainTask.subtasks[subtaskIndex]];
+                    saveTodosToLocalStorage();
+                    syncAndRender();
                 }
             }
         }
         function moveSubtaskUp(mainTaskId, subtaskId) { moveSubtask(mainTaskId, subtaskId, -1); }
         function moveSubtaskDown(mainTaskId, subtaskId) { moveSubtask(mainTaskId, subtaskId, 1); }
 
-        async function cyclePriorityColor(taskId) {
-             if (!currentUser) return;
-             const task = findTaskById(taskId);
-             if (!task || task.completed) return;
-
-             const currentIndex = PRIORITY_COLORS.indexOf(task.priorityColor || 'none');
-             const nextColor = PRIORITY_COLORS[(currentIndex + 1) % PRIORITY_COLORS.length];
-
-             try {
-                 await updateTask(taskId, { priorityColor: nextColor });
-                 console.log("Priority cycled for task:", taskId, nextColor);
-                 // The onSnapshot listener will update local state and re-render
-             } catch (e) {
-                 console.error("Error cycling priority:", e);
-                 alert("Error al cambiar la prioridad: " + e.message);
-             }
-        }
-
-        async function updateTaskDate(taskId, newDateValue) {
-            if (!currentUser) return;
-            const task = findTaskById(taskId);
-            if (!task || task.completed) return;
-
-            try {
-                await updateTask(taskId, { date: newDateValue || null });
-                console.log("Date updated for task:", taskId, newDateValue);
-                // The onSnapshot listener will update local state and re-render
-            } catch (e) {
-                console.error("Error updating date:", e);
-                alert("Error al actualizar la fecha: " + e.message);
-            }
-        }
-
-        async function performManualSort() {
-             if (!currentUser) return;
-
-             // Sort the local array first
+        function performManualSort() {
              todos.sort((a, b) => {
                  const rankA = PRIORITY_ORDER[a.priorityColor] || PRIORITY_ORDER['none'];
                  const rankB = PRIORITY_ORDER[b.priorityColor] || PRIORITY_ORDER['none'];
@@ -2212,119 +2221,153 @@
 
                  return (a.order || 0) - (b.order || 0);
              });
-
-             // Create a batch write to update the 'order' field in Firestore
-             const batch = db.batch(); // Use compat syntax
              todos.forEach((task, index) => {
-                 const taskRef = db.collection('users').doc(currentUser.uid).collection('tasks').doc(task.id); // Use compat syntax
-                 batch.update(taskRef, { order: index });
+                 task.order = index;
              });
-
-             try {
-                 await batch.commit();
-                 console.log("Tasks reordered and order updated in Firestore.");
-                 // The onSnapshot listener will update the local 'todos' array with new order and re-render
-             } catch (e) {
-                 console.error("Error reordering tasks:", e);
-                 alert("Error al reordenar las tareas: " + e.message);
-             }
+             saveTodosToLocalStorage();
+             syncAndRender();
         }
 
-
-        // --- UI Visibility Management ---
-
-        function showAuthenticatedUI() {
-            if (welcomeSection) welcomeSection.classList.add('hidden');
-            if (installInstructionsSection) installInstructionsSection.classList.add('hidden');
-            // authUiContainer is removed, so no need to hide it
-            if (appMainInterface) appMainInterface.classList.remove('hidden');
-
-            // Enable input and buttons in the main interface
-            if (todoInput) todoInput.disabled = false;
-            if (addTodoButton) addTodoButton.disabled = false;
-            if (reorderButton) reorderButton.disabled = false;
-            if (quickNotesArea) quickNotesArea.disabled = false;
-            if (clearNotesButton) clearNotesButton.disabled = false;
-            if (exportDataButton) exportDataButton.disabled = false;
-            if (importDataButton) importDataButton.disabled = false;
-            if (signOutButton) signOutButton.classList.remove('hidden'); // Show sign out button
-
-             // Re-render to enable/disable task-specific buttons based on currentUser
-             renderTodosUI();
-        }
-
-        function showUnauthenticatedUI() {
-            if (welcomeSection) welcomeSection.classList.remove('hidden');
-            if (installInstructionsSection) installInstructionsSection.classList.remove('hidden');
-            // authUiContainer is removed
-            if (appMainInterface) appMainInterface.classList.add('hidden');
-
-            // Disable input and buttons in the main interface
-            if (todoInput) todoInput.disabled = true;
-            if (addTodoButton) addTodoButton.disabled = true;
-            if (reorderButton) reorderButton.disabled = true;
-            if (quickNotesArea) quickNotesArea.disabled = false; // Keep notes enabled
-            if (clearNotesButton) clearNotesButton.disabled = false; // Keep notes enabled
-            if (exportDataButton) exportDataButton.disabled = false; // Keep export enabled
-            if (importDataButton) importDataButton.disabled = false; // Keep import enabled
-            if (signOutButton) signOutButton.classList.add('hidden'); // Hide sign out button
-
-            // Clear local tasks array and re-render
-            todos = [];
-            renderTodosUI(); // Clear UI immediately on sign out
-            displayMedalCount(0); // Reset medal display
-
-             // Show the welcome section button which now triggers sign-in
-             if (startAppButton) startAppButton.classList.remove('hidden');
-        }
-
-        // --- Event Handlers ---
-
-        async function handleGoogleSignIn() {
-            console.log("Attempting Google Sign-In..."); // Debugging
-            try {
-                // Use compat syntax for signInWithPopup
-                const result = await auth.signInWithPopup(provider);
-                // User signed in, onAuthStateChanged will handle the rest
-                console.log("Google Sign-In successful:", result.user); // Debugging
-            } catch (error) {
-                console.error("Google Sign-In Error:", error);
-                // Handle specific errors (e.g., popup closed, account exists with different credential)
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                // const email = error.customData?.email; // Not always available
-                // const credential = firebase.auth.GoogleAuthProvider.credentialFromError(error); // Use firebase.auth.GoogleAuthProvider
-
-                if (errorCode === 'auth/popup-closed-by-user') {
-                    // User closed the popup, no need to show an error
-                    console.log("Sign-in popup closed by user.");
-                } else if (errorCode === 'auth/cancelled-popup-request') {
-                     console.log("Sign-in popup request cancelled.");
-                }
-                 else {
-                    alert(`Error al iniciar sesión con Google: ${errorMessage}`);
-                }
+        function enableDarkMode() {
+            body.classList.add('dark-mode');
+            localStorage.setItem(THEME_STORAGE_KEY, 'dark');
+            if (darkModeToggle) {
+                darkModeToggle.querySelector('i').className = 'fas fa-sun';
+                darkModeToggle.setAttribute('aria-label', 'Alternar a modo claro');
+                darkModeToggle.title = 'Alternar a modo claro';
             }
         }
 
-        async function handleSignOut() {
-            console.log("Attempting Sign-Out..."); // Debugging
+        function disableDarkMode() {
+            body.classList.remove('dark-mode');
+            localStorage.setItem(THEME_STORAGE_KEY, 'light');
+            if (darkModeToggle) {
+                 darkModeToggle.querySelector('i').className = 'fas fa-moon';
+                 darkModeToggle.setAttribute('aria-label', 'Alternar a modo oscuro');
+                 darkModeToggle.title = 'Alternar a modo oscuro';
+            }
+        }
+
+        function toggleDarkMode() {
+            body.classList.contains('dark-mode') ? disableDarkMode() : enableDarkMode();
+            syncAndRender(); // Para actualizar colores de iconos de calendario si es necesario
+        }
+
+        function exportAllDataLocal() { // Renombrada para claridad
+            const dataToExport = {
+                theme: localStorage.getItem(THEME_STORAGE_KEY) || 'light',
+                dailyMedalData: JSON.parse(localStorage.getItem(MEDALS_STORAGE_KEY) || '{}'),
+                quickNotesContent: localStorage.getItem(QUICK_NOTES_STORAGE_KEY) || '',
+                tasks: todos
+            };
+
+            const jsonString = JSON.stringify(dataToExport, null, 2);
+            const blob = new Blob([jsonString], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            const dateStr = new Date().toISOString().slice(0,10).replace(/-/g,'');
+            a.download = `todolist-backup-local-${dateStr}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            alert('Datos exportados localmente como ' + a.download);
+        }
+        
+        function applyImportedData(importedData, source = "local file") {
             try {
-                // Use compat syntax for signOut
-                await auth.signOut();
-                // User signed out, onAuthStateChanged will handle the rest
-                console.log("Sign-Out successful."); // Debugging
+                if (typeof importedData !== 'object' || importedData === null || !Array.isArray(importedData.tasks)) {
+                    throw new Error('El formato del archivo es inválido o no contiene tareas.');
+                }
+
+                const themeToApply = importedData.theme === 'dark' ? 'dark' : 'light';
+                localStorage.setItem(THEME_STORAGE_KEY, themeToApply);
+                if (themeToApply === 'dark') enableDarkMode(); else disableDarkMode();
+
+                if (importedData.dailyMedalData && typeof importedData.dailyMedalData === 'object') {
+                    localStorage.setItem(MEDALS_STORAGE_KEY, JSON.stringify(importedData.dailyMedalData));
+                    displayMedalCount(importedData.dailyMedalData.count || 0);
+                } else {
+                    localStorage.removeItem(MEDALS_STORAGE_KEY);
+                    displayMedalCount(0);
+                }
+
+                if (typeof importedData.quickNotesContent === 'string') {
+                    quickNotesArea.value = importedData.quickNotesContent;
+                    localStorage.setItem(QUICK_NOTES_STORAGE_KEY, importedData.quickNotesContent);
+                } else {
+                    quickNotesArea.value = '';
+                    localStorage.removeItem(QUICK_NOTES_STORAGE_KEY);
+                }
+
+                todos = importedData.tasks.map(task => ({
+                    id: task.id || generateLocalId(),
+                    text: task.text || 'Tarea importada',
+                    completed: !!task.completed,
+                    completedDate: task.completedDate || null,
+                    subtasks: Array.isArray(task.subtasks) ? task.subtasks.map(sub => ({
+                        id: sub.id || generateLocalId(),
+                        text: sub.text || 'Sub-tarea importada',
+                        completed: !!sub.completed
+                    })) : [],
+                    showSubtaskUI: !!task.showSubtaskUI,
+                    priorityColor: PRIORITY_COLORS.includes(task.priorityColor) ? task.priorityColor : 'none',
+                    date: (typeof task.date === 'string' && task.date.match(/^\d{4}-\d{2}-\d{2}$/)) ? task.date : null,
+                    linkUrl: typeof task.linkUrl === 'string' ? task.linkUrl : null,
+                    order: typeof task.order === 'number' ? task.order : Date.now() // Asegurar un orden
+                }));
+
+                saveTodosToLocalStorage();
+
+                if (todos.length === 0) {
+                    if (welcomeSection) welcomeSection.classList.remove('hidden');
+                    if (installInstructionsSection) installInstructionsSection.classList.remove('hidden');
+                    if (appMainInterface) appMainInterface.classList.add('hidden');
+                } else {
+                    showAppInterface();
+                }
+                syncAndRender();
+
+                alert(`Datos importados exitosamente desde ${source}.`);
+
             } catch (error) {
-                console.error("Sign-Out Error:", error);
-                alert("Error al cerrar sesión: " + error.message);
+                console.error(`Error al procesar datos importados desde ${source}:`, error);
+                alert(`Error al procesar datos importados: ${error.message}`);
             }
         }
 
 
-        // --- Initialization ---
+        function importAllDataLocal(event) { // Renombrada para claridad
+            const file = event.target.files[0];
+            if (!file) return;
+
+            if (!confirm("¡Atención! Importar datos reemplazará todos los datos actuales (tareas, notas, medallas, tema). ¿Deseas continuar?")) {
+                if (importFileInput) importFileInput.value = '';
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    const importedData = JSON.parse(e.target.result);
+                    applyImportedData(importedData, "archivo local");
+                } catch (error) {
+                     console.error('Error al parsear JSON del archivo local:', error);
+                     alert(`Error al leer el archivo local: ${error.message}. Asegúrate de que sea un archivo JSON válido de ToDayList.`);
+                } finally {
+                    if (importFileInput) importFileInput.value = '';
+                }
+            };
+            reader.onerror = () => {
+                alert('Error al leer el archivo local.');
+                if (importFileInput) importFileInput.value = '';
+            };
+            reader.readAsText(file);
+        }
+
 
         document.addEventListener('DOMContentLoaded', () => {
-            // Get UI elements
             todoInput = document.getElementById('new-todo-input');
             addTodoButton = document.getElementById('add-todo-button');
             todoListContainer = document.getElementById('todo-list');
@@ -2344,51 +2387,48 @@
             importDataButton = document.getElementById('import-data-button');
             importFileInput = document.getElementById('import-file-input');
 
+            // Google Drive buttons
+            exportDriveButton = document.getElementById('export-drive-button');
+            importDriveButton = document.getElementById('import-drive-button');
+
+
             welcomeSection = document.getElementById('welcome-section');
-            startAppButton = document.getElementById('start-app-button'); // This is now the Google Sign-In trigger
+            startAppButton = document.getElementById('start-app-button');
             appMainInterface = document.getElementById('app-main-interface');
             installInstructionsSection = document.getElementById('install-instructions-section');
 
-            // Get Firebase Auth UI elements
-            // authUiContainer is removed
-            // googleSignInButton is removed
-            signOutButton = document.getElementById('sign-out-button');
 
-
-            // Apply saved theme
             if (localStorage.getItem(THEME_STORAGE_KEY) === 'dark') {
                 enableDarkMode();
             } else {
                 disableDarkMode();
             }
 
-            // Load quick notes from local storage
-            const savedNotes = localStorage.getItem(QUICK_NOTES_STORAGE_KEY);
-            if (savedNotes) quickNotesArea.value = savedNotes;
+            loadTodosFromLocalStorage();
 
-            // --- Add Event Listeners ---
+            if (todos.length === 0) {
+                if (welcomeSection) welcomeSection.classList.remove('hidden');
+                if (installInstructionsSection) installInstructionsSection.classList.remove('hidden');
+                if (appMainInterface) appMainInterface.classList.add('hidden');
+            } else {
+                if (welcomeSection) welcomeSection.classList.add('hidden');
+                if (installInstructionsSection) installInstructionsSection.classList.add('hidden');
+                if (appMainInterface) appMainInterface.classList.remove('hidden');
+                renderTodosUI();
+            }
 
-            // Google Sign-In triggered by the "Start Organizing" button
+            const initialMedalData = loadAndRefreshMedalData();
+            displayMedalCount(initialMedalData.count);
+
+            addTodoButton.addEventListener('click', addTodo);
+            todoInput.addEventListener('keypress', (e) => { if (e.key==='Enter'){ e.preventDefault(); addTodo();}});
+            reorderButton.addEventListener('click', performManualSort);
+            darkModeToggle.addEventListener('click', toggleDarkMode);
+
             if (startAppButton) {
-                startAppButton.addEventListener('click', handleGoogleSignIn);
+                startAppButton.addEventListener('click', showAppInterface);
             }
 
-            // Sign Out button
-            if (signOutButton) {
-                signOutButton.addEventListener('click', handleSignOut);
-            }
-
-            // Task input and add button (only enabled when authenticated)
-            if (addTodoButton) addTodoButton.addEventListener('click', addTodo);
-            if (todoInput) todoInput.addEventListener('keypress', (e) => { if (e.key==='Enter' && currentUser){ e.preventDefault(); addTodo();}});
-
-            // Reorder button (only enabled when authenticated)
-            if (reorderButton) reorderButton.addEventListener('click', performManualSort);
-
-            // Dark mode toggle
-            if (darkModeToggle) darkModeToggle.addEventListener('click', toggleDarkMode);
-
-            // Info modal
             if (infoButton && infoModal && closeModalButton) {
                 infoButton.addEventListener('click', () => infoModal.classList.add('visible'));
                 closeModalButton.addEventListener('click', () => infoModal.classList.remove('visible'));
@@ -2402,13 +2442,12 @@
                 });
             }
 
-            // Quick notes
-            if (quickNotesArea) {
+            if (quickNotesArea && clearNotesButton) {
+                const savedNotes = localStorage.getItem(QUICK_NOTES_STORAGE_KEY);
+                if (savedNotes) quickNotesArea.value = savedNotes;
                 quickNotesArea.addEventListener('input', () => {
                     localStorage.setItem(QUICK_NOTES_STORAGE_KEY, quickNotesArea.value);
                 });
-            }
-            if (clearNotesButton) {
                 clearNotesButton.addEventListener('click', () => {
                     quickNotesArea.value = '';
                     localStorage.removeItem(QUICK_NOTES_STORAGE_KEY);
@@ -2416,43 +2455,23 @@
                 });
             }
 
-            // Export/Import (still local file operations)
-            if (exportDataButton) {
-                exportDataButton.addEventListener('click', exportAllData);
+            if (exportDataButton) { // Local export
+                exportDataButton.addEventListener('click', exportAllDataLocal);
             }
-            if (importDataButton && importFileInput) {
+            if (importDataButton && importFileInput) { // Local import
                 importDataButton.addEventListener('click', () => importFileInput.click());
-                importFileInput.addEventListener('change', importAllData);
+                importFileInput.addEventListener('change', importAllDataLocal);
             }
 
-
-            // --- Firebase Auth State Observer ---
-            // Use compat syntax for onAuthStateChanged
-            auth.onAuthStateChanged((user) => {
-                console.log("onAuthStateChanged triggered. User:", user ? user.uid : null); // Debugging
-                if (user) {
-                    // User is signed in
-                    currentUser = user;
-                    console.log("User signed in:", currentUser.uid);
-                    showAuthenticatedUI();
-                    startFirestoreListener(currentUser.uid); // Start listening for tasks
-                } else {
-                    // User is signed out
-                    currentUser = null;
-                    console.log("User signed out.");
-                    stopFirestoreListener(); // Stop listening for tasks
-                    todos = []; // Clear local tasks
-                    renderTodosUI(); // Clear UI immediately on sign out
-                    displayMedalCount(0); // Reset medal display
-                    showUnauthenticatedUI();
-                }
-            });
-
-            // Initial render based on the initial auth state (handled by onAuthStateChanged)
-            // No need to call renderTodosUI() here, onAuthStateChanged will do it.
-            // loadTodosFromLocalStorage(); // No longer needed for main tasks
-            // const initialMedalData = loadAndRefreshMedalData(); // Will be refreshed by onSnapshot
-            // displayMedalCount(initialMedalData.count); // Will be refreshed by onSnapshot
+            // Google Drive button listeners
+            if (exportDriveButton) {
+                exportDriveButton.addEventListener('click', exportToGoogleDrive);
+            }
+            if (importDriveButton) {
+                importDriveButton.addEventListener('click', importFromGoogleDrive);
+            }
+            // Initial check in case APIs loaded before DOMContentLoaded
+            maybeEnableDriveButtons();
         });
     </script>
 
