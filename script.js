@@ -43,8 +43,8 @@ const PRIORITY_COLORS = ['none', 'red', 'orange', 'yellow', 'green'];
 const PRIORITY_ORDER = { 'red': 1, 'orange': 2, 'yellow': 3, 'green': 4, 'none': 5 };
 
 // --- Funciones de Google API (SOLO PARA DRIVE) ---
-// Definimos las funciones que serán llamadas por los onload de los scripts de Google
-function gisLoaded() { // Nota: Ya no es 'gisLoadedInternal' si la asignamos directamente
+// Estas funciones deben estar disponibles globalmente para ser llamadas por los onload de los scripts de Google
+function gisLoaded() {
     if (typeof google === 'undefined' || !google.accounts || !google.accounts.oauth2) {
         console.error("Objeto 'google.accounts.oauth2' no encontrado. GIS no cargó correctamente (para Drive).");
         return;
@@ -53,7 +53,7 @@ function gisLoaded() { // Nota: Ya no es 'gisLoadedInternal' si la asignamos dir
         tokenClient = google.accounts.oauth2.initTokenClient({
             client_id: CLIENT_ID,
             scope: SCOPES,
-            callback: '',
+            callback: '', // El callback real se establece en handleAuthClick
         });
         gisInited = true;
         console.log("Google Identity Services (GIS) loaded (for Drive).");
@@ -61,15 +61,15 @@ function gisLoaded() { // Nota: Ya no es 'gisLoadedInternal' si la asignamos dir
     } catch (e) {
         console.error("Error inicializando Google Identity Services (GIS for Drive):", e);
     }
-};
+}
 
-function gapiLoaded() { // Nota: Ya no es 'gapiLoadedInternal'
+function gapiLoaded() {
     if (typeof gapi === 'undefined' || !gapi.load) {
         console.error("Objeto 'gapi' no encontrado. Google API Client no cargó correctamente (para Drive).");
         return;
     }
     try {
-        gapi.load('client:picker', () => {
+        gapi.load('client:picker', () => { // Solo necesitamos picker para Drive
             gapiInited = true;
             console.log("Google API Client (gapi) and Picker loaded (for Drive).");
             maybeEnableDriveButtons();
@@ -77,8 +77,13 @@ function gapiLoaded() { // Nota: Ya no es 'gapiLoadedInternal'
     } catch (e) {
         console.error("Error cargando gapi client:picker (for Drive):", e);
     }
-};
-// --- Fin definiciones de gisLoaded y gapiLoaded ---
+}
+
+// ***** INICIO: Exponer funciones a window *****
+// Esto hace que gisLoaded y gapiLoaded sean accesibles globalmente por los atributos onload
+window.gisLoaded = gisLoaded;
+window.gapiLoaded = gapiLoaded;
+// ***** FIN: Exponer funciones a window *****
 
 
 function maybeEnableDriveButtons() {
@@ -1135,10 +1140,9 @@ document.addEventListener('DOMContentLoaded', () => {
         importDriveButton.addEventListener('click', importFromGoogleDrive);
     }
 
+    // No es necesario llamar a maybeEnableDriveButtons() aquí si gisLoaded y gapiLoaded lo hacen.
+    // Pero tampoco hace daño si ya está.
     maybeEnableDriveButtons();
 });
 
-// ***** INICIO: Exponer funciones a window para los onload de los scripts de Google *****
-window.gisLoaded = gisLoaded;
-window.gapiLoaded = gapiLoaded;
-// ***** FIN: Exponer funciones a window *****
+// Las asignaciones a window ya están hechas arriba, después de la definición de las funciones.
