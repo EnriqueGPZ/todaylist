@@ -46,13 +46,29 @@
     <meta name="theme-color" content="#f4f7f6">
     <!-- FIN FAVICONS -->
 
+    <!-- Preconnect para dominios de fuentes y CDN -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
 
+    <!-- Carga asíncrona de Google Fonts -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap"></noscript>
+
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;700&display=swap"></noscript>
+
+    <!-- Carga asíncrona de Font Awesome -->
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"></noscript>
+
+    <!-- Tu CSS principal. Se mantiene síncrono por ahora para evitar FOUC.
+         Si PageSpeed sigue marcándolo como bloqueante severo, considera hacerlo asíncrono también:
+    <link rel="preload" href="style.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="style.css"></noscript>
+    -->
     <link rel="stylesheet" href="style.css">
+
 
     <script type="application/ld+json">
     {
@@ -74,13 +90,13 @@
       },
       "image": "https://www.todaylist.es/ToDayList.png",
       "screenshot": "https://www.todaylist.es/images/todaylist-screenshot.jpg",
-      "softwareVersion": "1.2.1", /* Incrementa si consideras este cambio de JS una nueva versión */
+      "softwareVersion": "1.2.2", /* Incrementa si consideras estos cambios una nueva versión */
       "datePublished": "2024-03-15", /* Actualiza la fecha */
-      "keywords": "lista de tareas, to-do list, gestor de tareas diarias, productividad, organización, planificación, web app, tareas pendientes, subtareas, prioridades, google drive, google calendar, favicon"
+      "keywords": "lista de tareas, to-do list, gestor de tareas diarias, productividad, organización, planificación, web app, tareas pendientes, subtareas, prioridades, google drive, google calendar, favicon, pwa"
     }
     </script>
 
-    <!-- Google API Scripts -->
+    <!-- Google API Scripts (ya usan async defer, lo cual es bueno) -->
     <script async defer src="https://accounts.google.com/gsi/client" onload="gisLoaded()"></script>
     <script async defer src="https://apis.google.com/js/api.js" onload="gapiLoaded()"></script>
 
