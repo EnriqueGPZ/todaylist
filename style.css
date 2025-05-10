@@ -365,13 +365,14 @@ body.dark-mode #welcome-section ul li::before {
      cursor: pointer;
      transition: color 0.2s ease, background-color 0.2s ease, opacity 0.2s ease;
      flex-shrink: 0;
-     padding: 6px 10px; /* Afecta a google-calendar-button si no se sobreescribe */
+     padding: 6px 10px;
      font-size: 1rem;
      line-height: 1;
      display: inline-flex;
      align-items: center;
      justify-content: center;
      text-decoration: none;
+     color: var(--button-color); /* Color por defecto para todos los app-button */
  }
  .app-button:hover {
      color: var(--button-hover-color);
@@ -389,20 +390,20 @@ body.dark-mode #welcome-section ul li::before {
  }
 
  .add-button {
-     color: var(--button-color);
+     color: var(--button-color); /* Hereda de .app-button pero puede ser sobreescrito */
      font-weight: bold;
  }
  .add-button:hover {
      color: var(--button-hover-color);
  }
  .delete-button {
-     color: var(--delete-button-color);
+     color: var(--delete-button-color); /* Hereda de .app-button pero puede ser sobreescrito */
  }
  .delete-button:hover {
      color: var(--delete-button-hover-color);
  }
  .sort-button {
-     color: var(--sort-button-color);
+     color: var(--sort-button-color); /* Hereda de .app-button pero puede ser sobreescrito */
      font-weight: normal;
      padding: 10px 15px;
      font-size: 1.1rem;
@@ -537,8 +538,7 @@ body.dark-mode #welcome-section ul li::before {
     display: flex;
     flex-grow: 1;
     align-items: center;
-    /* gap: 10px; */ /* MODIFICADO: Reducir el espacio general entre el texto y el grupo de acciones */
-    gap: 8px;
+    gap: 8px; /* Espacio entre el texto y el grupo de acciones */
     min-width: 0;
     flex-wrap: wrap;
 }
@@ -551,32 +551,35 @@ body.dark-mode #welcome-section ul li::before {
     transition: color 0.3s ease, text-decoration 0.3s ease;
     min-width: 0;
     word-break: break-word;
-    margin-right: 5px; /* MODIFICADO: Asegurar un pequeño espacio antes de los botones si se pegan mucho */
+    margin-right: 5px; /* Espacio antes de los botones si se pegan */
 }
 
 .todo-item .main-task-header .task-body .task-actions-group {
     display: flex;
     align-items: center;
-    /* gap: 5px; */ /* MODIFICADO: Se manejará con márgenes o un gap menor */
-    gap: 2px; /* MODIFICADO: Un pequeño espacio base entre todos los botones del grupo */
+    gap: 2px; /* Espacio reducido entre botones del grupo de acción */
     margin-left: auto;
     flex-shrink: 0;
 }
 
-/* MODIFICADO: Reducir padding de los botones de acción para que ocupen menos */
+/* Padding reducido para botones de acción, excepto delete */
 .todo-item .main-task-header .task-body .task-actions-group .link-button,
 .todo-item .main-task-header .task-body .task-actions-group .calendar-button,
 .todo-item .main-task-header .task-body .task-actions-group .google-calendar-button {
     padding-left: 4px;
     padding-right: 4px;
-    /* font-size: 0.9rem; /* Opcional: si quieres los iconos un poco más pequeños */
+    /* font-size: 0.9rem; Opcional para iconos más pequeños */
 }
+
+/* Asegurar que el icono de google (.fab) use el color del botón */
+.todo-item .main-task-header .task-body .task-actions-group .google-calendar-button .fab.fa-google {
+    color: currentColor;
+}
+/* El .fas.fa-calendar-plus dentro del botón de google ya debería heredar color bien */
 
 
 .todo-item .main-task-header .task-body .link-button {
-    color: var(--button-color);
-    /* padding: 4px 8px; */ /* Original, ahora gestionado arriba */
-    font-size: 1rem; /* Mantener el tamaño del icono o ajustar con el font-size general de arriba */
+    font-size: 1rem;
     opacity: 0.5;
 }
 .todo-item .main-task-header .task-body .link-button.link-on {
@@ -584,11 +587,10 @@ body.dark-mode #welcome-section ul li::before {
 }
 
 .todo-item .main-task-header .task-body .calendar-button {
-    /* padding: 4px 8px; */ /* Original, ahora gestionado arriba */
-    font-size: 1rem; /* Mantener el tamaño del icono o ajustar */
+    font-size: 1rem;
 }
 .todo-item .main-task-header .task-body .calendar-button i {
-    color: var(--calendar-icon-default-color);
+    color: var(--calendar-icon-default-color); /* Usa var(--button-color) por defecto */
     transition: color 0.2s ease, font-weight 0.2s ease;
 }
 .todo-item .main-task-header .task-body .calendar-button.date-set i {
@@ -596,6 +598,7 @@ body.dark-mode #welcome-section ul li::before {
 }
 .todo-item .main-task-header .task-body .calendar-button.date-today i {
     font-weight: bold;
+    /* Color específico de 'today' se maneja en JS/clase */
 }
 
 .task-date-input-real {
@@ -612,17 +615,10 @@ body.dark-mode #welcome-section ul li::before {
     white-space: nowrap;
 }
 
-/* MODIFICADO: Asegurar que el botón de Google Calendar también tenga padding reducido si no hereda bien */
-.todo-item .main-task-header .task-body .task-actions-group .google-calendar-button {
-    /* Ya cubierto por el selector general de arriba para padding */
-    /* Si es necesario, se puede añadir font-size: 0.9rem aquí también */
-}
-
-
 .todo-item .main-task-header .task-body .task-actions-group .delete-button {
-     padding: 4px 8px; /* Mantener su padding original o el de .app-button si es diferente y deseado */
+     padding: 4px 8px; /* Padding original para el botón de eliminar */
      font-size: 1rem;
-     margin-left: 6px; /* MODIFICADO: Añadir un margen para separarlo del grupo anterior */
+     margin-left: 6px; /* Espacio para separarlo del grupo anterior */
 }
 
 .todo-item .add-subtasks-toggle {
@@ -853,7 +849,7 @@ body.dark-mode #welcome-section ul li::before {
 
 #quick-notes-container {
     margin-top: 25px;
-    margin-bottom: 50px; /* AUMENTADO PARA MÁS ESPACIO */
+    margin-bottom: 50px;
     display: flex;
     flex-direction: column;
     gap: 8px;
@@ -1094,28 +1090,20 @@ footer {
         left: 10px;
     }
     .todo-item .main-task-header {
-        row-gap: 8px; /* Espacio si los elementos pasan a la siguiente línea */
+        row-gap: 8px;
     }
     .todo-item .main-task-header .task-body {
-         flex-wrap: wrap; /* Ya estaba, permite que los botones bajen si no caben */
-         /* gap: 8px; */ /* Ya estaba, espacio entre texto y grupo de botones */
+         flex-wrap: wrap;
          align-items: center;
     }
     .todo-item .main-task-header .task-body .task-actions-group {
-        margin-left: auto; /* Mantiene el grupo a la derecha del texto */
-        justify-content: flex-end; /* Alinea los botones a la derecha dentro de su grupo si hay espacio extra */
-        /* gap: 2px; */ /* Mantiene el gap reducido en móvil también */
+        margin-left: auto;
+        justify-content: flex-end;
     }
-
-    /* MODIFICADO: Orden y posible cambio de disposición en móvil si es necesario.
-       El `order` ya está definido, pero si los botones se vuelven demasiado anchos incluso con padding reducido,
-       podrías necesitar hacer que .task-actions-group ocupe todo el ancho y justificar los botones.
-       Por ahora, solo mantenemos el `order` y los cambios de padding/gap.
-    */
     .todo-item .main-task-header .task-body .link-button { order: 1; }
     .todo-item .main-task-header .task-body .calendar-button { order: 2; }
-    /* .todo-item .main-task-header .task-body .google-calendar-button { order: 3; } */ /* Añadir si es necesario un orden específico para GCal */
-    .todo-item .main-task-header .task-body .delete-button { order: 3; } /* O 4 si GCal es 3 */
+    /* Si se añade orden para google-calendar-button, debe ir aquí */
+    .todo-item .main-task-header .task-body .delete-button { order: 3; } /* O 4 si GCal se ordena */
 
 
      #todo-input-container #reorder-button {
