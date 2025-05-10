@@ -17,8 +17,8 @@ let importDataButton;
 let importFileInput;
 
 // Google Drive Integration Variables
-let exportDriveButton;
-let importDriveButton;
+let exportDriveButton; // Se asignará en DOMContentLoaded
+let importDriveButton; // Se asignará en DOMContentLoaded
 // -------------------------------------------------------------------------------------
 const CLIENT_ID = '25607067695-mgv7jfvio4vr1goi5ci6o952mgpii8nf.apps.googleusercontent.com'; // Para Google Drive
 const API_KEY = 'AIzaSyAhr2kqUcRf5qZi0yMHsFDsyp_x8Ekfj7k';         // Para Google Picker (Drive)
@@ -42,46 +42,70 @@ const THEME_STORAGE_KEY = 'todoListTheme';
 const PRIORITY_COLORS = ['none', 'red', 'orange', 'yellow', 'green'];
 const PRIORITY_ORDER = { 'red': 1, 'orange': 2, 'yellow': 3, 'green': 4, 'none': 5 };
 
-// --- Funciones de Google API (SOLO PARA DRIVE) ---
-window.gisLoaded = () => {
-    if (typeof google === 'undefined' || !google.accounts || !google.accounts.oauth2) {
-        console.error("Objeto 'google.accounts.oauth2' no encontrado. GIS no cargó correctamente (para Drive).");
-        return;
-    }
-    try {
-        tokenClient = google.accounts.oauth2.initTokenClient({
-            client_id: CLIENT_ID,
-            scope: SCOPES,
-            callback: '',
-        });
-        gisInited = true;
-        console.log("Google Identity Services (GIS) loaded (for Drive).");
-        maybeEnableDriveButtons();
-    } catch (e) {
-        console.error("Error inicializando Google Identity Services (GIS for Drive):", e);
-    }
-};
 
-window.gapiLoaded = () => {
-    if (typeof gapi === 'undefined' || !gapi.load) {
-        console.error("Objeto 'gapi' no encontrado. Google API Client no cargó correctamente (para Drive).");
-        return;
-    }
-    try {
-        gapi.load('client:picker', () => {
-            gapiInited = true;
-            console.log("Google API Client (gapi) and Picker loaded (for Drive).");
+// --- Namespace para callbacks de Google ---
+window.googleApiCallbacks = {
+    gisLoaded: function() {
+        console.log("SCRIPT.JS MODULE: googleApiCallbacks.gisLoaded called");
+        if (typeof google === 'undefined' || !google.accounts || !google.accounts.oauth2) {
+            console.error("Objeto 'google.accounts.oauth2' no encontrado. GIS no cargó correctamente (para Drive).");
+            // Reintentar si el script de Google cargó pero el objeto 'google' no está listo inmediatamente
+            if (window.isGoogleGisScriptReady && !gisInited) {
+                console.log("Retrying GIS init in 100ms as google object might not be fully ready.");
+                setTimeout(window.googleApiCallbacks.gisLoaded, 100);
+            }
+            return;
+        }
+        if (gisInited) {
+            console.log("SCRIPT.JS MODULE: GIS already initialized.");
+            return;
+        }
+        try {
+            tokenClient = google.accounts.oauth2.initTokenClient({
+                client_id: CLIENT_ID,
+                scope: SCOPES,
+                callback: '', // El callback real se establece en handleAuthClick
+            });
+            gisInited = true;
+            console.log("Google Identity Services (GIS) loaded and initialized (for Drive).");
             maybeEnableDriveButtons();
-        });
-    } catch (e) {
-        console.error("Error cargando gapi client:picker (for Drive):", e);
+        } catch (e) {
+            console.error("Error inicializando Google Identity Services (GIS for Drive):", e);
+        }
+    },
+    gapiLoaded: function() {
+        console.log("SCRIPT.JS MODULE: googleApiCallbacks.gapiLoaded called");
+        if (typeof gapi === 'undefined' || !gapi.load) {
+            console.error("Objeto 'gapi' no encontrado. Google API Client no cargó correctamente (para Drive).");
+            // Reintentar si el script de Google cargó pero el objeto 'gapi' no está listo inmediatamente
+            if (window.isGoogleGapiScriptReady && !gapiInited) {
+                console.log("Retrying GAPI init in 100ms as gapi object might not be fully ready.");
+                setTimeout(window.googleApiCallbacks.gapiLoaded, 100);
+            }
+            return;
+        }
+        if (gapiInited) {
+            console.log("SCRIPT.JS MODULE: GAPI already initialized.");
+            return;
+        }
+        try {
+            gapi.load('client:picker', () => {
+                gapiInited = true;
+                console.log("Google API Client (gapi) and Picker loaded (for Drive).");
+                maybeEnableDriveButtons();
+            });
+        } catch (e) {
+            console.error("Error cargando gapi client:picker (for Drive):", e);
+        }
     }
 };
+// --- Fin Namespace ---
+
 
 function maybeEnableDriveButtons() {
     if (gapiInited && gisInited) {
-        if (exportDriveButton) exportDriveButton.disabled = false;
-        if (importDriveButton) importDriveButton.disabled = false;
+        if (exportDriveButton) exportDriveButton.disabled = false; // Asegurarse que exportDriveButton está definido
+        if (importDriveButton) importDriveButton.disabled = false; // Asegurarse que importDriveButton está definido
         console.log("Google Drive buttons enabled.");
     } else {
         console.log("Google APIs (for Drive) not fully loaded yet. gapiInited:", gapiInited, "gisInited:", gisInited);
@@ -287,7 +311,6 @@ async function pickerCallback(data) {
         console.log("Ningún archivo seleccionado en Google Picker o acción desconocida.");
     }
 }
-// --- Fin Funciones de Google API (SOLO PARA DRIVE) ---
 
 function getTodayDateString(format = 'dd-mm-yyyy') {
     const today = new Date();
@@ -467,10 +490,8 @@ function createMainTaskHeader(mainTask) {
     const mainTaskHeader = document.createElement('div');
     mainTaskHeader.classList.add('main-task-header');
 
-    // ***** INICIO CAMBIO PARA taskPrefixGroup *****
     const taskPrefixGroup = document.createElement('div');
     taskPrefixGroup.classList.add('task-prefix-group');
-    // ***** FIN CAMBIO PARA taskPrefixGroup *****
 
     const mainCheckbox = document.createElement('input');
     mainCheckbox.type = 'checkbox';
@@ -488,9 +509,7 @@ function createMainTaskHeader(mainTask) {
          if (!mainTask.completed) cyclePriorityColor(mainTask.id);
     });
 
-    // ***** INICIO CAMBIO PARA taskPrefixGroup *****
     taskPrefixGroup.append(mainCheckbox, priorityLabel);
-    // ***** FIN CAMBIO PARA taskPrefixGroup *****
 
     const taskBody = document.createElement('div');
     taskBody.classList.add('task-body');
@@ -561,10 +580,7 @@ function createMainTaskHeader(mainTask) {
 
     taskActionsGroup.append(linkButton, googleCalendarButton, deleteMainButton);
     taskBody.append(mainTaskSpan, taskActionsGroup);
-
-    // ***** INICIO CAMBIO PARA taskPrefixGroup *****
     mainTaskHeader.append(taskPrefixGroup, taskBody);
-    // ***** FIN CAMBIO PARA taskPrefixGroup *****
     
     return mainTaskHeader;
 }
@@ -1073,7 +1089,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     loadTodosFromLocalStorage();
-    saveTodosToLocalStorage();
+    saveTodosToLocalStorage(); // Guardar por si hubo conversión de formato de fecha en loadTodos
 
     if (todos.length === 0) {
         if (welcomeSection) welcomeSection.classList.remove('hidden');
@@ -1139,5 +1155,18 @@ document.addEventListener('DOMContentLoaded', () => {
         importDriveButton.addEventListener('click', importFromGoogleDrive);
     }
 
+    // Llamar a las funciones de inicialización de Google si los scripts ya cargaron
+    // (esto es por si el script del módulo carga después de los scripts de Google)
+    if (window.isGoogleGisScriptReady) {
+        console.log("DOMContentLoaded: GIS script was ready, ensuring initialization.");
+        window.googleApiCallbacks.gisLoaded();
+    }
+    if (window.isGoogleGapiScriptReady) {
+        console.log("DOMContentLoaded: GAPI script was ready, ensuring initialization.");
+        window.googleApiCallbacks.gapiLoaded();
+    }
+    // Si las APIs aún no están listas, maybeEnableDriveButtons() las deshabilitará
+    // y los callbacks de Google (onGisLoaded/onGapiLoaded -> googleApiCallbacks...)
+    // llamarán a maybeEnableDriveButtons() cuando terminen.
     maybeEnableDriveButtons();
 });
