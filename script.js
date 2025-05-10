@@ -43,12 +43,7 @@ const PRIORITY_COLORS = ['none', 'red', 'orange', 'yellow', 'green'];
 const PRIORITY_ORDER = { 'red': 1, 'orange': 2, 'yellow': 3, 'green': 4, 'none': 5 };
 
 // --- Funciones de Google API (SOLO PARA DRIVE) ---
-// Estas funciones deben estar disponibles globalmente para ser llamadas por los onload de los scripts de Google
-
-// ***** IMPORTANTE: Las funciones gisLoaded y gapiLoaded se definen aquí *****
-// ***** y luego se asignan a window más abajo para que sean globales *****
-
-function internalGisLoaded() { // Renombrada para evitar posible confusión de hoisting si se declara después de la asignación a window
+window.gisLoaded = () => {
     if (typeof google === 'undefined' || !google.accounts || !google.accounts.oauth2) {
         console.error("Objeto 'google.accounts.oauth2' no encontrado. GIS no cargó correctamente (para Drive).");
         return;
@@ -57,7 +52,7 @@ function internalGisLoaded() { // Renombrada para evitar posible confusión de h
         tokenClient = google.accounts.oauth2.initTokenClient({
             client_id: CLIENT_ID,
             scope: SCOPES,
-            callback: '', // El callback real se establece en handleAuthClick
+            callback: '',
         });
         gisInited = true;
         console.log("Google Identity Services (GIS) loaded (for Drive).");
@@ -65,15 +60,15 @@ function internalGisLoaded() { // Renombrada para evitar posible confusión de h
     } catch (e) {
         console.error("Error inicializando Google Identity Services (GIS for Drive):", e);
     }
-}
+};
 
-function internalGapiLoaded() { // Renombrada para evitar posible confusión
+window.gapiLoaded = () => {
     if (typeof gapi === 'undefined' || !gapi.load) {
         console.error("Objeto 'gapi' no encontrado. Google API Client no cargó correctamente (para Drive).");
         return;
     }
     try {
-        gapi.load('client:picker', () => { // Solo necesitamos picker para Drive
+        gapi.load('client:picker', () => {
             gapiInited = true;
             console.log("Google API Client (gapi) and Picker loaded (for Drive).");
             maybeEnableDriveButtons();
@@ -81,9 +76,7 @@ function internalGapiLoaded() { // Renombrada para evitar posible confusión
     } catch (e) {
         console.error("Error cargando gapi client:picker (for Drive):", e);
     }
-}
-// --- Fin definiciones de internalGisLoaded e internalGapiLoaded ---
-
+};
 
 function maybeEnableDriveButtons() {
     if (gapiInited && gisInited) {
@@ -474,8 +467,10 @@ function createMainTaskHeader(mainTask) {
     const mainTaskHeader = document.createElement('div');
     mainTaskHeader.classList.add('main-task-header');
 
+    // ***** INICIO CAMBIO PARA taskPrefixGroup *****
     const taskPrefixGroup = document.createElement('div');
     taskPrefixGroup.classList.add('task-prefix-group');
+    // ***** FIN CAMBIO PARA taskPrefixGroup *****
 
     const mainCheckbox = document.createElement('input');
     mainCheckbox.type = 'checkbox';
@@ -493,7 +488,9 @@ function createMainTaskHeader(mainTask) {
          if (!mainTask.completed) cyclePriorityColor(mainTask.id);
     });
 
+    // ***** INICIO CAMBIO PARA taskPrefixGroup *****
     taskPrefixGroup.append(mainCheckbox, priorityLabel);
+    // ***** FIN CAMBIO PARA taskPrefixGroup *****
 
     const taskBody = document.createElement('div');
     taskBody.classList.add('task-body');
@@ -564,7 +561,10 @@ function createMainTaskHeader(mainTask) {
 
     taskActionsGroup.append(linkButton, googleCalendarButton, deleteMainButton);
     taskBody.append(mainTaskSpan, taskActionsGroup);
+
+    // ***** INICIO CAMBIO PARA taskPrefixGroup *****
     mainTaskHeader.append(taskPrefixGroup, taskBody);
+    // ***** FIN CAMBIO PARA taskPrefixGroup *****
     
     return mainTaskHeader;
 }
