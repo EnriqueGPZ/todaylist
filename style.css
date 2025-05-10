@@ -463,7 +463,7 @@ body.dark-mode #welcome-section ul li::before {
 }
 
  .custom-checkbox {
-     /* margin-right: 10px; /* AHORA CONTROLADO POR EL GAP DEL task-prefix-group */
+     /* margin-right: 10px; /* Controlado por el gap del task-prefix-group */
      border: 1px solid var(--text-color);
      border-radius: 50%;
      appearance: none;
@@ -500,25 +500,31 @@ body.dark-mode #welcome-section ul li::before {
 
 .todo-item .main-task-header {
     display: flex;
-    align-items: flex-start; /* Alinear elementos al inicio (arriba) */
+    align-items: flex-start; /* Alinear elementos al inicio (arriba) del contenedor principal */
     margin-bottom: 15px;
     padding: 0;
-    gap: 8px; /* Espacio entre .task-prefix-group y .task-body. AJUSTA SI ES NECESARIO. */
+    gap: 8px; /* Espacio entre task-prefix-group y task-body. Ajusta si es necesario. */
 }
 
-/* NUEVO: Estilos para el grupo de checkbox y etiqueta de prioridad */
+/* Grupo de checkbox y etiqueta de prioridad */
 .todo-item .main-task-header .task-prefix-group {
     display: flex;
-    align-items: flex-start; /* Para alinear checkbox y etiqueta arriba dentro de su grupo */
+    align-items: center; /* Centrar verticalmente checkbox y etiqueta de prioridad entre sí */
     gap: 4px; /* Espacio entre checkbox y etiqueta de color. AJUSTA (e.g., 4px, 5px). */
-    flex-shrink: 0; /* Para que este grupo no se encoja */
+    flex-shrink: 0;
+    /* Si el texto es de una sola línea, este grupo podría necesitar un empuje hacia arriba para centrarse con el texto.
+       O, mejor, el texto necesitará un line-height adecuado o padding.
+       Por ahora, lo dejamos sin margin-top aquí. */
 }
 
-/* Aplicar el margin-top de alineación a los hijos directos del task-prefix-group */
+/* Eliminamos el margin-top individual de los hijos del task-prefix-group
+   ya que ahora se centran con align-items: center en su padre. */
+/*
 .todo-item .main-task-header .task-prefix-group .custom-checkbox,
 .todo-item .main-task-header .task-prefix-group .priority-color-label {
-    margin-top: 3px; /* AJUSTA este valor para alinear con la primera línea del texto (e.g., 2px, 3px, 4px) */
+    margin-top: 3px;
 }
+*/
 
 .todo-item .priority-color-label { /* Estilo global para la etiqueta, usado también en la leyenda */
      display: inline-block;
@@ -543,8 +549,8 @@ body.dark-mode #welcome-section ul li::before {
 .todo-item .main-task-header .task-body {
     display: flex;
     flex-grow: 1;
-    align-items: flex-start; /* Alinear elementos al inicio (arriba) */
-    gap: 8px; /* Espacio entre el texto y el grupo de acciones */
+    align-items: flex-start; /* Para que el texto de varias líneas y el grupo de acciones se alineen arriba */
+    gap: 8px;
     min-width: 0;
     flex-wrap: wrap;
 }
@@ -557,16 +563,22 @@ body.dark-mode #welcome-section ul li::before {
     transition: color 0.3s ease, text-decoration 0.3s ease;
     min-width: 0;
     word-break: break-word;
-    line-height: 1.4; /* Puede ayudar a la consistencia vertical con los iconos */
+    line-height: 1.45; /* AJUSTA este valor. Un valor ligeramente mayor que 1 (ej. 1.4 o 1.5)
+                          ayudará a centrar el texto de una sola línea con los iconos de 20px de alto.
+                          Si es muy grande, el espacio entre líneas múltiples aumentará. */
+    padding-top: 1px;  /* AJUSTA (0px, 1px, 2px). Un pequeño empujón hacia abajo del texto
+                          para alinearlo mejor con el centro visual de los iconos del prefix-group. */
 }
 
 .todo-item .main-task-header .task-body .task-actions-group {
     display: flex;
-    align-items: center;
+    align-items: center; /* Centra los botones dentro de su propio grupo */
     gap: 2px;
     margin-left: auto;
     flex-shrink: 0;
-    margin-top: 2px; /* AJUSTA si los botones quedan muy arriba en relación al texto de una línea (e.g., 0px, 1px, 2px) */
+    /* El line-height y padding-top del span deberían ayudar a alinear esto.
+       Si aún se ve muy alto, considera un pequeño margin-top aquí. */
+    /* margin-top: 1px; /* AJUSTA si es necesario */
 }
 
 .todo-item .main-task-header .task-body .task-actions-group .link-button,
