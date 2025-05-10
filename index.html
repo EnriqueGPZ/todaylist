@@ -223,6 +223,26 @@
 
     </div> <!-- Fin de .container -->
 
+    <!-- Modal para agendar recordatorio (NUEVO) -->
+    <div id="reminder-modal" class="modal-overlay">
+        <div class="modal-content">
+            <button class="app-button close-modal" id="close-reminder-modal" aria-label="Cerrar ventana de recordatorio">×</button>
+            <h2>Agendar Recordatorio</h2>
+            <p id="reminder-task-text"></p> <!-- Para mostrar el nombre de la tarea -->
+            <div class="modal-input-group">
+                <label for="reminder-date">Fecha:</label>
+                <input type="date" id="reminder-date" required>
+            </div>
+            <div class="modal-input-group">
+                <label for="reminder-time">Hora:</label>
+                <input type="time" id="reminder-time" value="09:00" required>
+            </div>
+            <button id="schedule-reminder-button" class="app-button">Agendar en Google Calendar</button>
+        </div>
+    </div>
+    <!-- Fin Modal para agendar recordatorio -->
+
+
     <footer>
         <img src="https://www.todaylist.es/ToDayList.png" alt="Logo ToDayList" class="footer-logo">
         <p class="footer-text">WebApp creada por Henry Gil</p>
