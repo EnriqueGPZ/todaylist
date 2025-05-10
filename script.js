@@ -1,4 +1,4 @@
-// Contenido del archivo script.js (COMPLETO Y CORREGIDO)
+// Contenido del archivo script.js
 let todoInput;
 let addTodoButton;
 let todoListContainer;
@@ -419,7 +419,7 @@ function syncAndRender() {
 }
 
 function updateDateHighlight(listItemElement, task) {
-    const calendarLabel = listItemElement.querySelector('.calendar-button');
+    const calendarLabel = listItemElement.querySelector('.calendar-button'); // Este es el label para el input de fecha de la tarea
     const calendarIcon = calendarLabel ? calendarLabel.querySelector('i') : null;
 
     if (!calendarLabel || !calendarIcon) return;
@@ -429,16 +429,18 @@ function updateDateHighlight(listItemElement, task) {
     const hasDate = !!task.date;
 
     calendarLabel.classList.remove('date-set', 'date-today');
-    calendarIcon.style.color = ''; // Se restablecerá si es necesario por CSS o JS
+    calendarIcon.style.color = '';
     calendarIcon.style.fontWeight = 'normal';
+    // El title se actualiza en base a si la tarea está completada o tiene fecha
+    // calendarLabel.title = 'Establecer fecha'; // No resetear aquí, se maneja abajo
 
     if (task.completed) {
         if (hasDate) calendarLabel.title = `Fecha: ${task.date} (Completada)`;
         else calendarLabel.title = 'Fecha no establecida (Completada)';
-        // El color del icono en estado completado se maneja por CSS
-        return;
+        return; // No más actualizaciones si está completada
     }
 
+    // Si no está completada:
     if (hasDate) {
         calendarLabel.classList.add('date-set');
         calendarLabel.title = `Fecha: ${task.date}`;
@@ -450,14 +452,9 @@ function updateDateHighlight(listItemElement, task) {
         calendarLabel.classList.add('date-today');
         const computedStyle = getComputedStyle(listItemElement);
         const priorityColorForToday = computedStyle.borderLeftColor;
-        calendarIcon.style.color = priorityColorForToday; // Color de prioridad para hoy
+        calendarIcon.style.color = priorityColorForToday;
         calendarLabel.title = `Fecha: ${task.date} (Hoy)`;
-    } else if (hasDate) {
-        // Si tiene fecha pero no es hoy, el icono usa el color de .date-set i (var(--calendar-icon-set-color))
-        // O si no tiene .date-set, usa el color por defecto de .calendar-button i (var(--calendar-icon-default-color))
-        // Esto ya se maneja por CSS, no es necesario setearlo explícitamente aquí a menos que se quiera sobreescribir el CSS.
     }
-    // Si no tiene fecha y no es hoy, el icono usa el color por defecto de .calendar-button i (var(--calendar-icon-default-color))
 }
 
 function calculateSubtaskProgress(subtasks) {
@@ -466,9 +463,6 @@ function calculateSubtaskProgress(subtasks) {
     return (completed / subtasks.length) * 100;
 }
 
-// ============================================================================
-// INICIO DE LA FUNCIÓN CORREGIDA createMainTaskHeader
-// ============================================================================
 function createMainTaskHeader(mainTask) {
     const mainTaskHeader = document.createElement('div');
     mainTaskHeader.classList.add('main-task-header');
@@ -529,17 +523,18 @@ function createMainTaskHeader(mainTask) {
         }
     });
 
-    const calendarLabel = document.createElement('label');
+    const calendarLabel = document.createElement('label'); // Este es el label para el input de fecha de la tarea
     calendarLabel.classList.add('app-button', 'calendar-button');
     calendarLabel.innerHTML = '<i class="fas fa-calendar-alt"></i>';
-    calendarLabel.setAttribute('aria-label', 'Establecer fecha para la tarea');
+    calendarLabel.setAttribute('aria-label', 'Establecer fecha para la tarea'); // Modificado para ser más específico
+    // El title para este calendarLabel se gestiona en updateDateHighlight
 
-    const actualDateInput = document.createElement('input'); // <-- EL INPUT DE FECHA
+    const actualDateInput = document.createElement('input');
     actualDateInput.type = 'date';
     actualDateInput.classList.add('task-date-input-real');
     const dateInputId = `date-input-${mainTask.id || generateLocalId()}`;
     actualDateInput.id = dateInputId;
-    calendarLabel.htmlFor = dateInputId; // <-- Enlaza el label con el input
+    calendarLabel.htmlFor = dateInputId;
     actualDateInput.value = mainTask.date || '';
 
     actualDateInput.addEventListener('change', (event) => {
@@ -548,35 +543,47 @@ function createMainTaskHeader(mainTask) {
         updateTaskDate(task.id, event.target.value);
     });
 
+    // --- NUEVO BOTÓN PARA GOOGLE CALENDAR ---
     const addToGoogleCalendarButton = document.createElement('button');
     addToGoogleCalendarButton.classList.add('app-button', 'google-calendar-button');
     addToGoogleCalendarButton.innerHTML = '<i class="fab fa-google"></i><i class="fas fa-calendar-plus" style="margin-left: 3px;"></i>';
     addToGoogleCalendarButton.setAttribute('aria-label', 'Agendar en Google Calendar');
     addToGoogleCalendarButton.title = 'Agendar en Google Calendar';
 
-    if (mainTask.completed) {
+    if (mainTask.completed) { // Deshabilitar si la tarea está completada
         addToGoogleCalendarButton.disabled = true;
     }
 
     addToGoogleCalendarButton.addEventListener('click', () => {
         const task = findTaskById(mainTask.id);
         if (!task || task.completed) return;
+
         let taskDate = task.date;
         if (!taskDate) {
             if (confirm("Esta tarea no tiene una fecha asignada. ¿Deseas agendarla para hoy en Google Calendar?")) {
                 taskDate = getTodayDateString();
-            } else { return; }
+            } else {
+                return; // El usuario canceló
+            }
         }
+
+        // Formato para Google Calendar: YYYYMMDD (para eventos de todo el día)
         const googleDate = taskDate.replace(/-/g, '');
         const startDate = googleDate;
-        let nextDay = new Date(taskDate);
+        // Para un evento de todo el día, la fecha de fin es el día siguiente.
+        let nextDay = new Date(taskDate); // Asegurarse de que la hora es 00:00:00 en la zona local
         nextDay.setDate(nextDay.getDate() + 1);
         const endDate = nextDay.toISOString().split('T')[0].replace(/-/g, '');
+
+
         let calendarUrl = `https://www.google.com/calendar/render?action=TEMPLATE`;
         calendarUrl += `&text=${encodeURIComponent(task.text)}`;
-        calendarUrl += `&dates=${startDate}/${endDate}`;
+        calendarUrl += `&dates=${startDate}/${endDate}`; // Ej: 20240315/20240316 para un evento de todo el día el 20240315
+
         let details = `Tarea de ToDayList: ${task.text}`;
-        if (task.linkUrl) details += `\nEnlace: ${task.linkUrl}`;
+        if (task.linkUrl) {
+            details += `\nEnlace: ${task.linkUrl}`;
+        }
         if (task.subtasks && task.subtasks.length > 0) {
             details += `\n\nSubtareas:`;
             task.subtasks.forEach(sub => {
@@ -584,8 +591,11 @@ function createMainTaskHeader(mainTask) {
             });
         }
         calendarUrl += `&details=${encodeURIComponent(details)}`;
+        // Puedes añadir más parámetros como &location=... &crm=... etc.
+
         window.open(calendarUrl, '_blank');
     });
+    // --- FIN NUEVO BOTÓN ---
 
     const deleteMainButton = document.createElement('button');
     deleteMainButton.classList.add('app-button', 'delete-button');
@@ -600,18 +610,12 @@ function createMainTaskHeader(mainTask) {
         deleteTodo(task.id);
     });
 
-    // ***** LÍNEA CRÍTICA CORREGIDA *****
-    // Asegúrate de que 'actualDateInput' ESTÁ INCLUIDO AQUÍ
+    // Orden de los botones: Enlace, Fecha Tarea, Input Fecha Tarea (oculto), Agendar Google Cal, Eliminar
     taskActionsGroup.append(linkButton, calendarLabel, actualDateInput, addToGoogleCalendarButton, deleteMainButton);
-    // ***** FIN LÍNEA CRÍTICA *****
-
     taskBody.append(mainTaskSpan, taskActionsGroup);
     mainTaskHeader.append(mainCheckbox, priorityLabel, taskBody);
     return mainTaskHeader;
 }
-// ============================================================================
-// FIN DE LA FUNCIÓN CORREGIDA createMainTaskHeader
-// ============================================================================
 
 function createProgressBar(mainTask) {
      const progressContainer = document.createElement('div');
@@ -748,7 +752,7 @@ function renderTodosUI() {
              listItem.appendChild(createSubtaskInputContainer(mainTask.id));
         }
         todoListContainer.appendChild(listItem);
-        updateDateHighlight(listItem, mainTask);
+        updateDateHighlight(listItem, mainTask); // Asegúrate que esto se llama después de añadir al DOM si depende de estilos computados.
     });
     if (todoInput) todoInput.value = '';
 }
@@ -777,9 +781,10 @@ function updateTaskDate(taskId, newDateValue) {
     if (task && !task.completed) {
         task.date = newDateValue || null;
         saveTodosToLocalStorage();
-        syncAndRender();
+        syncAndRender(); // Esto re-renderizará y llamará a updateDateHighlight
     } else if (task && task.completed) {
-        task.date = newDateValue || null;
+        // Si está completada y se cambia la fecha, simplemente re-renderizar para actualizar el title del input de fecha
+        task.date = newDateValue || null; // Permitir cambiar la fecha incluso si está completada (para registro)
         saveTodosToLocalStorage();
         syncAndRender();
     }
@@ -825,9 +830,9 @@ function addSubtask(mainTaskId, subtaskInput) {
      if (mainTask && !mainTask.completed) {
          if (!mainTask.subtasks) mainTask.subtasks = [];
          mainTask.subtasks.push({ id: generateLocalId(), text: newSubtaskText, completed: false });
-         mainTask.completed = false;
+         mainTask.completed = false; // Si se añade sub-tarea, la principal no puede estar completada
          mainTask.completedDate = null;
-         mainTask.showSubtaskUI = false;
+         mainTask.showSubtaskUI = false; // Ocultar input después de añadir
          saveTodosToLocalStorage();
          syncAndRender();
          if (subtaskInput) subtaskInput.value = '';
@@ -858,6 +863,8 @@ function deleteSubtask(mainTaskId, subtaskId) {
          const subtaskIndex = mainTask.subtasks.findIndex(sub => sub.id === subtaskId);
          if (subtaskIndex > -1) {
              mainTask.subtasks.splice(subtaskIndex, 1);
+             // mainTask.completed = false; // No necesariamente, depende de otras sub-tareas
+             // mainTask.completedDate = null;
              saveTodosToLocalStorage();
              syncAndRender();
          }
@@ -886,18 +893,20 @@ function toggleMainCompletion(taskId, isChecked) {
 
         if (isChecked) {
             task.completedDate = today;
-            task.priorityColor = 'none';
+            task.priorityColor = 'none'; // Reset priority on completion
             task.showSubtaskUI = false;
             if (!wasCompletedTodayBefore) {
                 updateMedalCount(1);
             }
             if (typeof confetti === 'function') confetti({ particleCount: 150, spread: 90, origin: { y: 0.55 }});
-        } else {
+        } else { // Unchecking
             if (wasCompletedTodayBefore) {
                 updateMedalCount(-1);
             }
             task.completedDate = null;
+            // No cambiar priorityColor al desmarcar, el usuario podría querer mantenerla
         }
+        // Sincronizar estado de subtareas con la tarea principal si se completa/descompleta la principal
         if (task.subtasks) {
             task.subtasks.forEach(sub => sub.completed = isChecked);
         }
@@ -934,8 +943,9 @@ function performManualSort() {
          const dateB = b.date ? new Date(b.date).getTime() : Infinity;
          if (dateA !== dateB) return dateA - dateB;
 
-         return (a.order || 0) - (b.order || 0);
+         return (a.order || 0) - (b.order || 0); // Mantener orden original como último criterio
      });
+     // Actualizar el 'order' property después de ordenar, para futuras clasificaciones que lo usen como fallback
      todos.forEach((task, index) => {
          task.order = index;
      });
@@ -965,6 +975,7 @@ function disableDarkMode() {
 
 function toggleDarkMode() {
     body.classList.contains('dark-mode') ? disableDarkMode() : enableDarkMode();
+    // syncAndRender(); // No es estrictamente necesario si los estilos CSS se aplican bien, pero puede ser útil si JS afecta estilos dinámicamente basados en el tema
 }
 
 function exportAllDataLocal() {
