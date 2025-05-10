@@ -4,27 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
 
-    <!-- SEO Meta Tags -->
     <title>ToDayList - Simplifica Tu Día, Organiza Tus Tareas</title>
     <meta name="description" content="ToDayList es tu gestor de tareas diarias minimalista y eficiente. Organiza tus pendientes, establece prioridades, añade subtareas y fechas límite. ¡Mejora tu productividad hoy!">
-    <meta name="keywords" content="lista de tareas, to-do list, gestor de tareas diarias, organizador personal, productividad, planificación diaria, tareas pendientes, subtareas, prioridades, web app, enrique gil, ToDayList">
+    <meta name="keywords" content="lista de tareas, to-do list, gestor de tareas diarias, organizador personal, productividad, planificación diaria, tareas pendientes, subtareas, prioridades, web app, enrique gil, ToDayList, google drive, google calendar">
     <meta name="author" content="Enrique Gil">
     <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://www.todaylist.es/">
+    <link rel="canonical" href="https://www.todaylist.es/"> <!-- Actualiza si tu URL es diferente -->
 
-    <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://www.todaylist.es/">
     <meta property="og:title" content="ToDayList - Simplifica Tu Día, Organiza Tus Tareas">
-    <meta property="og:description" content="Organiza tus pendientes con ToDayList: tu gestor de tareas diarias minimalista.">
+    <meta property="og:description" content="Organiza tus pendientes con ToDayList: tu gestor de tareas diarias minimalista con integración de Google Drive y Calendar.">
     <meta property="og:image" content="https://www.todaylist.es/ToDayList.png">
     <meta property="og:site_name" content="ToDayList">
 
-    <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://www.todaylist.es/">
     <meta property="twitter:title" content="ToDayList - Simplifica Tu Día, Organiza Tus Tareas">
-    <meta property="twitter:description" content="Organiza tus pendientes con ToDayList: tu gestor de tareas diarias minimalista.">
+    <meta property="twitter:description" content="Organiza tus pendientes con ToDayList: tu gestor de tareas diarias minimalista con integración de Google Drive y Calendar.">
     <meta property="twitter:image" content="https://www.todaylist.es/ToDayList.png">
 
     <link rel="icon" href="https://www.todaylist.es/ToDayList.png" type="image/png">
@@ -35,7 +32,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
-    <!-- Schema.org markup for Google -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -43,7 +39,7 @@
       "name": "ToDayList",
       "applicationCategory": ["ProductivityApplication", "UtilityApplication"],
       "operatingSystem": "Web Browser",
-      "description": "ToDayList es un gestor de tareas diarias minimalista y eficiente que te ayuda a organizar tus pendientes, establecer prioridades, añadir subtareas y fechas límite para mejorar tu productividad.",
+      "description": "ToDayList es un gestor de tareas diarias minimalista y eficiente que te ayuda a organizar tus pendientes, establecer prioridades, añadir subtareas, agendar en Google Calendar y sincronizar con Google Drive.",
       "url": "https://www.todaylist.es/",
       "author": {
         "@type": "Person",
@@ -55,10 +51,9 @@
         "priceCurrency": "USD"
       },
       "image": "https://www.todaylist.es/ToDayList.png",
-      "screenshot": "https://www.todaylist.es/images/todaylist-screenshot.jpg",
-      "softwareVersion": "1.0.6",
-      "datePublished": "2024-03-11",
-      "keywords": "lista de tareas, to-do list, gestor de tareas diarias, productividad, organización, planificación, web app, tareas pendientes, subtareas, prioridades"
+      "softwareVersion": "1.1.0",
+      "datePublished": "2024-03-15",
+      "keywords": "lista de tareas, to-do list, gestor de tareas diarias, productividad, organización, planificación, web app, tareas pendientes, subtareas, prioridades, google drive, google calendar"
     }
     </script>
 
@@ -97,11 +92,19 @@
             --priority-yellow-color: #f1c40f;
             --priority-green-color: #2ecc71;
             --priority-none-color: var(--border-color);
-            --calendar-icon-default-color: var(--button-color);
-            --calendar-icon-set-color: var(--text-color);
             --welcome-button-bg: #e74c3c;
             --welcome-button-text: #fff;
             --welcome-button-hover-bg: #c0392b;
+            
+            --drive-icon-color: #4285F4;
+            --accent-color: #3498db;
+
+            --modal-input-background-color: var(--input-bg);
+            --modal-input-border-color: var(--border-color);
+            --schedule-link-text-color: var(--accent-color);
+            --schedule-link-hover-text-color: #2980b9; 
+            --schedule-link-disabled-text-color: #7f8c8d;
+            --checkbox-checkmark-color: var(--item-bg); /* Para light mode */
         }
 
         body.dark-mode {
@@ -120,6 +123,7 @@
             --completed-text-color: #7f8c8d;
             --progress-bg: #4a627a;
             --progress-bar-color: #8bc34a;
+            --progress-bar-completed-color: #28a745; /* Consistent completed color */
             --empty-list-color: #bdc3c7;
             --fixed-button-bg: #34495e;
             --fixed-button-border: #4a627a;
@@ -127,7 +131,7 @@
             --legend-text-color: #a0a0a0;
             --sort-button-color: #bdc3c7;
             --sort-button-hover-color: #3498db;
-            --checkbox-checkmark-color: var(--bg-color);
+            --checkbox-checkmark-color: var(--bg-color); /* Para dark mode */
             --footer-text-color: #777;
             --medal-text-color: var(--text-color);
             --subtitle-color: #bdc3c7;
@@ -135,6 +139,14 @@
             --welcome-button-bg: #f39c12;
             --welcome-button-text: #2c3e50;
             --welcome-button-hover-bg: #e67e22;
+            --drive-icon-color: #4A90E2;
+            --accent-color: #5dade2;
+
+            --modal-input-background-color: var(--input-bg);
+            --modal-input-border-color: var(--border-color);
+            --schedule-link-text-color: var(--accent-color);
+            --schedule-link-hover-text-color: #3498db;
+            --schedule-link-disabled-text-color: #7f8c8d;
         }
 
         body {
@@ -276,7 +288,6 @@
              outline-offset: 2px;
         }
 
-        /* --- ESTILOS PARA LA SECCIÓN DE INSTALACIÓN (CON ICONOS CORREGIDOS) --- */
         #install-instructions-section {
             margin-top: 20px;
             margin-bottom: 30px;
@@ -288,16 +299,14 @@
             font-size: 0.85rem;
             color: var(--text-color);
         }
-
         #install-instructions-section h4 {
             font-family: 'Quicksand', sans-serif;
             font-size: 1.2rem;
-            color: var(--heading-color);
+            color: var(--subtitle-color); /* Ajustado para ser más sutil */
             margin-top: 0;
             margin-bottom: 8px;
             text-align: center;
         }
-
         #install-instructions-section p {
             font-size: 0.95em;
             color: var(--text-color);
@@ -305,56 +314,49 @@
             line-height: 1.45;
             text-align: center;
         }
-
         #install-instructions-section ul {
             list-style: none;
             padding-left: 5px;
             margin: 0 auto;
             max-width: 480px;
         }
-
         #install-instructions-section ul li {
             margin-bottom: 8px;
             line-height: 1.5;
             font-size: 0.92em;
-            padding-left: 25px; 
+            padding-left: 25px;
             position: relative;
             text-align: left;
         }
-
         #install-instructions-section ul li::before {
-            font-family: "Font Awesome 6 Brands", "Font Awesome 6 Free"; 
-            font-weight: 400; /* Para iconos de marca (fab) en FA6 */
+            font-family: "Font Awesome 6 Brands", "Font Awesome 6 Free";
+            font-weight: 400; /* Correcto para iconos de marca */
             position: absolute;
             left: 0px;
-            top: 1px; 
-            width: 20px; 
+            top: 1px;
+            width: 20px;
             text-align: center;
             color: var(--button-color);
-            font-size: 1.1em; 
-            -webkit-font-smoothing: antialiased; 
-            -moz-osx-font-smoothing: grayscale; 
+            font-size: 1.1em;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
-
         #install-instructions-section ul li:nth-child(1)::before { content: "\f268"; } /* Chrome */
         #install-instructions-section ul li:nth-child(2)::before { content: "\f17b"; } /* Android */
         #install-instructions-section ul li:nth-child(3)::before { content: "\f179"; } /* Apple */
         #install-instructions-section ul li:nth-child(4)::before { content: "\f267"; } /* Safari */
-
         #install-instructions-section ul li strong {
             color: var(--heading-color);
             font-weight: 700;
         }
-
         #install-instructions-section ul li i.fas.fa-download,
         #install-instructions-section ul li i.fas.fa-ellipsis-v,
         #install-instructions-section ul li i.fas.fa-share-square {
             color: var(--button-hover-color);
-            margin-left: 0.1em;
-            margin-right: 0.1em;
+            margin: 0 2px; /* Ajustado para espaciado */
             font-size: 0.9em;
         }
-        /* --- FIN ESTILOS SECCIÓN DE INSTALACIÓN --- */
+
 
         .hidden {
             display: none !important;
@@ -417,7 +419,7 @@
             transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
             box-shadow: 0 1px 3px rgba(0,0,0,0.08);
             border-left: 5px solid var(--border-color);
-            padding-left: 10px;
+            padding-left: 10px; /* Ajustado para consistencia */
         }
          .todo-item:last-child {
              margin-bottom: 0;
@@ -444,6 +446,7 @@
              align-items: center;
              justify-content: center;
              text-decoration: none;
+             color: var(--button-color);
          }
          .app-button:hover {
              color: var(--button-hover-color);
@@ -452,6 +455,14 @@
               outline: 2px solid var(--button-hover-color);
               outline-offset: 2px;
          }
+         .app-button:disabled { /* Estilo para botones deshabilitados */
+            opacity: 0.5;
+            cursor: not-allowed;
+         }
+         .app-button:disabled:hover { /* Evitar cambio de color en hover si está deshabilitado */
+            color: var(--button-color);
+         }
+
          .add-button {
              color: var(--button-color);
              font-weight: bold;
@@ -526,7 +537,7 @@
         }
 
          .custom-checkbox {
-             margin-right: 10px;
+             margin-right: 10px; /* Espacio entre checkbox y label de prioridad */
              border: 1px solid var(--text-color);
              border-radius: 50%;
              appearance: none;
@@ -551,34 +562,27 @@
              box-sizing: content-box;
              width: 5px;
              height: 9px;
-             border: solid var(--item-bg);
+             border: solid var(--checkbox-checkmark-color); /* Usar variable */
              border-width: 0 2px 2px 0;
              top: 3px;
              left: 6px;
              transform: rotate(45deg);
          }
-         body.dark-mode .custom-checkbox:checked::after {
-             border-color: var(--checkbox-checkmark-color) !important;
-         }
-
 
         .todo-item .main-task-header {
             display: flex;
-            align-items: center;
+            align-items: flex-start; /* Alinea items al inicio verticalmente */
             margin-bottom: 15px;
             padding: 0;
-            gap: 10px;
+            gap: 8px; /* Espacio entre grupo de prefijo y cuerpo de tarea */
         }
-        .todo-item .main-task-header input[type="checkbox"] {
-             border-color: var(--text-color);
-             background-color: var(--item-bg);
+        .todo-item .main-task-header .task-prefix-group { /* Nuevo grupo para checkbox y prioridad */
+            display: flex;
+            align-items: center; /* Centra checkbox y prioridad verticalmente */
+            gap: 4px; /* Espacio entre checkbox y prioridad */
+            flex-shrink: 0;
         }
-         .todo-item .main-task-header input[type="checkbox"]:checked {
-              background-color: var(--text-color);
-              border-color: var(--text-color);
-         }
-
-
+        
         .todo-item .priority-color-label {
              display: inline-block;
              width: 16px;
@@ -599,84 +603,70 @@
         .priority-color-label[data-color="green"] { background-color: var(--priority-green-color); border-color: var(--priority-green-color); }
         .priority-color-label[data-color="none"] { background-color: transparent; border-color: var(--border-color); }
 
-
         .todo-item .main-task-header .task-body {
             display: flex;
             flex-grow: 1;
-            align-items: center;
-            gap: 10px;
-            min-width: 0;
-            flex-wrap: wrap;
+            align-items: flex-start; /* Alinea texto y grupo de acciones */
+            gap: 8px; /* Espacio entre texto de tarea y grupo de acciones */
+            min-width: 0; /* Evita que el texto empuje los botones fuera */
+            flex-wrap: wrap; /* Permite que los botones bajen si no hay espacio */
         }
-
 
         .todo-item .main-task-header .task-body span {
             font-weight: 700;
             font-size: 1.1rem;
-            flex-grow: 1;
+            flex-grow: 1; /* El texto toma el espacio disponible */
             color: var(--text-color);
             transition: color 0.3s ease, text-decoration 0.3s ease;
-            min-width: 0;
+            min-width: 0; /* Crucial */
             word-break: break-word;
+            line-height: 1.45; /* Ajuste para mejor alineación vertical con checkbox */
+            padding-top: 1px; /* Ajuste fino para alineación vertical */
         }
 
         .todo-item .main-task-header .task-body .task-actions-group {
             display: flex;
-            align-items: center;
-            gap: 5px;
-            margin-left: auto;
-            flex-shrink: 0;
+            align-items: center; /* Centra los botones de acción verticalmente */
+            gap: 2px; /* Espacio reducido entre botones de acción */
+            margin-left: auto; /* Empuja el grupo de acciones a la derecha */
+            flex-shrink: 0; /* Evita que el grupo de acciones se encoja */
         }
 
-        .todo-item .main-task-header .task-body .link-button {
+        .todo-item .main-task-header .task-body .task-actions-group .link-button,
+        .todo-item .main-task-header .task-body .task-actions-group .google-calendar-button {
+            padding-left: 4px;  /* Padding reducido */
+            padding-right: 4px; /* Padding reducido */
+            font-size: 1rem; /* Tamaño de icono consistente */
+        }
+        
+        .todo-item .main-task-header .task-body .task-actions-group .google-calendar-button i {
             color: var(--button-color);
-            padding: 4px 8px;
-            font-size: 1rem;
+            transition: color 0.2s ease;
+        }
+        .todo-item .main-task-header .task-body .task-actions-group .google-calendar-button:hover i {
+            color: var(--button-hover-color);
+        }
+        /* Si la tarea está completada, el botón de calendario ya tiene estilos de deshabilitado */
+
+        .todo-item .main-task-header .task-body .link-button {
+            font-size: 1rem; /* Asegura consistencia */
             opacity: 0.5;
         }
         .todo-item .main-task-header .task-body .link-button.link-on {
             opacity: 1;
         }
 
-        .todo-item .main-task-header .task-body .calendar-button {
-            padding: 4px 8px;
-            font-size: 1rem;
-        }
-        .todo-item .main-task-header .task-body .calendar-button i {
-            color: var(--calendar-icon-default-color);
-            transition: color 0.2s ease, font-weight 0.2s ease;
-        }
-        .todo-item .main-task-header .task-body .calendar-button.date-set i {
-            color: var(--calendar-icon-set-color);
-        }
-        .todo-item .main-task-header .task-body .calendar-button.date-today i {
-            font-weight: bold;
-        }
-
-        .task-date-input-real {
-            opacity: 0;
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            overflow: hidden;
-            clip: rect(0 0 0 0);
-            clip-path: inset(50%);
-            margin: -1px;
-            padding: 0;
-            border: 0;
-            white-space: nowrap;
-        }
-
         .todo-item .main-task-header .task-body .task-actions-group .delete-button {
-             padding: 4px 8px;
+             padding: 4px 8px; /* Un poco más de padding para el botón de borrar */
              font-size: 1rem;
+             margin-left: 6px; /* Espacio antes del botón de borrar */
         }
 
 
         .todo-item .add-subtasks-toggle {
              display: block;
              width: fit-content;
-             margin: 10px 0 0 auto;
+             margin: 10px 0 0 auto; /* Alinear a la derecha */
              padding: 4px 8px;
              font-size: 1.1rem;
              font-weight: normal;
@@ -687,7 +677,7 @@
          }
 
         .todo-item .subtask-input-container {
-            display: none;
+            display: none; /* Oculto por defecto */
             flex-wrap: wrap;
             gap: 8px;
             margin-top: 15px;
@@ -718,9 +708,9 @@
          }
 
         .todo-item .subtasks-list li input[type="checkbox"] {
-             width: 18px;
+             width: 18px; /* Ligeramente más pequeño para sub-tareas */
              height: 18px;
-             border-color: var(--text-color);
+             border-color: var(--text-color); /* Consistente con principal */
              background-color: var(--item-bg);
         }
          .todo-item .subtasks-list li input[type="checkbox"]:checked {
@@ -732,31 +722,28 @@
             content: '';
             position: absolute;
             box-sizing: content-box;
-            width: 4px;
+            width: 4px; /* Ajustado para checkbox más pequeño */
             height: 8px;
-            border: solid var(--item-bg);
-            border-width: 0 1.8px 1.8px 0;
-            top: 2.5px;
-            left: 5px;
+            border: solid var(--checkbox-checkmark-color); /* Usar variable */
+            border-width: 0 1.8px 1.8px 0; /* Grosor de línea ajustado */
+            top: 2.5px; /* Ajuste vertical */
+            left: 5px;  /* Ajuste horizontal */
             transform: rotate(45deg);
         }
-         body.dark-mode .todo-item .subtasks-list li input[type="checkbox"]:checked::after {
-             border-color: var(--checkbox-checkmark-color) !important;
-         }
 
         .todo-item .subtasks-list li span {
              flex-grow: 1;
              margin-right: 5px;
-             color: var(--button-color);
+             color: var(--button-color); /* Un color más tenue para sub-tareas */
              text-decoration: none;
              transition: color 0.3s ease, text-decoration 0.3s ease;
              word-break: break-word;
-             font-size: 0.85em;
-             font-weight: 300;
+             font-size: 0.85em; /* Más pequeño que tarea principal */
+             font-weight: 300; /* Más ligero */
         }
          .todo-item .subtasks-list li .subtask-move-button {
              color: var(--button-color);
-             padding: 4px;
+             padding: 4px; /* Pequeño */
              font-size: 0.9rem;
          }
          .todo-item .subtasks-list li .subtask-move-button:hover {
@@ -765,10 +752,10 @@
          .todo-item .subtasks-list li .subtask-move-button:disabled {
              opacity: 0.3;
              cursor: not-allowed;
-             color: var(--button-color);
+             color: var(--button-color); /* Mantener color base en disabled */
          }
          .todo-item .subtasks-list li .subtask-move-button:disabled:hover {
-             color: var(--button-color);
+             color: var(--button-color); /* Evitar cambio de color en hover si disabled */
          }
          .todo-item .subtasks-list li .delete-button {
              padding: 4px 8px;
@@ -780,7 +767,7 @@
             height: 6px;
             border-radius: 3px;
             margin-top: 15px;
-            margin-bottom: 0;
+            margin-bottom: 0; /* Si va antes del toggle de sub-tareas */
             overflow: hidden;
             background-color: var(--progress-bg);
             transition: background-color 0.3s ease;
@@ -791,7 +778,7 @@
             width: 0%;
             transition: width 0.5s ease-in-out, background-color 0.3s ease;
         }
-         .todo-item .progress-text { display: none; }
+         .todo-item .progress-text { display: none; } /* No se usa actualmente */
 
         #todo-list:empty:before {
             content: "No hay tareas. ¡Agrega una!";
@@ -804,12 +791,13 @@
         }
 
         .todo-item.show-subtask-ui .subtask-input-container {
-             display: flex;
+             display: flex; /* Mostrar el input de sub-tarea */
         }
         .todo-item.show-subtask-ui .add-subtasks-toggle {
-             display: none;
+             display: none; /* Ocultar el botón '+' si el input está visible */
         }
 
+        /* Estilos para tareas completadas */
         .todo-item.completed .main-task-header .task-body span,
         .todo-item.completed .subtasks-list li span {
             color: var(--completed-text-color);
@@ -820,69 +808,64 @@
         }
 
         .todo-item.completed .priority-color-label,
-        .todo-item.completed .subtasks-list li .app-button {
+        .todo-item.completed .subtasks-list li .app-button { /* Aplica a todos los botones en sub-tareas */
             opacity: 0.7;
-            cursor: default;
+            cursor: default; /* El cursor no cambia */
         }
 
-        .todo-item.completed .main-task-header .task-body .calendar-button {
+        .todo-item.completed .main-task-header .task-body .task-actions-group .google-calendar-button {
             opacity: 0.7;
             cursor: default;
-            pointer-events: none;
+            pointer-events: none; /* Deshabilita interacciones */
         }
-        .todo-item.completed .main-task-header .task-body .calendar-button i {
-            color: var(--completed-text-color) !important;
-            font-weight: normal !important;
+        .todo-item.completed .main-task-header .task-body .task-actions-group .google-calendar-button i {
+            color: var(--completed-text-color) !important; /* Forzar color de completado */
+        }
+        .todo-item.completed .main-task-header .task-body .task-actions-group .google-calendar-button:hover i {
+            color: var(--completed-text-color) !important; /* Evitar cambio de color en hover */
         }
 
 
         .todo-item.completed .main-task-header .task-body .task-actions-group .delete-button {
-            opacity: 0.7;
+            opacity: 0.7; /* Consistente con otros botones */
         }
         .todo-item.completed .main-task-header .task-body .task-actions-group .delete-button:hover {
-            opacity: 0.7;
-            color: var(--delete-button-color);
+            opacity: 0.7; /* Mantener opacidad */
+            color: var(--delete-button-color); /* No cambiar a color de hover */
         }
 
-        .todo-item.completed .main-task-header .task-body .link-button.link-on {
-            opacity: 0.8;
-            cursor: pointer;
+        .todo-item.completed .main-task-header .task-body .link-button.link-on { /* Si el enlace existe */
+            opacity: 0.8; /* Ligeramente más visible si hay enlace */
+            cursor: pointer; /* Permitir clic si hay enlace */
         }
         .todo-item.completed .main-task-header .task-body .link-button.link-on:hover {
-            color: var(--button-hover-color);
+            color: var(--button-hover-color); /* Permitir efecto hover si hay enlace */
             opacity: 1;
         }
-        .todo-item.completed .main-task-header .task-body .link-button.link-off {
-            opacity: 0.4;
+        .todo-item.completed .main-task-header .task-body .link-button.link-off { /* Si no hay enlace */
+            opacity: 0.4; /* Muy tenue */
             cursor: default;
         }
         .todo-item.completed .main-task-header .task-body .link-button.link-off:hover {
-            color: var(--button-color);
+            color: var(--button-color); /* No cambiar color en hover */
             opacity: 0.4;
         }
 
         .todo-item.completed .priority-color-label:hover,
         .todo-item.completed .subtasks-list li .app-button:hover {
-            color: inherit;
+            color: inherit; /* No cambiar color */
             text-decoration: none;
-            transform: none;
+            transform: none; /* No escalar */
         }
 
 
-         .todo-item.completed .main-task-header input[type="checkbox"] {
+         .todo-item.completed .main-task-header .task-prefix-group .custom-checkbox {
              border-color: var(--completed-text-color);
              background-color: var(--completed-text-color);
          }
-          body.dark-mode .todo-item.completed .main-task-header input[type="checkbox"] {
-              border-color: var(--completed-text-color);
-              background-color: var(--completed-text-color);
-          }
-         .todo-item.completed .main-task-header input[type="checkbox"]:checked::after {
-              border-color: var(--item-bg) !important;
+         .todo-item.completed .main-task-header .task-prefix-group .custom-checkbox:checked::after {
+              border-color: var(--checkbox-checkmark-color) !important; /* Usar variable */
          }
-          body.dark-mode .todo-item.completed .main-task-header input[type="checkbox"]:checked::after {
-              border-color: var(--item-bg) !important;
-          }
 
          #todo-input-container {
              display: flex;
@@ -890,20 +873,20 @@
              padding: 0;
              align-items: center;
              margin-bottom: 20px;
-             flex-wrap: wrap;
+             flex-wrap: wrap; /* Para responsividad */
          }
           #todo-input-container #add-todo-button {
-               margin-left: 0;
+               margin-left: 0; /* Quitar margen si es el primer botón */
                padding: 10px 15px;
                font-size: 1.1rem;
           }
           #todo-input-container #reorder-button {
-               margin-left: auto;
+               margin-left: auto; /* Empujar a la derecha si hay espacio */
           }
 
         #quick-notes-container {
             margin-top: 25px;
-            margin-bottom: 10px;
+            margin-bottom: 50px; /* Más espacio antes de la gestión de datos */
             display: flex;
             flex-direction: column;
             gap: 8px;
@@ -947,6 +930,7 @@
             background-color: var(--item-bg);
             border: 1px solid var(--border-color);
             box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            border-radius: 4px; /* Consistencia con otros botones pequeños */
         }
         #clear-notes-button:hover {
             color: var(--button-hover-color);
@@ -957,29 +941,78 @@
             margin-right: 4px;
         }
 
-        #data-management-container {
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-            margin-top: 10px;
+        /* Estilos para la sección de gestión de datos */
+        #data-management-section {
+            margin-top: 30px; /* Espacio desde las notas */
             margin-bottom: 20px;
+            padding: 0 10px; /* Un poco de padding lateral */
         }
-        #data-management-container .app-button {
-            padding: 6px 12px;
+        #data-management-section h4 {
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1.2rem;
+            color: var(--subtitle-color); /* Consistente con otros subtítulos de sección */
+            margin-top: 0;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        .data-management-intro {
             font-size: 0.85rem;
-            background-color: var(--item-bg);
-            border: 1px solid var(--border-color);
-            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            color: var(--legend-text-color);
+            text-align: center;
+            margin-bottom: 20px;
+            line-height: 1.5;
+            max-width: 90%;
+            margin-left: auto;
+            margin-right: auto;
         }
-        #data-management-container .app-button:hover {
-            border-color: var(--button-hover-color);
-            background-color: var(--fixed-button-bg);
+        .data-options-row {
+            display: flex;
+            justify-content: space-around; /* Distribuye el espacio */
+            gap: 15px; /* Espacio entre botones */
+            margin-bottom: 15px;
+            flex-wrap: wrap; /* Para responsividad */
         }
-        #data-management-container .app-button i {
-            margin-right: 5px;
+        .data-options-row:last-child {
+            margin-bottom: 0;
         }
 
-        /* --- ESTILOS PARA EL BOTÓN DE INFORMACIÓN (MÁS DISCRETO) --- */
+        .data-action-button { /* Estilo base para botones de acción de datos */
+            flex-grow: 1; /* Permite que los botones crezcan para llenar el espacio */
+            min-width: 200px; /* Ancho mínimo para evitar que se vuelvan demasiado pequeños */
+            padding: 9px 15px !important; /* Sobrescribir padding de .app-button */
+            font-size: 0.9rem !important; /* Sobrescribir tamaño de fuente */
+            background-color: var(--item-bg);
+            border: 1px solid var(--border-color) !important; /* Asegurar borde */
+            box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+            color: var(--button-color); /* Color de texto base */
+            font-weight: 400; /* Peso normal */
+            border-radius: 6px; /* Bordes redondeados */
+        }
+        .data-action-button:hover {
+            border-color: var(--button-hover-color) !important;
+            background-color: var(--fixed-button-bg);
+            color: var(--button-hover-color); /* Color de hover */
+        }
+        .data-action-button i {
+            margin-right: 8px; /* Espacio antes del texto */
+            font-size: 0.95em; /* Ligeramente más pequeño que el texto */
+        }
+        
+        .drive-button-style i.fab.fa-google-drive { /* Estilo específico para icono de Drive */
+             color: var(--drive-icon-color);
+        }
+        .drive-button-style:disabled i.fab.fa-google-drive { /* Icono de Drive deshabilitado */
+            color: inherit; /* Hereda el color del texto deshabilitado */
+            opacity: 0.7;
+        }
+        .drive-button-style:disabled { /* Botón de Drive deshabilitado */
+            background-color: var(--input-bg) !important;
+            border-color: var(--border-color) !important;
+            color: var(--placeholder-color) !important;
+            opacity: 0.7;
+        }
+
+
         #info-button {
             position: absolute;
             top: 15px;
@@ -1009,7 +1042,6 @@
             border-color: var(--button-hover-color);
         }
 
-        /* Footer */
         footer {
             display: flex;
             flex-direction: column; 
@@ -1068,6 +1100,22 @@
             margin-right: 4px; 
             font-size: 0.9em;  
         }
+        .footer-legal-links {
+            margin-top: 15px;
+            font-size: 0.75em;
+        }
+        .footer-legal-links a {
+            margin: 0 5px;
+            color: var(--legend-text-color);
+            text-decoration: none;
+        }
+        .footer-legal-links a:hover {
+            text-decoration: underline;
+            color: var(--button-hover-color);
+        }
+        .footer-legal-links span { /* Para el separador "|" */
+            color: var(--legend-text-color);
+        }
 
 
         @media (max-width: 500px) {
@@ -1089,27 +1137,42 @@
                 left: 10px;
             }
             .todo-item .main-task-header {
-                row-gap: 8px;
+                row-gap: 8px; /* Espacio si el task-body se va abajo */
             }
-            .todo-item .main-task-header .task-body {
-                 flex-wrap: wrap;
-                 gap: 8px;
-                 align-items: center;
-            }
+            /* No es necesario flex-wrap: wrap aquí ya que está en .task-body */
+
             .todo-item .main-task-header .task-body .task-actions-group {
-                margin-left: auto;
-                justify-content: flex-end;
+                /* margin-left: auto; ya lo tiene */
+                /* justify-content: flex-end; No es necesario, ya se alinea a la derecha */
             }
-            .todo-item .main-task-header .task-body .link-button { order: 1; }
-            .todo-item .main-task-header .task-body .calendar-button { order: 2; }
-            .todo-item .main-task-header .task-body .delete-button { order: 3; }
+            /* El orden de los botones de acción ya está definido por su orden en el HTML */
 
              #todo-input-container #reorder-button {
-                  margin-left: 0;
+                  margin-left: 0; /* En pantallas pequeñas, reorder va debajo */
              }
-             #data-management-container {
-                justify-content: center;
+             #data-management-section { /* Ajustes para móviles en gestión de datos */
+                padding: 15px 10px;
              }
+             #data-management-section h4 {
+                font-size: 1.1rem;
+             }
+            .data-management-intro {
+                font-size: 0.8rem;
+                margin-bottom: 15px;
+            }
+             .data-options-row { /* Apilar botones en móviles */
+                flex-direction: column;
+                align-items: stretch; /* Que los botones ocupen todo el ancho */
+                gap: 10px;
+            }
+            .data-action-button {
+                min-width: unset; /* Quitar ancho mínimo */
+                width: 100%; /* Ocupar todo el ancho disponible */
+                margin-bottom: 0; /* Quitar margen inferior si están apilados */
+            }
+            /* No es necesario .data-options-row .data-action-button + .data-action-button */
+
+
              #welcome-section h2 {
                  font-size: 1.5rem;
              }
@@ -1132,13 +1195,13 @@
                 font-size: 1.1rem;
             }
             #install-instructions-section ul li {
-                font-size: 0.95em;
-                padding-left: 22px;
+                font-size: 0.95em; /* Relativo al font-size de la sección */
+                padding-left: 22px; /* Menos padding para iconos */
                 margin-bottom: 7px;
             }
             #install-instructions-section ul li::before {
-                top: 0px;
-                font-size: 1em;
+                top: 0px; /* Ajustar si es necesario */
+                font-size: 1em; /* Relativo al font-size del li */
             }
             
             footer {
@@ -1152,17 +1215,21 @@
             }
             .footer-text {
                 margin-bottom: 6px;
-                font-size: 0.9em; 
+                font-size: 0.9em; /* Relativo al font-size del footer */
             }
             .support-intro-text,
             .paypal-link-footer {
-                font-size: 0.7em; 
+                font-size: 0.7em; /* Muy pequeño, relativo al font-size del footer */
             }
             .support-intro-text {
                 margin-bottom: 2px;
             }
+            .footer-legal-links {
+                font-size: 0.7em; /* Relativo al font-size del footer */
+            }
         }
 
+        /* Estilos para los modales (info y recordatorio) */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -1177,6 +1244,8 @@
             opacity: 0;
             visibility: hidden;
             transition: opacity 0.3s ease, visibility 0s linear 0.3s;
+            padding-top: 60px; /* Espacio para que el modal no toque el borde superior */
+            box-sizing: border-box;
         }
         .modal-overlay.visible {
             opacity: 1;
@@ -1191,12 +1260,16 @@
             border-radius: 10px;
             box-shadow: 0 5px 20px rgba(0,0,0,0.3);
             width: 90%;
-            max-width: 580px;
-            max-height: 85vh;
-            overflow-y: auto;
-            position: relative;
+            max-width: 380px; /* Ancho máximo para el modal de recordatorio */
+            max-height: 85vh; /* Altura máxima */
+            overflow-y: auto; /* Scroll si el contenido es muy largo */
+            position: relative; /* Para el botón de cerrar */
             transform: scale(0.95);
             transition: transform 0.3s ease;
+            box-sizing: border-box;
+        }
+        #info-modal .modal-content { /* Ancho mayor para el modal de info */
+            max-width: 580px;
         }
         .modal-overlay.visible .modal-content {
             transform: scale(1);
@@ -1211,47 +1284,212 @@
             font-size: 1.8rem;
         }
 
+        /* Estilos específicos para el modal de recordatorio */
+        #reminder-modal .modal-content h2 { /* Título más pequeño y con color de acento */
+            color: var(--accent-color);
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        #reminder-modal p#reminder-task-text {
+            text-align: center;
+            font-style: italic;
+            margin: 0 auto 20px auto;
+            word-break: break-word;
+            color: var(--text-color); /* Usa el color de texto principal */
+            font-size: 0.85rem;
+            font-weight: normal; /* No negrita */
+            max-width: 90%; /* Evita que se extienda demasiado */
+        }
+
+        .modal-input-group {
+            margin: 15px auto; /* Centrado y con espacio */
+            width: fit-content; /* Ajusta al contenido */
+            display: flex;
+            align-items: center;
+            gap: 10px; /* Espacio entre label e input */
+            justify-content: center; /* Centra el grupo */
+        }
+
+        .modal-input-group label {
+            display: block; /* Ocupa su propia línea o se ajusta con flex */
+            margin-bottom: 0; /* Quitamos margen inferior si está en flex */
+            font-weight: bold;
+            color: var(--text-color);
+            font-size: 0.85rem;
+            flex-shrink: 0; /* Evita que el label se encoja */
+        }
+
+        .modal-input-group input[type="date"],
+        .modal-input-group input[type="time"] {
+            width: 130px; /* Ancho fijo para los inputs */
+            padding: 8px;
+            border: 1px solid var(--modal-input-border-color);
+            border-radius: 4px;
+            background-color: var(--modal-input-background-color);
+            color: var(--input-text-color);
+            font-size: 0.85rem;
+            box-sizing: border-box;
+            outline: none;
+            transition: border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+            font-family: 'Lexend', sans-serif; /* Consistencia de fuente */
+        }
+
+        .modal-input-group input[type="date"]:focus,
+        .modal-input-group input[type="time"]:focus {
+            border-color: var(--button-hover-color);
+            box-shadow: 0 0 0 0.2rem rgba(231, 76, 60, 0.25); /* Sombra de enfoque */
+        }
+        body.dark-mode .modal-input-group input[type="date"]:focus,
+        body.dark-mode .modal-input-group input[type="time"]:focus {
+             box-shadow: 0 0 0 0.2rem rgba(243, 156, 18, 0.2); /* Sombra de enfoque en dark mode */
+        }
+
+        #schedule-reminder-button { /* Estilo del botón "Agendar" como un enlace */
+            display: block;
+            width: 100%;
+            max-width: 300px;
+            margin: 25px auto 5px auto;
+            padding: 10px;
+            background: none !important;
+            border: none !important;
+            color: var(--schedule-link-text-color) !important;
+            text-decoration: underline !important;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            text-align: center;
+            transition: color 0.2s ease;
+            box-shadow: none !important;
+        }
+        #schedule-reminder-button:hover {
+            color: var(--schedule-link-hover-text-color) !important;
+            background: none !important;
+        }
+        #schedule-reminder-button:disabled {
+            color: var(--schedule-link-disabled-text-color) !important;
+            text-decoration: none !important;
+            cursor: not-allowed;
+            opacity: 0.7 !important;
+        }
+
+        /* Estilos para el contenido del modal de información */
         .modal-content ol {
-            padding-left: 20px;
-            margin-bottom: 0;
+            padding-left: 20px; /* Indentación para la lista ordenada */
+            margin-bottom: 0; /* Sin margen inferior extra */
+            text-align: left; /* Alineación estándar para listas */
         }
         .modal-content ol li {
             margin-bottom: 12px;
             line-height: 1.5;
         }
-        .modal-content ol li ul {
+        .modal-content ol li ul { /* Sub-listas */
             padding-left: 20px;
             margin-top: 8px;
-            list-style-type: disc;
+            list-style-type: disc; /* Viñetas redondas */
         }
         .modal-content ol li ul li {
             margin-bottom: 8px;
-            font-size: 0.95em;
+            font-size: 0.95em; /* Ligeramente más pequeño */
         }
 
-        .modal-content strong {
+        .modal-content strong { /* Texto en negrita dentro del modal */
             color: var(--heading-color);
         }
-        .modal-content i.fas, .modal-content i.far {
-            color: var(--button-hover-color);
+        .modal-content i.fas, .modal-content i.far, .modal-content i.fab { /* Iconos dentro del modal */
+            color: var(--button-hover-color); /* Color de acento para iconos */
             margin: 0 2px;
             font-size: 0.9em;
         }
 
 
-        .close-modal {
-            position: absolute;
-            top: 10px;
-            right: 12px;
-            font-size: 1.9rem;
+        /* Botón de cerrar para AMBOS modales */
+        div.modal-overlay div.modal-content > button.close-modal {
+            position: absolute !important;
+            top: 10px !important;
+            right: 10px !important;
+            left: auto !important;
+            bottom: auto !important;
+            transform: none !important;
+            margin: 0 !important;
+            font-size: 1.4rem; /* Tamaño del 'x' */
             color: var(--button-color);
-            padding: 5px 10px;
+            padding: 2px 5px !important; /* Padding pequeño */
             line-height: 1;
-            background: none;
-            border: none;
+            background: none !important;
+            border: none !important;
+            cursor: pointer;
+            transition: color 0.2s ease;
+            z-index: 10 !important; /* Por encima del contenido del modal */
+            box-shadow: none !important;
         }
-        .close-modal:hover {
-            color: var(--button-hover-color);
+        div.modal-overlay div.modal-content > button.close-modal:hover {
+            color: var(--button-hover-color) !important;
+            background: none !important;
+        }
+
+
+        @media (max-width: 500px) {
+            /* ... (otros media queries existentes) ... */
+
+            .modal-overlay {
+                padding-top: 20px; /* Menos padding superior en móviles */
+            }
+            .modal-content { /* Ajustes generales para modales en móvil */
+                padding: 20px 25px;
+                max-height: 90vh;
+                max-width: 95%; /* Casi todo el ancho */
+                width: 95%;
+            }
+            .modal-content h2 {
+                font-size: 1.5rem;
+                margin-bottom: 15px;
+            }
+            #reminder-modal .modal-content h2 { /* Título del modal de recordatorio en móvil */
+                 font-size: 1.1rem;
+            }
+            #reminder-modal p#reminder-task-text {
+                font-size: 0.85rem; /* Consistente con otros textos */
+                margin-bottom: 15px;
+            }
+            .modal-input-group { /* Grupo de input de fecha/hora en móvil */
+                margin-bottom: 10px;
+                gap: 8px;
+                flex-direction: column; /* Apilar label e input */
+                align-items: flex-start; /* Alinear al inicio */
+                width: 100%; /* Ocupar todo el ancho */
+            }
+             .modal-input-group label {
+                 width: 100%;
+                 text-align: left; /* Label a la izquierda */
+             }
+            .modal-input-group input[type="date"],
+            .modal-input-group input[type="time"] {
+                padding: 6px;
+                font-size: 0.85rem;
+                width: 100%; /* Input ocupa todo el ancho */
+            }
+            #schedule-reminder-button { /* Botón de agendar en móvil */
+                padding: 8px;
+                font-size: 0.9rem;
+                max-width: 100%;
+            }
+
+            .modal-content ol li {
+                font-size: 0.9em;
+                margin-bottom: 10px;
+            }
+            .modal-content ol li ul li {
+                font-size: 0.9em;
+                margin-bottom: 6px;
+            }
+            div.modal-overlay div.modal-content > button.close-modal { /* Botón de cerrar en móvil */
+                font-size: 1.2rem !important;
+                top: 6px !important;
+                right: 8px !important;
+                padding: 2px 4px !important;
+            }
         }
     </style>
 </head>
@@ -1279,11 +1517,11 @@
                 <li><strong>Gestión Intuitiva de Tareas:</strong> Crea, edita y organiza tus tareas fácilmente.</li>
                 <li><strong>Subtareas Detalladas:</strong> Desglosa tareas complejas en pasos manejables.</li>
                 <li><strong>Prioridades Visuales:</strong> Asigna colores para enfocarte en lo importante.</li>
-                <li><strong>Fechas Límite Claras:</strong> Establece fechas de vencimiento para no olvidar nada.</li>
+                <li><strong>Agendar en Google Calendar:</strong> Genera un enlace para añadir recordatorios de tus tareas directamente a tu Google Calendar.</li>
                 <li><strong>Enlaces Relevantes:</strong> Asocia URLs directamente a tus tareas.</li>
-                <li><strong>Modo Oscuro/Claro:</strong> Adapta la interfaz a tus preferencias visuales.</li>
+                <li><strong>Modo Oscuro/Claro:</strong> Adapta la interfaz a tus preferencias visuales (oscuro por defecto).</li>
                 <li><strong>Progreso y Motivación:</strong> Visualiza el avance y gana medallas por completar tareas.</li>
-                <li><strong>Exportación e Importación de Datos:</strong> Realiza copias de seguridad o transfiere tus datos.</li>
+                <li><strong>Exportación e Importación de Datos:</strong> Realiza copias de seguridad o transfiere tus datos (local o Google Drive).</li>
                 <li><strong>Anotaciones Rápidas:</strong> Un espacio para tomar notas sin crear una tarea formal.</li>
             </ul>
             <p>
@@ -1317,11 +1555,11 @@
             <div id="priority-legend">
                 Prioridad:
                 <span class="priority-legend-item"><span class="priority-color-label" data-color="red"></span>Urgente</span>
-                >
+                &gt;
                 <span class="priority-legend-item"><span class="priority-color-label" data-color="orange"></span>Alta</span>
-                >
+                &gt;
                 <span class="priority-legend-item"><span class="priority-color-label" data-color="yellow"></span>No Olvidar</span>
-                >
+                &gt;
                 <span class="priority-legend-item"><span class="priority-color-label" data-color="green"></span>Puede Esperar</span>
             </div>
 
@@ -1332,29 +1570,67 @@
                 </button>
             </div>
 
-            <div id="data-management-container">
-                <button id="export-data-button" class="app-button" aria-label="Exportar datos">
-                    <i class="fas fa-file-export"></i> Exportar
-                </button>
-                <input type="file" id="import-file-input" accept=".json" style="display: none;">
-                <button id="import-data-button" class="app-button" aria-label="Importar datos">
-                    <i class="fas fa-file-import"></i> Importar
-                </button>
+            <div id="data-management-section">
+                <h4>Gestión de Datos</h4>
+                <p class="data-management-intro">
+                    Guarda tus tareas para usarlas en otros dispositivos o como copia de seguridad.
+                    Puedes exportar/importar un archivo local o usar tu Google Drive.
+                </p>
+                <div id="export-options-container" class="data-options-row">
+                    <button id="export-data-button" class="app-button data-action-button" aria-label="Exportar datos locales">
+                        <i class="fas fa-file-export"></i> Exportar Local
+                    </button>
+                    <button id="export-drive-button" class="app-button data-action-button drive-button-style" aria-label="Exportar a Google Drive" disabled>
+                        <i class="fab fa-google-drive"></i> Exportar a Drive
+                    </button>
+                </div>
+                <div id="import-options-container" class="data-options-row">
+                    <input type="file" id="import-file-input" accept=".json" style="display: none;">
+                    <button id="import-data-button" class="app-button data-action-button" aria-label="Importar datos locales">
+                        <i class="fas fa-file-import"></i> Importar Local
+                    </button>
+                    <button id="import-drive-button" class="app-button data-action-button drive-button-style" aria-label="Importar desde Google Drive" disabled>
+                        <i class="fab fa-google-drive"></i> Importar de Drive
+                    </button>
+                </div>
             </div>
 
         </div> <!-- Fin de #app-main-interface -->
 
     </div> <!-- Fin de .container -->
 
+    <!-- Modal para agendar recordatorio -->
+    <div id="reminder-modal" class="modal-overlay">
+        <div class="modal-content">
+            <button class="app-button close-modal" id="close-reminder-modal" aria-label="Cerrar ventana de recordatorio">×</button>
+            <h2>Agendar Recordatorio</h2>
+            <p id="reminder-task-text"></p>
+            <div class="modal-input-group">
+                <label for="reminder-date">Fecha:</label>
+                <input type="date" id="reminder-date" required>
+            </div>
+            <div class="modal-input-group">
+                <label for="reminder-time">Hora:</label>
+                <input type="time" id="reminder-time" value="09:00" required>
+            </div>
+            <button id="schedule-reminder-button" class="app-button">Agendar en Google Calendar</button>
+        </div>
+    </div>
+
     <footer>
         <img src="https://www.todaylist.es/ToDayList.png" alt="Logo ToDayList" class="footer-logo">
         <p class="footer-text">WebApp creada por Henry Gil</p>
-        
+
         <div id="support-section-footer">
             <p class="support-intro-text">¿Te gusta ToDayList? Si te ha sido útil...</p>
             <a href="https://paypal.me/todaylistHenry" target="_blank" rel="noopener noreferrer" class="paypal-link-footer">
                 <i class="fab fa-paypal"></i> Apoya este proyecto
             </a>
+        </div>
+        <div class="footer-legal-links">
+            <a href="privacy-policy.html" target="_blank" rel="noopener noreferrer">Política de Privacidad</a>
+            <span>|</span>
+            <a href="terms-of-service.html" target="_blank" rel="noopener noreferrer">Condiciones del Servicio</a>
         </div>
     </footer>
 
@@ -1367,8 +1643,8 @@
             <ol>
                 <li><strong>Añadir Tareas:</strong> Escribe tu tarea en el campo inferior y pulsa el botón <i class="fas fa-plus"></i> o la tecla "Enter".</li>
                 <li><strong>Marcar como Completada:</strong> Haz clic en el círculo a la izquierda de la tarea. ¡Ganas una medalla <i class="fas fa-medal"></i> por cada tarea completada en el día!</li>
-                <li><strong>Prioridad:</strong> Haz clic en el cuadrado de color junto al círculo para cambiar la prioridad de la tarea (Rojo: Urgente > Naranja: Alta > Amarillo: No Olvidar > Verde: Puede Esperar > Gris: Sin prioridad).</li>
-                <li><strong>Fecha Límite:</strong> Haz clic en el icono de calendario <i class="fas fa-calendar-alt"></i> para asignar una fecha a la tarea. Las tareas para "hoy" resaltarán su icono de calendario con el color de su prioridad.</li>
+                <li><strong>Prioridad:</strong> Haz clic en el cuadrado de color junto al círculo para cambiar la prioridad de la tarea (Rojo: Urgente &gt; Naranja: Alta &gt; Amarillo: No Olvidar &gt; Verde: Puede Esperar &gt; Gris: Sin prioridad).</li>
+                <li><strong>Agendar en Google Calendar:</strong> Haz clic en el icono de calendario <i class="far fa-calendar-plus"></i> para que se abra una plantilla de Google Calendar con los detalles de la tarea. Introduce la fecha/hora deseada y guarda el evento en tu calendario. Esta opción está deshabilitada para tareas completadas.</li>
                 <li><strong>Enlaces:</strong> Haz clic en el icono de enlace <i class="fas fa-link"></i> para añadir o abrir un enlace web asociado a la tarea.</li>
                 <li><strong>Sub-Tareas:</strong>
                     <ul>
@@ -1378,18 +1654,23 @@
                     </ul>
                 </li>
                 <li><strong>Barra de Progreso:</strong> Indica el porcentaje de sub-tareas completadas. Se llena al 100% cuando la tarea principal se marca como completada.</li>
-                <li><strong>Reordenar Tareas:</strong> Pulsa el botón de reordenar <i class="fas fa-sort-amount-down-alt"></i> para organizar automáticamente todas las tareas por prioridad (de más a menos urgente) y luego por fecha (las más antiguas primero).</li>
-                <li><strong>Modo Oscuro/Claro:</strong> Utiliza el botón <i class="fas fa-moon"></i> / <i class="fas fa-sun"></i> situado abajo a la derecha para cambiar el tema visual de la aplicación.</li>
+                <li><strong>Reordenar Tareas:</strong> Pulsa el botón de reordenar <i class="fas fa-sort-amount-down-alt"></i> para organizar automáticamente todas las tareas por prioridad (de más a menos urgente) y luego por fecha (las más antiguas primero, si tienen).</li>
+                <li><strong>Modo Oscuro/Claro:</strong> Utiliza el botón <i class="fas fa-moon"></i> / <i class="fas fa-sun"></i> situado abajo a la derecha para cambiar el tema visual de la aplicación (oscuro por defecto).</li>
                 <li><strong>Eliminar Tareas:</strong> Haz clic en el icono de papelera <i class="fas fa-trash-alt"></i> para eliminar tareas principales o sub-tareas.</li>
                 <li><strong>Anotaciones Rápidas:</strong> Utiliza el área debajo de la leyenda para notas temporales. Puedes borrarlas con el botón "Borrar".</li>
-                <li><strong>Exportar/Importar Datos:</strong> Usa los botones "Exportar" e "Importar" (debajo de las anotaciones) para guardar una copia de seguridad de todos tus datos (tareas, notas, medallas, tema) o para restaurarlos desde un archivo. <strong>¡Atención!</strong> Importar reemplazará los datos actuales.</li>
+                <li><strong>Exportar/Importar Datos:</strong> Usa los botones "Exportar Local" e "Importar Local" para guardar/restaurar datos desde un archivo en tu dispositivo. Usa "Exportar a Drive" e "Importar de Drive" para usar tu Google Drive. <strong>¡Atención!</strong> Importar reemplazará los datos actuales.</li>
             </ol>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    
+    <!-- Google API Loader Scripts -->
+    <script async defer src="https://apis.google.com/js/api.js" onload="if(window.googleApiCallbacks && typeof window.googleApiCallbacks.gapiLoaded === 'function') { window.isGoogleGapiScriptReady = true; window.googleApiCallbacks.gapiLoaded(); } else { console.error('googleApiCallbacks.gapiLoaded no definido'); }"></script>
+    <script async defer src="https://accounts.google.com/gsi/client" onload="if(window.googleApiCallbacks && typeof window.googleApiCallbacks.gisLoaded === 'function') { window.isGoogleGisScriptReady = true; window.googleApiCallbacks.gisLoaded(); } else { console.error('googleApiCallbacks.gisLoaded no definido'); }"></script>
 
     <script type="module">
+        // Contenido del archivo script.js
         let todoInput;
         let addTodoButton;
         let todoListContainer;
@@ -1407,11 +1688,22 @@
         let importDataButton;
         let importFileInput;
 
+        // Google Drive Integration Variables
+        let exportDriveButton;
+        let importDriveButton;
+        // -------------------------------------------------------------------------------------
+        const CLIENT_ID = '25607067695-mgv7jfvio4vr1goi5ci6o952mgpii8nf.apps.googleusercontent.com'; 
+        const API_KEY = 'AIzaSyAhr2kqUcRf5qZi0yMHxFDsyp_x8Ekfj7k';
+        // -------------------------------------------------------------------------------------
+        const SCOPES = 'https://www.googleapis.com/auth/drive.file';
+        let tokenClient;
+        let gapiInited = false;
+        let gisInited = false;
+
         let welcomeSection;
         let startAppButton;
         let appMainInterface;
         let installInstructionsSection;
-
 
         let todos = [];
 
@@ -1421,6 +1713,390 @@
 
         const PRIORITY_COLORS = ['none', 'red', 'orange', 'yellow', 'green'];
         const PRIORITY_ORDER = { 'red': 1, 'orange': 2, 'yellow': 3, 'green': 4, 'none': 5 };
+
+        let reminderModal;
+        let closeReminderModalButton;
+        let reminderTaskTextElement;
+        let reminderDateInput;
+        let reminderTimeInput;
+        let scheduleReminderButton;
+        let currentTaskIdForReminder = null;
+
+        // --- Namespace para callbacks de Google ---
+        window.googleApiCallbacks = {
+            gisLoaded: function() {
+                console.log("SCRIPT.JS MODULE: googleApiCallbacks.gisLoaded called");
+                if (typeof google === 'undefined' || !google.accounts || !google.accounts.oauth2) {
+                    console.error("Objeto 'google.accounts.oauth2' no encontrado. GIS no cargó correctamente (para Drive).");
+                    if (window.isGoogleGisScriptReady && !gisInited) {
+                        console.log("Retrying GIS init in 100ms as google object might not be fully ready.");
+                        setTimeout(window.googleApiCallbacks.gisLoaded, 100);
+                    }
+                    return;
+                }
+                if (gisInited) {
+                    console.log("SCRIPT.JS MODULE: GIS already initialized.");
+                    return;
+                }
+                try {
+                    tokenClient = google.accounts.oauth2.initTokenClient({
+                        client_id: CLIENT_ID,
+                        scope: SCOPES,
+                        callback: '', 
+                    });
+                    gisInited = true;
+                    console.log("Google Identity Services (GIS) loaded and initialized (for Drive).");
+                    maybeEnableDriveButtons();
+                } catch (e) {
+                    console.error("Error inicializando Google Identity Services (GIS for Drive):", e);
+                }
+            },
+            gapiLoaded: function() {
+                console.log("SCRIPT.JS MODULE: googleApiCallbacks.gapiLoaded called");
+                if (typeof gapi === 'undefined' || !gapi.load) {
+                    console.error("Objeto 'gapi' no encontrado. Google API Client no cargó correctamente (para Drive).");
+                     if (window.isGoogleGapiScriptReady && !gapiInited) {
+                        console.log("Retrying GAPI init in 100ms as gapi object might not be fully ready.");
+                        setTimeout(window.googleApiCallbacks.gapiLoaded, 100);
+                    }
+                    return;
+                }
+                if (gapiInited) {
+                    console.log("SCRIPT.JS MODULE: GAPI already initialized.");
+                    return;
+                }
+                try {
+                    gapi.load('client:picker', () => {
+                        gapiInited = true;
+                        console.log("Google API Client (gapi) and Picker loaded (for Drive).");
+                        maybeEnableDriveButtons();
+                    });
+                } catch (e) {
+                    console.error("Error cargando gapi client:picker (for Drive):", e);
+                }
+            }
+        };
+        // --- Fin Namespace ---
+
+        function maybeEnableDriveButtons() {
+            if (gapiInited && gisInited) {
+                if (exportDriveButton) exportDriveButton.disabled = false;
+                if (importDriveButton) importDriveButton.disabled = false;
+                console.log("Google Drive buttons enabled.");
+            } else {
+                console.log("Google APIs (for Drive) not fully loaded yet. gapiInited:", gapiInited, "gisInited:", gisInited);
+                if (exportDriveButton) exportDriveButton.disabled = true;
+                if (importDriveButton) importDriveButton.disabled = true;
+            }
+        }
+
+        function handleAuthClick(callbackFn, ...args) {
+            if (!gisInited || !tokenClient) {
+                alert("Los servicios de autenticación de Google (para Drive) no están listos. Intenta recargar la página.");
+                console.error("tokenClient o GIS no están inicializados en handleAuthClick (for Drive).");
+                return;
+            }
+            tokenClient.callback = async (resp) => {
+                if (resp.error !== undefined) {
+                    console.error("Error de autenticación de Google (for Drive):", resp);
+                    if (resp.error !== 'popup_closed_by_user' && resp.error !== 'access_denied') {
+                        alert("Error de autenticación con Google (para Drive): " + (resp.error_description || resp.error || "Desconocido"));
+                    }
+                    return;
+                }
+                console.log("Autenticación con Google (para Drive) exitosa o token refrescado.");
+
+                if (gapi && gapi.client) {
+                    gapi.client.setToken(resp);
+                } else {
+                    console.error("gapi.client no está disponible para setToken (for Drive).");
+                    alert("Error: El cliente API de Google (para Drive) no está listo.");
+                    return;
+                }
+
+                if (callbackFn) {
+                    try {
+                        await callbackFn(...args);
+                    } catch (callbackError) {
+                        console.error("Error en la función callback después de la autenticación (for Drive):", callbackError);
+                        alert("Ocurrió un error al procesar tu solicitud después de la autenticación (para Drive).");
+                    }
+                }
+            };
+
+            if (gapi && gapi.client && gapi.client.getToken && gapi.client.getToken() !== null) {
+                tokenClient.requestAccessToken({prompt: ''});
+            } else {
+                tokenClient.requestAccessToken({prompt: 'consent'});
+            }
+        }
+
+        async function ensureDriveClientLoaded() {
+            if (gapi && gapi.client && gapi.client.drive) {
+                return Promise.resolve();
+            }
+            console.log("Cliente de Google Drive API no cargado, cargando ahora...");
+            return new Promise((resolve, reject) => {
+                if (!gapi || !gapi.client || !gapi.client.load) {
+                    return reject(new Error("gapi.client.load no está disponible (for Drive)."));
+                }
+                try {
+                    gapi.client.load('drive', 'v3', () => {
+                        console.log("Google Drive API client cargado exitosamente.");
+                        resolve();
+                    });
+                } catch (e) {
+                    reject(e);
+                }
+            });
+        }
+
+        async function exportToGoogleDrive() {
+            if (!gisInited || !gapiInited || !gapi.client.getToken || !gapi.client.getToken()) {
+                 alert("Por favor, conéctate con Google Drive primero.");
+                 handleAuthClick(exportToGoogleDrive);
+                 return;
+            }
+            try {
+                await ensureDriveClientLoaded();
+                const dataToExport = {
+                    theme: localStorage.getItem(THEME_STORAGE_KEY) || 'dark', // Default to dark
+                    dailyMedalData: JSON.parse(localStorage.getItem(MEDALS_STORAGE_KEY) || '{}'),
+                    quickNotesContent: localStorage.getItem(QUICK_NOTES_STORAGE_KEY) || '',
+                    tasks: todos
+                };
+                const jsonString = JSON.stringify(dataToExport, null, 2);
+                const dateStr = new Date().toISOString().slice(0,10).replace(/-/g,'');
+                const fileName = `todaylist_backup_${dateStr}.json`;
+
+                const boundary = '-------314159265358979323846';
+                const delimiter = "\r\n--" + boundary + "\r\n";
+                const close_delim = "\r\n--" + boundary + "--";
+
+                const metadata = {
+                    'name': fileName,
+                    'mimeType': 'application/json; charset=UTF-8',
+                };
+
+                const multipartRequestBody =
+                    delimiter +
+                    'Content-Type: application/json; charset=UTF-8\r\n\r\n' +
+                    JSON.stringify(metadata) +
+                    delimiter +
+                    'Content-Type: application/json; charset=UTF-8\r\n\r\n' +
+                    jsonString +
+                    close_delim;
+
+                const request = gapi.client.request({
+                    'path': '/upload/drive/v3/files',
+                    'method': 'POST',
+                    'params': {'uploadType': 'multipart'},
+                    'headers': {
+                        'Content-Type': 'multipart/related; boundary="' + boundary + '"'
+                    },
+                    'body': multipartRequestBody
+                });
+
+                const response = await request;
+
+                if (response && response.result && response.result.id) {
+                    alert('¡Datos exportados a Google Drive con éxito como ' + fileName + '!');
+                } else {
+                    console.error('Error al exportar a Drive: Respuesta inesperada.', response);
+                    alert('Error al exportar a Drive: Respuesta inesperada. Revisa la consola.');
+                }
+
+            } catch (error) {
+                console.error('Error exportando a Google Drive:', error);
+                alert('Error al exportar datos a Google Drive: ' + (error.message || (error.result && error.result.error && error.result.error.message) || "Error desconocido."));
+            }
+        }
+
+        function loadPicker(callbackFn) {
+            if (typeof google !== 'undefined' && google.picker) {
+                 if (callbackFn) callbackFn();
+            } else {
+                console.error("Google Picker API no está cargada (for Drive).");
+                alert("Error: La API de selección de archivos de Google (para Drive) no está lista.");
+            }
+        }
+
+        function importFromGoogleDrive() {
+            if (!gisInited || !gapiInited || !gapi.client.getToken || !gapi.client.getToken()) {
+                alert("Por favor, conéctate con Google Drive primero.");
+                handleAuthClick(importFromGoogleDrive);
+                return;
+            }
+            loadPicker(() => {
+                try {
+                    const oauthToken = gapi.client.getToken().access_token;
+                    if (!oauthToken) {
+                        alert("No se pudo obtener el token de acceso (para Drive).");
+                        handleAuthClick(importFromGoogleDrive);
+                        return;
+                    }
+                    const view = new google.picker.View(google.picker.ViewId.DOCS);
+                    view.setMimeTypes("application/json");
+                    const picker = new google.picker.PickerBuilder()
+                        .setAppId(null) // App ID is not needed for Picker with OAuth token
+                        .setOAuthToken(oauthToken)
+                        .addView(view)
+                        .setDeveloperKey(API_KEY)
+                        .setCallback(pickerCallback)
+                        .build();
+                    picker.setVisible(true);
+                } catch (e) {
+                    console.error("Error al construir/mostrar Google Picker (for Drive):", e);
+                    alert("Error al abrir el selector de archivos de Google Drive: " + e.message);
+                }
+            });
+        }
+
+        async function pickerCallback(data) {
+            if (data.action === google.picker.Action.PICKED && data.docs && data.docs.length > 0) {
+                const fileId = data.docs[0].id;
+                const fileName = data.docs[0].name;
+                try {
+                    await ensureDriveClientLoaded();
+                    const response = await gapi.client.drive.files.get({
+                        fileId: fileId,
+                        alt: 'media'
+                    });
+                    if (typeof response.body !== 'string') {
+                        alert("Error: El formato del archivo descargado de Drive es incorrecto.");
+                        return;
+                    }
+                    const importedData = JSON.parse(response.body);
+                    if (!confirm(`¡Atención! Importar "${fileName}" desde Google Drive reemplazará todos los datos actuales. ¿Deseas continuar?`)) {
+                        return;
+                    }
+                    applyImportedData(importedData, `Google Drive (${fileName})`);
+                } catch (error) {
+                    console.error('Error importando desde Google Drive:', error);
+                    alert('Error al importar datos desde Google Drive: ' + (error.message || (error.result && error.result.error && error.result.error.message) || "Error desconocido."));
+                }
+            }
+             else if (data.action === google.picker.Action.CANCEL) {
+                console.log("Selección de archivo de Google Drive cancelada por el usuario.");
+            } else if (data.action === google.picker.Action.ERROR ) {
+                 console.error("Error en Google Picker:", data);
+                 alert("Ocurrió un error con el selector de archivos de Google Drive.");
+            } else if ((!data.docs || data.docs.length === 0) && data.action !== google.picker.Action.CANCEL) {
+                console.log("Ningún archivo seleccionado en Google Picker o acción desconocida.");
+            }
+        }
+
+        function getTodayDateString(format = 'yyyy-mm-dd') { // Default a yyyy-mm-dd
+            const today = new Date();
+            const yyyy = today.getFullYear();
+            const mm = String(today.getMonth() + 1).padStart(2, '0');
+            const dd = String(today.getDate()).padStart(2, '0');
+
+            if (format === 'dd-mm-yyyy') {
+                return `${dd}-${mm}-${yyyy}`;
+            }
+            return `${yyyy}-${mm}-${dd}`;
+        }
+
+        function showReminderModal(taskId) {
+            const task = findTaskById(taskId);
+            if (!task || task.completed) {
+                return;
+            }
+
+            currentTaskIdForReminder = taskId;
+            reminderTaskTextElement.textContent = `Tarea: "${task.text}"`;
+            const todayForInput = getTodayDateString('yyyy-mm-dd');
+            reminderDateInput.value = todayForInput;
+            reminderTimeInput.value = "09:00";
+            reminderModal.classList.add('visible');
+        }
+
+        function hideReminderModal() {
+            reminderModal.classList.remove('visible');
+            currentTaskIdForReminder = null;
+            reminderTaskTextElement.textContent = '';
+        }
+
+        function handleScheduleReminderClick(event) {
+            if (event) event.stopPropagation();
+
+            if (!currentTaskIdForReminder) return;
+
+            const dateStrInput = reminderDateInput.value; 
+            const timeStr = reminderTimeInput.value;     
+
+            if (!dateStrInput || !timeStr) {
+                alert("Por favor, selecciona una fecha y hora.");
+                return;
+            }
+
+            if (!/^\d{4}-\d{2}-\d{2}$/.test(dateStrInput)) {
+                alert("Formato de fecha inválido. Usa el selector de calendario.");
+                return;
+            }
+            if (!/^\d{2}:\d{2}$/.test(timeStr)) {
+                alert("Formato de hora inválido. Usa el selector de hora.");
+                return;
+            }
+
+            const task = findTaskById(currentTaskIdForReminder);
+            if (!task) {
+                alert("Error: Tarea no encontrada.");
+                hideReminderModal();
+                return;
+            }
+
+            const summary = task.text;
+            const dateParts = dateStrInput.split('-');
+            const year = parseInt(dateParts[0], 10);
+            const month = parseInt(dateParts[1], 10);
+            const day = parseInt(dateParts[2], 10);
+            const [hours, minutes] = timeStr.split(':').map(Number);
+
+             if (month < 1 || month > 12 || day < 1 || day > 31 || hours < 0 || hours > 23 || minutes < 0 || minutes > 59) {
+                 alert("Fecha u hora inválida. Verifica los valores.");
+                 return;
+             }
+
+            const startDate = new Date(year, month - 1, day, hours, minutes);
+            if (isNaN(startDate.getTime()) || startDate.getDate() !== day || startDate.getMonth() !== month - 1 || startDate.getFullYear() !== year) {
+                alert("La fecha ingresada no es válida (ej. 31 de Febrero).");
+                return;
+            }
+
+            const endDate = new Date(startDate.getTime() + 60 * 60000); 
+
+            const formatDateForGoogle = (dateObj) => {
+                if (isNaN(dateObj.getTime())) {
+                     console.error("Fecha inválida proporcionada a formatDateForGoogle");
+                     return ''; 
+                }
+                return dateObj.getUTCFullYear() +
+                       ('0' + (dateObj.getUTCMonth() + 1)).slice(-2) +
+                       ('0' + dateObj.getUTCDate()).slice(-2) +
+                       'T' +
+                       ('0' + dateObj.getUTCHours()).slice(-2) +
+                       ('0' + dateObj.getUTCMinutes()).slice(-2) +
+                       ('0' + dateObj.getUTCSeconds()).slice(-2) +
+                       'Z';
+            };
+
+            const googleCalendarUrl = `https://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent('Recordatorio ToDayList: ' + summary)}&dates=${formatDateForGoogle(startDate)}/${formatDateForGoogle(endDate)}&details=${encodeURIComponent('Recordatorio para la tarea: "' + summary + '" de tu ToDayList.')}&sprop=name:ToDayList&sprop=website:${encodeURIComponent(window.location.href)}`;
+            window.open(googleCalendarUrl, '_blank');
+
+            const listItemElement = todoListContainer.querySelector(`li[data-task-id="${task.id}"]`);
+            if (listItemElement) {
+                const calButton = listItemElement.querySelector('.google-calendar-button i');
+                if (calButton) {
+                    calButton.style.color = 'var(--accent-color)'; 
+                    const displayDate = `${String(day).padStart(2,'0')}-${String(month).padStart(2,'0')}-${year}`;
+                    calButton.parentElement.title = `Se intentó agendar un recordatorio: ${displayDate} ${timeStr}. Confirma en Google Calendar.`;
+                }
+            }
+            hideReminderModal();
+        }
+
 
         function generateLocalId() {
             return '_' + Math.random().toString(36).substring(2, 15);
@@ -1432,10 +2108,6 @@
 
         function findTaskIndexById(taskId) {
             return todos.findIndex(todo => todo.id === taskId);
-        }
-
-        function getTodayDateString() {
-            return new Date().toISOString().split('T')[0];
         }
 
         function displayMedalCount(count) {
@@ -1452,14 +2124,14 @@
                     id: task.id || generateLocalId(),
                     text: task.text || 'Tarea sin nombre',
                     completed: typeof task.completed === 'boolean' ? task.completed : false,
-                    completedDate: task.completedDate || null,
+                    completedDate: task.completedDate || null, // Se guarda como yyyy-mm-dd
                     subtasks: Array.isArray(task.subtasks) ? task.subtasks.map(sub => ({
                         id: sub.id || generateLocalId(), text: sub.text || 'Sub-tarea sin nombre',
                         completed: typeof sub.completed === 'boolean' ? sub.completed : false
                     })) : [],
                     showSubtaskUI: typeof task.showSubtaskUI === 'boolean' ? task.showSubtaskUI : false,
                     priorityColor: PRIORITY_COLORS.includes(task.priorityColor) ? task.priorityColor : 'none',
-                    date: typeof task.date === 'string' && task.date.match(/^\d{4}-\d{2}-\d{2}$/) ? task.date : null,
+                    date: (typeof task.date === 'string' && task.date.match(/^\d{4}-\d{2}-\d{2}$/)) ? task.date : null, // Se espera yyyy-mm-dd
                     linkUrl: typeof task.linkUrl === 'string' ? task.linkUrl : null,
                     order: typeof task.order === 'number' ? task.order : Date.now()
                 }));
@@ -1483,16 +2155,16 @@
                 medalData = null;
             }
 
-            const today = getTodayDateString();
+            const todayForMedal = getTodayDateString('yyyy-mm-dd');
 
-            if (!medalData || medalData.date !== today) {
+            if (!medalData || medalData.date !== todayForMedal) {
                 let countForToday = 0;
                 if (todos && todos.length > 0) {
                     todos.forEach(task => {
-                        if (task.completed && task.completedDate === today) countForToday++;
+                        if (task.completed && task.completedDate === todayForMedal) countForToday++;
                     });
                 }
-                medalData = { date: today, count: countForToday };
+                medalData = { date: todayForMedal, count: countForToday };
                 localStorage.setItem(MEDALS_STORAGE_KEY, JSON.stringify(medalData));
             }
             return medalData;
@@ -1510,43 +2182,6 @@
             renderTodosUI();
         }
 
-        function updateDateHighlight(listItemElement, task) {
-            const calendarLabel = listItemElement.querySelector('.calendar-button');
-            const calendarIcon = calendarLabel ? calendarLabel.querySelector('i') : null;
-
-            if (!calendarLabel || !calendarIcon) return;
-
-            const todayString = getTodayDateString();
-            const isToday = task.date === todayString;
-            const hasDate = !!task.date;
-
-            calendarLabel.classList.remove('date-set', 'date-today');
-            calendarIcon.style.color = '';
-            calendarIcon.style.fontWeight = 'normal';
-            calendarLabel.title = 'Establecer fecha';
-
-            if (task.completed) {
-                if (hasDate) calendarLabel.title = `Fecha: ${task.date} (Completada)`;
-                else calendarLabel.title = 'Fecha no establecida (Completada)';
-                return;
-            }
-
-            if (hasDate) {
-                calendarLabel.classList.add('date-set');
-                calendarLabel.title = `Fecha: ${task.date}`;
-            } else {
-                 calendarLabel.title = 'Añadir fecha';
-            }
-
-            if (isToday) {
-                calendarLabel.classList.add('date-today');
-                const computedStyle = getComputedStyle(listItemElement);
-                const priorityColorForToday = computedStyle.borderLeftColor;
-                calendarIcon.style.color = priorityColorForToday;
-                calendarLabel.title = `Fecha: ${task.date} (Hoy)`;
-            }
-        }
-
         function calculateSubtaskProgress(subtasks) {
             if (!subtasks || subtasks.length === 0) return 0;
             const completed = subtasks.filter(sub => sub.completed).length;
@@ -1556,6 +2191,9 @@
         function createMainTaskHeader(mainTask) {
             const mainTaskHeader = document.createElement('div');
             mainTaskHeader.classList.add('main-task-header');
+
+            const taskPrefixGroup = document.createElement('div');
+            taskPrefixGroup.classList.add('task-prefix-group');
 
             const mainCheckbox = document.createElement('input');
             mainCheckbox.type = 'checkbox';
@@ -1572,6 +2210,8 @@
             priorityLabel.addEventListener('click', () => {
                  if (!mainTask.completed) cyclePriorityColor(mainTask.id);
             });
+
+            taskPrefixGroup.append(mainCheckbox, priorityLabel);
 
             const taskBody = document.createElement('div');
             taskBody.classList.add('task-body');
@@ -1613,23 +2253,24 @@
                 }
             });
 
-            const calendarLabel = document.createElement('label');
-            calendarLabel.classList.add('app-button', 'calendar-button');
-            calendarLabel.innerHTML = '<i class="fas fa-calendar-alt"></i>';
-            calendarLabel.setAttribute('aria-label', 'Establecer fecha');
+            const googleCalendarButton = document.createElement('button');
+            googleCalendarButton.classList.add('app-button', 'google-calendar-button');
+            googleCalendarButton.innerHTML = '<i class="far fa-calendar-plus"></i>'; // Icono para Google Calendar
+            googleCalendarButton.setAttribute('aria-label', 'Agendar recordatorio en Google Calendar');
+            googleCalendarButton.title = 'Agendar recordatorio en Google Calendar';
+            if (mainTask.completed) {
+                googleCalendarButton.disabled = true;
+                 googleCalendarButton.querySelector('i').style.color = ''; 
+                 googleCalendarButton.title = 'Tarea completada, no se pueden agendar recordatorios.';
+            } else {
+                 googleCalendarButton.disabled = false;
+                 googleCalendarButton.querySelector('i').style.color = ''; 
+            }
 
-            const actualDateInput = document.createElement('input');
-            actualDateInput.type = 'date';
-            actualDateInput.classList.add('task-date-input-real');
-            const dateInputId = `date-input-${mainTask.id || generateLocalId()}`;
-            actualDateInput.id = dateInputId;
-            calendarLabel.htmlFor = dateInputId;
-            actualDateInput.value = mainTask.date || '';
-
-            actualDateInput.addEventListener('change', (event) => {
-                const task = findTaskById(mainTask.id);
-                if (!task) return;
-                updateTaskDate(task.id, event.target.value);
+            googleCalendarButton.addEventListener('click', () => {
+                if (!mainTask.completed) {
+                    showReminderModal(mainTask.id);
+                }
             });
 
             const deleteMainButton = document.createElement('button');
@@ -1645,11 +2286,13 @@
                 deleteTodo(task.id);
             });
 
-            taskActionsGroup.append(linkButton, calendarLabel, actualDateInput, deleteMainButton);
+            taskActionsGroup.append(linkButton, googleCalendarButton, deleteMainButton);
             taskBody.append(mainTaskSpan, taskActionsGroup);
-            mainTaskHeader.append(mainCheckbox, priorityLabel, taskBody);
+            mainTaskHeader.append(taskPrefixGroup, taskBody);
+
             return mainTaskHeader;
         }
+
 
         function createProgressBar(mainTask) {
              const progressContainer = document.createElement('div');
@@ -1777,7 +2420,7 @@
                 listItem.appendChild(createProgressBar(mainTask));
                 if (!mainTask.completed) {
                     listItem.appendChild(createAddSubtasksToggle(mainTask.id));
-                } else { mainTask.showSubtaskUI = false; }
+                } else { mainTask.showSubtaskUI = false; } // Asegurar que no se muestre UI de sub-tarea si está completada
 
                 if (mainTask.subtasks && mainTask.subtasks.length > 0) {
                     listItem.appendChild(createSubtasksList(mainTask));
@@ -1786,7 +2429,6 @@
                      listItem.appendChild(createSubtaskInputContainer(mainTask.id));
                 }
                 todoListContainer.appendChild(listItem);
-                updateDateHighlight(listItem, mainTask);
             });
             if (todoInput) todoInput.value = '';
         }
@@ -1805,20 +2447,8 @@
                          priorityLabelElement.dataset.color = task.priorityColor;
                          priorityLabelElement.title = `Prioridad: ${task.priorityColor.charAt(0).toUpperCase() + task.priorityColor.slice(1)}`;
                      }
-                     updateDateHighlight(listItemElement, task);
                  }
              }
-        }
-
-        function updateTaskDate(taskId, newDateValue) {
-            const task = findTaskById(taskId);
-            if (task && !task.completed) {
-                task.date = newDateValue || null;
-                saveTodosToLocalStorage();
-                syncAndRender();
-            } else if (task && task.completed) {
-                syncAndRender();
-            }
         }
 
         function showAppInterface() {
@@ -1861,12 +2491,12 @@
              if (mainTask && !mainTask.completed) {
                  if (!mainTask.subtasks) mainTask.subtasks = [];
                  mainTask.subtasks.push({ id: generateLocalId(), text: newSubtaskText, completed: false });
-                 mainTask.completed = false;
+                 mainTask.completed = false; 
                  mainTask.completedDate = null;
-                 mainTask.showSubtaskUI = false;
+                 mainTask.showSubtaskUI = false; // Ocultar input después de añadir
                  saveTodosToLocalStorage();
                  syncAndRender();
-                 if (subtaskInput) subtaskInput.value = '';
+                 // No se vuelve a enfocar el input de sub-tarea aquí, el usuario debe volver a hacer clic en '+'
              }
         }
 
@@ -1874,7 +2504,7 @@
             const taskIndex = findTaskIndexById(taskId);
             if (taskIndex > -1) {
                 const taskToDelete = todos[taskIndex];
-                if (taskToDelete.completed && taskToDelete.completedDate === getTodayDateString()) {
+                if (taskToDelete.completed && taskToDelete.completedDate === getTodayDateString('yyyy-mm-dd')) {
                     updateMedalCount(-1);
                 }
                 todos.splice(taskIndex, 1);
@@ -1882,7 +2512,7 @@
                 syncAndRender();
                 if (todos.length === 0 && welcomeSection && appMainInterface && installInstructionsSection) {
                     welcomeSection.classList.remove('hidden');
-                    installInstructionsSection.classList.remove('hidden');
+                    installInstructionsSection.classList.remove('hidden'); // Mostrar ambas si no hay tareas
                     appMainInterface.classList.add('hidden');
                 }
             }
@@ -1894,8 +2524,7 @@
                  const subtaskIndex = mainTask.subtasks.findIndex(sub => sub.id === subtaskId);
                  if (subtaskIndex > -1) {
                      mainTask.subtasks.splice(subtaskIndex, 1);
-                     mainTask.completed = false;
-                     mainTask.completedDate = null;
+                     // No desmarcar la tarea principal aquí, solo actualizar progreso
                      saveTodosToLocalStorage();
                      syncAndRender();
                  }
@@ -1917,14 +2546,14 @@
         function toggleMainCompletion(taskId, isChecked) {
             const task = findTaskById(taskId);
             if (task) {
-                const wasCompletedTodayBefore = task.completed && task.completedDate === getTodayDateString();
+                const todayForMedal = getTodayDateString('yyyy-mm-dd');
+                const wasCompletedTodayBefore = task.completed && task.completedDate === todayForMedal;
 
                 task.completed = isChecked;
-                const today = getTodayDateString();
 
                 if (isChecked) {
-                    task.completedDate = today;
-                    task.priorityColor = 'none';
+                    task.completedDate = todayForMedal;
+                    // task.priorityColor = 'none'; // No cambiar prioridad al completar
                     task.showSubtaskUI = false;
                     if (!wasCompletedTodayBefore) {
                         updateMedalCount(1);
@@ -1936,7 +2565,7 @@
                     }
                     task.completedDate = null;
                 }
-                if (task.subtasks) {
+                if (task.subtasks) { // Marcar/desmarcar todas las sub-tareas también
                     task.subtasks.forEach(sub => sub.completed = isChecked);
                 }
                 saveTodosToLocalStorage();
@@ -1968,13 +2597,14 @@
                  const rankB = PRIORITY_ORDER[b.priorityColor] || PRIORITY_ORDER['none'];
                  if (rankA !== rankB) return rankA - rankB;
 
+                 // Parsear fechas yyyy-mm-dd para comparación
                  const dateA = a.date ? new Date(a.date).getTime() : Infinity;
                  const dateB = b.date ? new Date(b.date).getTime() : Infinity;
                  if (dateA !== dateB) return dateA - dateB;
 
-                 return (a.order || 0) - (b.order || 0);
+                 return (a.order || 0) - (b.order || 0); // Mantener orden original si todo es igual
              });
-             todos.forEach((task, index) => {
+             todos.forEach((task, index) => { // Reasignar 'order' después de ordenar
                  task.order = index;
              });
              saveTodosToLocalStorage();
@@ -2003,12 +2633,12 @@
 
         function toggleDarkMode() {
             body.classList.contains('dark-mode') ? disableDarkMode() : enableDarkMode();
-            syncAndRender();
+            syncAndRender(); // Para actualizar colores de íconos de calendario si es necesario
         }
 
-        function exportAllData() {
+        function exportAllDataLocal() {
             const dataToExport = {
-                theme: localStorage.getItem(THEME_STORAGE_KEY) || 'light',
+                theme: localStorage.getItem(THEME_STORAGE_KEY) || 'dark',
                 dailyMedalData: JSON.parse(localStorage.getItem(MEDALS_STORAGE_KEY) || '{}'),
                 quickNotesContent: localStorage.getItem(QUICK_NOTES_STORAGE_KEY) || '',
                 tasks: todos
@@ -2020,20 +2650,87 @@
             const a = document.createElement('a');
             a.href = url;
             const dateStr = new Date().toISOString().slice(0,10).replace(/-/g,'');
-            a.download = `todolist-backup-${dateStr}.json`;
+            a.download = `todolist-backup-local-${dateStr}.json`;
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
-            alert('Datos exportados exitosamente como ' + a.download);
+            alert('Datos exportados localmente como ' + a.download);
+        }
+        
+        function applyImportedData(importedData, source = "local file") {
+            try {
+                if (typeof importedData !== 'object' || importedData === null || !Array.isArray(importedData.tasks)) {
+                    throw new Error('El formato del archivo es inválido o no contiene tareas.');
+                }
+
+                const themeToApply = importedData.theme === 'light' ? 'light' : 'dark';
+                localStorage.setItem(THEME_STORAGE_KEY, themeToApply);
+                if (themeToApply === 'dark') {
+                    enableDarkMode();
+                } else {
+                    disableDarkMode();
+                }
+
+                if (importedData.dailyMedalData && typeof importedData.dailyMedalData === 'object') {
+                    localStorage.setItem(MEDALS_STORAGE_KEY, JSON.stringify(importedData.dailyMedalData));
+                    displayMedalCount(importedData.dailyMedalData.count || 0);
+                } else {
+                    localStorage.removeItem(MEDALS_STORAGE_KEY);
+                    displayMedalCount(0);
+                }
+
+                if (typeof importedData.quickNotesContent === 'string') {
+                    quickNotesArea.value = importedData.quickNotesContent;
+                    localStorage.setItem(QUICK_NOTES_STORAGE_KEY, importedData.quickNotesContent);
+                } else {
+                    quickNotesArea.value = '';
+                    localStorage.removeItem(QUICK_NOTES_STORAGE_KEY);
+                }
+
+                todos = importedData.tasks.map(task => ({
+                    id: task.id || generateLocalId(),
+                    text: task.text || 'Tarea importada',
+                    completed: !!task.completed,
+                    completedDate: task.completedDate || null, // Se espera yyyy-mm-dd
+                    subtasks: Array.isArray(task.subtasks) ? task.subtasks.map(sub => ({
+                        id: sub.id || generateLocalId(),
+                        text: sub.text || 'Sub-tarea importada',
+                        completed: !!sub.completed
+                    })) : [],
+                    showSubtaskUI: !!task.showSubtaskUI,
+                    priorityColor: PRIORITY_COLORS.includes(task.priorityColor) ? task.priorityColor : 'none',
+                    date: (typeof task.date === 'string' && task.date.match(/^\d{4}-\d{2}-\d{2}$/)) ? task.date : null, // Se espera yyyy-mm-dd
+                    linkUrl: typeof task.linkUrl === 'string' ? task.linkUrl : null,
+                    order: typeof task.order === 'number' ? task.order : Date.now()
+                }));
+
+                saveTodosToLocalStorage();
+
+                if (todos.length === 0) {
+                    if (welcomeSection) welcomeSection.classList.remove('hidden');
+                    if (installInstructionsSection) installInstructionsSection.classList.remove('hidden');
+                    if (appMainInterface) appMainInterface.classList.add('hidden');
+                } else {
+                    showAppInterface();
+                }
+                syncAndRender();
+
+                alert(`Datos importados exitosamente desde ${source}.`);
+
+            } catch (error) {
+                console.error(`Error al procesar datos importados desde ${source}:`, error);
+                alert(`Error al procesar datos importados: ${error.message}`);
+            }
         }
 
-        function importAllData(event) {
+
+        function importAllDataLocal(event) {
             const file = event.target.files[0];
             if (!file) return;
 
             if (!confirm("¡Atención! Importar datos reemplazará todos los datos actuales (tareas, notas, medallas, tema). ¿Deseas continuar?")) {
-                importFileInput.value = '';
+                if (importFileInput) importFileInput.value = '';
                 return;
             }
 
@@ -2041,71 +2738,17 @@
             reader.onload = (e) => {
                 try {
                     const importedData = JSON.parse(e.target.result);
-
-                    if (typeof importedData !== 'object' || importedData === null || !Array.isArray(importedData.tasks)) {
-                        throw new Error('El formato del archivo es inválido o no contiene tareas.');
-                    }
-
-                    const themeToApply = importedData.theme === 'dark' ? 'dark' : 'light';
-                    localStorage.setItem(THEME_STORAGE_KEY, themeToApply);
-                    if (themeToApply === 'dark') enableDarkMode(); else disableDarkMode();
-
-                    if (importedData.dailyMedalData && typeof importedData.dailyMedalData === 'object') {
-                        localStorage.setItem(MEDALS_STORAGE_KEY, JSON.stringify(importedData.dailyMedalData));
-                        displayMedalCount(importedData.dailyMedalData.count || 0);
-                    } else {
-                        localStorage.removeItem(MEDALS_STORAGE_KEY);
-                        displayMedalCount(0);
-                    }
-
-                    if (typeof importedData.quickNotesContent === 'string') {
-                        quickNotesArea.value = importedData.quickNotesContent;
-                        localStorage.setItem(QUICK_NOTES_STORAGE_KEY, importedData.quickNotesContent);
-                    } else {
-                        quickNotesArea.value = '';
-                        localStorage.removeItem(QUICK_NOTES_STORAGE_KEY);
-                    }
-
-                    todos = importedData.tasks.map(task => ({
-                        id: task.id || generateLocalId(),
-                        text: task.text || 'Tarea importada',
-                        completed: !!task.completed,
-                        completedDate: task.completedDate || null,
-                        subtasks: Array.isArray(task.subtasks) ? task.subtasks.map(sub => ({
-                            id: sub.id || generateLocalId(),
-                            text: sub.text || 'Sub-tarea importada',
-                            completed: !!sub.completed
-                        })) : [],
-                        showSubtaskUI: !!task.showSubtaskUI,
-                        priorityColor: PRIORITY_COLORS.includes(task.priorityColor) ? task.priorityColor : 'none',
-                        date: (typeof task.date === 'string' && task.date.match(/^\d{4}-\d{2}-\d{2}$/)) ? task.date : null,
-                        linkUrl: typeof task.linkUrl === 'string' ? task.linkUrl : null,
-                        order: typeof task.order === 'number' ? task.order : Date.now()
-                    }));
-
-                    saveTodosToLocalStorage();
-
-                    if (todos.length === 0) {
-                        if (welcomeSection) welcomeSection.classList.remove('hidden');
-                        if (installInstructionsSection) installInstructionsSection.classList.remove('hidden');
-                        if (appMainInterface) appMainInterface.classList.add('hidden');
-                    } else {
-                        showAppInterface();
-                    }
-                    syncAndRender();
-
-                    alert('Datos importados exitosamente.');
-
+                    applyImportedData(importedData, "archivo local");
                 } catch (error) {
-                    console.error('Error al importar datos:', error);
-                    alert(`Error al importar datos: ${error.message}`);
+                     console.error('Error al parsear JSON del archivo local:', error);
+                     alert(`Error al leer el archivo local: ${error.message}. Asegúrate de que sea un archivo JSON válido de ToDayList.`);
                 } finally {
-                    importFileInput.value = '';
+                    if (importFileInput) importFileInput.value = '';
                 }
             };
             reader.onerror = () => {
-                alert('Error al leer el archivo.');
-                importFileInput.value = '';
+                alert('Error al leer el archivo local.');
+                if (importFileInput) importFileInput.value = '';
             };
             reader.readAsText(file);
         }
@@ -2131,19 +2774,30 @@
             importDataButton = document.getElementById('import-data-button');
             importFileInput = document.getElementById('import-file-input');
 
+            exportDriveButton = document.getElementById('export-drive-button');
+            importDriveButton = document.getElementById('import-drive-button');
+
             welcomeSection = document.getElementById('welcome-section');
             startAppButton = document.getElementById('start-app-button');
             appMainInterface = document.getElementById('app-main-interface');
             installInstructionsSection = document.getElementById('install-instructions-section');
 
+            reminderModal = document.getElementById('reminder-modal');
+            closeReminderModalButton = document.getElementById('close-reminder-modal');
+            reminderTaskTextElement = document.getElementById('reminder-task-text');
+            reminderDateInput = document.getElementById('reminder-date');
+            reminderTimeInput = document.getElementById('reminder-time');
+            scheduleReminderButton = document.getElementById('schedule-reminder-button');
 
-            if (localStorage.getItem(THEME_STORAGE_KEY) === 'dark') {
-                enableDarkMode();
-            } else {
+            const storedTheme = localStorage.getItem(THEME_STORAGE_KEY);
+            if (storedTheme === 'light') { // Si es light, cambiarlo
                 disableDarkMode();
+            } else { // Si es dark o no existe, establecer dark
+                enableDarkMode();
             }
 
             loadTodosFromLocalStorage();
+            // saveTodosToLocalStorage(); // No es necesario aquí si load no modifica y guarda
 
             if (todos.length === 0) {
                 if (welcomeSection) welcomeSection.classList.remove('hidden');
@@ -2151,7 +2805,7 @@
                 if (appMainInterface) appMainInterface.classList.add('hidden');
             } else {
                 if (welcomeSection) welcomeSection.classList.add('hidden');
-                if (installInstructionsSection) installInstructionsSection.classList.add('hidden');
+                if (installInstructionsSection) installInstructionsSection.classList.add('hidden'); // Ocultar también si hay tareas
                 if (appMainInterface) appMainInterface.classList.remove('hidden');
                 renderTodosUI();
             }
@@ -2181,6 +2835,22 @@
                 });
             }
 
+            if (reminderModal && closeReminderModalButton && scheduleReminderButton) {
+                closeReminderModalButton.addEventListener('click', hideReminderModal);
+                scheduleReminderButton.addEventListener('click', handleScheduleReminderClick);
+                reminderModal.addEventListener('click', (event) => {
+                    if (event.target === reminderModal) {
+                        hideReminderModal();
+                    }
+                });
+                document.addEventListener('keydown', (event) => {
+                    if (event.key === 'Escape' && reminderModal.classList.contains('visible')) {
+                        hideReminderModal();
+                    }
+                });
+            }
+
+
             if (quickNotesArea && clearNotesButton) {
                 const savedNotes = localStorage.getItem(QUICK_NOTES_STORAGE_KEY);
                 if (savedNotes) quickNotesArea.value = savedNotes;
@@ -2195,12 +2865,31 @@
             }
 
             if (exportDataButton) {
-                exportDataButton.addEventListener('click', exportAllData);
+                exportDataButton.addEventListener('click', exportAllDataLocal);
             }
             if (importDataButton && importFileInput) {
                 importDataButton.addEventListener('click', () => importFileInput.click());
-                importFileInput.addEventListener('change', importAllData);
+                importFileInput.addEventListener('change', importAllDataLocal);
             }
+
+            if (exportDriveButton) {
+                exportDriveButton.addEventListener('click', exportToGoogleDrive);
+            }
+            if (importDriveButton) {
+                importDriveButton.addEventListener('click', importFromGoogleDrive);
+            }
+            
+            // Llamadas iniciales a los callbacks de Google si los scripts ya cargaron
+            // (esto maneja el caso donde el script del módulo se carga después de los scripts de Google)
+            if (window.isGoogleGisScriptReady && typeof window.googleApiCallbacks.gisLoaded === 'function') {
+                console.log("DOMContentLoaded: GIS script was ready, ensuring initialization.");
+                window.googleApiCallbacks.gisLoaded();
+            }
+            if (window.isGoogleGapiScriptReady && typeof window.googleApiCallbacks.gapiLoaded === 'function') {
+                console.log("DOMContentLoaded: GAPI script was ready, ensuring initialization.");
+                window.googleApiCallbacks.gapiLoaded();
+            }
+            maybeEnableDriveButtons(); // Estado inicial de los botones de Drive
         });
     </script>
 
