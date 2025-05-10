@@ -298,8 +298,7 @@ body.dark-mode #welcome-section ul li::before {
 #install-instructions-section ul li i.fas.fa-ellipsis-v,
 #install-instructions-section ul li i.fas.fa-share-square {
     color: var(--button-hover-color);
-    margin-left: 0.1em;
-    margin-right: 0.1em;
+    margin: 0 2px;
     font-size: 0.9em;
 }
 
@@ -1233,7 +1232,7 @@ footer {
     transform: scale(0.95);
     transition: transform 0.3s ease;
     box-sizing: border-box;
-    text-align: center; /* Centra el contenido de texto */
+    /* text-align: center; /* Eliminado para no centrar todo el contenido */
 }
 .modal-overlay.visible .modal-content {
     transform: scale(1);
@@ -1252,6 +1251,7 @@ footer {
     color: var(--accent-color); /* Usar color de acento para el título del recordatorio */
     font-size: 1.3rem; /* Ajustar tamaño del título del modal de recordatorio */
     margin-bottom: 15px;
+    text-align: center; /* Asegurar que el título esté centrado */
 }
 
 #reminder-modal p#reminder-task-text {
@@ -1271,6 +1271,7 @@ footer {
     display: flex; /* Usar flexbox para alinear label e input */
     align-items: center; /* Alinear verticalmente */
     gap: 10px; /* Espacio entre label e input */
+    justify-content: center; /* CENTRADO: Centrar horizontalmente los elementos dentro del grupo */
 }
 
 .modal-input-group label {
@@ -1378,11 +1379,11 @@ body.dark-mode .modal-input-group input[type="time"]:focus {
 /* Estilo para el botón de cerrar (aplicado a ambos modales) */
 .close-modal {
     position: absolute;
-    top: 10px; /* Ajustar posición si es necesario */
-    right: 12px; /* Ajustar posición si es necesario */
-    font-size: 1.4rem; /* REDUCIDO: Tamaño del icono 'x' */
+    top: 8px; /* Ajustado: Más cerca de la esquina */
+    right: 10px; /* Ajustado: Más cerca de la esquina */
+    font-size: 1.2rem; /* REDUCIDO: Tamaño del icono 'x' */
     color: var(--button-color);
-    padding: 5px 8px; /* REDUCIDO: Padding para el área clickeable */
+    padding: 4px 6px; /* REDUCIDO: Padding para el área clickeable */
     line-height: 1;
     background: none;
     border: none;
@@ -1398,7 +1399,7 @@ body.dark-mode .modal-input-group input[type="time"]:focus {
     background: none !important;
     border: none !important;
     box-shadow: none !important;
-    padding: 5px 8px !important; /* Mantener padding del close-modal */
+    padding: 4px 6px !important; /* Mantener padding del close-modal */
 }
 
 
@@ -1420,7 +1421,7 @@ body.dark-mode .modal-input-group input[type="time"]:focus {
         margin-bottom: 15px;
     }
     #reminder-modal .modal-content h2 {
-         font-size: 1.2rem; /* Ajustar tamaño del título del modal de recordatorio en móvil */
+         font-size: 1.1rem; /* Ajustar tamaño del título del modal de recordatorio en móvil */
     }
     #reminder-modal p#reminder-task-text {
         font-size: 0.85rem; /* Mantener tamaño texto tarea */
@@ -1429,21 +1430,24 @@ body.dark-mode .modal-input-group input[type="time"]:focus {
     .modal-input-group {
         margin-bottom: 10px;
         gap: 8px; /* Reducir espacio entre label e input en móvil */
+        flex-direction: column; /* Apilar label e input en móvil */
+        align-items: flex-start; /* Alinear a la izquierda en móvil */
+        width: 100%; /* Ocupar ancho completo en móvil */
     }
-    .modal-input-group label {
-        font-size: 0.85rem; /* Mantener tamaño etiqueta */
-        margin-bottom: 0;
-    }
+     .modal-input-group label {
+         width: 100%; /* Ocupar ancho completo en móvil */
+         text-align: left; /* Alinear texto de etiqueta a la izquierda */
+     }
     .modal-input-group input[type="date"],
     .modal-input-group input[type="time"] {
         padding: 6px; /* Reducir padding input en móvil */
         font-size: 0.85rem; /* Mantener tamaño input */
-        width: 110px; /* Ajustar ancho input en móvil si es necesario */
+        width: 100%; /* Ocupar ancho completo en móvil */
     }
     #reminder-modal .modal-content button.app-button {
         padding: 8px; /* Reducir padding botón en móvil */
         font-size: 0.9rem; /* Reducir tamaño fuente botón en móvil */
-        max-width: 250px; /* Ajustar ancho máximo botón en móvil */
+        max-width: 100%; /* Ocupar ancho completo en móvil */
     }
     .modal-content ol li {
         font-size: 0.9em;
@@ -1454,9 +1458,9 @@ body.dark-mode .modal-input-group input[type="time"]:focus {
         margin-bottom: 6px;
     }
     .close-modal {
-        font-size: 1.3rem; /* REDUCIDO: Tamaño del icono 'x' en móvil */
-        top: 8px;
-        right: 10px;
-        padding: 3px 6px; /* REDUCIDO: Padding en móvil */
+        font-size: 1.2rem; /* REDUCIDO: Tamaño del icono 'x' en móvil */
+        top: 6px; /* Ajustado: Más cerca de la esquina en móvil */
+        right: 8px; /* Ajustado: Más cerca de la esquina en móvil */
+        padding: 3px 5px; /* REDUCIDO: Padding en móvil */
     }
 }
