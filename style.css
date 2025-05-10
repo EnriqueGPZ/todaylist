@@ -42,11 +42,10 @@
     /* Nuevas variables para el modal de recordatorio */
     --modal-input-background-color: var(--input-bg);
     --modal-input-border-color: var(--border-color);
-    --modal-button-background-color: var(--accent-color);
-    --modal-button-text-color: #fff;
-    --modal-button-hover-background-color: #2980b9; /* Un poco más oscuro que accent-color */
-    --modal-button-disabled-background: #bdc3c7;
-    --modal-button-disabled-text: #7f8c8d;
+    /* Variables para el botón/link "Agendar" dentro del modal de recordatorio */
+    --schedule-link-text-color: var(--accent-color);
+    --schedule-link-hover-text-color: #2980b9; /* Un poco más oscuro que accent-color */
+    --schedule-link-disabled-text-color: #7f8c8d;
 }
 
 body.dark-mode {
@@ -87,11 +86,10 @@ body.dark-mode {
     /* Nuevas variables para el modal de recordatorio (Dark Mode) */
     --modal-input-background-color: var(--input-bg);
     --modal-input-border-color: var(--border-color);
-    --modal-button-background-color: var(--accent-color);
-    --modal-button-text-color: var(--text-color); /* Texto claro en botón oscuro */
-    --modal-button-hover-background-color: #3498db; /* Un poco más oscuro que accent-color en DM */
-    --modal-button-disabled-background: #4a627a;
-    --modal-button-disabled-text: #7f8c8d;
+    /* Variables para el botón/link "Agendar" dentro del modal de recordatorio (Dark Mode) */
+    --schedule-link-text-color: var(--accent-color);
+    --schedule-link-hover-text-color: #3498db; /* Un poco más oscuro que accent-color en DM */
+    --schedule-link-disabled-text-color: #7f8c8d;
 }
 
 body {
@@ -481,7 +479,6 @@ body.dark-mode #welcome-section ul li::before {
 }
 
  .custom-checkbox {
-     /* margin-right: 10px; /* Controlado por el gap del task-prefix-group */
      border: 1px solid var(--text-color);
      border-radius: 50%;
      appearance: none;
@@ -518,33 +515,20 @@ body.dark-mode #welcome-section ul li::before {
 
 .todo-item .main-task-header {
     display: flex;
-    align-items: flex-start; /* Alinear elementos al inicio (arriba) del contenedor principal */
+    align-items: flex-start;
     margin-bottom: 15px;
     padding: 0;
-    gap: 8px; /* Espacio entre task-prefix-group y task-body. Ajusta si es necesario. */
+    gap: 8px;
 }
 
-/* Grupo de checkbox y etiqueta de prioridad */
 .todo-item .main-task-header .task-prefix-group {
     display: flex;
-    align-items: center; /* Centrar verticalmente checkbox y etiqueta de prioridad entre sí */
-    gap: 4px; /* Espacio entre checkbox y etiqueta de color. AJUSTA (e.g., 4px, 5px). */
+    align-items: center;
+    gap: 4px;
     flex-shrink: 0;
-    /* Si el texto es de una sola línea, este grupo podría necesitar un empuje hacia arriba para centrarse con el texto.
-       O, mejor, el texto necesitará un line-height adecuado o padding.
-       Por ahora, lo dejamos sin margin-top aquí. */
 }
 
-/* Eliminamos el margin-top individual de los hijos del task-prefix-group
-   ya que ahora se centran con align-items: center in their parent. */
-/*
-.todo-item .main-task-header .task-prefix-group .custom-checkbox,
-.todo-item .main-task-header .task-prefix-group .priority-color-label {
-    margin-top: 3px;
-}
-*/
-
-.todo-item .priority-color-label { /* Estilo global para la etiqueta, usado también en la leyenda */
+.todo-item .priority-color-label {
      display: inline-block;
      width: 16px;
      height: 16px;
@@ -567,7 +551,7 @@ body.dark-mode #welcome-section ul li::before {
 .todo-item .main-task-header .task-body {
     display: flex;
     flex-grow: 1;
-    align-items: flex-start; /* Para que el texto de varias líneas y el grupo de acciones se alineen arriba */
+    align-items: flex-start;
     gap: 8px;
     min-width: 0;
     flex-wrap: wrap;
@@ -581,22 +565,16 @@ body.dark-mode #welcome-section ul li::before {
     transition: color 0.3s ease, text-decoration 0.3s ease;
     min-width: 0;
     word-break: break-word;
-    line-height: 1.45; /* AJUSTA este valor. Un valor ligeramente mayor que 1 (ej. 1.4 o 1.5)
-                          ayudará a centrar el texto de una sola línea con los iconos de 20px de alto.
-                          Si es muy grande, el espacio entre líneas múltiples aumentará. */
-    padding-top: 1px;  /* AJUSTA (0px, 1px, 2px). Un pequeño empujón hacia abajo del texto
-                          para alinearlo mejor con el centro visual de los iconos del prefix-group. */
+    line-height: 1.45;
+    padding-top: 1px;
 }
 
 .todo-item .main-task-header .task-body .task-actions-group {
     display: flex;
-    align-items: center; /* Centra los botones dentro de su propio grupo */
+    align-items: center;
     gap: 2px;
     margin-left: auto;
     flex-shrink: 0;
-    /* El line-height y padding-top del span deberían ayudar a alinear esto.
-       Si aún se ve muy alto, considera un pequeño margin-top aquí. */
-    /* margin-top: 1px; /* AJUSTA si es necesario */
 }
 
 .todo-item .main-task-header .task-body .task-actions-group .link-button,
@@ -706,7 +684,7 @@ body.dark-mode #welcome-section ul li::before {
      text-decoration: none;
      transition: color 0.3s ease, text-decoration 0.3s ease;
      word-break: break-word;
-     font-size: 0.85em; /* Este es el tamaño de fuente de las subtareas */
+     font-size: 0.85em;
      font-weight: 300;
 }
  .todo-item .subtasks-list li .subtask-move-button {
@@ -1102,11 +1080,7 @@ footer {
         row-gap: 8px;
     }
 
-    .todo-item .main-task-header .task-body .task-actions-group {
-        /* width: 100%; */
-        /* justify-content: flex-end; */
-        /* margin-left: 0; */
-    }
+    .todo-item .main-task-header .task-body .task-actions-group {}
 
     .todo-item .main-task-header .task-body .link-button { order: 1; }
     .todo-item .main-task-header .task-body .google-calendar-button { order: 2; }
@@ -1210,7 +1184,7 @@ footer {
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s ease, visibility 0s linear 0.3s;
-    padding-top: 60px; /* Espacio superior para evitar que se pegue al top */
+    padding-top: 60px;
     box-sizing: border-box;
 }
 .modal-overlay.visible {
@@ -1225,14 +1199,13 @@ footer {
     border-radius: 10px;
     box-shadow: 0 5px 20px rgba(0,0,0,0.3);
     width: 90%;
-    max-width: 380px; /* REDUCIDO: Ancho máximo para hacerlo más estrecho */
+    max-width: 380px;
     max-height: 85vh;
     overflow-y: auto;
-    position: relative;
+    position: relative; /* MUY IMPORTANTE para el posicionamiento del botón de cerrar */
     transform: scale(0.95);
     transition: transform 0.3s ease;
     box-sizing: border-box;
-    /* text-align: center; /* Eliminado para no centrar todo el contenido */
 }
 .modal-overlay.visible .modal-content {
     transform: scale(1);
@@ -1248,54 +1221,54 @@ footer {
 
 /* Estilos específicos para el modal de recordatorio */
 #reminder-modal .modal-content h2 {
-    color: var(--accent-color); /* Usar color de acento para el título del recordatorio */
-    font-size: 1.3rem; /* Ajustar tamaño del título del modal de recordatorio */
+    color: var(--accent-color);
+    font-size: 1.3rem;
     margin-bottom: 15px;
-    text-align: center; /* Asegurar que el título esté centrado */
+    text-align: center;
 }
 
 #reminder-modal p#reminder-task-text {
     text-align: center;
     font-style: italic;
-    margin: 0 auto 20px auto; /* Centrar el párrafo y añadir margen */
-    word-break: break-word; /* Romper palabras largas */
+    margin: 0 auto 20px auto;
+    word-break: break-word;
     color: var(--text-color);
-    font-size: 0.85rem; /* REDUCIDO: Tamaño de fuente como subtareas */
+    font-size: 0.85rem;
     font-weight: normal;
-    max-width: 90%; /* Limitar ancho para que no se pegue a los bordes */
+    max-width: 90%;
 }
 
 .modal-input-group {
-    margin: 15px auto; /* Centrar el grupo de inputs */
-    width: fit-content; /* Hacer que el contenedor se ajuste al contenido */
-    display: flex; /* Usar flexbox para alinear label e input */
-    align-items: center; /* Alinear verticalmente */
-    gap: 10px; /* Espacio entre label e input */
-    justify-content: center; /* CENTRADO: Centrar horizontalmente los elementos dentro del grupo */
+    margin: 15px auto;
+    width: fit-content;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: center;
 }
 
 .modal-input-group label {
-    display: block; /* Sigue siendo block para mantener el comportamiento de etiqueta */
-    margin-bottom: 0; /* Eliminar margen inferior */
+    display: block;
+    margin-bottom: 0;
     font-weight: bold;
     color: var(--text-color);
-    font-size: 0.85rem; /* REDUCIDO: Tamaño de fuente como subtareas */
-    flex-shrink: 0; /* Evitar que se encoja */
+    font-size: 0.85rem;
+    flex-shrink: 0;
 }
 
 .modal-input-group input[type="date"],
 .modal-input-group input[type="time"] {
-    width: 130px; /* FIJO: Ancho para que midan lo mismo */
-    padding: 8px; /* REDUCIDO: Padding */
-    border: 1px solid var(--modal-input-border-color); /* Usar color de borde del tema */
+    width: 130px;
+    padding: 8px;
+    border: 1px solid var(--modal-input-border-color);
     border-radius: 4px;
-    background-color: var(--modal-input-background-color); /* Usar color de fondo de input del tema */
-    color: var(--input-text-color); /* Usar color de texto del tema */
-    font-size: 0.85rem; /* REDUCIDO: Tamaño de fuente como subtareas */
+    background-color: var(--modal-input-background-color);
+    color: var(--input-text-color);
+    font-size: 0.85rem;
     box-sizing: border-box;
     outline: none;
     transition: border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease;
-    font-family: 'Lexend', sans-serif; /* Usar la misma fuente que el resto de inputs */
+    font-family: 'Lexend', sans-serif;
 }
 
 .modal-input-group input[type="date"]:focus,
@@ -1308,52 +1281,46 @@ body.dark-mode .modal-input-group input[type="time"]:focus {
      box-shadow: 0 0 0 0.2rem rgba(243, 156, 18, 0.2);
 }
 
-
-/* Estilos para el input de fecha/hora en modo oscuro (puede variar según navegador) */
-/* Intentamos invertir colores, pero la apariencia nativa es difícil de controlar */
-/* body.dark-mode .modal-input-group input[type="date"], */
-/* body.dark-mode .modal-input-group input[type="time"] { */
-     /* filter: invert(1) hue-rotate(180deg); */
-/* } */
-
-
-#reminder-modal .modal-content button.app-button {
-    display: block; /* Botón en su propia línea */
-    width: 100%; /* Ancho completo */
-    max-width: 300px; /* LIMITADO: Ancho máximo para centrar */
-    margin: 20px auto 0 auto; /* Centrar el botón y añadir margen superior */
-    padding: 10px; /* REDUCIDO: Padding del botón */
-    background-color: var(--modal-button-background-color); /* Usar color de acento */
-    color: var(--modal-button-text-color); /* Color de texto del botón */
-    border: none;
-    border-radius: 4px;
+/* --- MODIFICACIÓN: Estilos para el botón "Agendar en Google Calendar" como un enlace --- */
+/* Asume que se ha quitado la clase 'app-button' del HTML de este botón específico,
+   o que estos estilos tienen suficiente especificidad para anular los de .app-button si se mantiene.
+   Lo ideal es quitar la clase 'app-button' del HTML para #schedule-reminder-button. */
+#schedule-reminder-button {
+    display: block;
+    width: 100%;
+    max-width: 300px; /* O el ancho que prefieras */
+    margin: 25px auto 5px auto; /* Aumentado margen superior, reducido inferior */
+    padding: 10px;
+    background: none !important; /* Sin fondo */
+    border: none !important; /* Sin borde */
+    color: var(--schedule-link-text-color) !important; /* Color de texto tipo enlace */
+    text-decoration: underline !important; /* Subrayado */
     cursor: pointer;
-    font-size: 1rem; /* REDUCIDO: Tamaño de fuente del botón */
-    transition: background-color 0.2s ease;
+    font-size: 1rem;
     font-weight: bold;
+    text-align: center;
+    transition: color 0.2s ease;
+    box-shadow: none !important; /* Sin sombra */
 }
 
-#reminder-modal .modal-content button.app-button:hover {
-    background-color: var(--modal-button-hover-background-color); /* Color de acento más oscuro al pasar el ratón */
+#schedule-reminder-button:hover {
+    color: var(--schedule-link-hover-text-color) !important;
+    background: none !important; /* Asegurar que no haya fondo en hover */
 }
 
-#reminder-modal .modal-content button.app-button:disabled {
-    background-color: var(--modal-button-disabled-background);
-    color: var(--modal-button-disabled-text);
+#schedule-reminder-button:disabled {
+    color: var(--schedule-link-disabled-text-color) !important;
+    text-decoration: none !important;
     cursor: not-allowed;
-    opacity: 1; /* No reducir opacidad, solo cambiar color */
+    opacity: 0.7 !important; /* Sobrescribir opacidad si se usa .app-button */
 }
-#reminder-modal .modal-content button.app-button:disabled:hover {
-    background-color: var(--modal-button-disabled-background); /* Mantener color deshabilitado al pasar el ratón */
-    color: var(--modal-button-disabled-text);
-}
-
+/* --- FIN MODIFICACIÓN --- */
 
 /* Estilos para el modal de información (ya existían, solo se asegura compatibilidad) */
 .modal-content ol {
     padding-left: 20px;
     margin-bottom: 0;
-    text-align: left; /* Asegurar que las listas no se centren */
+    text-align: left;
 }
 .modal-content ol li {
     margin-bottom: 12px;
@@ -1376,80 +1343,83 @@ body.dark-mode .modal-input-group input[type="time"]:focus {
     margin: 0 2px;
     font-size: 0.9em;
 }
-/* Estilo para el botón de cerrar (aplicado a ambos modales) */
-.close-modal {
-    position: absolute;
-    top: 10px; /* Ajustado para que esté más arriba */
-    right: 10px; /* Ajustado para que esté más a la derecha */
-    font-size: 1.4rem; /* REDUCIDO: Tamaño del icono 'x' */
+
+/* --- MODIFICACIÓN/REFUERZO: Estilo para el botón de cerrar (aplicado a ambos modales) --- */
+/* Se aumenta la especificidad para intentar ganar a posibles conflictos */
+div.modal-overlay div.modal-content > button.close-modal {
+    position: absolute !important; /* Forzar posición absoluta */
+    top: 10px !important;          /* Forzar distancia desde arriba */
+    right: 10px !important;         /* Forzar distancia desde la derecha */
+    left: auto !important;          /* Asegurar que 'left' no interfiera */
+    bottom: auto !important;        /* Asegurar que 'bottom' no interfiera */
+    transform: none !important;     /* Asegurar que no haya transformaciones que lo muevan */
+    margin: 0 !important;           /* Asegurar que no haya márgenes que lo muevan */
+    font-size: 1.4rem;
     color: var(--button-color);
-    padding: 2px 5px; /* REDUCIDO: Padding para el área clickeable, más pequeño */
+    padding: 2px 5px !important; /* Mantener padding, !important si es necesario */
     line-height: 1;
-    background: none;
-    border: none;
-    cursor: pointer;
-    transition: color 0.2s ease;
-    z-index: 10; /* Asegurar que esté por encima de otro contenido del modal */
-}
-.close-modal:hover {
-    color: var(--button-hover-color);
-}
-/* Asegurarse de que el botón de cerrar no tenga estilos de botón normales */
-.close-modal.app-button {
-    /* Sobrescribir estilos de .app-button si es necesario */
     background: none !important;
     border: none !important;
+    cursor: pointer;
+    transition: color 0.2s ease;
+    z-index: 10 !important;         /* Asegurar que esté por encima */
     box-shadow: none !important;
-    padding: 2px 5px !important; /* Mantener padding del close-modal */
 }
+div.modal-overlay div.modal-content > button.close-modal:hover {
+    color: var(--button-hover-color) !important;
+    background: none !important; /* Asegurar que no haya fondo en hover */
+}
+/* --- FIN MODIFICACIÓN/REFUERZO --- */
 
 
 @media (max-width: 500px) {
-    /* ... (media queries existentes) ... */
+    /* ... (media queries existentes para otros elementos) ... */
 
-    /* Ajustes para modales en pantallas pequeñas */
     .modal-overlay {
-        padding-top: 20px; /* Reducir padding top en móviles */
+        padding-top: 20px;
     }
     .modal-content {
-        padding: 20px 25px; /* Reducir padding */
-        max-height: 90vh; /* Permitir que ocupe más alto si es necesario */
-        max-width: 95%; /* Asegurarse de que no sea demasiado ancho en móviles */
-        width: 95%; /* Usar width en lugar de max-width para asegurar el tamaño */
+        padding: 20px 25px;
+        max-height: 90vh;
+        max-width: 95%;
+        width: 95%;
     }
     .modal-content h2 {
-        font-size: 1.5rem; /* Reducir tamaño título */
+        font-size: 1.5rem;
         margin-bottom: 15px;
     }
     #reminder-modal .modal-content h2 {
-         font-size: 1.1rem; /* Ajustar tamaño del título del modal de recordatorio en móvil */
+         font-size: 1.1rem;
     }
     #reminder-modal p#reminder-task-text {
-        font-size: 0.85rem; /* Mantener tamaño texto tarea */
+        font-size: 0.85rem;
         margin-bottom: 15px;
     }
     .modal-input-group {
         margin-bottom: 10px;
-        gap: 8px; /* Reducir espacio entre label e input en móvil */
-        flex-direction: column; /* Apilar label e input en móvil */
-        align-items: flex-start; /* Alinear a la izquierda en móvil */
-        width: 100%; /* Ocupar ancho completo en móvil */
+        gap: 8px;
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
     }
      .modal-input-group label {
-         width: 100%; /* Ocupar ancho completo en móvil */
-         text-align: left; /* Alinear texto de etiqueta a la izquierda */
+         width: 100%;
+         text-align: left;
      }
     .modal-input-group input[type="date"],
     .modal-input-group input[type="time"] {
-        padding: 6px; /* Reducir padding input en móvil */
-        font-size: 0.85rem; /* Mantener tamaño input */
-        width: 100%; /* Ocupar ancho completo en móvil */
+        padding: 6px;
+        font-size: 0.85rem;
+        width: 100%;
     }
-    #reminder-modal .modal-content button.app-button {
-        padding: 8px; /* Reducir padding botón en móvil */
-        font-size: 0.9rem; /* Reducir tamaño fuente botón en móvil */
-        max-width: 100%; /* Ocupar ancho completo en móvil */
+    /* --- MODIFICACIÓN: Estilos para el botón "Agendar" en móvil --- */
+    #schedule-reminder-button {
+        padding: 8px;
+        font-size: 0.9rem;
+        max-width: 100%;
     }
+    /* --- FIN MODIFICACIÓN --- */
+
     .modal-content ol li {
         font-size: 0.9em;
         margin-bottom: 10px;
@@ -1458,10 +1428,12 @@ body.dark-mode .modal-input-group input[type="time"]:focus {
         font-size: 0.9em;
         margin-bottom: 6px;
     }
-    .close-modal {
-        font-size: 1.2rem; /* REDUCIDO: Tamaño del icono 'x' en móvil */
-        top: 6px; /* Ajustado: Más cerca de la esquina en móvil */
-        right: 8px; /* Ajustado: Más cerca de la esquina en móvil */
-        padding: 2px 4px; /* REDUCIDO: Padding en móvil */
+    /* --- MODIFICACIÓN/REFUERZO: Botón de cerrar en móvil --- */
+    div.modal-overlay div.modal-content > button.close-modal {
+        font-size: 1.2rem !important;
+        top: 6px !important;
+        right: 8px !important;
+        padding: 2px 4px !important;
     }
+    /* --- FIN MODIFICACIÓN/REFUERZO --- */
 }
