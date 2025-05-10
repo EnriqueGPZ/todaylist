@@ -21,16 +21,18 @@ let exportDriveButton;
 let importDriveButton;
 // -------------------------------------------------------------------------------------
 // IMPORTANTE: REEMPLAZA ESTOS VALORES CON TUS CREDENCIALES DE GOOGLE CLOUD CONSOLE
+// (SOLO SI USAS GOOGLE DRIVE - SI NO, PUEDES QUITAR ESTA SECCIÓN)
 // -------------------------------------------------------------------------------------
-const CLIENT_ID = '25607067695-mgv7jfvio4vr1goi5ci6o952mgpii8nf.apps.googleusercontent.com'; // <<<< VERIFICA/REEMPLAZA CON TU CLIENT_ID REAL
-const API_KEY = 'AIzaSyAhr2kqUcRf5qZi0yMHsFDsyp_x8Ekfj7k';         // <<<< ESTA ES TU API_KEY (YA INSERTADA)
+const CLIENT_ID = '25607067695-mgv7jfvio4vr1goi5ci6o952mgpii8nf.apps.googleusercontent.com'; // Para Google Drive
+const API_KEY = 'AIzaSyAhr2kqUcRf5qZi0yMHsFDsyp_x8Ekfj7k';         // Para Google Picker (Drive)
 // -------------------------------------------------------------------------------------
-// ***** MODIFICACIÓN 1: Añadir scope de Google Calendar *****
-const SCOPES = 'https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/calendar.events';
-let tokenClient;
-let gapiInited = false;
-let gisInited = false;
-let gapiCalendarInited = false; // Para rastrear si la API de Calendar está cargada
+// ***** MODIFICACIÓN 1: SCOPES solo para Drive (si se usa) *****
+const SCOPES = 'https://www.googleapis.com/auth/drive.file'; // Solo Drive
+let tokenClient; // Para Drive
+let gapiInited = false; // Para gapi client (Drive Picker)
+let gisInited = false;  // Para Google Identity Services (Drive Auth)
+// let gapiCalendarInited = false; // YA NO ES NECESARIO
+
 // Fin Google Drive Integration Variables
 
 let welcomeSection;
@@ -47,11 +49,11 @@ const THEME_STORAGE_KEY = 'todoListTheme';
 const PRIORITY_COLORS = ['none', 'red', 'orange', 'yellow', 'green'];
 const PRIORITY_ORDER = { 'red': 1, 'orange': 2, 'yellow': 3, 'green': 4, 'none': 5 };
 
-// --- Funciones de Google API ---
+// --- Funciones de Google API (SOLO PARA DRIVE) ---
 window.gisLoaded = () => {
     if (typeof google === 'undefined' || !google.accounts || !google.accounts.oauth2) {
-        console.error("Objeto 'google.accounts.oauth2' no encontrado. GIS no cargó correctamente.");
-        alert("Error al cargar los servicios de identidad de Google. Intenta recargar la página.");
+        console.error("Objeto 'google.accounts.oauth2' no encontrado. GIS no cargó correctamente (para Drive).");
+        // No alertar si solo se usa para Drive y no es crítico al inicio
         return;
     }
     try {
@@ -61,37 +63,27 @@ window.gisLoaded = () => {
             callback: '',
         });
         gisInited = true;
-        console.log("Google Identity Services (GIS) loaded.");
+        console.log("Google Identity Services (GIS) loaded (for Drive).");
         maybeEnableDriveButtons();
-        // También podríamos habilitar los botones de calendario aquí si fuera necesario,
-        // pero la acción de calendario es por tarea, no global.
     } catch (e) {
-        console.error("Error inicializando Google Identity Services (GIS):", e);
-        alert("Error crítico al inicializar la autenticación de Google. Revisa la consola.");
+        console.error("Error inicializando Google Identity Services (GIS for Drive):", e);
     }
 };
 
 window.gapiLoaded = () => {
     if (typeof gapi === 'undefined' || !gapi.load) {
-        console.error("Objeto 'gapi' no encontrado. Google API Client no cargó correctamente.");
-        alert("Error al cargar el cliente de API de Google. Intenta recargar la página.");
+        console.error("Objeto 'gapi' no encontrado. Google API Client no cargó correctamente (para Drive).");
         return;
     }
     try {
-        gapi.load('client:picker', () => {
+        gapi.load('client:picker', () => { // Solo necesitamos picker para Drive
             gapiInited = true;
-            console.log("Google API Client (gapi) and Picker loaded.");
-            // ***** MODIFICACIÓN 2: Cargar la API de Google Calendar *****
-            gapi.client.load('calendar', 'v3', () => {
-                gapiCalendarInited = true;
-                console.log("Google Calendar API client loaded.");
-                // Podríamos habilitar funcionalidades específicas de calendario aquí si es necesario
-            });
+            console.log("Google API Client (gapi) and Picker loaded (for Drive).");
+            // YA NO SE CARGA LA API DE CALENDAR AQUÍ
             maybeEnableDriveButtons();
         });
     } catch (e) {
-        console.error("Error cargando gapi client:picker o calendar:", e);
-        alert("Error crítico al cargar componentes de Google API. Revisa la consola.");
+        console.error("Error cargando gapi client:picker (for Drive):", e);
     }
 };
 
@@ -101,64 +93,66 @@ function maybeEnableDriveButtons() {
         if (importDriveButton) importDriveButton.disabled = false;
         console.log("Google Drive buttons enabled.");
     } else {
-        console.log("Google APIs not fully loaded yet. gapiInited:", gapiInited, "gisInited:", gisInited);
+        console.log("Google APIs (for Drive) not fully loaded yet. gapiInited:", gapiInited, "gisInited:", gisInited);
         if (exportDriveButton) exportDriveButton.disabled = true;
         if (importDriveButton) importDriveButton.disabled = true;
     }
 }
 
-function handleAuthClick(callbackFn, ...args) { // Modificado para pasar argumentos
-    if (!tokenClient) {
-        alert("El cliente de autenticación de Google no está listo. Intenta recargar la página.");
-        console.error("tokenClient no está inicializado en handleAuthClick.");
+// handleAuthClick, ensureDriveClientLoaded, exportToGoogleDrive, loadPicker, importFromGoogleDrive, pickerCallback
+// SE MANTIENEN SI LA FUNCIONALIDAD DE GOOGLE DRIVE ES NECESARIA.
+// Si no necesitas Google Drive, puedes eliminar todas estas funciones relacionadas.
+// Por ahora, las dejaré.
+
+function handleAuthClick(callbackFn, ...args) { // Para Drive
+    if (!gisInited || !tokenClient) {
+        alert("Los servicios de autenticación de Google (para Drive) no están listos. Intenta recargar la página.");
+        console.error("tokenClient o GIS no están inicializados en handleAuthClick (for Drive).");
         return;
     }
     tokenClient.callback = async (resp) => {
         if (resp.error !== undefined) {
-            console.error("Error de autenticación de Google:", resp);
+            console.error("Error de autenticación de Google (for Drive):", resp);
             if (resp.error !== 'popup_closed_by_user' && resp.error !== 'access_denied') {
-                alert("Error de autenticación con Google: " + (resp.error_description || resp.error || "Desconocido"));
+                alert("Error de autenticación con Google (para Drive): " + (resp.error_description || resp.error || "Desconocido"));
             }
             return;
         }
-        console.log("Autenticación con Google exitosa o token refrescado.");
+        console.log("Autenticación con Google (para Drive) exitosa o token refrescado.");
 
         if (gapi && gapi.client) {
             gapi.client.setToken(resp);
         } else {
-            console.error("gapi.client no está disponible para setToken.");
-            alert("Error: El cliente API de Google no está listo.");
+            console.error("gapi.client no está disponible para setToken (for Drive).");
+            alert("Error: El cliente API de Google (para Drive) no está listo.");
             return;
         }
 
         if (callbackFn) {
             try {
-                await callbackFn(...args); // Pasar argumentos al callback
+                await callbackFn(...args);
             } catch (callbackError) {
-                console.error("Error en la función callback después de la autenticación:", callbackError);
-                alert("Ocurrió un error al procesar tu solicitud después de la autenticación.");
+                console.error("Error en la función callback después de la autenticación (for Drive):", callbackError);
+                alert("Ocurrió un error al procesar tu solicitud después de la autenticación (para Drive).");
             }
         }
     };
 
     if (gapi && gapi.client && gapi.client.getToken && gapi.client.getToken() !== null) {
-        console.log("Token existente encontrado, solicitando acceso (puede ser silencioso).");
         tokenClient.requestAccessToken({prompt: ''});
     } else {
-        console.log("No hay token o gapi.client no está listo, solicitando con consentimiento.");
         tokenClient.requestAccessToken({prompt: 'consent'});
     }
 }
 
-async function ensureDriveClientLoaded() {
+async function ensureDriveClientLoaded() { // Para Drive
     if (gapi && gapi.client && gapi.client.drive) {
         return Promise.resolve();
     }
     console.log("Cliente de Google Drive API no cargado, cargando ahora...");
     return new Promise((resolve, reject) => {
         if (!gapi || !gapi.client || !gapi.client.load) {
-            console.error("gapi.client.load no está disponible para cargar 'drive'.");
-            return reject(new Error("gapi.client.load no está disponible."));
+            return reject(new Error("gapi.client.load no está disponible (for Drive)."));
         }
         try {
             gapi.client.load('drive', 'v3', () => {
@@ -166,56 +160,20 @@ async function ensureDriveClientLoaded() {
                 resolve();
             });
         } catch (e) {
-            console.error("Error síncrono al llamar a gapi.client.load('drive', 'v3'):", e);
             reject(e);
         }
     });
 }
 
-// ***** MODIFICACIÓN 3: Función para asegurar que el cliente de Calendar esté cargado *****
-async function ensureCalendarClientLoaded() {
-    if (gapi && gapi.client && gapi.client.calendar && gapiCalendarInited) {
-        return Promise.resolve();
-    }
-    console.log("Cliente de Google Calendar API no cargado o no inicializado, intentando cargar/esperar...");
-    return new Promise((resolve, reject) => {
-        if (!gapi || !gapi.client || !gapi.client.load) {
-            console.error("gapi.client.load no está disponible para cargar 'calendar'.");
-            return reject(new Error("gapi.client.load no está disponible."));
-        }
-        if (!gapiCalendarInited) { // Si gapi.client.load ya fue llamado pero no ha terminado
-            const checkInterval = setInterval(() => {
-                if (gapiCalendarInited) {
-                    clearInterval(checkInterval);
-                    console.log("Google Calendar API client ahora está cargado.");
-                    resolve();
-                }
-            }, 100);
-        } else { // Si gapi.client.load no ha sido llamado para calendar aún
-             try {
-                gapi.client.load('calendar', 'v3', () => {
-                    gapiCalendarInited = true;
-                    console.log("Google Calendar API client cargado exitosamente (on-demand).");
-                    resolve();
-                });
-            } catch (e) {
-                console.error("Error síncrono al llamar a gapi.client.load('calendar', 'v3'):", e);
-                reject(e);
-            }
-        }
-    });
-}
-
-
-async function exportToGoogleDrive() {
-    if (!gapi || !gapi.client || !gapi.client.getToken || !gapi.client.getToken()) {
+async function exportToGoogleDrive() { // Para Drive
+    if (!gisInited || !gapiInited || !gapi.client.getToken || !gapi.client.getToken()) {
          alert("Por favor, conéctate con Google Drive primero.");
          handleAuthClick(exportToGoogleDrive);
          return;
     }
     try {
         await ensureDriveClientLoaded();
-
+        // ... (resto del código de exportToGoogleDrive se mantiene igual) ...
         const dataToExport = {
             theme: localStorage.getItem(THEME_STORAGE_KEY) || 'dark',
             dailyMedalData: JSON.parse(localStorage.getItem(MEDALS_STORAGE_KEY) || '{}'),
@@ -244,7 +202,6 @@ async function exportToGoogleDrive() {
             jsonString +
             close_delim;
 
-        console.log("Iniciando subida a Google Drive...");
         const request = gapi.client.request({
             'path': '/upload/drive/v3/files',
             'method': 'POST',
@@ -256,55 +213,44 @@ async function exportToGoogleDrive() {
         });
 
         const response = await request;
-
+        
         if (response && response.result && response.result.id) {
-            console.log('Archivo exportado a Google Drive:', response.result);
             alert('¡Datos exportados a Google Drive con éxito como ' + fileName + '!');
         } else {
-            console.error('Respuesta inesperada al exportar a Google Drive:', response);
-            alert('Error al exportar: Respuesta inesperada del servidor. Revisa la consola.');
+            alert('Error al exportar a Drive: Respuesta inesperada. Revisa la consola.');
         }
 
     } catch (error) {
         console.error('Error exportando a Google Drive:', error);
-        let errorMessage = "Error desconocido. Revisa la consola.";
-        if (error.result && error.result.error && error.result.error.message) {
-            errorMessage = error.result.error.message;
-        } else if (error.message) {
-            errorMessage = error.message;
-        }
-        alert('Error al exportar datos a Google Drive: ' + errorMessage);
+        alert('Error al exportar datos a Google Drive: ' + (error.message || (error.result && error.result.error && error.result.error.message) || "Error desconocido."));
     }
 }
 
-function loadPicker(callbackFn) {
+function loadPicker(callbackFn) { // Para Drive
     if (typeof google !== 'undefined' && google.picker) {
          if (callbackFn) callbackFn();
     } else {
-        console.error("Google Picker API no está cargada. Intentando cargarla de nuevo...");
-        alert("Error: La API de selección de archivos de Google no está lista. Intenta recargar.");
+        console.error("Google Picker API no está cargada (for Drive).");
+        alert("Error: La API de selección de archivos de Google (para Drive) no está lista.");
     }
 }
 
-function importFromGoogleDrive() {
-    if (!gapi || !gapi.client || !gapi.client.getToken || !gapi.client.getToken()) {
+function importFromGoogleDrive() { // Para Drive
+    if (!gisInited || !gapiInited || !gapi.client.getToken || !gapi.client.getToken()) {
         alert("Por favor, conéctate con Google Drive primero.");
         handleAuthClick(importFromGoogleDrive);
         return;
     }
-
     loadPicker(() => {
         try {
             const oauthToken = gapi.client.getToken().access_token;
             if (!oauthToken) {
-                alert("No se pudo obtener el token de acceso. Intenta conectarte de nuevo.");
+                alert("No se pudo obtener el token de acceso (para Drive).");
                 handleAuthClick(importFromGoogleDrive);
                 return;
             }
-
             const view = new google.picker.View(google.picker.ViewId.DOCS);
             view.setMimeTypes("application/json");
-
             const picker = new google.picker.PickerBuilder()
                 .setAppId(null)
                 .setOAuthToken(oauthToken)
@@ -313,55 +259,38 @@ function importFromGoogleDrive() {
                 .setCallback(pickerCallback)
                 .build();
             picker.setVisible(true);
-            console.log("Google Picker abierto.");
         } catch (e) {
-            console.error("Error al construir o mostrar el Google Picker:", e);
+            console.error("Error al construir/mostrar Google Picker (for Drive):", e);
             alert("Error al abrir el selector de archivos de Google Drive: " + e.message);
         }
     });
 }
 
-async function pickerCallback(data) {
-    console.log("Picker callback data:", data);
+async function pickerCallback(data) { // Para Drive
     if (data.action === google.picker.Action.PICKED && data.docs && data.docs.length > 0) {
         const fileId = data.docs[0].id;
         const fileName = data.docs[0].name;
-        console.log(`Archivo seleccionado de Drive: "${fileName}", ID: ${fileId}`);
-
         try {
             await ensureDriveClientLoaded();
-
-            console.log("Descargando archivo de Google Drive...");
             const response = await gapi.client.drive.files.get({
                 fileId: fileId,
                 alt: 'media'
             });
-
             if (typeof response.body !== 'string') {
-                console.error("El contenido del archivo descargado no es un string:", response.body);
-                alert("Error: El formato del archivo descargado es incorrecto.");
+                alert("Error: El formato del archivo descargado de Drive es incorrecto.");
                 return;
             }
-
             const importedData = JSON.parse(response.body);
-            console.log("Datos parseados desde Google Drive:", importedData);
-
             if (!confirm(`¡Atención! Importar "${fileName}" desde Google Drive reemplazará todos los datos actuales. ¿Deseas continuar?`)) {
                 return;
             }
             applyImportedData(importedData, `Google Drive (${fileName})`);
-
         } catch (error) {
             console.error('Error importando desde Google Drive:', error);
-            let errorMessage = "Error desconocido. Revisa la consola.";
-             if (error.result && error.result.error && error.result.error.message) {
-                errorMessage = error.result.error.message;
-            } else if (error.message) {
-                errorMessage = error.message;
-            }
-            alert('Error al importar datos desde Google Drive: ' + errorMessage);
+            alert('Error al importar datos desde Google Drive: ' + (error.message || (error.result && error.result.error && error.result.error.message) || "Error desconocido."));
         }
-    } else if (data.action === google.picker.Action.CANCEL) {
+    } // ... (resto del pickerCallback se mantiene igual) ...
+     else if (data.action === google.picker.Action.CANCEL) {
         console.log("Selección de archivo de Google Drive cancelada por el usuario.");
     } else if (data.action === google.picker.Action.ERROR ) {
          console.error("Error en Google Picker:", data);
@@ -373,112 +302,77 @@ async function pickerCallback(data) {
         console.log("Ningún archivo seleccionado en Google Picker o acción desconocida.");
     }
 }
-// --- Fin Funciones de Google API ---
+// --- Fin Funciones de Google API (SOLO PARA DRIVE) ---
 
-// ***** MODIFICACIÓN 4: Nueva función para agendar en Google Calendar *****
-async function scheduleGoogleCalendarReminder(taskId) {
+
+// ***** MODIFICACIÓN 2: Reescribir scheduleGoogleCalendarReminder para usar enlace directo *****
+function scheduleGoogleCalendarReminder(taskId) {
     const task = findTaskById(taskId);
     if (!task) {
         alert("Tarea no encontrada.");
         return;
     }
 
-    if (!gapi || !gapi.client || !gapi.client.getToken || !gapi.client.getToken()) {
-        alert("Por favor, conéctate con Google primero para usar esta función.");
-        // Pasamos la función actual y sus argumentos al handleAuthClick
-        handleAuthClick(scheduleGoogleCalendarReminder, taskId);
+    const summary = task.text;
+    let dateStr = prompt("Introduce la fecha para el recordatorio (YYYY-MM-DD):", getTodayDateString());
+    if (!dateStr) return; // El usuario canceló
+
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) {
+        alert("Formato de fecha inválido. Usa YYYY-MM-DD.");
         return;
     }
 
-    try {
-        await ensureCalendarClientLoaded(); // Asegurarse de que la API de Calendar esté lista
+    let timeStr = prompt("Introduce la hora para el recordatorio (HH:MM - formato 24h):", "09:00");
+    if (!timeStr) return; // El usuario canceló
 
-        const summary = task.text;
-        let dateStr = prompt("Introduce la fecha para el recordatorio (YYYY-MM-DD):", getTodayDateString());
-        if (!dateStr) return; // El usuario canceló
-
-        // Validación simple de fecha
-        if (!/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) {
-            alert("Formato de fecha inválido. Usa YYYY-MM-DD.");
-            return;
-        }
-
-        let timeStr = prompt("Introduce la hora para el recordatorio (HH:MM - formato 24h):", "09:00");
-        if (!timeStr) return; // El usuario canceló
-
-        // Validación simple de hora
-        if (!/^\d{2}:\d{2}$/.test(timeStr)) {
-            alert("Formato de hora inválido. Usa HH:MM.");
-            return;
-        }
-        
-        const [year, month, day] = dateStr.split('-').map(Number);
-        const [hours, minutes] = timeStr.split(':').map(Number);
-
-        // Validar rangos
-        if (month < 1 || month > 12 || day < 1 || day > 31 || hours < 0 || hours > 23 || minutes < 0 || minutes > 59) {
-            alert("Fecha u hora inválida. Verifica los valores.");
-            return;
-        }
-        
-        const startDateTime = new Date(year, month - 1, day, hours, minutes);
-        if (isNaN(startDateTime.getTime())) {
-            alert("La fecha y hora ingresadas no son válidas.");
-            return;
-        }
-
-        // Evento de 15 minutos de duración por defecto para el recordatorio
-        const endDateTime = new Date(startDateTime.getTime() + 15 * 60000); 
-
-        const event = {
-            'summary': `Recordatorio ToDayList: ${summary}`,
-            'description': `Recordatorio para la tarea: "${summary}" de tu ToDayList.`,
-            'start': {
-                'dateTime': startDateTime.toISOString(),
-                'timeZone': Intl.DateTimeFormat().resolvedOptions().timeZone, // Usa la zona horaria del navegador
-            },
-            'end': {
-                'dateTime': endDateTime.toISOString(),
-                'timeZone': Intl.DateTimeFormat().resolvedOptions().timeZone,
-            },
-            'reminders': { // Añade recordatorios por defecto de Google Calendar
-                'useDefault': true,
-            },
-        };
-
-        console.log("Creando evento en Google Calendar:", event);
-
-        const request = gapi.client.calendar.events.insert({
-            'calendarId': 'primary', // Usa el calendario principal del usuario
-            'resource': event,
-            'sendNotifications': true // Enviar notificaciones al usuario
-        });
-
-        const response = await request;
-        console.log('Evento creado:', response.result);
-        alert(`¡Recordatorio agendado en Google Calendar para "${summary}" el ${dateStr} a las ${timeStr}!`);
-        // Opcional: actualizar UI para indicar que se agendó algo
-        // Por ejemplo, cambiar el color del icono del botón de calendario
-        const listItemElement = todoListContainer.querySelector(`li[data-task-id="${task.id}"]`);
-        if (listItemElement) {
-            const calButton = listItemElement.querySelector('.google-calendar-button i');
-            if (calButton) {
-                calButton.style.color = 'var(--accent-color)'; // O un color específico
-                calButton.parentElement.title = `Recordatorio agendado. Último: ${dateStr} ${timeStr}`;
-            }
-        }
-
-
-    } catch (error) {
-        console.error('Error agendando en Google Calendar:', error);
-        let errorMessage = "Error desconocido. Revisa la consola.";
-        if (error.result && error.result.error && error.result.error.message) {
-            errorMessage = error.result.error.message;
-        } else if (error.message) {
-            errorMessage = error.message;
-        }
-        alert('Error al agendar el recordatorio en Google Calendar: ' + errorMessage);
+    if (!/^\d{2}:\d{2}$/.test(timeStr)) {
+        alert("Formato de hora inválido. Usa HH:MM.");
+        return;
     }
+
+    const [year, month, day] = dateStr.split('-').map(Number);
+    const [hours, minutes] = timeStr.split(':').map(Number);
+
+    if (month < 1 || month > 12 || day < 1 || day > 31 || hours < 0 || hours > 23 || minutes < 0 || minutes > 59) {
+        alert("Fecha u hora inválida. Verifica los valores.");
+        return;
+    }
+
+    const startDate = new Date(year, month - 1, day, hours, minutes);
+    if (isNaN(startDate.getTime())) {
+        alert("La fecha y hora ingresadas no son válidas.");
+        return;
+    }
+    // Evento de 1 hora de duración por defecto para el recordatorio
+    const endDate = new Date(startDate.getTime() + 60 * 60000);
+
+    // Formato YYYYMMDDTHHMMSSZ (Z indica UTC)
+    const formatDateForGoogle = (dateObj) => {
+        return dateObj.getUTCFullYear() +
+               ('0' + (dateObj.getUTCMonth() + 1)).slice(-2) +
+               ('0' + dateObj.getUTCDate()).slice(-2) +
+               'T' +
+               ('0' + dateObj.getUTCHours()).slice(-2) +
+               ('0' + dateObj.getUTCMinutes()).slice(-2) +
+               ('0' + dateObj.getUTCSeconds()).slice(-2) +
+               'Z';
+    };
+
+    const googleCalendarUrl = `https://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent('Recordatorio ToDayList: ' + summary)}&dates=${formatDateForGoogle(startDate)}/${formatDateForGoogle(endDate)}&details=${encodeURIComponent('Recordatorio para la tarea: "' + summary + '" de tu ToDayList.')}&sprop=name:ToDayList&sprop=website:${encodeURIComponent(window.location.href)}`;
+
+    // Abre la URL en una nueva pestaña
+    window.open(googleCalendarUrl, '_blank');
+
+    // Opcional: Actualizar UI para indicar que se intentó agendar
+    const listItemElement = todoListContainer.querySelector(`li[data-task-id="${task.id}"]`);
+    if (listItemElement) {
+        const calButton = listItemElement.querySelector('.google-calendar-button i');
+        if (calButton) {
+            calButton.style.color = 'var(--accent-color)'; // Usa la variable CSS definida
+            calButton.parentElement.title = `Se intentó agendar un recordatorio. Última fecha/hora: ${dateStr} ${timeStr}. Confirma en Google Calendar.`;
+        }
+    }
+    // No hay confirmación programática de que el usuario lo guardó.
 }
 
 
@@ -519,7 +413,6 @@ function loadTodosFromLocalStorage() {
             })) : [],
             showSubtaskUI: typeof task.showSubtaskUI === 'boolean' ? task.showSubtaskUI : false,
             priorityColor: PRIORITY_COLORS.includes(task.priorityColor) ? task.priorityColor : 'none',
-            // El campo 'date' se mantiene por si se usa para ordenar, pero ya no se gestiona con el input de fecha
             date: typeof task.date === 'string' && task.date.match(/^\d{4}-\d{2}-\d{2}$/) ? task.date : null,
             linkUrl: typeof task.linkUrl === 'string' ? task.linkUrl : null,
             order: typeof task.order === 'number' ? task.order : Date.now()
@@ -571,18 +464,7 @@ function syncAndRender() {
     renderTodosUI();
 }
 
-// ***** MODIFICACIÓN 5: Eliminar updateDateHighlight o adaptarla si se quiere mantener la info visual de `task.date` *****
-// Por ahora, la eliminaremos ya que el input de fecha directo se va.
-// Si se quiere mantener el resaltado basado en `task.date` (que ya no se edita directamente con el botón calendario),
-// esta función necesitaría ser ajustada.
-/*
-function updateDateHighlight(listItemElement, task) {
-    // ... código anterior ...
-    // Este código se basaba en el input de fecha que estamos quitando.
-    // Si se mantiene task.date para otros propósitos (ej. ordenación),
-    // se podría adaptar para mostrar visualmente si hay una fecha, pero no con el input.
-}
-*/
+// updateDateHighlight y updateTaskDate YA NO SON NECESARIAS
 
 
 function calculateSubtaskProgress(subtasks) {
@@ -651,12 +533,10 @@ function createMainTaskHeader(mainTask) {
         }
     });
 
-    // ***** MODIFICACIÓN 6: Reemplazar el botón de calendario *****
+    // ***** MODIFICACIÓN 3: Botón para generar enlace de Google Calendar *****
     const googleCalendarButton = document.createElement('button');
     googleCalendarButton.classList.add('app-button', 'google-calendar-button');
-    // Usaremos un icono de campana o un "calendar-plus" para el nuevo propósito.
-    // Font Awesome: far fa-calendar-plus (contorno), fas fa-calendar-plus (sólido), fas fa-bell
-    googleCalendarButton.innerHTML = '<i class="far fa-calendar-plus"></i>';
+    googleCalendarButton.innerHTML = '<i class="far fa-calendar-plus"></i>'; // O fas fa-calendar-plus
     googleCalendarButton.setAttribute('aria-label', 'Agendar recordatorio en Google Calendar');
     googleCalendarButton.title = 'Agendar recordatorio en Google Calendar';
     if (mainTask.completed) {
@@ -667,7 +547,6 @@ function createMainTaskHeader(mainTask) {
             scheduleGoogleCalendarReminder(mainTask.id);
         }
     });
-    // Se elimina el <label> y el <input type="date"> original.
 
     const deleteMainButton = document.createElement('button');
     deleteMainButton.classList.add('app-button', 'delete-button');
@@ -682,8 +561,7 @@ function createMainTaskHeader(mainTask) {
         deleteTodo(task.id);
     });
 
-    // taskActionsGroup.append(linkButton, calendarLabel, actualDateInput, deleteMainButton); // Línea original
-    taskActionsGroup.append(linkButton, googleCalendarButton, deleteMainButton); // Línea Modificada
+    taskActionsGroup.append(linkButton, googleCalendarButton, deleteMainButton);
 
     taskBody.append(mainTaskSpan, taskActionsGroup);
     mainTaskHeader.append(mainCheckbox, priorityLabel, taskBody);
@@ -825,7 +703,7 @@ function renderTodosUI() {
              listItem.appendChild(createSubtaskInputContainer(mainTask.id));
         }
         todoListContainer.appendChild(listItem);
-        // updateDateHighlight(listItem, mainTask); // Ya no es necesario en su forma original
+        // updateDateHighlight ya no se llama aquí
     });
     if (todoInput) todoInput.value = '';
 }
@@ -844,26 +722,12 @@ function cyclePriorityColor(taskId) {
                  priorityLabelElement.dataset.color = task.priorityColor;
                  priorityLabelElement.title = `Prioridad: ${task.priorityColor.charAt(0).toUpperCase() + task.priorityColor.slice(1)}`;
              }
-             // updateDateHighlight(listItemElement, task); // Ya no es necesario en su forma original
+             // updateDateHighlight ya no se llama aquí
          }
      }
 }
 
-// ***** MODIFICACIÓN 7: Eliminar updateTaskDate *****
-// Esta función ya no es necesaria porque el input de fecha se eliminó.
-/*
-function updateTaskDate(taskId, newDateValue) {
-    const task = findTaskById(taskId);
-    if (task && !task.completed) {
-        task.date = newDateValue || null;
-        saveTodosToLocalStorage();
-        syncAndRender();
-    } else if (task && task.completed) {
-        syncAndRender(); // Para re-renderizar y posiblemente actualizar el estado del input de fecha si está deshabilitado
-    }
-}
-*/
-
+// updateTaskDate YA NO ES NECESARIA
 
 function showAppInterface() {
     if (welcomeSection) welcomeSection.classList.add('hidden');
@@ -884,7 +748,7 @@ function addTodo() {
         subtasks: [],
         showSubtaskUI: false,
         priorityColor: 'none',
-        date: null, // Se mantiene null por defecto, ya no se establece con un input directo
+        date: null,
         linkUrl: null,
         order: maxOrder + 1
     };
@@ -1012,7 +876,6 @@ function performManualSort() {
          const rankB = PRIORITY_ORDER[b.priorityColor] || PRIORITY_ORDER['none'];
          if (rankA !== rankB) return rankA - rankB;
 
-         // Si se mantiene task.date, se puede usar para ordenar
          const dateA = a.date ? new Date(a.date).getTime() : Infinity;
          const dateB = b.date ? new Date(b.date).getTime() : Infinity;
          if (dateA !== dateB) return dateA - dateB;
@@ -1056,7 +919,7 @@ function exportAllDataLocal() {
         theme: localStorage.getItem(THEME_STORAGE_KEY) || 'dark',
         dailyMedalData: JSON.parse(localStorage.getItem(MEDALS_STORAGE_KEY) || '{}'),
         quickNotesContent: localStorage.getItem(QUICK_NOTES_STORAGE_KEY) || '',
-        tasks: todos // 'todos' ya no debería tener el input de fecha directamente manipulado
+        tasks: todos
     };
 
     const jsonString = JSON.stringify(dataToExport, null, 2);
@@ -1115,7 +978,6 @@ function applyImportedData(importedData, source = "local file") {
             })) : [],
             showSubtaskUI: !!task.showSubtaskUI,
             priorityColor: PRIORITY_COLORS.includes(task.priorityColor) ? task.priorityColor : 'none',
-            // Se importa el campo 'date' tal cual, aunque su uso directo con el input cambió
             date: (typeof task.date === 'string' && task.date.match(/^\d{4}-\d{2}-\d{2}$/)) ? task.date : null,
             linkUrl: typeof task.linkUrl === 'string' ? task.linkUrl : null,
             order: typeof task.order === 'number' ? task.order : Date.now()
@@ -1264,6 +1126,7 @@ document.addEventListener('DOMContentLoaded', () => {
         importFileInput.addEventListener('change', importAllDataLocal);
     }
 
+    // Event listeners para Drive (si se mantiene la funcionalidad)
     if (exportDriveButton) {
         exportDriveButton.addEventListener('click', exportToGoogleDrive);
     }
@@ -1271,5 +1134,7 @@ document.addEventListener('DOMContentLoaded', () => {
         importDriveButton.addEventListener('click', importFromGoogleDrive);
     }
 
+    // Solo habilitar botones de Drive si gis y gapi están listos para Drive
+    // Si no se usa Drive, esto no hará nada o se puede quitar.
     maybeEnableDriveButtons();
 });
