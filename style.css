@@ -1257,6 +1257,8 @@ footer {
     margin-bottom: 20px;
     word-break: break-word; /* Romper palabras largas */
     color: var(--text-color);
+    font-size: 1rem; /* Ajustar tamaño de texto de la tarea */
+    font-weight: normal;
 }
 
 .modal-input-group {
@@ -1268,6 +1270,7 @@ footer {
     margin-bottom: 5px;
     font-weight: bold;
     color: var(--text-color);
+    font-size: 0.95rem; /* Ajustar tamaño etiqueta */
 }
 
 .modal-input-group input[type="date"],
@@ -1282,6 +1285,7 @@ footer {
     box-sizing: border-box;
     outline: none;
     transition: border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+    font-family: 'Lexend', sans-serif; /* Usar la misma fuente que el resto de inputs */
 }
 
 .modal-input-group input[type="date"]:focus,
@@ -1359,20 +1363,32 @@ body.dark-mode .modal-input-group input[type="time"]:focus {
     margin: 0 2px;
     font-size: 0.9em;
 }
+/* Estilo para el botón de cerrar (aplicado a ambos modales) */
 .close-modal {
     position: absolute;
     top: 10px;
     right: 12px;
-    font-size: 1.9rem;
+    font-size: 1.9rem; /* Tamaño del icono */
     color: var(--button-color);
-    padding: 5px 10px;
+    padding: 5px 10px; /* Padding para el área clickeable */
     line-height: 1;
     background: none;
     border: none;
+    cursor: pointer;
+    transition: color 0.2s ease;
 }
 .close-modal:hover {
     color: var(--button-hover-color);
 }
+/* Asegurarse de que el botón de cerrar no tenga estilos de botón normales */
+.close-modal.app-button {
+    /* Sobrescribir estilos de .app-button si es necesario */
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 5px 10px !important; /* Mantener padding del close-modal */
+}
+
 
 @media (max-width: 500px) {
     /* ... (media queries existentes) ... */
