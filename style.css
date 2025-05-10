@@ -228,7 +228,7 @@ body.dark-mode #welcome-section ul li::before {
 #install-instructions-section h4 {
     font-family: 'Quicksand', sans-serif;
     font-size: 1.2rem;
-    color: var(--heading-color);
+    color: var(--subtitle-color);
     margin-top: 0;
     margin-bottom: 8px;
     text-align: center;
@@ -894,7 +894,7 @@ body.dark-mode #quick-notes-area:focus {
 #data-management-section h4 {
     font-family: 'Quicksand', sans-serif;
     font-size: 1.2rem; 
-    color: var(--heading-color);
+    color: var(--subtitle-color);
     margin-top: 0; 
     margin-bottom: 10px; 
     text-align: center;
