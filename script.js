@@ -361,8 +361,10 @@ function hideReminderModal() {
     // reminderTimeInput.value = '09:00';
 }
 
-// --- Función para manejar la acción de agendar desde el modal (NUEVA) ---
-function handleScheduleReminderClick() {
+// --- Función para manejar la acción de agendar desde el modal (MODIFICADA) ---
+function handleScheduleReminderClick(event) { // Añadido 'event'
+    event.stopPropagation(); // <--- MODIFICACIÓN: Detener la propagación del evento
+
     if (!currentTaskIdForReminder) return;
 
     const dateStrInput = reminderDateInput.value; // Formato YYYY-MM-DD
@@ -1215,7 +1217,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Añadir event listeners para el modal de recordatorio (NUEVO)
     if (reminderModal && closeReminderModalButton && scheduleReminderButton) {
         closeReminderModalButton.addEventListener('click', hideReminderModal);
-        scheduleReminderButton.addEventListener('click', handleScheduleReminderClick);
+        scheduleReminderButton.addEventListener('click', handleScheduleReminderClick); // Se pasa el evento implícitamente
 
         // Cerrar modal haciendo clic fuera del contenido
         reminderModal.addEventListener('click', (event) => {
