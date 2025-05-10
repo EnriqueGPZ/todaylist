@@ -14,7 +14,7 @@
     <!-- SEO Meta Tags -->
     <title>ToDayList - Simplifica Tu Día, Organiza Tus Tareas</title>
     <meta name="description" content="ToDayList es tu gestor de tareas diarias minimalista y eficiente. Organiza tus pendientes, establece prioridades, añade subtareas y fechas límite. ¡Mejora tu productividad hoy!">
-    <meta name="keywords" content="lista de tareas, to-do list, gestor de tareas diarias, organizador personal, productividad, planificación diaria, tareas pendientes, subtareas, prioridades, web app, enrique gil, ToDayList">
+    <meta name="keywords" content="lista de tareas, to-do list, gestor de tareas diarias, organizador personal, productividad, planificación diaria, tareas pendientes, subtareas, prioridades, web app, enrique gil, ToDayList, google calendar">
     <meta name="author" content="Enrique Gil">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://www.todaylist.es/">
@@ -53,7 +53,7 @@
       "name": "ToDayList",
       "applicationCategory": ["ProductivityApplication", "UtilityApplication"],
       "operatingSystem": "Web Browser",
-      "description": "ToDayList es un gestor de tareas diarias minimalista y eficiente que te ayuda a organizar tus pendientes, establecer prioridades, añadir subtareas y fechas límite para mejorar tu productividad.",
+      "description": "ToDayList es un gestor de tareas diarias minimalista y eficiente que te ayuda a organizar tus pendientes, establecer prioridades, añadir subtareas, fechas límite y agendar en Google Calendar para mejorar tu productividad.",
       "url": "https://www.todaylist.es/",
       "author": {
         "@type": "Person",
@@ -66,9 +66,9 @@
       },
       "image": "https://www.todaylist.es/ToDayList.png",
       "screenshot": "https://www.todaylist.es/images/todaylist-screenshot.jpg",
-      "softwareVersion": "1.0.9", 
-      "datePublished": "2024-03-11", 
-      "keywords": "lista de tareas, to-do list, gestor de tareas diarias, productividad, organización, planificación, web app, tareas pendientes, subtareas, prioridades, google drive"
+      "softwareVersion": "1.1.0",
+      "datePublished": "2024-03-12",
+      "keywords": "lista de tareas, to-do list, gestor de tareas diarias, productividad, organización, planificación, web app, tareas pendientes, subtareas, prioridades, google drive, google calendar"
     }
     </script>
 
@@ -102,6 +102,7 @@
                 <li><strong>Subtareas Detalladas:</strong> Desglosa tareas complejas en pasos manejables.</li>
                 <li><strong>Prioridades Visuales:</strong> Asigna colores para enfocarte en lo importante.</li>
                 <li><strong>Fechas Límite Claras:</strong> Establece fechas de vencimiento para no olvidar nada.</li>
+                <li><strong>Agendar en Google Calendar:</strong> Envía tus tareas directamente a tu calendario de Google.</li>
                 <li><strong>Enlaces Relevantes:</strong> Asocia URLs directamente a tus tareas.</li>
                 <li><strong>Modo Oscuro/Claro:</strong> Adapta la interfaz a tus preferencias visuales.</li>
                 <li><strong>Progreso y Motivación:</strong> Visualiza el avance y gana medallas por completar tareas.</li>
@@ -154,7 +155,7 @@
                 </button>
             </div>
 
-            <div id="data-management-section"> 
+            <div id="data-management-section">
                 <h4>Gestión de Datos</h4>
                 <p class="data-management-intro">
                     Guarda tus tareas para usarlas en otros dispositivos o como copia de seguridad.
@@ -186,7 +187,7 @@
     <footer>
         <img src="https://www.todaylist.es/ToDayList.png" alt="Logo ToDayList" class="footer-logo">
         <p class="footer-text">WebApp creada por Henry Gil</p>
-        
+
         <div id="support-section-footer">
             <p class="support-intro-text">¿Te gusta ToDayList? Si te ha sido útil...</p>
             <a href="https://paypal.me/todaylistHenry" target="_blank" rel="noopener noreferrer" class="paypal-link-footer">
@@ -211,6 +212,7 @@
                 <li><strong>Marcar como Completada:</strong> Haz clic en el círculo a la izquierda de la tarea. ¡Ganas una medalla <i class="fas fa-medal"></i> por cada tarea completada en el día!</li>
                 <li><strong>Prioridad:</strong> Haz clic en el cuadrado de color junto al círculo para cambiar la prioridad de la tarea (Rojo: Urgente > Naranja: Alta > Amarillo: No Olvidar > Verde: Puede Esperar > Gris: Sin prioridad).</li>
                 <li><strong>Fecha Límite:</strong> Haz clic en el icono de calendario <i class="fas fa-calendar-alt"></i> para asignar una fecha a la tarea. Las tareas para "hoy" resaltarán su icono de calendario con el color de su prioridad.</li>
+                <li><strong>Agendar en Google Calendar:</strong> Haz clic en el icono de Google Calendar <i class="fab fa-google"></i><i class="fas fa-calendar-plus" style="margin-left: 2px; font-size: 0.9em; vertical-align: -0.05em;"></i> para abrir Google Calendar con los detalles de la tarea pre-rellenados. Si la tarea no tiene fecha, se te preguntará si deseas usar la fecha de hoy. Esta opción está deshabilitada para tareas completadas.</li>
                 <li><strong>Enlaces:</strong> Haz clic en el icono de enlace <i class="fas fa-link"></i> para añadir o abrir un enlace web asociado a la tarea.</li>
                 <li><strong>Sub-Tareas:</strong>
                     <ul>
