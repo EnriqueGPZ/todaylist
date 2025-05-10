@@ -43,7 +43,8 @@ const PRIORITY_COLORS = ['none', 'red', 'orange', 'yellow', 'green'];
 const PRIORITY_ORDER = { 'red': 1, 'orange': 2, 'yellow': 3, 'green': 4, 'none': 5 };
 
 // --- Funciones de Google API (SOLO PARA DRIVE) ---
-window.gisLoaded = () => {
+// Definimos las funciones que serán llamadas por los onload de los scripts de Google
+function gisLoaded() { // Nota: Ya no es 'gisLoadedInternal' si la asignamos directamente
     if (typeof google === 'undefined' || !google.accounts || !google.accounts.oauth2) {
         console.error("Objeto 'google.accounts.oauth2' no encontrado. GIS no cargó correctamente (para Drive).");
         return;
@@ -62,7 +63,7 @@ window.gisLoaded = () => {
     }
 };
 
-window.gapiLoaded = () => {
+function gapiLoaded() { // Nota: Ya no es 'gapiLoadedInternal'
     if (typeof gapi === 'undefined' || !gapi.load) {
         console.error("Objeto 'gapi' no encontrado. Google API Client no cargó correctamente (para Drive).");
         return;
@@ -77,6 +78,8 @@ window.gapiLoaded = () => {
         console.error("Error cargando gapi client:picker (for Drive):", e);
     }
 };
+// --- Fin definiciones de gisLoaded y gapiLoaded ---
+
 
 function maybeEnableDriveButtons() {
     if (gapiInited && gisInited) {
@@ -467,10 +470,8 @@ function createMainTaskHeader(mainTask) {
     const mainTaskHeader = document.createElement('div');
     mainTaskHeader.classList.add('main-task-header');
 
-    // ***** INICIO CAMBIO PARA taskPrefixGroup *****
     const taskPrefixGroup = document.createElement('div');
     taskPrefixGroup.classList.add('task-prefix-group');
-    // ***** FIN CAMBIO PARA taskPrefixGroup *****
 
     const mainCheckbox = document.createElement('input');
     mainCheckbox.type = 'checkbox';
@@ -488,9 +489,7 @@ function createMainTaskHeader(mainTask) {
          if (!mainTask.completed) cyclePriorityColor(mainTask.id);
     });
 
-    // ***** INICIO CAMBIO PARA taskPrefixGroup *****
     taskPrefixGroup.append(mainCheckbox, priorityLabel);
-    // ***** FIN CAMBIO PARA taskPrefixGroup *****
 
     const taskBody = document.createElement('div');
     taskBody.classList.add('task-body');
@@ -561,10 +560,7 @@ function createMainTaskHeader(mainTask) {
 
     taskActionsGroup.append(linkButton, googleCalendarButton, deleteMainButton);
     taskBody.append(mainTaskSpan, taskActionsGroup);
-
-    // ***** INICIO CAMBIO PARA taskPrefixGroup *****
     mainTaskHeader.append(taskPrefixGroup, taskBody);
-    // ***** FIN CAMBIO PARA taskPrefixGroup *****
     
     return mainTaskHeader;
 }
@@ -1141,3 +1137,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     maybeEnableDriveButtons();
 });
+
+// ***** INICIO: Exponer funciones a window para los onload de los scripts de Google *****
+window.gisLoaded = gisLoaded;
+window.gapiLoaded = gapiLoaded;
+// ***** FIN: Exponer funciones a window *****
