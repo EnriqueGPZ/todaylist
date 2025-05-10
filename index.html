@@ -11,20 +11,31 @@
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://www.todaylist.es/"> <!-- Actualiza si tu URL es diferente -->
 
+    <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://www.todaylist.es/">
     <meta property="og:title" content="ToDayList - Simplifica Tu Día, Organiza Tus Tareas">
     <meta property="og:description" content="Organiza tus pendientes con ToDayList: tu gestor de tareas diarias minimalista con integración de Google Drive y Calendar.">
-    <meta property="og:image" content="https://www.todaylist.es/ToDayList.png">
+    <meta property="og:image" content="https://www.todaylist.es/ToDayList.png"> <!-- Imagen principal para OG, podría ser ToDayList-512.png -->
     <meta property="og:site_name" content="ToDayList">
 
+    <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://www.todaylist.es/">
     <meta property="twitter:title" content="ToDayList - Simplifica Tu Día, Organiza Tus Tareas">
     <meta property="twitter:description" content="Organiza tus pendientes con ToDayList: tu gestor de tareas diarias minimalista con integración de Google Drive y Calendar.">
-    <meta property="twitter:image" content="https://www.todaylist.es/ToDayList.png">
+    <meta property="twitter:image" content="https://www.todaylist.es/ToDayList.png"> <!-- Imagen principal para Twitter -->
 
-    <link rel="icon" href="https://www.todaylist.es/ToDayList.png" type="image/png">
+    <!-- Favicons -->
+    <link rel="icon" href="/favicon-96x96.png" type="image/png" sizes="96x96"> <!-- Para Google Search y navegadores modernos -->
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" sizes="any">     <!-- SVG para escalabilidad si está bien diseñado -->
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">        <!-- Respaldo .ico para navegadores antiguos -->
+    
+    <!-- Icono para Apple (usará el de mayor resolución disponible si no se especifica uno exacto) -->
+    <!-- Si ToDayList-192.png es el que quieres para Apple Touch, puedes añadir: -->
+    <!-- <link rel="apple-touch-icon" href="/ToDayList-192.png"> -->
+    <!-- Si no, los dispositivos Apple intentarán usar el favicon general o el más grande que encuentren -->
+
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -50,9 +61,9 @@
         "price": "0",
         "priceCurrency": "USD"
       },
-      "image": "https://www.todaylist.es/ToDayList.png",
-      "softwareVersion": "1.1.0",
-      "datePublished": "2024-03-15",
+      "image": "https://www.todaylist.es/ToDayList.png", // Imagen principal para Schema.org
+      "softwareVersion": "1.1.0", // Actualiza según sea necesario
+      "datePublished": "2024-03-15", // Actualiza según sea necesario
       "keywords": "lista de tareas, to-do list, gestor de tareas diarias, productividad, organización, planificación, web app, tareas pendientes, subtareas, prioridades, google drive, google calendar"
     }
     </script>
@@ -104,7 +115,7 @@
             --schedule-link-text-color: var(--accent-color);
             --schedule-link-hover-text-color: #2980b9; 
             --schedule-link-disabled-text-color: #7f8c8d;
-            --checkbox-checkmark-color: var(--item-bg); /* Para light mode */
+            --checkbox-checkmark-color: var(--item-bg); 
         }
 
         body.dark-mode {
@@ -123,7 +134,7 @@
             --completed-text-color: #7f8c8d;
             --progress-bg: #4a627a;
             --progress-bar-color: #8bc34a;
-            --progress-bar-completed-color: #28a745; /* Consistent completed color */
+            --progress-bar-completed-color: #28a745; 
             --empty-list-color: #bdc3c7;
             --fixed-button-bg: #34495e;
             --fixed-button-border: #4a627a;
@@ -131,7 +142,7 @@
             --legend-text-color: #a0a0a0;
             --sort-button-color: #bdc3c7;
             --sort-button-hover-color: #3498db;
-            --checkbox-checkmark-color: var(--bg-color); /* Para dark mode */
+            --checkbox-checkmark-color: var(--bg-color); 
             --footer-text-color: #777;
             --medal-text-color: var(--text-color);
             --subtitle-color: #bdc3c7;
@@ -302,7 +313,7 @@
         #install-instructions-section h4 {
             font-family: 'Quicksand', sans-serif;
             font-size: 1.2rem;
-            color: var(--subtitle-color); /* Ajustado para ser más sutil */
+            color: var(--subtitle-color); 
             margin-top: 0;
             margin-bottom: 8px;
             text-align: center;
@@ -330,7 +341,7 @@
         }
         #install-instructions-section ul li::before {
             font-family: "Font Awesome 6 Brands", "Font Awesome 6 Free";
-            font-weight: 400; /* Correcto para iconos de marca */
+            font-weight: 400; 
             position: absolute;
             left: 0px;
             top: 1px;
@@ -341,10 +352,10 @@
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
         }
-        #install-instructions-section ul li:nth-child(1)::before { content: "\f268"; } /* Chrome */
-        #install-instructions-section ul li:nth-child(2)::before { content: "\f17b"; } /* Android */
-        #install-instructions-section ul li:nth-child(3)::before { content: "\f179"; } /* Apple */
-        #install-instructions-section ul li:nth-child(4)::before { content: "\f267"; } /* Safari */
+        #install-instructions-section ul li:nth-child(1)::before { content: "\f268"; } 
+        #install-instructions-section ul li:nth-child(2)::before { content: "\f17b"; } 
+        #install-instructions-section ul li:nth-child(3)::before { content: "\f179"; } 
+        #install-instructions-section ul li:nth-child(4)::before { content: "\f267"; } 
         #install-instructions-section ul li strong {
             color: var(--heading-color);
             font-weight: 700;
@@ -353,7 +364,7 @@
         #install-instructions-section ul li i.fas.fa-ellipsis-v,
         #install-instructions-section ul li i.fas.fa-share-square {
             color: var(--button-hover-color);
-            margin: 0 2px; /* Ajustado para espaciado */
+            margin: 0 2px; 
             font-size: 0.9em;
         }
 
@@ -419,7 +430,7 @@
             transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
             box-shadow: 0 1px 3px rgba(0,0,0,0.08);
             border-left: 5px solid var(--border-color);
-            padding-left: 10px; /* Ajustado para consistencia */
+            padding-left: 10px; 
         }
          .todo-item:last-child {
              margin-bottom: 0;
@@ -455,11 +466,11 @@
               outline: 2px solid var(--button-hover-color);
               outline-offset: 2px;
          }
-         .app-button:disabled { /* Estilo para botones deshabilitados */
+         .app-button:disabled { 
             opacity: 0.5;
             cursor: not-allowed;
          }
-         .app-button:disabled:hover { /* Evitar cambio de color en hover si está deshabilitado */
+         .app-button:disabled:hover { 
             color: var(--button-color);
          }
 
@@ -537,7 +548,7 @@
         }
 
          .custom-checkbox {
-             margin-right: 10px; /* Espacio entre checkbox y label de prioridad */
+             margin-right: 10px; 
              border: 1px solid var(--text-color);
              border-radius: 50%;
              appearance: none;
@@ -562,7 +573,7 @@
              box-sizing: content-box;
              width: 5px;
              height: 9px;
-             border: solid var(--checkbox-checkmark-color); /* Usar variable */
+             border: solid var(--checkbox-checkmark-color); 
              border-width: 0 2px 2px 0;
              top: 3px;
              left: 6px;
@@ -571,15 +582,15 @@
 
         .todo-item .main-task-header {
             display: flex;
-            align-items: flex-start; /* Alinea items al inicio verticalmente */
+            align-items: flex-start; 
             margin-bottom: 15px;
             padding: 0;
-            gap: 8px; /* Espacio entre grupo de prefijo y cuerpo de tarea */
+            gap: 8px; 
         }
-        .todo-item .main-task-header .task-prefix-group { /* Nuevo grupo para checkbox y prioridad */
+        .todo-item .main-task-header .task-prefix-group { 
             display: flex;
-            align-items: center; /* Centra checkbox y prioridad verticalmente */
-            gap: 4px; /* Espacio entre checkbox y prioridad */
+            align-items: center; 
+            gap: 4px; 
             flex-shrink: 0;
         }
         
@@ -606,37 +617,37 @@
         .todo-item .main-task-header .task-body {
             display: flex;
             flex-grow: 1;
-            align-items: flex-start; /* Alinea texto y grupo de acciones */
-            gap: 8px; /* Espacio entre texto de tarea y grupo de acciones */
-            min-width: 0; /* Evita que el texto empuje los botones fuera */
-            flex-wrap: wrap; /* Permite que los botones bajen si no hay espacio */
+            align-items: flex-start; 
+            gap: 8px; 
+            min-width: 0; 
+            flex-wrap: wrap; 
         }
 
         .todo-item .main-task-header .task-body span {
             font-weight: 700;
             font-size: 1.1rem;
-            flex-grow: 1; /* El texto toma el espacio disponible */
+            flex-grow: 1; 
             color: var(--text-color);
             transition: color 0.3s ease, text-decoration 0.3s ease;
-            min-width: 0; /* Crucial */
+            min-width: 0; 
             word-break: break-word;
-            line-height: 1.45; /* Ajuste para mejor alineación vertical con checkbox */
-            padding-top: 1px; /* Ajuste fino para alineación vertical */
+            line-height: 1.45; 
+            padding-top: 1px; 
         }
 
         .todo-item .main-task-header .task-body .task-actions-group {
             display: flex;
-            align-items: center; /* Centra los botones de acción verticalmente */
-            gap: 2px; /* Espacio reducido entre botones de acción */
-            margin-left: auto; /* Empuja el grupo de acciones a la derecha */
-            flex-shrink: 0; /* Evita que el grupo de acciones se encoja */
+            align-items: center; 
+            gap: 2px; 
+            margin-left: auto; 
+            flex-shrink: 0; 
         }
 
         .todo-item .main-task-header .task-body .task-actions-group .link-button,
         .todo-item .main-task-header .task-body .task-actions-group .google-calendar-button {
-            padding-left: 4px;  /* Padding reducido */
-            padding-right: 4px; /* Padding reducido */
-            font-size: 1rem; /* Tamaño de icono consistente */
+            padding-left: 4px;  
+            padding-right: 4px; 
+            font-size: 1rem; 
         }
         
         .todo-item .main-task-header .task-body .task-actions-group .google-calendar-button i {
@@ -646,10 +657,9 @@
         .todo-item .main-task-header .task-body .task-actions-group .google-calendar-button:hover i {
             color: var(--button-hover-color);
         }
-        /* Si la tarea está completada, el botón de calendario ya tiene estilos de deshabilitado */
 
         .todo-item .main-task-header .task-body .link-button {
-            font-size: 1rem; /* Asegura consistencia */
+            font-size: 1rem; 
             opacity: 0.5;
         }
         .todo-item .main-task-header .task-body .link-button.link-on {
@@ -657,16 +667,16 @@
         }
 
         .todo-item .main-task-header .task-body .task-actions-group .delete-button {
-             padding: 4px 8px; /* Un poco más de padding para el botón de borrar */
+             padding: 4px 8px; 
              font-size: 1rem;
-             margin-left: 6px; /* Espacio antes del botón de borrar */
+             margin-left: 6px; 
         }
 
 
         .todo-item .add-subtasks-toggle {
              display: block;
              width: fit-content;
-             margin: 10px 0 0 auto; /* Alinear a la derecha */
+             margin: 10px 0 0 auto; 
              padding: 4px 8px;
              font-size: 1.1rem;
              font-weight: normal;
@@ -677,7 +687,7 @@
          }
 
         .todo-item .subtask-input-container {
-            display: none; /* Oculto por defecto */
+            display: none; 
             flex-wrap: wrap;
             gap: 8px;
             margin-top: 15px;
@@ -708,9 +718,9 @@
          }
 
         .todo-item .subtasks-list li input[type="checkbox"] {
-             width: 18px; /* Ligeramente más pequeño para sub-tareas */
+             width: 18px; 
              height: 18px;
-             border-color: var(--text-color); /* Consistente con principal */
+             border-color: var(--text-color); 
              background-color: var(--item-bg);
         }
          .todo-item .subtasks-list li input[type="checkbox"]:checked {
@@ -722,28 +732,28 @@
             content: '';
             position: absolute;
             box-sizing: content-box;
-            width: 4px; /* Ajustado para checkbox más pequeño */
+            width: 4px; 
             height: 8px;
-            border: solid var(--checkbox-checkmark-color); /* Usar variable */
-            border-width: 0 1.8px 1.8px 0; /* Grosor de línea ajustado */
-            top: 2.5px; /* Ajuste vertical */
-            left: 5px;  /* Ajuste horizontal */
+            border: solid var(--checkbox-checkmark-color); 
+            border-width: 0 1.8px 1.8px 0; 
+            top: 2.5px; 
+            left: 5px;  
             transform: rotate(45deg);
         }
 
         .todo-item .subtasks-list li span {
              flex-grow: 1;
              margin-right: 5px;
-             color: var(--button-color); /* Un color más tenue para sub-tareas */
+             color: var(--button-color); 
              text-decoration: none;
              transition: color 0.3s ease, text-decoration 0.3s ease;
              word-break: break-word;
-             font-size: 0.85em; /* Más pequeño que tarea principal */
-             font-weight: 300; /* Más ligero */
+             font-size: 0.85em; 
+             font-weight: 300; 
         }
          .todo-item .subtasks-list li .subtask-move-button {
              color: var(--button-color);
-             padding: 4px; /* Pequeño */
+             padding: 4px; 
              font-size: 0.9rem;
          }
          .todo-item .subtasks-list li .subtask-move-button:hover {
@@ -752,10 +762,10 @@
          .todo-item .subtasks-list li .subtask-move-button:disabled {
              opacity: 0.3;
              cursor: not-allowed;
-             color: var(--button-color); /* Mantener color base en disabled */
+             color: var(--button-color); 
          }
          .todo-item .subtasks-list li .subtask-move-button:disabled:hover {
-             color: var(--button-color); /* Evitar cambio de color en hover si disabled */
+             color: var(--button-color); 
          }
          .todo-item .subtasks-list li .delete-button {
              padding: 4px 8px;
@@ -767,7 +777,7 @@
             height: 6px;
             border-radius: 3px;
             margin-top: 15px;
-            margin-bottom: 0; /* Si va antes del toggle de sub-tareas */
+            margin-bottom: 0; 
             overflow: hidden;
             background-color: var(--progress-bg);
             transition: background-color 0.3s ease;
@@ -778,7 +788,7 @@
             width: 0%;
             transition: width 0.5s ease-in-out, background-color 0.3s ease;
         }
-         .todo-item .progress-text { display: none; } /* No se usa actualmente */
+         .todo-item .progress-text { display: none; } 
 
         #todo-list:empty:before {
             content: "No hay tareas. ¡Agrega una!";
@@ -791,13 +801,12 @@
         }
 
         .todo-item.show-subtask-ui .subtask-input-container {
-             display: flex; /* Mostrar el input de sub-tarea */
+             display: flex; 
         }
         .todo-item.show-subtask-ui .add-subtasks-toggle {
-             display: none; /* Ocultar el botón '+' si el input está visible */
+             display: none; 
         }
 
-        /* Estilos para tareas completadas */
         .todo-item.completed .main-task-header .task-body span,
         .todo-item.completed .subtasks-list li span {
             color: var(--completed-text-color);
@@ -808,54 +817,54 @@
         }
 
         .todo-item.completed .priority-color-label,
-        .todo-item.completed .subtasks-list li .app-button { /* Aplica a todos los botones en sub-tareas */
+        .todo-item.completed .subtasks-list li .app-button { 
             opacity: 0.7;
-            cursor: default; /* El cursor no cambia */
+            cursor: default; 
         }
 
         .todo-item.completed .main-task-header .task-body .task-actions-group .google-calendar-button {
             opacity: 0.7;
             cursor: default;
-            pointer-events: none; /* Deshabilita interacciones */
+            pointer-events: none; 
         }
         .todo-item.completed .main-task-header .task-body .task-actions-group .google-calendar-button i {
-            color: var(--completed-text-color) !important; /* Forzar color de completado */
+            color: var(--completed-text-color) !important; 
         }
         .todo-item.completed .main-task-header .task-body .task-actions-group .google-calendar-button:hover i {
-            color: var(--completed-text-color) !important; /* Evitar cambio de color en hover */
+            color: var(--completed-text-color) !important; 
         }
 
 
         .todo-item.completed .main-task-header .task-body .task-actions-group .delete-button {
-            opacity: 0.7; /* Consistente con otros botones */
+            opacity: 0.7; 
         }
         .todo-item.completed .main-task-header .task-body .task-actions-group .delete-button:hover {
-            opacity: 0.7; /* Mantener opacidad */
-            color: var(--delete-button-color); /* No cambiar a color de hover */
+            opacity: 0.7; 
+            color: var(--delete-button-color); 
         }
 
-        .todo-item.completed .main-task-header .task-body .link-button.link-on { /* Si el enlace existe */
-            opacity: 0.8; /* Ligeramente más visible si hay enlace */
-            cursor: pointer; /* Permitir clic si hay enlace */
+        .todo-item.completed .main-task-header .task-body .link-button.link-on { 
+            opacity: 0.8; 
+            cursor: pointer; 
         }
         .todo-item.completed .main-task-header .task-body .link-button.link-on:hover {
-            color: var(--button-hover-color); /* Permitir efecto hover si hay enlace */
+            color: var(--button-hover-color); 
             opacity: 1;
         }
-        .todo-item.completed .main-task-header .task-body .link-button.link-off { /* Si no hay enlace */
-            opacity: 0.4; /* Muy tenue */
+        .todo-item.completed .main-task-header .task-body .link-button.link-off { 
+            opacity: 0.4; 
             cursor: default;
         }
         .todo-item.completed .main-task-header .task-body .link-button.link-off:hover {
-            color: var(--button-color); /* No cambiar color en hover */
+            color: var(--button-color); 
             opacity: 0.4;
         }
 
         .todo-item.completed .priority-color-label:hover,
         .todo-item.completed .subtasks-list li .app-button:hover {
-            color: inherit; /* No cambiar color */
+            color: inherit; 
             text-decoration: none;
-            transform: none; /* No escalar */
+            transform: none; 
         }
 
 
@@ -864,7 +873,7 @@
              background-color: var(--completed-text-color);
          }
          .todo-item.completed .main-task-header .task-prefix-group .custom-checkbox:checked::after {
-              border-color: var(--checkbox-checkmark-color) !important; /* Usar variable */
+              border-color: var(--checkbox-checkmark-color) !important; 
          }
 
          #todo-input-container {
@@ -873,20 +882,20 @@
              padding: 0;
              align-items: center;
              margin-bottom: 20px;
-             flex-wrap: wrap; /* Para responsividad */
+             flex-wrap: wrap; 
          }
           #todo-input-container #add-todo-button {
-               margin-left: 0; /* Quitar margen si es el primer botón */
+               margin-left: 0; 
                padding: 10px 15px;
                font-size: 1.1rem;
           }
           #todo-input-container #reorder-button {
-               margin-left: auto; /* Empujar a la derecha si hay espacio */
+               margin-left: auto; 
           }
 
         #quick-notes-container {
             margin-top: 25px;
-            margin-bottom: 50px; /* Más espacio antes de la gestión de datos */
+            margin-bottom: 50px; 
             display: flex;
             flex-direction: column;
             gap: 8px;
@@ -930,7 +939,7 @@
             background-color: var(--item-bg);
             border: 1px solid var(--border-color);
             box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-            border-radius: 4px; /* Consistencia con otros botones pequeños */
+            border-radius: 4px; 
         }
         #clear-notes-button:hover {
             color: var(--button-hover-color);
@@ -941,16 +950,15 @@
             margin-right: 4px;
         }
 
-        /* Estilos para la sección de gestión de datos */
         #data-management-section {
-            margin-top: 30px; /* Espacio desde las notas */
+            margin-top: 30px; 
             margin-bottom: 20px;
-            padding: 0 10px; /* Un poco de padding lateral */
+            padding: 0 10px; 
         }
         #data-management-section h4 {
             font-family: 'Quicksand', sans-serif;
             font-size: 1.2rem;
-            color: var(--subtitle-color); /* Consistente con otros subtítulos de sección */
+            color: var(--subtitle-color); 
             margin-top: 0;
             margin-bottom: 10px;
             text-align: center;
@@ -967,45 +975,45 @@
         }
         .data-options-row {
             display: flex;
-            justify-content: space-around; /* Distribuye el espacio */
-            gap: 15px; /* Espacio entre botones */
+            justify-content: space-around; 
+            gap: 15px; 
             margin-bottom: 15px;
-            flex-wrap: wrap; /* Para responsividad */
+            flex-wrap: wrap; 
         }
         .data-options-row:last-child {
             margin-bottom: 0;
         }
 
-        .data-action-button { /* Estilo base para botones de acción de datos */
-            flex-grow: 1; /* Permite que los botones crezcan para llenar el espacio */
-            min-width: 200px; /* Ancho mínimo para evitar que se vuelvan demasiado pequeños */
-            padding: 9px 15px !important; /* Sobrescribir padding de .app-button */
-            font-size: 0.9rem !important; /* Sobrescribir tamaño de fuente */
+        .data-action-button { 
+            flex-grow: 1; 
+            min-width: 200px; 
+            padding: 9px 15px !important; 
+            font-size: 0.9rem !important; 
             background-color: var(--item-bg);
-            border: 1px solid var(--border-color) !important; /* Asegurar borde */
+            border: 1px solid var(--border-color) !important; 
             box-shadow: 0 1px 2px rgba(0,0,0,0.06);
-            color: var(--button-color); /* Color de texto base */
-            font-weight: 400; /* Peso normal */
-            border-radius: 6px; /* Bordes redondeados */
+            color: var(--button-color); 
+            font-weight: 400; 
+            border-radius: 6px; 
         }
         .data-action-button:hover {
             border-color: var(--button-hover-color) !important;
             background-color: var(--fixed-button-bg);
-            color: var(--button-hover-color); /* Color de hover */
+            color: var(--button-hover-color); 
         }
         .data-action-button i {
-            margin-right: 8px; /* Espacio antes del texto */
-            font-size: 0.95em; /* Ligeramente más pequeño que el texto */
+            margin-right: 8px; 
+            font-size: 0.95em; 
         }
         
-        .drive-button-style i.fab.fa-google-drive { /* Estilo específico para icono de Drive */
+        .drive-button-style i.fab.fa-google-drive { 
              color: var(--drive-icon-color);
         }
-        .drive-button-style:disabled i.fab.fa-google-drive { /* Icono de Drive deshabilitado */
-            color: inherit; /* Hereda el color del texto deshabilitado */
+        .drive-button-style:disabled i.fab.fa-google-drive { 
+            color: inherit; 
             opacity: 0.7;
         }
-        .drive-button-style:disabled { /* Botón de Drive deshabilitado */
+        .drive-button-style:disabled { 
             background-color: var(--input-bg) !important;
             border-color: var(--border-color) !important;
             color: var(--placeholder-color) !important;
@@ -1113,7 +1121,7 @@
             text-decoration: underline;
             color: var(--button-hover-color);
         }
-        .footer-legal-links span { /* Para el separador "|" */
+        .footer-legal-links span { 
             color: var(--legend-text-color);
         }
 
@@ -1137,20 +1145,13 @@
                 left: 10px;
             }
             .todo-item .main-task-header {
-                row-gap: 8px; /* Espacio si el task-body se va abajo */
+                row-gap: 8px; 
             }
-            /* No es necesario flex-wrap: wrap aquí ya que está en .task-body */
-
-            .todo-item .main-task-header .task-body .task-actions-group {
-                /* margin-left: auto; ya lo tiene */
-                /* justify-content: flex-end; No es necesario, ya se alinea a la derecha */
-            }
-            /* El orden de los botones de acción ya está definido por su orden en el HTML */
-
+            
              #todo-input-container #reorder-button {
-                  margin-left: 0; /* En pantallas pequeñas, reorder va debajo */
+                  margin-left: 0; 
              }
-             #data-management-section { /* Ajustes para móviles en gestión de datos */
+             #data-management-section { 
                 padding: 15px 10px;
              }
              #data-management-section h4 {
@@ -1160,17 +1161,17 @@
                 font-size: 0.8rem;
                 margin-bottom: 15px;
             }
-             .data-options-row { /* Apilar botones en móviles */
+             .data-options-row { 
                 flex-direction: column;
-                align-items: stretch; /* Que los botones ocupen todo el ancho */
+                align-items: stretch; 
                 gap: 10px;
             }
             .data-action-button {
-                min-width: unset; /* Quitar ancho mínimo */
-                width: 100%; /* Ocupar todo el ancho disponible */
-                margin-bottom: 0; /* Quitar margen inferior si están apilados */
+                min-width: unset; 
+                width: 100%; 
+                margin-bottom: 0; 
             }
-            /* No es necesario .data-options-row .data-action-button + .data-action-button */
+            
 
 
              #welcome-section h2 {
@@ -1195,13 +1196,13 @@
                 font-size: 1.1rem;
             }
             #install-instructions-section ul li {
-                font-size: 0.95em; /* Relativo al font-size de la sección */
-                padding-left: 22px; /* Menos padding para iconos */
+                font-size: 0.95em; 
+                padding-left: 22px; 
                 margin-bottom: 7px;
             }
             #install-instructions-section ul li::before {
-                top: 0px; /* Ajustar si es necesario */
-                font-size: 1em; /* Relativo al font-size del li */
+                top: 0px; 
+                font-size: 1em; 
             }
             
             footer {
@@ -1215,21 +1216,20 @@
             }
             .footer-text {
                 margin-bottom: 6px;
-                font-size: 0.9em; /* Relativo al font-size del footer */
+                font-size: 0.9em; 
             }
             .support-intro-text,
             .paypal-link-footer {
-                font-size: 0.7em; /* Muy pequeño, relativo al font-size del footer */
+                font-size: 0.7em; 
             }
             .support-intro-text {
                 margin-bottom: 2px;
             }
             .footer-legal-links {
-                font-size: 0.7em; /* Relativo al font-size del footer */
+                font-size: 0.7em; 
             }
         }
 
-        /* Estilos para los modales (info y recordatorio) */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -1244,7 +1244,7 @@
             opacity: 0;
             visibility: hidden;
             transition: opacity 0.3s ease, visibility 0s linear 0.3s;
-            padding-top: 60px; /* Espacio para que el modal no toque el borde superior */
+            padding-top: 60px; 
             box-sizing: border-box;
         }
         .modal-overlay.visible {
@@ -1260,15 +1260,15 @@
             border-radius: 10px;
             box-shadow: 0 5px 20px rgba(0,0,0,0.3);
             width: 90%;
-            max-width: 380px; /* Ancho máximo para el modal de recordatorio */
-            max-height: 85vh; /* Altura máxima */
-            overflow-y: auto; /* Scroll si el contenido es muy largo */
-            position: relative; /* Para el botón de cerrar */
+            max-width: 380px; 
+            max-height: 85vh; 
+            overflow-y: auto; 
+            position: relative; 
             transform: scale(0.95);
             transition: transform 0.3s ease;
             box-sizing: border-box;
         }
-        #info-modal .modal-content { /* Ancho mayor para el modal de info */
+        #info-modal .modal-content { 
             max-width: 580px;
         }
         .modal-overlay.visible .modal-content {
@@ -1284,8 +1284,7 @@
             font-size: 1.8rem;
         }
 
-        /* Estilos específicos para el modal de recordatorio */
-        #reminder-modal .modal-content h2 { /* Título más pequeño y con color de acento */
+        #reminder-modal .modal-content h2 { 
             color: var(--accent-color);
             font-size: 1.3rem;
             margin-bottom: 15px;
@@ -1297,33 +1296,33 @@
             font-style: italic;
             margin: 0 auto 20px auto;
             word-break: break-word;
-            color: var(--text-color); /* Usa el color de texto principal */
+            color: var(--text-color); 
             font-size: 0.85rem;
-            font-weight: normal; /* No negrita */
-            max-width: 90%; /* Evita que se extienda demasiado */
+            font-weight: normal; 
+            max-width: 90%; 
         }
 
         .modal-input-group {
-            margin: 15px auto; /* Centrado y con espacio */
-            width: fit-content; /* Ajusta al contenido */
+            margin: 15px auto; 
+            width: fit-content; 
             display: flex;
             align-items: center;
-            gap: 10px; /* Espacio entre label e input */
-            justify-content: center; /* Centra el grupo */
+            gap: 10px; 
+            justify-content: center; 
         }
 
         .modal-input-group label {
-            display: block; /* Ocupa su propia línea o se ajusta con flex */
-            margin-bottom: 0; /* Quitamos margen inferior si está en flex */
+            display: block; 
+            margin-bottom: 0; 
             font-weight: bold;
             color: var(--text-color);
             font-size: 0.85rem;
-            flex-shrink: 0; /* Evita que el label se encoja */
+            flex-shrink: 0; 
         }
 
         .modal-input-group input[type="date"],
         .modal-input-group input[type="time"] {
-            width: 130px; /* Ancho fijo para los inputs */
+            width: 130px; 
             padding: 8px;
             border: 1px solid var(--modal-input-border-color);
             border-radius: 4px;
@@ -1333,20 +1332,20 @@
             box-sizing: border-box;
             outline: none;
             transition: border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease;
-            font-family: 'Lexend', sans-serif; /* Consistencia de fuente */
+            font-family: 'Lexend', sans-serif; 
         }
 
         .modal-input-group input[type="date"]:focus,
         .modal-input-group input[type="time"]:focus {
             border-color: var(--button-hover-color);
-            box-shadow: 0 0 0 0.2rem rgba(231, 76, 60, 0.25); /* Sombra de enfoque */
+            box-shadow: 0 0 0 0.2rem rgba(231, 76, 60, 0.25); 
         }
         body.dark-mode .modal-input-group input[type="date"]:focus,
         body.dark-mode .modal-input-group input[type="time"]:focus {
-             box-shadow: 0 0 0 0.2rem rgba(243, 156, 18, 0.2); /* Sombra de enfoque en dark mode */
+             box-shadow: 0 0 0 0.2rem rgba(243, 156, 18, 0.2); 
         }
 
-        #schedule-reminder-button { /* Estilo del botón "Agendar" como un enlace */
+        #schedule-reminder-button { 
             display: block;
             width: 100%;
             max-width: 300px;
@@ -1374,37 +1373,34 @@
             opacity: 0.7 !important;
         }
 
-        /* Estilos para el contenido del modal de información */
         .modal-content ol {
-            padding-left: 20px; /* Indentación para la lista ordenada */
-            margin-bottom: 0; /* Sin margen inferior extra */
-            text-align: left; /* Alineación estándar para listas */
+            padding-left: 20px; 
+            margin-bottom: 0; 
+            text-align: left; 
         }
         .modal-content ol li {
             margin-bottom: 12px;
             line-height: 1.5;
         }
-        .modal-content ol li ul { /* Sub-listas */
+        .modal-content ol li ul { 
             padding-left: 20px;
             margin-top: 8px;
-            list-style-type: disc; /* Viñetas redondas */
+            list-style-type: disc; 
         }
         .modal-content ol li ul li {
             margin-bottom: 8px;
-            font-size: 0.95em; /* Ligeramente más pequeño */
+            font-size: 0.95em; 
         }
 
-        .modal-content strong { /* Texto en negrita dentro del modal */
+        .modal-content strong { 
             color: var(--heading-color);
         }
-        .modal-content i.fas, .modal-content i.far, .modal-content i.fab { /* Iconos dentro del modal */
-            color: var(--button-hover-color); /* Color de acento para iconos */
+        .modal-content i.fas, .modal-content i.far, .modal-content i.fab { 
+            color: var(--button-hover-color); 
             margin: 0 2px;
             font-size: 0.9em;
         }
 
-
-        /* Botón de cerrar para AMBOS modales */
         div.modal-overlay div.modal-content > button.close-modal {
             position: absolute !important;
             top: 10px !important;
@@ -1413,15 +1409,15 @@
             bottom: auto !important;
             transform: none !important;
             margin: 0 !important;
-            font-size: 1.4rem; /* Tamaño del 'x' */
+            font-size: 1.4rem; 
             color: var(--button-color);
-            padding: 2px 5px !important; /* Padding pequeño */
+            padding: 2px 5px !important; 
             line-height: 1;
             background: none !important;
             border: none !important;
             cursor: pointer;
             transition: color 0.2s ease;
-            z-index: 10 !important; /* Por encima del contenido del modal */
+            z-index: 10 !important; 
             box-shadow: none !important;
         }
         div.modal-overlay div.modal-content > button.close-modal:hover {
@@ -1431,46 +1427,45 @@
 
 
         @media (max-width: 500px) {
-            /* ... (otros media queries existentes) ... */
-
+            
             .modal-overlay {
-                padding-top: 20px; /* Menos padding superior en móviles */
+                padding-top: 20px; 
             }
-            .modal-content { /* Ajustes generales para modales en móvil */
+            .modal-content { 
                 padding: 20px 25px;
                 max-height: 90vh;
-                max-width: 95%; /* Casi todo el ancho */
+                max-width: 95%; 
                 width: 95%;
             }
             .modal-content h2 {
                 font-size: 1.5rem;
                 margin-bottom: 15px;
             }
-            #reminder-modal .modal-content h2 { /* Título del modal de recordatorio en móvil */
+            #reminder-modal .modal-content h2 { 
                  font-size: 1.1rem;
             }
             #reminder-modal p#reminder-task-text {
-                font-size: 0.85rem; /* Consistente con otros textos */
+                font-size: 0.85rem; 
                 margin-bottom: 15px;
             }
-            .modal-input-group { /* Grupo de input de fecha/hora en móvil */
+            .modal-input-group { 
                 margin-bottom: 10px;
                 gap: 8px;
-                flex-direction: column; /* Apilar label e input */
-                align-items: flex-start; /* Alinear al inicio */
-                width: 100%; /* Ocupar todo el ancho */
+                flex-direction: column; 
+                align-items: flex-start; 
+                width: 100%; 
             }
              .modal-input-group label {
                  width: 100%;
-                 text-align: left; /* Label a la izquierda */
+                 text-align: left; 
              }
             .modal-input-group input[type="date"],
             .modal-input-group input[type="time"] {
                 padding: 6px;
                 font-size: 0.85rem;
-                width: 100%; /* Input ocupa todo el ancho */
+                width: 100%; 
             }
-            #schedule-reminder-button { /* Botón de agendar en móvil */
+            #schedule-reminder-button { 
                 padding: 8px;
                 font-size: 0.9rem;
                 max-width: 100%;
@@ -1484,7 +1479,7 @@
                 font-size: 0.9em;
                 margin-bottom: 6px;
             }
-            div.modal-overlay div.modal-content > button.close-modal { /* Botón de cerrar en móvil */
+            div.modal-overlay div.modal-content > button.close-modal { 
                 font-size: 1.2rem !important;
                 top: 6px !important;
                 right: 8px !important;
@@ -1665,12 +1660,10 @@
 
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     
-    <!-- Google API Loader Scripts -->
     <script async defer src="https://apis.google.com/js/api.js" onload="if(window.googleApiCallbacks && typeof window.googleApiCallbacks.gapiLoaded === 'function') { window.isGoogleGapiScriptReady = true; window.googleApiCallbacks.gapiLoaded(); } else { console.error('googleApiCallbacks.gapiLoaded no definido'); }"></script>
     <script async defer src="https://accounts.google.com/gsi/client" onload="if(window.googleApiCallbacks && typeof window.googleApiCallbacks.gisLoaded === 'function') { window.isGoogleGisScriptReady = true; window.googleApiCallbacks.gisLoaded(); } else { console.error('googleApiCallbacks.gisLoaded no definido'); }"></script>
 
     <script type="module">
-        // Contenido del archivo script.js
         let todoInput;
         let addTodoButton;
         let todoListContainer;
@@ -1688,13 +1681,12 @@
         let importDataButton;
         let importFileInput;
 
-        // Google Drive Integration Variables
         let exportDriveButton;
         let importDriveButton;
-        // -------------------------------------------------------------------------------------
+        
         const CLIENT_ID = '25607067695-mgv7jfvio4vr1goi5ci6o952mgpii8nf.apps.googleusercontent.com'; 
         const API_KEY = 'AIzaSyAhr2kqUcRf5qZi0yMHxFDsyp_x8Ekfj7k';
-        // -------------------------------------------------------------------------------------
+        
         const SCOPES = 'https://www.googleapis.com/auth/drive.file';
         let tokenClient;
         let gapiInited = false;
@@ -1722,7 +1714,6 @@
         let scheduleReminderButton;
         let currentTaskIdForReminder = null;
 
-        // --- Namespace para callbacks de Google ---
         window.googleApiCallbacks = {
             gisLoaded: function() {
                 console.log("SCRIPT.JS MODULE: googleApiCallbacks.gisLoaded called");
@@ -1776,7 +1767,6 @@
                 }
             }
         };
-        // --- Fin Namespace ---
 
         function maybeEnableDriveButtons() {
             if (gapiInited && gisInited) {
@@ -1860,7 +1850,7 @@
             try {
                 await ensureDriveClientLoaded();
                 const dataToExport = {
-                    theme: localStorage.getItem(THEME_STORAGE_KEY) || 'dark', // Default to dark
+                    theme: localStorage.getItem(THEME_STORAGE_KEY) || 'dark', 
                     dailyMedalData: JSON.parse(localStorage.getItem(MEDALS_STORAGE_KEY) || '{}'),
                     quickNotesContent: localStorage.getItem(QUICK_NOTES_STORAGE_KEY) || '',
                     tasks: todos
@@ -1938,7 +1928,7 @@
                     const view = new google.picker.View(google.picker.ViewId.DOCS);
                     view.setMimeTypes("application/json");
                     const picker = new google.picker.PickerBuilder()
-                        .setAppId(null) // App ID is not needed for Picker with OAuth token
+                        .setAppId(null) 
                         .setOAuthToken(oauthToken)
                         .addView(view)
                         .setDeveloperKey(API_KEY)
@@ -1986,7 +1976,7 @@
             }
         }
 
-        function getTodayDateString(format = 'yyyy-mm-dd') { // Default a yyyy-mm-dd
+        function getTodayDateString(format = 'yyyy-mm-dd') { 
             const today = new Date();
             const yyyy = today.getFullYear();
             const mm = String(today.getMonth() + 1).padStart(2, '0');
@@ -2124,14 +2114,14 @@
                     id: task.id || generateLocalId(),
                     text: task.text || 'Tarea sin nombre',
                     completed: typeof task.completed === 'boolean' ? task.completed : false,
-                    completedDate: task.completedDate || null, // Se guarda como yyyy-mm-dd
+                    completedDate: task.completedDate || null, 
                     subtasks: Array.isArray(task.subtasks) ? task.subtasks.map(sub => ({
                         id: sub.id || generateLocalId(), text: sub.text || 'Sub-tarea sin nombre',
                         completed: typeof sub.completed === 'boolean' ? sub.completed : false
                     })) : [],
                     showSubtaskUI: typeof task.showSubtaskUI === 'boolean' ? task.showSubtaskUI : false,
                     priorityColor: PRIORITY_COLORS.includes(task.priorityColor) ? task.priorityColor : 'none',
-                    date: (typeof task.date === 'string' && task.date.match(/^\d{4}-\d{2}-\d{2}$/)) ? task.date : null, // Se espera yyyy-mm-dd
+                    date: (typeof task.date === 'string' && task.date.match(/^\d{4}-\d{2}-\d{2}$/)) ? task.date : null, 
                     linkUrl: typeof task.linkUrl === 'string' ? task.linkUrl : null,
                     order: typeof task.order === 'number' ? task.order : Date.now()
                 }));
@@ -2255,7 +2245,7 @@
 
             const googleCalendarButton = document.createElement('button');
             googleCalendarButton.classList.add('app-button', 'google-calendar-button');
-            googleCalendarButton.innerHTML = '<i class="far fa-calendar-plus"></i>'; // Icono para Google Calendar
+            googleCalendarButton.innerHTML = '<i class="far fa-calendar-plus"></i>'; 
             googleCalendarButton.setAttribute('aria-label', 'Agendar recordatorio en Google Calendar');
             googleCalendarButton.title = 'Agendar recordatorio en Google Calendar';
             if (mainTask.completed) {
@@ -2420,7 +2410,7 @@
                 listItem.appendChild(createProgressBar(mainTask));
                 if (!mainTask.completed) {
                     listItem.appendChild(createAddSubtasksToggle(mainTask.id));
-                } else { mainTask.showSubtaskUI = false; } // Asegurar que no se muestre UI de sub-tarea si está completada
+                } else { mainTask.showSubtaskUI = false; } 
 
                 if (mainTask.subtasks && mainTask.subtasks.length > 0) {
                     listItem.appendChild(createSubtasksList(mainTask));
@@ -2493,10 +2483,9 @@
                  mainTask.subtasks.push({ id: generateLocalId(), text: newSubtaskText, completed: false });
                  mainTask.completed = false; 
                  mainTask.completedDate = null;
-                 mainTask.showSubtaskUI = false; // Ocultar input después de añadir
+                 mainTask.showSubtaskUI = false; 
                  saveTodosToLocalStorage();
                  syncAndRender();
-                 // No se vuelve a enfocar el input de sub-tarea aquí, el usuario debe volver a hacer clic en '+'
              }
         }
 
@@ -2512,7 +2501,7 @@
                 syncAndRender();
                 if (todos.length === 0 && welcomeSection && appMainInterface && installInstructionsSection) {
                     welcomeSection.classList.remove('hidden');
-                    installInstructionsSection.classList.remove('hidden'); // Mostrar ambas si no hay tareas
+                    installInstructionsSection.classList.remove('hidden'); 
                     appMainInterface.classList.add('hidden');
                 }
             }
@@ -2524,7 +2513,6 @@
                  const subtaskIndex = mainTask.subtasks.findIndex(sub => sub.id === subtaskId);
                  if (subtaskIndex > -1) {
                      mainTask.subtasks.splice(subtaskIndex, 1);
-                     // No desmarcar la tarea principal aquí, solo actualizar progreso
                      saveTodosToLocalStorage();
                      syncAndRender();
                  }
@@ -2553,7 +2541,6 @@
 
                 if (isChecked) {
                     task.completedDate = todayForMedal;
-                    // task.priorityColor = 'none'; // No cambiar prioridad al completar
                     task.showSubtaskUI = false;
                     if (!wasCompletedTodayBefore) {
                         updateMedalCount(1);
@@ -2565,7 +2552,7 @@
                     }
                     task.completedDate = null;
                 }
-                if (task.subtasks) { // Marcar/desmarcar todas las sub-tareas también
+                if (task.subtasks) { 
                     task.subtasks.forEach(sub => sub.completed = isChecked);
                 }
                 saveTodosToLocalStorage();
@@ -2597,14 +2584,13 @@
                  const rankB = PRIORITY_ORDER[b.priorityColor] || PRIORITY_ORDER['none'];
                  if (rankA !== rankB) return rankA - rankB;
 
-                 // Parsear fechas yyyy-mm-dd para comparación
                  const dateA = a.date ? new Date(a.date).getTime() : Infinity;
                  const dateB = b.date ? new Date(b.date).getTime() : Infinity;
                  if (dateA !== dateB) return dateA - dateB;
 
-                 return (a.order || 0) - (b.order || 0); // Mantener orden original si todo es igual
+                 return (a.order || 0) - (b.order || 0); 
              });
-             todos.forEach((task, index) => { // Reasignar 'order' después de ordenar
+             todos.forEach((task, index) => { 
                  task.order = index;
              });
              saveTodosToLocalStorage();
@@ -2633,7 +2619,7 @@
 
         function toggleDarkMode() {
             body.classList.contains('dark-mode') ? disableDarkMode() : enableDarkMode();
-            syncAndRender(); // Para actualizar colores de íconos de calendario si es necesario
+            syncAndRender(); 
         }
 
         function exportAllDataLocal() {
@@ -2692,7 +2678,7 @@
                     id: task.id || generateLocalId(),
                     text: task.text || 'Tarea importada',
                     completed: !!task.completed,
-                    completedDate: task.completedDate || null, // Se espera yyyy-mm-dd
+                    completedDate: task.completedDate || null, 
                     subtasks: Array.isArray(task.subtasks) ? task.subtasks.map(sub => ({
                         id: sub.id || generateLocalId(),
                         text: sub.text || 'Sub-tarea importada',
@@ -2700,7 +2686,7 @@
                     })) : [],
                     showSubtaskUI: !!task.showSubtaskUI,
                     priorityColor: PRIORITY_COLORS.includes(task.priorityColor) ? task.priorityColor : 'none',
-                    date: (typeof task.date === 'string' && task.date.match(/^\d{4}-\d{2}-\d{2}$/)) ? task.date : null, // Se espera yyyy-mm-dd
+                    date: (typeof task.date === 'string' && task.date.match(/^\d{4}-\d{2}-\d{2}$/)) ? task.date : null, 
                     linkUrl: typeof task.linkUrl === 'string' ? task.linkUrl : null,
                     order: typeof task.order === 'number' ? task.order : Date.now()
                 }));
@@ -2790,14 +2776,13 @@
             scheduleReminderButton = document.getElementById('schedule-reminder-button');
 
             const storedTheme = localStorage.getItem(THEME_STORAGE_KEY);
-            if (storedTheme === 'light') { // Si es light, cambiarlo
+            if (storedTheme === 'light') { 
                 disableDarkMode();
-            } else { // Si es dark o no existe, establecer dark
+            } else { 
                 enableDarkMode();
             }
 
             loadTodosFromLocalStorage();
-            // saveTodosToLocalStorage(); // No es necesario aquí si load no modifica y guarda
 
             if (todos.length === 0) {
                 if (welcomeSection) welcomeSection.classList.remove('hidden');
@@ -2805,7 +2790,7 @@
                 if (appMainInterface) appMainInterface.classList.add('hidden');
             } else {
                 if (welcomeSection) welcomeSection.classList.add('hidden');
-                if (installInstructionsSection) installInstructionsSection.classList.add('hidden'); // Ocultar también si hay tareas
+                if (installInstructionsSection) installInstructionsSection.classList.add('hidden'); 
                 if (appMainInterface) appMainInterface.classList.remove('hidden');
                 renderTodosUI();
             }
@@ -2879,8 +2864,6 @@
                 importDriveButton.addEventListener('click', importFromGoogleDrive);
             }
             
-            // Llamadas iniciales a los callbacks de Google si los scripts ya cargaron
-            // (esto maneja el caso donde el script del módulo se carga después de los scripts de Google)
             if (window.isGoogleGisScriptReady && typeof window.googleApiCallbacks.gisLoaded === 'function') {
                 console.log("DOMContentLoaded: GIS script was ready, ensuring initialization.");
                 window.googleApiCallbacks.gisLoaded();
@@ -2889,7 +2872,7 @@
                 console.log("DOMContentLoaded: GAPI script was ready, ensuring initialization.");
                 window.googleApiCallbacks.gapiLoaded();
             }
-            maybeEnableDriveButtons(); // Estado inicial de los botones de Drive
+            maybeEnableDriveButtons(); 
         });
     </script>
 
