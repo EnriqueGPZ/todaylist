@@ -31,7 +31,7 @@ let gisInited = false;  // Para Google Identity Services (Drive Auth)
 let welcomeSection;
 let startAppButton;
 let appMainInterface;
-let installInstructionsSection;
+let installInstructionsSection; // Mantenemos la variable, pero la lógica de mostrar/ocultar cambia
 
 let todos = [];
 
@@ -304,9 +304,6 @@ async function pickerCallback(data) {
     } else if (data.action === google.picker.Action.ERROR ) {
          console.error("Error en Google Picker:", data);
          alert("Ocurrió un error con el selector de archivos de Google Drive.");
-    } else if (data.error) {
-        console.error("Error explícito de Google Picker:", data.error);
-        alert("Ocurrió un error con el selector de archivos de Google Drive: " + data.error);
     } else if (!data.docs || data.docs.length === 0 && data.action !== google.picker.Action.CANCEL) {
         console.log("Ningún archivo seleccionado en Google Picker o acción desconocida.");
     }
@@ -745,7 +742,8 @@ function cyclePriorityColor(taskId) {
 
 function showAppInterface() {
     if (welcomeSection) welcomeSection.classList.add('hidden');
-    if (installInstructionsSection) installInstructionsSection.classList.add('hidden');
+    // Ya no ocultamos installInstructionsSection aquí específicamente
+    // if (installInstructionsSection) installInstructionsSection.classList.add('hidden');
     if (appMainInterface) appMainInterface.classList.remove('hidden');
     if (todoInput) todoInput.focus();
 }
@@ -771,6 +769,7 @@ function addTodo() {
     syncAndRender();
     if (todoInput) todoInput.value = '';
 
+    // Si es la primera tarea añadida y la sección de bienvenida está visible, la ocultamos
     if (todos.length === 1 && welcomeSection && !welcomeSection.classList.contains('hidden')) {
         showAppInterface();
     }
@@ -801,9 +800,11 @@ function deleteTodo(taskId) {
         todos.splice(taskIndex, 1);
         saveTodosToLocalStorage();
         syncAndRender();
-        if (todos.length === 0 && welcomeSection && appMainInterface && installInstructionsSection) {
+        // Si no quedan tareas, mostramos la sección de bienvenida
+        if (todos.length === 0 && welcomeSection && appMainInterface) {
             welcomeSection.classList.remove('hidden');
-            installInstructionsSection.classList.remove('hidden');
+            // Ya no mostramos installInstructionsSection aquí
+            // if (installInstructionsSection) installInstructionsSection.classList.remove('hidden');
             appMainInterface.classList.add('hidden');
         }
     }
@@ -1008,7 +1009,8 @@ function applyImportedData(importedData, source = "local file") {
 
         if (todos.length === 0) {
             if (welcomeSection) welcomeSection.classList.remove('hidden');
-            if (installInstructionsSection) installInstructionsSection.classList.remove('hidden');
+            // Ya no mostramos installInstructionsSection aquí
+            // if (installInstructionsSection) installInstructionsSection.classList.remove('hidden');
             if (appMainInterface) appMainInterface.classList.add('hidden');
         } else {
             showAppInterface();
@@ -1079,7 +1081,7 @@ document.addEventListener('DOMContentLoaded', () => {
     welcomeSection = document.getElementById('welcome-section');
     startAppButton = document.getElementById('start-app-button');
     appMainInterface = document.getElementById('app-main-interface');
-    installInstructionsSection = document.getElementById('install-instructions-section');
+    installInstructionsSection = document.getElementById('install-instructions-section'); // Todavía obtenemos la referencia, pero no la usamos para mostrar/ocultar basada en tareas
 
     const storedTheme = localStorage.getItem(THEME_STORAGE_KEY);
     if (storedTheme === 'light') {
@@ -1091,13 +1093,16 @@ document.addEventListener('DOMContentLoaded', () => {
     loadTodosFromLocalStorage();
     saveTodosToLocalStorage(); // Guardar por si hubo conversión de formato de fecha en loadTodos
 
+    // Lógica de visibilidad inicial ajustada para no depender de installInstructionsSection
     if (todos.length === 0) {
         if (welcomeSection) welcomeSection.classList.remove('hidden');
-        if (installInstructionsSection) installInstructionsSection.classList.remove('hidden');
+        // Ya no mostramos installInstructionsSection aquí
+        // if (installInstructionsSection) installInstructionsSection.classList.remove('hidden');
         if (appMainInterface) appMainInterface.classList.add('hidden');
     } else {
         if (welcomeSection) welcomeSection.classList.add('hidden');
-        if (installInstructionsSection) installInstructionsSection.classList.add('hidden');
+        // Ya no ocultamos installInstructionsSection aquí
+        // if (installInstructionsSection) installInstructionsSection.classList.add('hidden');
         if (appMainInterface) appMainInterface.classList.remove('hidden');
         renderTodosUI();
     }
