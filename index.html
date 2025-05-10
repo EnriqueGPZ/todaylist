@@ -56,7 +56,7 @@
       },
       "image": "https://www.todaylist.es/ToDayList.png",
       "screenshot": "https://www.todaylist.es/images/todaylist-screenshot.jpg",
-      "softwareVersion": "1.0.7", 
+      "softwareVersion": "1.0.8", // Incrementada versión por cambios UX/UI
       "datePublished": "2024-03-11", 
       "keywords": "lista de tareas, to-do list, gestor de tareas diarias, productividad, organización, planificación, web app, tareas pendientes, subtareas, prioridades, google drive"
     }
@@ -106,8 +106,7 @@
             --welcome-button-bg: #e74c3c;
             --welcome-button-text: #fff;
             --welcome-button-hover-bg: #c0392b;
-            --drive-button-color: #4285F4; /* Google Blue */
-            --drive-button-hover-color: #3578E5;
+            --drive-icon-color: #4285F4; /* Google Blue para el icono */
         }
 
         body.dark-mode {
@@ -141,8 +140,7 @@
             --welcome-button-bg: #f39c12;
             --welcome-button-text: #2c3e50;
             --welcome-button-hover-bg: #e67e22;
-            --drive-button-color: #4A90E2;
-            --drive-button-hover-color: #357ABD;
+            --drive-icon-color: #4A90E2; /* Un azul un poco más claro para contraste en modo oscuro si es necesario */
         }
 
         body {
@@ -284,7 +282,6 @@
              outline-offset: 2px;
         }
 
-        /* --- ESTILOS PARA LA SECCIÓN DE INSTALACIÓN (CON ICONOS CORREGIDOS) --- */
         #install-instructions-section {
             margin-top: 20px;
             margin-bottom: 30px;
@@ -296,7 +293,6 @@
             font-size: 0.85rem;
             color: var(--text-color);
         }
-
         #install-instructions-section h4 {
             font-family: 'Quicksand', sans-serif;
             font-size: 1.2rem;
@@ -305,7 +301,6 @@
             margin-bottom: 8px;
             text-align: center;
         }
-
         #install-instructions-section p {
             font-size: 0.95em;
             color: var(--text-color);
@@ -313,14 +308,12 @@
             line-height: 1.45;
             text-align: center;
         }
-
         #install-instructions-section ul {
             list-style: none;
             padding-left: 5px;
             margin: 0 auto;
             max-width: 480px;
         }
-
         #install-instructions-section ul li {
             margin-bottom: 8px;
             line-height: 1.5;
@@ -329,10 +322,9 @@
             position: relative;
             text-align: left;
         }
-
         #install-instructions-section ul li::before {
             font-family: "Font Awesome 6 Brands", "Font Awesome 6 Free"; 
-            font-weight: 400; /* Para iconos de marca (fab) en FA6 */
+            font-weight: 400; 
             position: absolute;
             left: 0px;
             top: 1px; 
@@ -343,17 +335,14 @@
             -webkit-font-smoothing: antialiased; 
             -moz-osx-font-smoothing: grayscale; 
         }
-
-        #install-instructions-section ul li:nth-child(1)::before { content: "\f268"; } /* Chrome */
-        #install-instructions-section ul li:nth-child(2)::before { content: "\f17b"; } /* Android */
-        #install-instructions-section ul li:nth-child(3)::before { content: "\f179"; } /* Apple */
-        #install-instructions-section ul li:nth-child(4)::before { content: "\f267"; } /* Safari */
-
+        #install-instructions-section ul li:nth-child(1)::before { content: "\f268"; } 
+        #install-instructions-section ul li:nth-child(2)::before { content: "\f17b"; } 
+        #install-instructions-section ul li:nth-child(3)::before { content: "\f179"; } 
+        #install-instructions-section ul li:nth-child(4)::before { content: "\f267"; } 
         #install-instructions-section ul li strong {
             color: var(--heading-color);
             font-weight: 700;
         }
-
         #install-instructions-section ul li i.fas.fa-download,
         #install-instructions-section ul li i.fas.fa-ellipsis-v,
         #install-instructions-section ul li i.fas.fa-share-square {
@@ -362,7 +351,6 @@
             margin-right: 0.1em;
             font-size: 0.9em;
         }
-        /* --- FIN ESTILOS SECCIÓN DE INSTALACIÓN --- */
 
         .hidden {
             display: none !important;
@@ -490,30 +478,7 @@
          .sort-button:hover {
              color: var(--sort-button-hover-color);
          }
-        .drive-button { 
-            color: #fff;
-            background-color: var(--drive-button-color);
-            border: 1px solid var(--drive-button-color) !important; 
-        }
-        .drive-button:hover {
-            background-color: var(--drive-button-hover-color);
-            color: #fff;
-            border-color: var(--drive-button-hover-color) !important;
-        }
-        .drive-button:disabled {
-            background-color: #aaa;
-            color: #eee;
-            opacity: 0.7;
-        }
-        .drive-button:disabled:hover {
-            background-color: #aaa;
-            color: #eee;
-        }
-        .drive-button i.fab.fa-google-drive {
-            margin-right: 6px;
-        }
-
-
+        
          #dark-mode-toggle {
              position: fixed;
              bottom: 20px;
@@ -600,7 +565,6 @@
              border-color: var(--checkbox-checkmark-color) !important;
          }
 
-
         .todo-item .main-task-header {
             display: flex;
             align-items: center;
@@ -616,7 +580,6 @@
               background-color: var(--text-color);
               border-color: var(--text-color);
          }
-
 
         .todo-item .priority-color-label {
              display: inline-block;
@@ -638,7 +601,6 @@
         .priority-color-label[data-color="green"] { background-color: var(--priority-green-color); border-color: var(--priority-green-color); }
         .priority-color-label[data-color="none"] { background-color: transparent; border-color: var(--border-color); }
 
-
         .todo-item .main-task-header .task-body {
             display: flex;
             flex-grow: 1;
@@ -647,7 +609,6 @@
             min-width: 0;
             flex-wrap: wrap;
         }
-
 
         .todo-item .main-task-header .task-body span {
             font-weight: 700;
@@ -710,7 +671,6 @@
              padding: 4px 8px;
              font-size: 1rem;
         }
-
 
         .todo-item .add-subtasks-toggle {
              display: block;
@@ -874,7 +834,6 @@
             font-weight: normal !important;
         }
 
-
         .todo-item.completed .main-task-header .task-body .task-actions-group .delete-button {
             opacity: 0.7;
         }
@@ -906,7 +865,6 @@
             text-decoration: none;
             transform: none;
         }
-
 
          .todo-item.completed .main-task-header input[type="checkbox"] {
              border-color: var(--completed-text-color);
@@ -977,7 +935,6 @@
             box-shadow: 0 0 0 2px rgba(243, 156, 18, 0.2);
         }
 
-
         #clear-notes-button {
             align-self: flex-end;
             padding: 5px 10px;
@@ -996,30 +953,83 @@
             margin-right: 4px;
         }
 
-        #data-management-container {
-            display: flex;
-            justify-content: flex-end; 
-            gap: 10px;
-            margin-top: 10px;
+        /* NUEVOS ESTILOS PARA DATA MANAGEMENT SECTION */
+        #data-management-section {
+            margin-top: 30px;
             margin-bottom: 20px;
-            flex-wrap: wrap; 
-        }
-        #data-management-container .app-button {
-            padding: 6px 12px;
-            font-size: 0.85rem;
+            padding: 20px; /* Aumentado padding */
             background-color: var(--item-bg);
             border: 1px solid var(--border-color);
-            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.07); /* Sombra un poco más pronunciada */
         }
-        #data-management-container .app-button:hover {
-            border-color: var(--button-hover-color);
-            background-color: var(--fixed-button-bg);
+        #data-management-section h4 {
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1.2rem; /* Un poco más grande */
+            color: var(--heading-color);
+            margin-top: 0;
+            margin-bottom: 10px; /* Más espacio */
+            text-align: center;
         }
-        #data-management-container .app-button i {
-            margin-right: 5px;
+        .data-management-intro {
+            font-size: 0.85rem; /* Un poco más grande */
+            color: var(--legend-text-color);
+            text-align: center;
+            margin-bottom: 20px; /* Más espacio */
+            line-height: 1.5;
+            max-width: 90%;
+            margin-left: auto;
+            margin-right: auto;
         }
+        .data-options-row {
+            display: flex;
+            justify-content: space-around; 
+            gap: 15px; 
+            margin-bottom: 15px;
+            flex-wrap: wrap; 
+        }
+        .data-options-row:last-child {
+            margin-bottom: 0;
+        }
+        .data-action-button { 
+            flex-grow: 1; 
+            min-width: 200px; /* Ancho mínimo para mejor distribución */
+            padding: 9px 15px !important; 
+            font-size: 0.9rem !important;
+            background-color: var(--item-bg); /* Fondo explícito */
+            border: 1px solid var(--border-color) !important; 
+            box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+            color: var(--button-color); 
+            font-weight: 400; /* Un poco más de peso */
+        }
+        .data-action-button:hover {
+            border-color: var(--button-hover-color) !important;
+            background-color: var(--fixed-button-bg); 
+            color: var(--button-hover-color); 
+        }
+        .data-action-button i {
+            margin-right: 8px; 
+            font-size: 0.95em; /* Icono ligeramente más grande */
+        }
+        .drive-button-style i.fab.fa-google-drive {
+             color: var(--drive-icon-color); 
+        }
+        .drive-button-style:hover i.fab.fa-google-drive {
+            /* Opcional: cambiar color del icono en hover */
+            /* color: #fff; */
+        }
+        .drive-button-style:disabled i.fab.fa-google-drive {
+            color: inherit; 
+            opacity: 0.7;
+        }
+        .drive-button-style:disabled {
+            background-color: var(--input-bg) !important; /* Fondo más claro para deshabilitado */
+            border-color: var(--border-color) !important;
+            color: var(--placeholder-color) !important;
+            opacity: 0.7;
+        }
+        /* FIN NUEVOS ESTILOS PARA DATA MANAGEMENT SECTION */
 
-        /* --- ESTILOS PARA EL BOTÓN DE INFORMACIÓN (MÁS DISCRETO) --- */
         #info-button {
             position: absolute;
             top: 15px;
@@ -1049,7 +1059,6 @@
             border-color: var(--button-hover-color);
         }
 
-        /* Footer */
         footer {
             display: flex;
             flex-direction: column; 
@@ -1075,21 +1084,18 @@
             color: var(--footer-text-color); 
             font-size: 0.85em; 
         }
-
         #support-section-footer {
             margin-top: 5px; 
             display: flex;
             flex-direction: column; 
             align-items: center; 
         }
-
         .support-intro-text { 
             font-size: 0.7rem; 
             color: var(--legend-text-color); 
             margin-bottom: 3px; 
             line-height: 1.3; 
         }
-
         .paypal-link-footer {
             display: inline-flex;
             align-items: center;
@@ -1098,17 +1104,14 @@
             text-decoration: none;
             transition: color 0.2s ease;
         }
-
         .paypal-link-footer:hover {
             color: var(--button-hover-color); 
             text-decoration: underline;
         }
-
         .paypal-link-footer i.fab.fa-paypal {
             margin-right: 4px; 
             font-size: 0.9em;  
         }
-
 
         @media (max-width: 500px) {
             h1 {
@@ -1147,9 +1150,29 @@
              #todo-input-container #reorder-button {
                   margin-left: 0;
              }
-             #data-management-container {
-                justify-content: center; 
-             }
+             /* Ajustes para data management en móvil */
+            #data-management-section {
+                padding: 15px;
+            }
+            #data-management-section h4 {
+                font-size: 1.1rem;
+            }
+            .data-management-intro {
+                font-size: 0.8rem;
+                margin-bottom: 15px;
+            }
+             .data-options-row {
+                flex-direction: column; 
+                align-items: stretch; 
+                gap: 10px; /* Espacio entre botones apilados */
+            }
+            .data-action-button {
+                min-width: unset; 
+                width: 100%; 
+                margin-bottom: 0; /* Quitar margen inferior individual si se apilan */
+            }
+            /* Fin ajustes data management en móvil */
+
              #welcome-section h2 {
                  font-size: 1.5rem;
              }
@@ -1163,7 +1186,6 @@
                 padding: 10px 20px;
                 font-size: 1rem;
             }
-
             #install-instructions-section {
                 padding: 15px 18px;
                 font-size: 0.8rem;
@@ -1180,7 +1202,6 @@
                 top: 0px;
                 font-size: 1em;
             }
-            
             footer {
                 font-size: 0.75rem; 
                 padding-top: 15px; 
@@ -1223,7 +1244,6 @@
             visibility: visible;
             transition: opacity 0.3s ease, visibility 0s linear 0s;
         }
-
         .modal-content {
             background-color: var(--item-bg);
             color: var(--text-color);
@@ -1241,7 +1261,6 @@
         .modal-overlay.visible .modal-content {
             transform: scale(1);
         }
-
         .modal-content h2 {
             margin-top: 0;
             margin-bottom: 20px;
@@ -1250,7 +1269,6 @@
             font-family: 'Quicksand', sans-serif;
             font-size: 1.8rem;
         }
-
         .modal-content ol {
             padding-left: 20px;
             margin-bottom: 0;
@@ -1268,7 +1286,6 @@
             margin-bottom: 8px;
             font-size: 0.95em;
         }
-
         .modal-content strong {
             color: var(--heading-color);
         }
@@ -1277,8 +1294,6 @@
             margin: 0 2px;
             font-size: 0.9em;
         }
-
-
         .close-modal {
             position: absolute;
             top: 10px;
@@ -1372,20 +1387,29 @@
                 </button>
             </div>
 
-            <div id="data-management-container">
-                <button id="export-data-button" class="app-button" aria-label="Exportar datos locales">
-                    <i class="fas fa-file-export"></i> Exportar Local
-                </button>
-                <input type="file" id="import-file-input" accept=".json" style="display: none;">
-                <button id="import-data-button" class="app-button" aria-label="Importar datos locales">
-                    <i class="fas fa-file-import"></i> Importar Local
-                </button>
-                <button id="export-drive-button" class="app-button drive-button" aria-label="Exportar a Google Drive" disabled>
-                    <i class="fab fa-google-drive"></i> Exportar a Drive
-                </button>
-                <button id="import-drive-button" class="app-button drive-button" aria-label="Importar desde Google Drive" disabled>
-                    <i class="fab fa-google-drive"></i> Importar de Drive
-                </button>
+            <div id="data-management-section"> 
+                <h4>Gestión de Datos</h4>
+                <p class="data-management-intro">
+                    Guarda tus tareas para usarlas en otros dispositivos o como copia de seguridad.
+                    Puedes exportar/importar un archivo local o usar tu Google Drive.
+                </p>
+                <div id="export-options-container" class="data-options-row">
+                    <button id="export-data-button" class="app-button data-action-button" aria-label="Exportar datos locales">
+                        <i class="fas fa-file-export"></i> Exportar Local
+                    </button>
+                    <button id="export-drive-button" class="app-button data-action-button drive-button-style" aria-label="Exportar a Google Drive" disabled>
+                        <i class="fab fa-google-drive"></i> Exportar a Drive
+                    </button>
+                </div>
+                <div id="import-options-container" class="data-options-row">
+                    <input type="file" id="import-file-input" accept=".json" style="display: none;">
+                    <button id="import-data-button" class="app-button data-action-button" aria-label="Importar datos locales">
+                        <i class="fas fa-file-import"></i> Importar Local
+                    </button>
+                    <button id="import-drive-button" class="app-button data-action-button drive-button-style" aria-label="Importar desde Google Drive" disabled>
+                        <i class="fab fa-google-drive"></i> Importar de Drive
+                    </button>
+                </div>
             </div>
 
         </div> <!-- Fin de #app-main-interface -->
@@ -1459,7 +1483,7 @@
         // -------------------------------------------------------------------------------------
         // IMPORTANTE: REEMPLAZA ESTOS VALORES CON TUS CREDENCIALES DE GOOGLE CLOUD CONSOLE
         // -------------------------------------------------------------------------------------
-        const CLIENT_ID = '25607067695-mgv7jfvio4vr1goi5ci6o952mgpii8nf.apps.googleusercontent.com'; // <<<< ASEGÚRATE QUE ESTE ES TU CLIENT_ID REAL
+        const CLIENT_ID = '25607067695-mgv7jfvio4vr1goi5ci6o952mgpii8nf.apps.googleusercontent.com'; // <<<< VERIFICA/REEMPLAZA CON TU CLIENT_ID REAL
         const API_KEY = 'AIzaSyAhr2kqUcRf5qZi0yMHsFDsyp_x8Ekfj7k';         // <<<< ESTA ES TU API_KEY (YA INSERTADA)
         // -------------------------------------------------------------------------------------
         const SCOPES = 'https://www.googleapis.com/auth/drive.file';
