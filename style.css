@@ -537,7 +537,7 @@ body.dark-mode #welcome-section ul li::before {
 }
 
 /* Eliminamos el margin-top individual de los hijos del task-prefix-group
-   ya que ahora se centran con align-items: center en su padre. */
+   ya que ahora se centran con align-items: center in their parent. */
 /*
 .todo-item .main-task-header .task-prefix-group .custom-checkbox,
 .todo-item .main-task-header .task-prefix-group .priority-color-label {
@@ -1226,13 +1226,14 @@ footer {
     border-radius: 10px;
     box-shadow: 0 5px 20px rgba(0,0,0,0.3);
     width: 90%;
-    max-width: 450px; /* REDUCIDO: Ancho máximo */
+    max-width: 380px; /* REDUCIDO: Ancho máximo para hacerlo más estrecho */
     max-height: 85vh;
     overflow-y: auto;
     position: relative;
     transform: scale(0.95);
     transition: transform 0.3s ease;
     box-sizing: border-box;
+    text-align: center; /* Centra el contenido de texto */
 }
 .modal-overlay.visible .modal-content {
     transform: scale(1);
@@ -1249,36 +1250,42 @@ footer {
 /* Estilos específicos para el modal de recordatorio */
 #reminder-modal .modal-content h2 {
     color: var(--accent-color); /* Usar color de acento para el título del recordatorio */
-    font-size: 1.5rem; /* Ajustar tamaño del título del modal de recordatorio */
+    font-size: 1.3rem; /* Ajustar tamaño del título del modal de recordatorio */
     margin-bottom: 15px;
 }
 
 #reminder-modal p#reminder-task-text {
     text-align: center;
     font-style: italic;
-    margin-bottom: 20px;
+    margin: 0 auto 20px auto; /* Centrar el párrafo y añadir margen */
     word-break: break-word; /* Romper palabras largas */
     color: var(--text-color);
     font-size: 0.85rem; /* REDUCIDO: Tamaño de fuente como subtareas */
     font-weight: normal;
+    max-width: 90%; /* Limitar ancho para que no se pegue a los bordes */
 }
 
 .modal-input-group {
-    margin-bottom: 15px;
+    margin: 15px auto; /* Centrar el grupo de inputs */
+    width: fit-content; /* Hacer que el contenedor se ajuste al contenido */
+    display: flex; /* Usar flexbox para alinear label e input */
+    align-items: center; /* Alinear verticalmente */
+    gap: 10px; /* Espacio entre label e input */
 }
 
 .modal-input-group label {
-    display: block; /* Etiqueta en su propia línea */
-    margin-bottom: 5px;
+    display: block; /* Sigue siendo block para mantener el comportamiento de etiqueta */
+    margin-bottom: 0; /* Eliminar margen inferior */
     font-weight: bold;
     color: var(--text-color);
     font-size: 0.85rem; /* REDUCIDO: Tamaño de fuente como subtareas */
+    flex-shrink: 0; /* Evitar que se encoja */
 }
 
 .modal-input-group input[type="date"],
 .modal-input-group input[type="time"] {
-    width: calc(100% - 22px); /* Ancho completo menos padding y borde */
-    padding: 10px;
+    width: 130px; /* FIJO: Ancho para que midan lo mismo */
+    padding: 8px; /* REDUCIDO: Padding */
     border: 1px solid var(--modal-input-border-color); /* Usar color de borde del tema */
     border-radius: 4px;
     background-color: var(--modal-input-background-color); /* Usar color de fondo de input del tema */
@@ -1312,6 +1319,8 @@ body.dark-mode .modal-input-group input[type="time"]:focus {
 #reminder-modal .modal-content button.app-button {
     display: block; /* Botón en su propia línea */
     width: 100%; /* Ancho completo */
+    max-width: 300px; /* LIMITADO: Ancho máximo para centrar */
+    margin: 20px auto 0 auto; /* Centrar el botón y añadir margen superior */
     padding: 10px; /* REDUCIDO: Padding del botón */
     background-color: var(--modal-button-background-color); /* Usar color de acento */
     color: var(--modal-button-text-color); /* Color de texto del botón */
@@ -1343,6 +1352,7 @@ body.dark-mode .modal-input-group input[type="time"]:focus {
 .modal-content ol {
     padding-left: 20px;
     margin-bottom: 0;
+    text-align: left; /* Asegurar que las listas no se centren */
 }
 .modal-content ol li {
     margin-bottom: 12px;
@@ -1368,11 +1378,11 @@ body.dark-mode .modal-input-group input[type="time"]:focus {
 /* Estilo para el botón de cerrar (aplicado a ambos modales) */
 .close-modal {
     position: absolute;
-    top: 10px;
-    right: 12px;
-    font-size: 1.6rem; /* REDUCIDO: Tamaño del icono 'x' */
+    top: 10px; /* Ajustar posición si es necesario */
+    right: 12px; /* Ajustar posición si es necesario */
+    font-size: 1.4rem; /* REDUCIDO: Tamaño del icono 'x' */
     color: var(--button-color);
-    padding: 5px 10px; /* Padding para el área clickeable */
+    padding: 5px 8px; /* REDUCIDO: Padding para el área clickeable */
     line-height: 1;
     background: none;
     border: none;
@@ -1388,7 +1398,7 @@ body.dark-mode .modal-input-group input[type="time"]:focus {
     background: none !important;
     border: none !important;
     box-shadow: none !important;
-    padding: 5px 10px !important; /* Mantener padding del close-modal */
+    padding: 5px 8px !important; /* Mantener padding del close-modal */
 }
 
 
@@ -1410,7 +1420,7 @@ body.dark-mode .modal-input-group input[type="time"]:focus {
         margin-bottom: 15px;
     }
     #reminder-modal .modal-content h2 {
-         font-size: 1.3rem; /* Ajustar tamaño del título del modal de recordatorio en móvil */
+         font-size: 1.2rem; /* Ajustar tamaño del título del modal de recordatorio en móvil */
     }
     #reminder-modal p#reminder-task-text {
         font-size: 0.85rem; /* Mantener tamaño texto tarea */
@@ -1418,19 +1428,22 @@ body.dark-mode .modal-input-group input[type="time"]:focus {
     }
     .modal-input-group {
         margin-bottom: 10px;
+        gap: 8px; /* Reducir espacio entre label e input en móvil */
     }
     .modal-input-group label {
         font-size: 0.85rem; /* Mantener tamaño etiqueta */
-        margin-bottom: 3px;
+        margin-bottom: 0;
     }
     .modal-input-group input[type="date"],
     .modal-input-group input[type="time"] {
-        padding: 8px;
+        padding: 6px; /* Reducir padding input en móvil */
         font-size: 0.85rem; /* Mantener tamaño input */
+        width: 110px; /* Ajustar ancho input en móvil si es necesario */
     }
     #reminder-modal .modal-content button.app-button {
-        padding: 10px;
-        font-size: 1rem;
+        padding: 8px; /* Reducir padding botón en móvil */
+        font-size: 0.9rem; /* Reducir tamaño fuente botón en móvil */
+        max-width: 250px; /* Ajustar ancho máximo botón en móvil */
     }
     .modal-content ol li {
         font-size: 0.9em;
@@ -1441,9 +1454,9 @@ body.dark-mode .modal-input-group input[type="time"]:focus {
         margin-bottom: 6px;
     }
     .close-modal {
-        font-size: 1.5rem; /* REDUCIDO: Tamaño del icono 'x' en móvil */
+        font-size: 1.3rem; /* REDUCIDO: Tamaño del icono 'x' en móvil */
         top: 8px;
         right: 10px;
-        padding: 3px 8px;
+        padding: 3px 6px; /* REDUCIDO: Padding en móvil */
     }
 }
