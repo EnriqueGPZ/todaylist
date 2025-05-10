@@ -7,7 +7,7 @@
     <!-- SEO Meta Tags -->
     <title>ToDayList - Simplifica Tu Día, Organiza Tus Tareas</title>
     <meta name="description" content="ToDayList es tu gestor de tareas diarias minimalista y eficiente. Organiza tus pendientes, establece prioridades, añade subtareas y fechas límite. ¡Mejora tu productividad hoy!">
-    <meta name="keywords" content="lista de tareas, to-do list, gestor de tareas diarias, organizador personal, productividad, planificación diaria, tareas pendientes, subtareas, prioridades, web app, enrique gil, ToDayList">
+    <meta name="keywords" content="lista de tareas, to-do list, gestor de tareas diarias, organizador personal, productividad, planificación diaria, tareas pendientes, subtareas, prioridades, web app, enrique gil, ToDayList, firebase">
     <meta name="author" content="Enrique Gil">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://www.todaylist.es/">
@@ -35,6 +35,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
+    <link rel="stylesheet" href="style.css">
+
     <!-- Schema.org markup for Google -->
     <script type="application/ld+json">
     {
@@ -56,109 +58,102 @@
       },
       "image": "https://www.todaylist.es/ToDayList.png",
       "screenshot": "https://www.todaylist.es/images/todaylist-screenshot.jpg",
-      "softwareVersion": "1.0.6",
-      "datePublished": "2024-03-11",
-      "keywords": "lista de tareas, to-do list, gestor de tareas diarias, productividad, organización, planificación, web app, tareas pendientes, subtareas, prioridades"
+      "softwareVersion": "1.0.7-firebase",
+      "datePublished": "2024-03-15",
+      "keywords": "lista de tareas, to-do list, gestor de tareas diarias, productividad, organización, planificación, web app, tareas pendientes, subtareas, prioridades, firebase"
     }
     </script>
-
-    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div class="container">
-        <button id="info-button" class="app-button" aria-label="Información de la aplicación" title="Cómo usar la aplicación">
-            i
-        </button>
-        <h1>ToDayList</h1>
-        <h2 class="subtitle">Tu Gestor de Tareas Diarias</h2>
-        <p class="app-description-static">
-            Organiza tu día y aumenta tu productividad de forma sencilla y eficaz.
+  <section id="authBox">
+    <h2>Acceder a ToDayList</h2>
+    <button id="btnGoogle" class="app-button"> <i class="fab fa-google"></i> Entrar con Google</button>
+    <p id="authStatus"></p>
+  </section>
+
+  <div id="app" class="container" hidden>
+    <button id="info-button" class="app-button" aria-label="Información de la aplicación" title="Cómo usar la aplicación">
+        i
+    </button>
+    <h1>ToDayList</h1>
+    <h2 class="subtitle">Tu Gestor de Tareas Diarias</h2>
+    <p class="app-description-static">
+        Organiza tu día y aumenta tu productividad de forma sencilla y eficaz.
+    </p>
+
+    <section id="welcome-section" class="hidden">
+        <img src="https://www.todaylist.es/ToDayList.png" alt="ToDayList Icono" class="welcome-icon">
+        <h2>¡Bienvenido a ToDayList!</h2>
+        <p>
+            ToDayList es más que una simple lista de tareas. Es una aplicación web diseñada para ayudarte
+            a gestionar tu tiempo y tus proyectos de manera eficiente. Descubre cómo ToDayList puede transformar
+            tu productividad diaria:
         </p>
+        <ul>
+            <li><strong>Gestión Intuitiva de Tareas:</strong> Crea, edita y organiza tus tareas fácilmente.</li>
+            <li><strong>Subtareas Detalladas:</strong> Desglosa tareas complejas en pasos manejables.</li>
+            <li><strong>Prioridades Visuales:</strong> Asigna colores para enfocarte en lo importante.</li>
+            <li><strong>Fechas Límite Claras:</strong> Establece fechas de vencimiento para no olvidar nada.</li>
+            <li><strong>Enlaces Relevantes:</strong> Asocia URLs directamente a tus tareas.</li>
+            <li><strong>Modo Oscuro/Claro:</strong> Adapta la interfaz a tus preferencias visuales.</li>
+            <li><strong>Progreso y Motivación:</strong> Visualiza el avance y gana medallas por completar tareas.</li>
+            <li><strong>Sincronización en la Nube:</strong> Tus datos se guardan y sincronizan con Firebase.</li>
+            <li><strong>Anotaciones Rápidas:</strong> Un espacio para tomar notas sin crear una tarea formal.</li>
+        </ul>
+        <p>
+            ¡Comienza a organizar tu día ahora!
+        </p>
+        <!-- <button id="start-app-button" class="app-button">Empezar a Organizar</button> -->
+    </section>
 
-        <section id="welcome-section" class="hidden">
-            <img src="https://www.todaylist.es/ToDayList.png" alt="ToDayList Icono" class="welcome-icon">
-            <h2>¡Bienvenido a ToDayList!</h2>
-            <p>
-                ToDayList es más que una simple lista de tareas. Es una aplicación web diseñada para ayudarte
-                a gestionar tu tiempo y tus proyectos de manera eficiente. Descubre cómo ToDayList puede transformar
-                tu productividad diaria:
-            </p>
-            <ul>
-                <li><strong>Gestión Intuitiva de Tareas:</strong> Crea, edita y organiza tus tareas fácilmente.</li>
-                <li><strong>Subtareas Detalladas:</strong> Desglosa tareas complejas en pasos manejables.</li>
-                <li><strong>Prioridades Visuales:</strong> Asigna colores para enfocarte en lo importante.</li>
-                <li><strong>Fechas Límite Claras:</strong> Establece fechas de vencimiento para no olvidar nada.</li>
-                <li><strong>Enlaces Relevantes:</strong> Asocia URLs directamente a tus tareas.</li>
-                <li><strong>Modo Oscuro/Claro:</strong> Adapta la interfaz a tus preferencias visuales.</li>
-                <li><strong>Progreso y Motivación:</strong> Visualiza el avance y gana medallas por completar tareas.</li>
-                <li><strong>Exportación e Importación de Datos:</strong> Realiza copias de seguridad o transfiere tus datos.</li>
-                <li><strong>Anotaciones Rápidas:</strong> Un espacio para tomar notas sin crear una tarea formal.</li>
-            </ul>
-            <p>
-                ¡Comienza a organizar tu día ahora!
-            </p>
-            <button id="start-app-button" class="app-button">Empezar a Organizar</button>
-        </section>
+    <section id="install-instructions-section" class="hidden">
+        <h4>¡Acceso Rápido a ToDayList!</h4>
+        <p>Guarda ToDayList en tu dispositivo para acceder como una app:</p>
+        <ul>
+            <li><strong>Chrome (Escritorio):</strong> Clic en el icono <i class="fas fa-download" title="Instalar"></i> en la barra de direcciones, o Menú (<i class="fas fa-ellipsis-v"></i>) → "Instalar ToDayList".</li>
+            <li><strong>Android (Chrome):</strong> Menú (<i class="fas fa-ellipsis-v"></i>) → "Instalar aplicación" o "Añadir a pantalla de inicio".</li>
+            <li><strong>iPhone/iPad (Safari):</strong> Icono Compartir (<i class="fas fa-share-square" title="Compartir"></i>) → "Añadir a pantalla de inicio".</li>
+            <li><strong>Mac (Safari):</strong> Desde el menú "Archivo" → "Añadir al Dock".</li>
+        </ul>
+    </section>
 
-        <section id="install-instructions-section" class="hidden">
-            <h4>¡Acceso Rápido a ToDayList!</h4>
-            <p>Guarda ToDayList en tu dispositivo para acceder como una app:</p>
-            <ul>
-                <li><strong>Chrome (Escritorio):</strong> Clic en el icono <i class="fas fa-download" title="Instalar"></i> en la barra de direcciones, o Menú (<i class="fas fa-ellipsis-v"></i>) → "Instalar ToDayList".</li>
-                <li><strong>Android (Chrome):</strong> Menú (<i class="fas fa-ellipsis-v"></i>) → "Instalar aplicación" o "Añadir a pantalla de inicio".</li>
-                <li><strong>iPhone/iPad (Safari):</strong> Icono Compartir (<i class="fas fa-share-square" title="Compartir"></i>) → "Añadir a pantalla de inicio".</li>
-                <li><strong>Mac (Safari):</strong> Desde el menú "Archivo" → "Añadir al Dock".</li>
-            </ul>
-        </section>
+    <div id="medal-counter-container">
+        <i class="fas fa-medal"></i> <span id="medal-count">0</span>
+    </div>
 
-        <div id="app-main-interface" class="hidden">
-            <div id="medal-counter-container">
-                <i class="fas fa-medal"></i> <span id="medal-count">0</span>
-            </div>
+    <ul id="todo-list"></ul>
+    <div id="todo-input-container">
+        <input type="text" id="new-todo-input" placeholder="Agregar nueva tarea...">
+        <button id="add-todo-button" class="app-button add-button" aria-label="Agregar Tarea"><i class="fas fa-plus"></i></button>
+        <button id="reorder-button" class="app-button sort-button" aria-label="Reordenar Tareas"><i class="fas fa-sort-amount-down-alt"></i></button>
+    </div>
+    <div id="priority-legend">
+        Prioridad:
+        <span class="priority-legend-item"><span class="priority-color-label" data-color="red"></span>Urgente</span>
+        >
+        <span class="priority-legend-item"><span class="priority-color-label" data-color="orange"></span>Alta</span>
+        >
+        <span class="priority-legend-item"><span class="priority-color-label" data-color="yellow"></span>No Olvidar</span>
+        >
+        <span class="priority-legend-item"><span class="priority-color-label" data-color="green"></span>Puede Esperar</span>
+    </div>
 
-            <ul id="todo-list"></ul>
-            <div id="todo-input-container">
-                <input type="text" id="new-todo-input" placeholder="Agregar nueva tarea...">
-                <button id="add-todo-button" class="app-button add-button" aria-label="Agregar Tarea"><i class="fas fa-plus"></i></button>
-                <button id="reorder-button" class="app-button sort-button" aria-label="Reordenar Tareas"><i class="fas fa-sort-amount-down-alt"></i></button>
-            </div>
-            <div id="priority-legend">
-                Prioridad:
-                <span class="priority-legend-item"><span class="priority-color-label" data-color="red"></span>Urgente</span>
-                >
-                <span class="priority-legend-item"><span class="priority-color-label" data-color="orange"></span>Alta</span>
-                >
-                <span class="priority-legend-item"><span class="priority-color-label" data-color="yellow"></span>No Olvidar</span>
-                >
-                <span class="priority-legend-item"><span class="priority-color-label" data-color="green"></span>Puede Esperar</span>
-            </div>
+    <div id="quick-notes-container">
+        <textarea id="quick-notes-area" placeholder="Anotaciones rápidas (se guardan en la nube)."></textarea>
+        <button id="clear-notes-button" class="app-button" aria-label="Borrar anotaciones">
+            <i class="fas fa-eraser"></i> Borrar
+        </button>
+    </div>
 
-            <div id="quick-notes-container">
-                <textarea id="quick-notes-area" placeholder="Anotaciones rápidas..."></textarea>
-                <button id="clear-notes-button" class="app-button" aria-label="Borrar anotaciones">
-                    <i class="fas fa-eraser"></i> Borrar
-                </button>
-            </div>
-
-            <div id="data-management-container">
-                <button id="export-data-button" class="app-button" aria-label="Exportar datos">
-                    <i class="fas fa-file-export"></i> Exportar
-                </button>
-                <input type="file" id="import-file-input" accept=".json" style="display: none;">
-                <button id="import-data-button" class="app-button" aria-label="Importar datos">
-                    <i class="fas fa-file-import"></i> Importar
-                </button>
-            </div>
-
-        </div> <!-- Fin de #app-main-interface -->
-
-    </div> <!-- Fin de .container -->
+    <div id="user-controls" style="text-align: center; margin-top: 20px;">
+        <button id="logoutButton" class="app-button"><i class="fas fa-sign-out-alt"></i> Salir</button>
+    </div>
 
     <footer>
         <img src="https://www.todaylist.es/ToDayList.png" alt="Logo ToDayList" class="footer-logo">
         <p class="footer-text">WebApp creada por Henry Gil</p>
-        
+
         <div id="support-section-footer">
             <p class="support-intro-text">¿Te gusta ToDayList? Si te ha sido útil...</p>
             <a href="https://paypal.me/todaylistHenry" target="_blank" rel="noopener noreferrer" class="paypal-link-footer">
@@ -174,6 +169,7 @@
             <button id="close-modal-button" class="app-button close-modal" aria-label="Cerrar ventana de información">×</button>
             <h2>Cómo usar ToDayList</h2>
             <ol>
+                <li><strong>Acceder:</strong> Inicia sesión con tu cuenta de Google para guardar tus tareas en la nube.</li>
                 <li><strong>Añadir Tareas:</strong> Escribe tu tarea en el campo inferior y pulsa el botón <i class="fas fa-plus"></i> o la tecla "Enter".</li>
                 <li><strong>Marcar como Completada:</strong> Haz clic en el círculo a la izquierda de la tarea. ¡Ganas una medalla <i class="fas fa-medal"></i> por cada tarea completada en el día!</li>
                 <li><strong>Prioridad:</strong> Haz clic en el cuadrado de color junto al círculo para cambiar la prioridad de la tarea (Rojo: Urgente > Naranja: Alta > Amarillo: No Olvidar > Verde: Puede Esperar > Gris: Sin prioridad).</li>
@@ -188,16 +184,55 @@
                 </li>
                 <li><strong>Barra de Progreso:</strong> Indica el porcentaje de sub-tareas completadas. Se llena al 100% cuando la tarea principal se marca como completada.</li>
                 <li><strong>Reordenar Tareas:</strong> Pulsa el botón de reordenar <i class="fas fa-sort-amount-down-alt"></i> para organizar automáticamente todas las tareas por prioridad (de más a menos urgente) y luego por fecha (las más antiguas primero).</li>
-                <li><strong>Modo Oscuro/Claro:</strong> Utiliza el botón <i class="fas fa-moon"></i> / <i class="fas fa-sun"></i> situado abajo a la derecha para cambiar el tema visual de la aplicación.</li>
+                <li><strong>Modo Oscuro/Claro:</strong> Utiliza el botón <i class="fas fa-moon"></i> / <i class="fas fa-sun"></i> situado abajo a la derecha para cambiar el tema visual de la aplicación. Tu preferencia se guarda.</li>
                 <li><strong>Eliminar Tareas:</strong> Haz clic en el icono de papelera <i class="fas fa-trash-alt"></i> para eliminar tareas principales o sub-tareas.</li>
-                <li><strong>Anotaciones Rápidas:</strong> Utiliza el área debajo de la leyenda para notas temporales. Puedes borrarlas con el botón "Borrar".</li>
-                <li><strong>Exportar/Importar Datos:</strong> Usa los botones "Exportar" e "Importar" (debajo de las anotaciones) para guardar una copia de seguridad de todos tus datos (tareas, notas, medallas, tema) o para restaurarlos desde un archivo. <strong>¡Atención!</strong> Importar reemplazará los datos actuales.</li>
+                <li><strong>Anotaciones Rápidas:</strong> Utiliza el área debajo de la leyenda para notas temporales. Se guardan automáticamente en la nube. Puedes borrarlas con el botón "Borrar".</li>
+                <li><strong>Datos en la Nube:</strong> Tus tareas, notas, medallas y tema visual se guardan automáticamente en tu cuenta de Firebase.</li>
             </ol>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
-    <script type="module" src="script.js"></script>
+  </div> <!-- Fin de #app y .container -->
+
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+
+  <!-- SDK modular de Firebase -->
+  <script type="module">
+    // TODO: Reemplaza esto con tu configuración de Firebase
+    const firebaseConfig = {
+      apiKey: "TU_API_KEY",
+      authDomain: "TU_AUTH_DOMAIN",
+      projectId: "TU_PROJECT_ID",
+      storageBucket: "TU_STORAGE_BUCKET",
+      messagingSenderId: "TU_MESSAGING_SENDER_ID",
+      appId: "TU_APP_ID"
+    };
+
+    import { initializeApp }  from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
+    import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
+    import { getFirestore, collection, doc, getDoc, setDoc, addDoc, updateDoc, deleteDoc, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
+
+    const app   = initializeApp(firebaseConfig);
+    window.auth = getAuth(app); // Exponer auth globalmente
+    window.db   = getFirestore(app); // Exponer db globalmente
+    window.googleProvider = new GoogleAuthProvider(); // Exponer provider globalmente
+    window.onAuthStateChanged = onAuthStateChanged; // Exponer para usar en script.js
+    window.signInWithPopup = signInWithPopup; // Exponer para usar en script.js
+    window.signOut = signOut; // Exponer para usar en script.js
+    window.collection = collection; // Exponer para usar en script.js
+    window.doc = doc; // Exponer para usar en script.js
+    window.getDoc = getDoc; // Exponer para usar en script.js
+    window.setDoc = setDoc; // Exponer para usar en script.js
+    window.addDoc = addDoc; // Exponer para usar en script.js
+    window.updateDoc = updateDoc; // Exponer para usar en script.js
+    window.deleteDoc = deleteDoc; // Exponer para usar en script.js
+    window.query = query; // Exponer para usar en script.js
+    window.orderBy = orderBy; // Exponer para usar en script.js
+    window.onSnapshot = onSnapshot; // Exponer para usar en script.js
+
+  </script>
+
+  <script type="module" src="script.js"></script>
 
 </body>
 </html>
