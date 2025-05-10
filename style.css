@@ -33,13 +33,11 @@
     --priority-yellow-color: #f1c40f;
     --priority-green-color: #2ecc71;
     --priority-none-color: var(--border-color);
-    /* --calendar-icon-default-color: var(--button-color); /* OBSOLETO */
-    /* --calendar-icon-set-color: var(--text-color);       /* OBSOLETO */
     --welcome-button-bg: #e74c3c;
     --welcome-button-text: #fff;
     --welcome-button-hover-bg: #c0392b;
     --drive-icon-color: #4285F4;
-    --accent-color: #3498db; /* NUEVO: Para indicar acción, como evento de calendario agendado */
+    --accent-color: #3498db;
 }
 
 body.dark-mode {
@@ -74,7 +72,7 @@ body.dark-mode {
     --welcome-button-text: #2c3e50;
     --welcome-button-hover-bg: #e67e22;
     --drive-icon-color: #4A90E2;
-    --accent-color: #5dade2; /* NUEVO: Para modo oscuro */
+    --accent-color: #5dade2;
 }
 
 body {
@@ -374,7 +372,7 @@ body.dark-mode #welcome-section ul li::before {
      align-items: center;
      justify-content: center;
      text-decoration: none;
-     color: var(--button-color); /* Color por defecto para todos los app-button */
+     color: var(--button-color);
  }
  .app-button:hover {
      color: var(--button-hover-color);
@@ -392,20 +390,20 @@ body.dark-mode #welcome-section ul li::before {
  }
 
  .add-button {
-     color: var(--button-color); /* Hereda de .app-button pero puede ser sobreescrito */
+     color: var(--button-color);
      font-weight: bold;
  }
  .add-button:hover {
      color: var(--button-hover-color);
  }
  .delete-button {
-     color: var(--delete-button-color); /* Hereda de .app-button pero puede ser sobreescrito */
+     color: var(--delete-button-color);
  }
  .delete-button:hover {
      color: var(--delete-button-hover-color);
  }
  .sort-button {
-     color: var(--sort-button-color); /* Hereda de .app-button pero puede ser sobreescrito */
+     color: var(--sort-button-color);
      font-weight: normal;
      padding: 10px 15px;
      font-size: 1.1rem;
@@ -502,12 +500,20 @@ body.dark-mode #welcome-section ul li::before {
 
 .todo-item .main-task-header {
     display: flex;
-    align-items: center;
+    align-items: flex-start; /* MODIFICADO: Alinear elementos al inicio (arriba) */
     margin-bottom: 15px;
     padding: 0;
     gap: 10px;
 }
+
+/* MODIFICADO: Ajuste para alinear checkbox y etiqueta de prioridad con la primera línea del texto */
+.todo-item .main-task-header .custom-checkbox,
+.todo-item .main-task-header .priority-color-label {
+    margin-top: 3px; /* Ajusta este valor según sea necesario */
+}
+
 .todo-item .main-task-header input[type="checkbox"] {
+     /* Estilos que ya tenías, mantenidos por si acaso, aunque el selector más específico arriba es mejor */
      border-color: var(--text-color);
      background-color: var(--item-bg);
 }
@@ -539,41 +545,40 @@ body.dark-mode #welcome-section ul li::before {
 .todo-item .main-task-header .task-body {
     display: flex;
     flex-grow: 1;
-    align-items: center;
-    gap: 8px; /* Espacio entre el texto y el grupo de acciones */
+    align-items: flex-start; /* MODIFICADO: Alinear elementos al inicio (arriba) */
+    gap: 8px;
     min-width: 0;
-    flex-wrap: wrap;
+    flex-wrap: wrap; /* Mantenido para que el grupo de acciones pueda bajar */
 }
 
 .todo-item .main-task-header .task-body span {
     font-weight: 700;
     font-size: 1.1rem;
-    flex-grow: 1;
+    flex-grow: 1; /* Para que ocupe el espacio disponible */
     color: var(--text-color);
     transition: color 0.3s ease, text-decoration 0.3s ease;
-    min-width: 0;
+    min-width: 0; /* Permite que el texto se encoja y haga wrap */
     word-break: break-word;
-    margin-right: 5px; /* Espacio antes de los botones si se pegan */
+    /* line-height: 1.4; /* Opcional: Ajusta si es necesario para la alineación vertical */
+    /* margin-right: 5px; /* Ajustar si es necesario después de los cambios de gap */
 }
 
 .todo-item .main-task-header .task-body .task-actions-group {
     display: flex;
-    align-items: center;
-    gap: 2px; /* Espacio reducido entre botones del grupo de acción */
-    margin-left: auto;
-    flex-shrink: 0;
+    align-items: center; /* Para alinear los botones dentro del grupo */
+    gap: 2px;
+    margin-left: auto; /* Empuja el grupo a la derecha */
+    flex-shrink: 0; /* Evita que el grupo de botones se encoja */
+    /* margin-top: 2px; /* Opcional: Si los botones se ven muy arriba cuando el texto tiene una sola línea */
 }
 
-/* Padding reducido para botones de acción, excepto delete */
 .todo-item .main-task-header .task-body .task-actions-group .link-button,
-/* .todo-item .main-task-header .task-body .task-actions-group .calendar-button, /* OBSOLETO */
 .todo-item .main-task-header .task-body .task-actions-group .google-calendar-button {
     padding-left: 4px;
     padding-right: 4px;
     font-size: 1rem;
 }
 
-/* Estilo para el nuevo botón de Google Calendar */
 .todo-item .main-task-header .task-body .task-actions-group .google-calendar-button i {
     color: var(--button-color);
     transition: color 0.2s ease;
@@ -581,8 +586,6 @@ body.dark-mode #welcome-section ul li::before {
 .todo-item .main-task-header .task-body .task-actions-group .google-calendar-button:hover i {
     color: var(--button-hover-color);
 }
-/* El JS aplica el color var(--accent-color) directamente al <i> si se agenda un recordatorio. */
-
 
 .todo-item .main-task-header .task-body .link-button {
     font-size: 1rem;
@@ -592,40 +595,10 @@ body.dark-mode #welcome-section ul li::before {
     opacity: 1;
 }
 
-/* ESTILOS OBSOLETOS PARA EL ANTIGUO BOTÓN DE CALENDARIO */
-/* .todo-item .main-task-header .task-body .calendar-button {
-    font-size: 1rem;
-}
-.todo-item .main-task-header .task-body .calendar-button i {
-    color: var(--calendar-icon-default-color);
-    transition: color 0.2s ease, font-weight 0.2s ease;
-}
-.todo-item .main-task-header .task-body .calendar-button.date-set i {
-    color: var(--calendar-icon-set-color);
-}
-.todo-item .main-task-header .task-body .calendar-button.date-today i {
-    font-weight: bold;
-} */
-
-/* ESTE INPUT YA NO SE USA PARA LAS TAREAS */
-/* .task-date-input-real {
-    opacity: 0;
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip: rect(0 0 0 0);
-    clip-path: inset(50%);
-    margin: -1px;
-    padding: 0;
-    border: 0;
-    white-space: nowrap;
-} */
-
 .todo-item .main-task-header .task-body .task-actions-group .delete-button {
-     padding: 4px 8px; /* Padding original para el botón de eliminar */
+     padding: 4px 8px;
      font-size: 1rem;
-     margin-left: 6px; /* Espacio para separarlo del grupo anterior */
+     margin-left: 6px;
 }
 
 .todo-item .add-subtasks-toggle {
@@ -780,7 +753,6 @@ body.dark-mode #welcome-section ul li::before {
     cursor: default;
 }
 
-/* Ajuste para el nuevo botón de Google Calendar en estado completado */
 .todo-item.completed .main-task-header .task-body .task-actions-group .google-calendar-button {
     opacity: 0.7;
     cursor: default;
@@ -790,19 +762,8 @@ body.dark-mode #welcome-section ul li::before {
     color: var(--completed-text-color) !important;
 }
 .todo-item.completed .main-task-header .task-body .task-actions-group .google-calendar-button:hover i {
-    color: var(--completed-text-color) !important; /* Evitar cambio de color al pasar el ratón */
-}
-
-/* ESTILOS OBSOLETOS PARA EL ANTIGUO BOTÓN DE CALENDARIO EN ESTADO COMPLETADO */
-/* .todo-item.completed .main-task-header .task-body .calendar-button {
-    opacity: 0.7;
-    cursor: default;
-    pointer-events: none;
-}
-.todo-item.completed .main-task-header .task-body .calendar-button i {
     color: var(--completed-text-color) !important;
-    font-weight: normal !important;
-} */
+}
 
 .todo-item.completed .main-task-header .task-body .task-actions-group .delete-button {
     opacity: 0.7;
@@ -1111,19 +1072,21 @@ footer {
         left: 10px;
     }
     .todo-item .main-task-header {
-        row-gap: 8px;
+        row-gap: 8px; /* Espacio si el .task-body entero baja */
     }
-    .todo-item .main-task-header .task-body {
-         flex-wrap: wrap;
-         align-items: center;
-    }
+
+    /* El .task-body ya tiene flex-wrap: wrap y align-items: flex-start,
+       así que el .task-actions-group debería bajar y alinearse
+       al inicio (izquierda) de su nueva "fila" por defecto. */
     .todo-item .main-task-header .task-body .task-actions-group {
-        margin-left: auto;
-        justify-content: flex-end;
+        /* Si cuando baja, quieres que se extienda y los botones se vayan a la derecha: */
+        /* width: 100%; */
+        /* justify-content: flex-end; */
+        /* margin-left: 0; */ /* Sobrescribir el margin-left: auto para que ocupe el ancho */
     }
+
     .todo-item .main-task-header .task-body .link-button { order: 1; }
-    /* .todo-item .main-task-header .task-body .calendar-button { order: 2; } /* OBSOLETO */
-    .todo-item .main-task-header .task-body .google-calendar-button { order: 2; } /* NUEVO ORDEN */
+    .todo-item .main-task-header .task-body .google-calendar-button { order: 2; }
     .todo-item .main-task-header .task-body .delete-button { order: 3; }
 
 
@@ -1293,3 +1256,6 @@ footer {
 .close-modal:hover {
     color: var(--button-hover-color);
 }
+
+/* Comentarios de estilos obsoletos eliminados para limpieza, 
+   pero los cambios principales de alineación se han integrado */
