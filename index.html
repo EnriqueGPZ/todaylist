@@ -56,8 +56,8 @@
       },
       "image": "https://www.todaylist.es/ToDayList.png",
       "screenshot": "https://www.todaylist.es/images/todaylist-screenshot.jpg",
-      "softwareVersion": "1.0.7", // Incrementada versión por cambios
-      "datePublished": "2024-03-11", // Mantener o actualizar si es un relanzamiento
+      "softwareVersion": "1.0.7", 
+      "datePublished": "2024-03-11", 
       "keywords": "lista de tareas, to-do list, gestor de tareas diarias, productividad, organización, planificación, web app, tareas pendientes, subtareas, prioridades, google drive"
     }
     </script>
@@ -465,7 +465,7 @@
             cursor: not-allowed;
          }
          .app-button:disabled:hover {
-            color: var(--button-color); /* O el color original del botón */
+            color: var(--button-color); 
          }
 
          .add-button {
@@ -490,10 +490,10 @@
          .sort-button:hover {
              color: var(--sort-button-hover-color);
          }
-        .drive-button { /* Estilo para botones de Drive */
+        .drive-button { 
             color: #fff;
             background-color: var(--drive-button-color);
-            border: 1px solid var(--drive-button-color) !important; /* Sobrescribir borde de .app-button */
+            border: 1px solid var(--drive-button-color) !important; 
         }
         .drive-button:hover {
             background-color: var(--drive-button-hover-color);
@@ -998,11 +998,11 @@
 
         #data-management-container {
             display: flex;
-            justify-content: flex-end; /* Cambiado para alinear a la derecha por defecto */
+            justify-content: flex-end; 
             gap: 10px;
             margin-top: 10px;
             margin-bottom: 20px;
-            flex-wrap: wrap; /* Para que los botones se ajusten en pantallas pequeñas */
+            flex-wrap: wrap; 
         }
         #data-management-container .app-button {
             padding: 6px 12px;
@@ -1148,7 +1148,7 @@
                   margin-left: 0;
              }
              #data-management-container {
-                justify-content: center; /* Centrar botones en pantallas pequeñas */
+                justify-content: center; 
              }
              #welcome-section h2 {
                  font-size: 1.5rem;
@@ -1449,9 +1449,9 @@
         let clearNotesButton;
         const QUICK_NOTES_STORAGE_KEY = 'todoListQuickNotes';
 
-        let exportDataButton; // Local export
-        let importDataButton; // Local import
-        let importFileInput;  // Local import file input
+        let exportDataButton; 
+        let importDataButton; 
+        let importFileInput;  
 
         // Google Drive Integration Variables
         let exportDriveButton;
@@ -1459,8 +1459,8 @@
         // -------------------------------------------------------------------------------------
         // IMPORTANTE: REEMPLAZA ESTOS VALORES CON TUS CREDENCIALES DE GOOGLE CLOUD CONSOLE
         // -------------------------------------------------------------------------------------
-        const CLIENT_ID = '25607067695-mgv7jfvio4vr1goi5ci6o952mgpii8nf.apps.googleusercontent.com'; // <<<< REEMPLAZA CON TU CLIENT_ID REAL
-        const API_KEY = 'TU_API_KEY_PARA_GOOGLE_PICKER';         // <<<< REEMPLAZA CON TU API_KEY REAL (para Google Picker)
+        const CLIENT_ID = '25607067695-mgv7jfvio4vr1goi5ci6o952mgpii8nf.apps.googleusercontent.com'; // <<<< ASEGÚRATE QUE ESTE ES TU CLIENT_ID REAL
+        const API_KEY = 'AIzaSyAhr2kqUcRf5qZi0yMHsFDsyp_x8Ekfj7k';         // <<<< ESTA ES TU API_KEY (YA INSERTADA)
         // -------------------------------------------------------------------------------------
         const SCOPES = 'https://www.googleapis.com/auth/drive.file';
         let tokenClient;
@@ -1468,12 +1468,10 @@
         let gisInited = false;
         // Fin Google Drive Integration Variables
 
-
         let welcomeSection;
         let startAppButton;
         let appMainInterface;
         let installInstructionsSection;
-
 
         let todos = [];
 
@@ -1495,7 +1493,7 @@
                 tokenClient = google.accounts.oauth2.initTokenClient({
                     client_id: CLIENT_ID,
                     scope: SCOPES,
-                    callback: '', // Se define dinámicamente
+                    callback: '', 
                 });
                 gisInited = true;
                 console.log("Google Identity Services (GIS) loaded.");
@@ -1545,7 +1543,6 @@
             tokenClient.callback = async (resp) => {
                 if (resp.error !== undefined) {
                     console.error("Error de autenticación de Google:", resp);
-                    // No mostrar alerta si el error es 'popup_closed_by_user' o similar
                     if (resp.error !== 'popup_closed_by_user' && resp.error !== 'access_denied') {
                         alert("Error de autenticación con Google: " + (resp.error_description || resp.error || "Desconocido"));
                     }
@@ -1554,7 +1551,7 @@
                 console.log("Autenticación con Google exitosa o token refrescado.");
                 
                 if (gapi && gapi.client) {
-                    gapi.client.setToken(resp); // Almacena el token para que gapi.client lo use
+                    gapi.client.setToken(resp); 
                 } else {
                     console.error("gapi.client no está disponible para setToken.");
                     alert("Error: El cliente API de Google no está listo.");
@@ -1573,16 +1570,15 @@
 
             if (gapi && gapi.client && gapi.client.getToken && gapi.client.getToken() !== null) {
                 console.log("Token existente encontrado, solicitando acceso (puede ser silencioso).");
-                tokenClient.requestAccessToken({prompt: ''}); // Intenta refrescar/validar token
+                tokenClient.requestAccessToken({prompt: ''}); 
             } else {
                 console.log("No hay token o gapi.client no está listo, solicitando con consentimiento.");
-                tokenClient.requestAccessToken({prompt: 'consent'}); // Pide consentimiento
+                tokenClient.requestAccessToken({prompt: 'consent'}); 
             }
         }
 
         async function ensureDriveClientLoaded() {
             if (gapi && gapi.client && gapi.client.drive) {
-                // console.log("Cliente de Google Drive API ya está cargado."); // Log muy verboso
                 return Promise.resolve();
             }
             console.log("Cliente de Google Drive API no cargado, cargando ahora...");
@@ -1628,7 +1624,7 @@
 
                 const metadata = {
                     'name': fileName,
-                    'mimeType': 'application/json; charset=UTF-8', // charset aquí también
+                    'mimeType': 'application/json; charset=UTF-8', 
                 };
 
                 const multipartRequestBody =
@@ -1762,7 +1758,7 @@
             } else if (data.action === google.picker.Action.ERROR ) {
                  console.error("Error en Google Picker:", data);
                  alert("Ocurrió un error con el selector de archivos de Google Drive.");
-            } else if (data.error) { // Otra forma en que Picker puede reportar errores
+            } else if (data.error) { 
                 console.error("Error explícito de Google Picker:", data.error);
                 alert("Ocurrió un error con el selector de archivos de Google Drive: " + data.error);
             } else if (!data.docs || data.docs.length === 0 && data.action !== google.picker.Action.CANCEL) {
@@ -1770,7 +1766,6 @@
             }
         }
         // --- Fin Funciones de Google API ---
-
 
         function generateLocalId() {
             return '_' + Math.random().toString(36).substring(2, 15);
@@ -2570,7 +2565,6 @@
                 importDriveButton.addEventListener('click', importFromGoogleDrive);
             }
             
-            // Intenta habilitar los botones de Drive por si las APIs ya cargaron
             maybeEnableDriveButtons(); 
         });
     </script>
