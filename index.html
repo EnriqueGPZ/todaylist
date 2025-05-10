@@ -14,7 +14,7 @@
     <!-- SEO Meta Tags -->
     <title>ToDayList - Simplifica Tu Día, Organiza Tus Tareas</title>
     <meta name="description" content="ToDayList es tu gestor de tareas diarias minimalista y eficiente. Organiza tus pendientes, establece prioridades, añade subtareas y fechas límite. ¡Mejora tu productividad hoy!">
-    <meta name="keywords" content="lista de tareas, to-do list, gestor de tareas diarias, organizador personal, productividad, planificación diaria, tareas pendientes, subtareas, prioridades, web app, enrique gil, ToDayList, google calendar">
+    <meta name="keywords" content="lista de tareas, to-do list, gestor de tareas diarias, organizador personal, productividad, planificación diaria, tareas pendientes, subtareas, prioridades, web app, enrique gil, ToDayList, google calendar, google drive">
     <meta name="author" content="Enrique Gil">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://www.todaylist.es/">
@@ -24,7 +24,7 @@
     <meta property="og:url" content="https://www.todaylist.es/">
     <meta property="og:title" content="ToDayList - Simplifica Tu Día, Organiza Tus Tareas">
     <meta property="og:description" content="Organiza tus pendientes con ToDayList: tu gestor de tareas diarias minimalista.">
-    <meta property="og:image" content="https://www.todaylist.es/ToDayList.png"> <!-- Este OG image puede seguir siendo tu PNG grande y original -->
+    <meta property="og:image" content="https://www.todaylist.es/ToDayList.png">
     <meta property="og:site_name" content="ToDayList">
 
     <!-- Twitter -->
@@ -32,20 +32,18 @@
     <meta property="twitter:url" content="https://www.todaylist.es/">
     <meta property="twitter:title" content="ToDayList - Simplifica Tu Día, Organiza Tus Tareas">
     <meta property="twitter:description" content="Organiza tus pendientes con ToDayList: tu gestor de tareas diarias minimalista.">
-    <meta property="twitter:image" content="https://www.todaylist.es/ToDayList.png"> <!-- Este Twitter image también puede ser el grande -->
+    <meta property="twitter:image" content="https://www.todaylist.es/ToDayList.png">
 
-    <!-- FAVICONS - Generado por ejemplo con RealFaviconGenerator.net -->
-    <!-- Asegúrate de tener estos archivos en la raíz de tu sitio web (https://www.todaylist.es/) -->
-    <!-- O ajusta las rutas href si están en una subcarpeta -->
+    <!-- FAVICONS -->
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="manifest" href="/site.webmanifest"> <!-- O /manifest.json si así lo llamas -->
-    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#2d89ef"> <!-- CAMBIA ESTE COLOR -->
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#e74c3c"> <!-- Color de acento -->
     <link rel="shortcut icon" href="/favicon.ico">
-    <meta name="msapplication-TileColor" content="#2d89ef"> <!-- CAMBIA ESTE COLOR -->
-    <meta name="msapplication-config" content="/browserconfig.xml"> <!-- Necesitarás crear este archivo también, RealFaviconGenerator lo hace -->
-    <meta name="theme-color" content="#ffffff"> <!-- CAMBIA ESTE COLOR, usualmente el color de fondo de tu app o un color de acento -->
+    <meta name="msapplication-TileColor" content="#e74c3c"> <!-- Color de acento -->
+    <meta name="msapplication-config" content="/browserconfig.xml">
+    <meta name="theme-color" content="#f4f7f6"> <!-- Color de fondo modo claro -->
     <!-- FIN FAVICONS -->
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -65,7 +63,7 @@
       "name": "ToDayList",
       "applicationCategory": ["ProductivityApplication", "UtilityApplication"],
       "operatingSystem": "Web Browser",
-      "description": "ToDayList es un gestor de tareas diarias minimalista y eficiente que te ayuda a organizar tus pendientes, establecer prioridades, añadir subtareas, fechas límite y agendar en Google Calendar para mejorar tu productividad.",
+      "description": "ToDayList es un gestor de tareas diarias minimalista y eficiente que te ayuda a organizar tus pendientes, establecer prioridades, añadir subtareas, y agendar recordatorios en Google Calendar para mejorar tu productividad. Permite exportar e importar datos localmente o usando Google Drive.",
       "url": "https://www.todaylist.es/",
       "author": {
         "@type": "Person",
@@ -76,15 +74,15 @@
         "price": "0",
         "priceCurrency": "USD"
       },
-      "image": "https://www.todaylist.es/ToDayList.png", /* Este puede ser tu logo principal para el Schema */
+      "image": "https://www.todaylist.es/ToDayList.png",
       "screenshot": "https://www.todaylist.es/images/todaylist-screenshot.jpg",
-      "softwareVersion": "1.1.1", /* Incrementa la versión si consideras esto un cambio */
-      "datePublished": "2024-03-13", /* Actualiza la fecha */
+      "softwareVersion": "1.2.0", /* Incrementa la versión (ej. por cambio en func. calendario) */
+      "datePublished": "2024-03-14", /* Actualiza la fecha */
       "keywords": "lista de tareas, to-do list, gestor de tareas diarias, productividad, organización, planificación, web app, tareas pendientes, subtareas, prioridades, google drive, google calendar, favicon"
     }
     </script>
 
-    <!-- Google API Scripts -->
+    <!-- Google API Scripts (Necesarios si mantienes la funcionalidad de Google Drive) -->
     <script async defer src="https://accounts.google.com/gsi/client" onload="gisLoaded()"></script>
     <script async defer src="https://apis.google.com/js/api.js" onload="gapiLoaded()"></script>
 
@@ -113,8 +111,7 @@
                 <li><strong>Gestión Intuitiva de Tareas:</strong> Crea, edita y organiza tus tareas fácilmente.</li>
                 <li><strong>Subtareas Detalladas:</strong> Desglosa tareas complejas en pasos manejables.</li>
                 <li><strong>Prioridades Visuales:</strong> Asigna colores para enfocarte en lo importante.</li>
-                <li><strong>Fechas Límite Claras:</strong> Establece fechas de vencimiento para no olvidar nada.</li>
-                <li><strong>Agendar en Google Calendar:</strong> Envía tus tareas directamente a tu calendario de Google.</li>
+                <li><strong>Agendar en Google Calendar:</strong> Genera un enlace para añadir recordatorios de tus tareas directamente a tu Google Calendar.</li>
                 <li><strong>Enlaces Relevantes:</strong> Asocia URLs directamente a tus tareas.</li>
                 <li><strong>Modo Oscuro/Claro:</strong> Adapta la interfaz a tus preferencias visuales.</li>
                 <li><strong>Progreso y Motivación:</strong> Visualiza el avance y gana medallas por completar tareas.</li>
@@ -152,11 +149,11 @@
             <div id="priority-legend">
                 Prioridad:
                 <span class="priority-legend-item"><span class="priority-color-label" data-color="red"></span>Urgente</span>
-                >
+                > <!-- Usar entidad HTML para > -->
                 <span class="priority-legend-item"><span class="priority-color-label" data-color="orange"></span>Alta</span>
-                >
+                > <!-- Usar entidad HTML para > -->
                 <span class="priority-legend-item"><span class="priority-color-label" data-color="yellow"></span>No Olvidar</span>
-                >
+                > <!-- Usar entidad HTML para > -->
                 <span class="priority-legend-item"><span class="priority-color-label" data-color="green"></span>Puede Esperar</span>
             </div>
 
@@ -223,8 +220,8 @@
                 <li><strong>Añadir Tareas:</strong> Escribe tu tarea en el campo inferior y pulsa el botón <i class="fas fa-plus"></i> o la tecla "Enter".</li>
                 <li><strong>Marcar como Completada:</strong> Haz clic en el círculo a la izquierda de la tarea. ¡Ganas una medalla <i class="fas fa-medal"></i> por cada tarea completada en el día!</li>
                 <li><strong>Prioridad:</strong> Haz clic en el cuadrado de color junto al círculo para cambiar la prioridad de la tarea (Rojo: Urgente > Naranja: Alta > Amarillo: No Olvidar > Verde: Puede Esperar > Gris: Sin prioridad).</li>
-                <li><strong>Fecha Límite:</strong> Haz clic en el icono de calendario <i class="fas fa-calendar-alt"></i> para asignar una fecha a la tarea. Las tareas para "hoy" resaltarán su icono de calendario con el color de su prioridad.</li>
-                <li><strong>Agendar en Google Calendar:</strong> Haz clic en el icono de Google Calendar <i class="fab fa-google"></i><i class="fas fa-calendar-plus" style="margin-left: 2px; font-size: 0.9em; vertical-align: -0.05em;"></i> para abrir Google Calendar con los detalles de la tarea pre-rellenados. Si la tarea no tiene fecha, se te preguntará si deseas usar la fecha de hoy. Esta opción está deshabilitada para tareas completadas.</li>
+                <!-- <li><strong>Fecha Límite:</strong> Haz clic en el icono de calendario <i class="fas fa-calendar-alt"></i> para asignar una fecha a la tarea. Las tareas para "hoy" resaltarán su icono de calendario con el color de su prioridad.</li> --> <!-- Comentado ya que la funcionalidad de fecha directa en la tarea cambió -->
+                <li><strong>Agendar en Google Calendar:</strong> Haz clic en el icono de calendario <i class="far fa-calendar-plus"></i> para que se abra una plantilla de Google Calendar con los detalles de la tarea. Introduce la fecha/hora deseada y guarda el evento en tu calendario. Esta opción está deshabilitada para tareas completadas.</li>
                 <li><strong>Enlaces:</strong> Haz clic en el icono de enlace <i class="fas fa-link"></i> para añadir o abrir un enlace web asociado a la tarea.</li>
                 <li><strong>Sub-Tareas:</strong>
                     <ul>
@@ -234,7 +231,7 @@
                     </ul>
                 </li>
                 <li><strong>Barra de Progreso:</strong> Indica el porcentaje de sub-tareas completadas. Se llena al 100% cuando la tarea principal se marca como completada.</li>
-                <li><strong>Reordenar Tareas:</strong> Pulsa el botón de reordenar <i class="fas fa-sort-amount-down-alt"></i> para organizar automáticamente todas las tareas por prioridad (de más a menos urgente) y luego por fecha (las más antiguas primero).</li>
+                <li><strong>Reordenar Tareas:</strong> Pulsa el botón de reordenar <i class="fas fa-sort-amount-down-alt"></i> para organizar automáticamente todas las tareas por prioridad (de más a menos urgente) y luego por fecha (las más antiguas primero, si tienen).</li>
                 <li><strong>Modo Oscuro/Claro:</strong> Utiliza el botón <i class="fas fa-moon"></i> / <i class="fas fa-sun"></i> situado abajo a la derecha para cambiar el tema visual de la aplicación.</li>
                 <li><strong>Eliminar Tareas:</strong> Haz clic en el icono de papelera <i class="fas fa-trash-alt"></i> para eliminar tareas principales o sub-tareas.</li>
                 <li><strong>Anotaciones Rápidas:</strong> Utiliza el área debajo de la leyenda para notas temporales. Puedes borrarlas con el botón "Borrar".</li>
