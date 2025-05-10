@@ -1267,13 +1267,13 @@
             Organiza tu día y aumenta tu productividad de forma sencilla y eficaz.
         </p>
 
-        <!-- Added Auth UI Container -->
-        <div id="auth-ui-container" class="hidden" style="text-align: center; margin-bottom: 20px;">
+        <!-- Removed the separate auth-ui-container as startAppButton handles sign-in -->
+        <!-- <div id="auth-ui-container" class="hidden" style="text-align: center; margin-bottom: 20px;">
             <button id="google-sign-in-button" class="app-button" style="background-color: #4285F4; color: white; border: none; padding: 10px 20px; font-size: 1.1rem; font-weight: bold; border-radius: 6px; cursor: pointer; transition: background-color 0.2s ease, transform 0.2s ease;">
                 <i class="fab fa-google" style="margin-right: 8px;"></i> Iniciar sesión con Google
             </button>
-        </div>
-        <!-- End Auth UI Container -->
+        </div> -->
+        <!-- End Removed Auth UI Container -->
 
         <section id="welcome-section" class="">
             <img src="https://www.todaylist.es/ToDayList.png" alt="ToDayList Icono" class="welcome-icon">
@@ -1343,7 +1343,7 @@
 
             <div id="data-management-container">
                  <!-- Added Sign Out Button -->
-                 <button id="sign-out-button" class="app-button" aria-label="Cerrar sesión">
+                 <button id="sign-out-button" class="app-button" aria-label="Cerrar sesión" style="margin-left: 10px;">
                      <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
                  </button>
                  <!-- End Sign Out Button -->
@@ -1409,9 +1409,10 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
 
     <script type="module">
-        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js';
-        import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js';
-        import { getFirestore, collection, doc, getDocs, onSnapshot, addDoc, updateDoc, deleteDoc, query, orderBy, writeBatch } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js';
+        // Import the necessary Firebase modules using the compat syntax
+        import firebase from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js';
+        import 'https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js';
+        import 'https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js';
 
         // For Firebase JS SDK v7.20.0 and later, measurementId is optional
         const firebaseConfig = {
@@ -1425,10 +1426,10 @@
         };
 
         // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-        const provider = new GoogleAuthProvider();
+        const app = firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth(); // Get Auth instance using compat syntax
+        const db = firebase.firestore(); // Get Firestore instance using compat syntax
+        const provider = new firebase.auth.GoogleAuthProvider(); // Get GoogleAuthProvider using compat syntax
 
         // Request Google Drive scope (optional, only if you still want to explore Drive API integration later)
         // provider.addScope('https://www.googleapis.com/auth/drive.file'); // Example scope
@@ -1456,8 +1457,7 @@
         let installInstructionsSection;
 
         // Firebase Auth UI elements
-        let authUiContainer;
-        let googleSignInButton; // This will be the startAppButton now
+        // Removed authUiContainer and googleSignInButton as startAppButton is used
         let signOutButton;
 
         let currentUser = null; // To store the authenticated user object
@@ -1876,10 +1876,10 @@
                 unsubscribeFromFirestore(); // Stop previous listener if any
             }
 
-            const userTasksCollection = collection(db, 'users', userId, 'tasks');
-            const q = query(userTasksCollection, orderBy('order')); // Order by the 'order' field
+            const userTasksCollection = db.collection('users').doc(userId).collection('tasks'); // Use compat syntax
+            const q = userTasksCollection.orderBy('order'); // Use compat syntax for query
 
-            unsubscribeFromFirestore = onSnapshot(q, (snapshot) => {
+            unsubscribeFromFirestore = q.onSnapshot((snapshot) => { // Use compat syntax for onSnapshot
                 // Map Firestore documents to your local task structure
                 todos = snapshot.docs.map(doc => {
                     const data = doc.data();
@@ -1949,7 +1949,7 @@
 
             try {
                 // Add the new task document to the user's tasks subcollection
-                const docRef = await addDoc(collection(db, 'users', currentUser.uid, 'tasks'), newTask);
+                const docRef = await db.collection('users').doc(currentUser.uid).collection('tasks').add(newTask); // Use compat syntax
                 console.log("Task added with ID:", docRef.id);
                 // The onSnapshot listener will automatically update the local 'todos' array and re-render
                 if (todoInput) todoInput.value = '';
@@ -1969,8 +1969,8 @@
         async function updateTask(taskId, updates) {
             if (!currentUser) return;
             try {
-                const taskRef = doc(db, 'users', currentUser.uid, 'tasks', taskId);
-                await updateDoc(taskRef, updates);
+                const taskRef = db.collection('users').doc(currentUser.uid).collection('tasks').doc(taskId); // Use compat syntax
+                await taskRef.update(updates); // Use compat syntax
                 console.log("Task updated:", taskId, updates);
                 // The onSnapshot listener will automatically update the local 'todos' array and re-render
             } catch (e) {
@@ -1988,7 +1988,7 @@
 
             try {
                 // Delete the task document from Firestore
-                await deleteDoc(doc(db, 'users', currentUser.uid, 'tasks', taskId));
+                await db.collection('users').doc(currentUser.uid).collection('tasks').doc(taskId).delete(); // Use compat syntax
                 console.log("Task deleted:", taskId);
 
                 // Update medal count if it was completed today
@@ -2211,9 +2211,9 @@
              });
 
              // Create a batch write to update the 'order' field in Firestore
-             const batch = writeBatch(db);
+             const batch = db.batch(); // Use compat syntax
              todos.forEach((task, index) => {
-                 const taskRef = doc(db, 'users', currentUser.uid, 'tasks', task.id);
+                 const taskRef = db.collection('users').doc(currentUser.uid).collection('tasks').doc(task.id); // Use compat syntax
                  batch.update(taskRef, { order: index });
              });
 
@@ -2233,9 +2233,8 @@
         function showAuthenticatedUI() {
             if (welcomeSection) welcomeSection.classList.add('hidden');
             if (installInstructionsSection) installInstructionsSection.classList.add('hidden');
-            if (authUiContainer) authUiContainer.classList.add('hidden');
+            // authUiContainer is removed, so no need to hide it
             if (appMainInterface) appMainInterface.classList.remove('hidden');
-            if (todoInput) todoInput.focus();
 
             // Enable input and buttons in the main interface
             if (todoInput) todoInput.disabled = false;
@@ -2254,7 +2253,7 @@
         function showUnauthenticatedUI() {
             if (welcomeSection) welcomeSection.classList.remove('hidden');
             if (installInstructionsSection) installInstructionsSection.classList.remove('hidden');
-            if (authUiContainer) authUiContainer.classList.add('hidden'); // Keep auth container hidden initially
+            // authUiContainer is removed
             if (appMainInterface) appMainInterface.classList.add('hidden');
 
             // Disable input and buttons in the main interface
@@ -2279,16 +2278,19 @@
         // --- Event Handlers ---
 
         async function handleGoogleSignIn() {
+            console.log("Attempting Google Sign-In..."); // Debugging
             try {
-                await signInWithPopup(auth, provider);
+                // Use compat syntax for signInWithPopup
+                const result = await auth.signInWithPopup(provider);
                 // User signed in, onAuthStateChanged will handle the rest
+                console.log("Google Sign-In successful:", result.user); // Debugging
             } catch (error) {
                 console.error("Google Sign-In Error:", error);
                 // Handle specific errors (e.g., popup closed, account exists with different credential)
                 const errorCode = error.code;
                 const errorMessage = error.message;
-                const email = error.customData?.email;
-                const credential = GoogleAuthProvider.credentialFromError(error);
+                // const email = error.customData?.email; // Not always available
+                // const credential = firebase.auth.GoogleAuthProvider.credentialFromError(error); // Use firebase.auth.GoogleAuthProvider
 
                 if (errorCode === 'auth/popup-closed-by-user') {
                     // User closed the popup, no need to show an error
@@ -2303,9 +2305,12 @@
         }
 
         async function handleSignOut() {
+            console.log("Attempting Sign-Out..."); // Debugging
             try {
-                await signOut(auth);
+                // Use compat syntax for signOut
+                await auth.signOut();
                 // User signed out, onAuthStateChanged will handle the rest
+                console.log("Sign-Out successful."); // Debugging
             } catch (error) {
                 console.error("Sign-Out Error:", error);
                 alert("Error al cerrar sesión: " + error.message);
@@ -2342,8 +2347,8 @@
             installInstructionsSection = document.getElementById('install-instructions-section');
 
             // Get Firebase Auth UI elements
-            // authUiContainer = document.getElementById('auth-ui-container'); // No longer needed as startAppButton is used
-            // googleSignInButton = document.getElementById('google-sign-in-button'); // No longer needed
+            // authUiContainer is removed
+            // googleSignInButton is removed
             signOutButton = document.getElementById('sign-out-button');
 
 
@@ -2419,7 +2424,9 @@
 
 
             // --- Firebase Auth State Observer ---
-            onAuthStateChanged(auth, (user) => {
+            // Use compat syntax for onAuthStateChanged
+            auth.onAuthStateChanged((user) => {
+                console.log("onAuthStateChanged triggered. User:", user ? user.uid : null); // Debugging
                 if (user) {
                     // User is signed in
                     currentUser = user;
