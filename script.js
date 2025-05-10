@@ -21,7 +21,7 @@ let exportDriveButton; // Se asignará en DOMContentLoaded
 let importDriveButton; // Se asignará en DOMContentLoaded
 // -------------------------------------------------------------------------------------
 const CLIENT_ID = '25607067695-mgv7jfvio4vr1goi5ci6o952mgpii8nf.apps.googleusercontent.com'; // Para Google Drive
-const API_KEY = 'AIzaSyAhr2kqUcRf5qZi0yMHsFDsyp_x8Ekfj7k';         // Para Google Picker (Drive)
+const API_KEY = 'AIzaSyAhr2kqUcRf5qZi0yMHxFDsyp_x8Ekfj7k';         // Para Google Picker (Drive)
 // -------------------------------------------------------------------------------------
 const SCOPES = 'https://www.googleapis.com/auth/drive.file'; // Solo Drive
 let tokenClient; // Para Drive
@@ -41,6 +41,15 @@ const THEME_STORAGE_KEY = 'todoListTheme';
 
 const PRIORITY_COLORS = ['none', 'red', 'orange', 'yellow', 'green'];
 const PRIORITY_ORDER = { 'red': 1, 'orange': 2, 'yellow': 3, 'green': 4, 'none': 5 };
+
+// Nuevas variables para el modal de recordatorio
+let reminderModal;
+let closeReminderModalButton;
+let reminderTaskTextElement;
+let reminderDateInput;
+let reminderTimeInput;
+let scheduleReminderButton;
+let currentTaskIdForReminder = null; // Para guardar el ID de la tarea actual
 
 
 // --- Namespace para callbacks de Google ---
@@ -321,51 +330,98 @@ function getTodayDateString(format = 'dd-mm-yyyy') {
     return `${dd}-${mm}-${yyyy}`;
 }
 
-
-function scheduleGoogleCalendarReminder(taskId) {
+// --- Función para mostrar el modal de recordatorio (NUEVA) ---
+function showReminderModal(taskId) {
     const task = findTaskById(taskId);
+    if (!task || task.completed) {
+        // No mostrar si la tarea no existe o ya está completada
+        return;
+    }
+
+    currentTaskIdForReminder = taskId;
+    reminderTaskTextElement.textContent = `Tarea: "${task.text}"`;
+
+    // Establecer la fecha por defecto (hoy)
+    const today = getTodayDateString('yyyy-mm-dd'); // Usar YYYY-MM-DD para el input type="date"
+    reminderDateInput.value = today;
+
+    // Establecer la hora por defecto (ej: 09:00)
+    reminderTimeInput.value = "09:00";
+
+    reminderModal.classList.add('visible');
+}
+
+// --- Función para ocultar el modal de recordatorio (NUEVA) ---
+function hideReminderModal() {
+    reminderModal.classList.remove('visible');
+    currentTaskIdForReminder = null; // Limpiar el ID de la tarea
+    reminderTaskTextElement.textContent = ''; // Limpiar texto de la tarea
+    // Opcional: Limpiar inputs si quieres que siempre empiecen vacíos o con defaults
+    // reminderDateInput.value = '';
+    // reminderTimeInput.value = '09:00';
+}
+
+// --- Función para manejar la acción de agendar desde el modal (NUEVA) ---
+function handleScheduleReminderClick() {
+    if (!currentTaskIdForReminder) return;
+
+    const dateStrInput = reminderDateInput.value; // Formato YYYY-MM-DD
+    const timeStr = reminderTimeInput.value;     // Formato HH:MM
+
+    if (!dateStrInput || !timeStr) {
+        alert("Por favor, selecciona una fecha y hora.");
+        return;
+    }
+
+    // Validar formato básico (aunque input type="date"/"time" ya ayuda)
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(dateStrInput)) {
+        alert("Formato de fecha inválido. Usa el selector de calendario.");
+        return;
+    }
+    if (!/^\d{2}:\d{2}$/.test(timeStr)) {
+        alert("Formato de hora inválido. Usa el selector de hora.");
+        return;
+    }
+
+    const task = findTaskById(currentTaskIdForReminder);
     if (!task) {
-        alert("Tarea no encontrada.");
+        alert("Error: Tarea no encontrada.");
+        hideReminderModal();
         return;
     }
 
     const summary = task.text;
-    let dateStrInput = prompt("Introduce la fecha para el recordatorio (DD-MM-YYYY):", getTodayDateString());
-    if (!dateStrInput) return;
 
-    if (!/^\d{2}-\d{2}-\d{4}$/.test(dateStrInput)) {
-        alert("Formato de fecha inválido. Usa DD-MM-YYYY.");
-        return;
-    }
-
-    let timeStr = prompt("Introduce la hora para el recordatorio (HH:MM - formato 24h):", "09:00");
-    if (!timeStr) return;
-
-    if (!/^\d{2}:\d{2}$/.test(timeStr)) {
-        alert("Formato de hora inválido. Usa HH:MM.");
-        return;
-    }
-
+    // Convertir YYYY-MM-DD a DD-MM-YYYY para mostrar en el título del botón si lo deseas
     const dateParts = dateStrInput.split('-');
-    const day = parseInt(dateParts[0], 10);
+    const year = parseInt(dateParts[0], 10);
     const month = parseInt(dateParts[1], 10);
-    const year = parseInt(dateParts[2], 10);
+    const day = parseInt(dateParts[2], 10);
 
     const [hours, minutes] = timeStr.split(':').map(Number);
 
-    if (month < 1 || month > 12 || day < 1 || day > 31 || hours < 0 || hours > 23 || minutes < 0 || minutes > 59) {
-        alert("Fecha u hora inválida. Verifica los valores.");
-        return;
-    }
+    // Validar rangos (aunque input type="date"/"time" ayuda, es buena práctica)
+     if (month < 1 || month > 12 || day < 1 || day > 31 || hours < 0 || hours > 23 || minutes < 0 || minutes > 59) {
+         alert("Fecha u hora inválida. Verifica los valores.");
+         return;
+     }
 
     const startDate = new Date(year, month - 1, day, hours, minutes);
+    // Validación adicional para fechas no existentes (ej. 31 de Febrero)
     if (isNaN(startDate.getTime()) || startDate.getDate() !== day || startDate.getMonth() !== month - 1 || startDate.getFullYear() !== year) {
         alert("La fecha ingresada no es válida (ej. 31 de Febrero).");
         return;
     }
-    const endDate = new Date(startDate.getTime() + 60 * 60000);
+
+    const endDate = new Date(startDate.getTime() + 60 * 60000); // Evento de 1 hora, puedes ajustar
 
     const formatDateForGoogle = (dateObj) => {
+        // Asegurarse de que la fecha sea válida antes de formatear
+        if (isNaN(dateObj.getTime())) {
+             console.error("Fecha inválida proporcionada a formatDateForGoogle");
+             return ''; // O manejar el error apropiadamente
+        }
+        // Google Calendar espera formato UTC
         return dateObj.getUTCFullYear() +
                ('0' + (dateObj.getUTCMonth() + 1)).slice(-2) +
                ('0' + dateObj.getUTCDate()).slice(-2) +
@@ -380,14 +436,18 @@ function scheduleGoogleCalendarReminder(taskId) {
 
     window.open(googleCalendarUrl, '_blank');
 
+    // Opcional: Marcar el botón de calendario en la tarea como "usado"
     const listItemElement = todoListContainer.querySelector(`li[data-task-id="${task.id}"]`);
     if (listItemElement) {
         const calButton = listItemElement.querySelector('.google-calendar-button i');
         if (calButton) {
-            calButton.style.color = 'var(--accent-color)';
-            calButton.parentElement.title = `Se intentó agendar un recordatorio. Última fecha/hora: ${dateStrInput} ${timeStr}. Confirma en Google Calendar.`;
+            calButton.style.color = 'var(--accent-color)'; // Cambiar color
+            // Actualizar el título para reflejar la última fecha/hora intentada
+            calButton.parentElement.title = `Se intentó agendar un recordatorio. Última fecha/hora: ${dateParts[2]}-${dateParts[1]}-${dateParts[0]} ${timeStr}. Confirma en Google Calendar.`;
         }
     }
+
+    hideReminderModal(); // Ocultar el modal después de abrir el enlace
 }
 
 
@@ -555,10 +615,21 @@ function createMainTaskHeader(mainTask) {
     googleCalendarButton.title = 'Agendar recordatorio en Google Calendar';
     if (mainTask.completed) {
         googleCalendarButton.disabled = true;
+         // Opcional: Resetear color si la tarea se completa
+         googleCalendarButton.querySelector('i').style.color = '';
+         googleCalendarButton.title = 'Tarea completada, no se pueden agendar recordatorios.';
+    } else {
+         googleCalendarButton.disabled = false;
+         // Mantener el color si ya se intentó agendar antes (basado en el título guardado)
+         // Esto requiere guardar la fecha/hora en la tarea misma, lo cual no hacemos actualmente.
+         // Para esta implementación simple, el color se resetea al recargar o al completar la tarea.
+         googleCalendarButton.querySelector('i').style.color = ''; // Asegurar color por defecto si no está completada
     }
+
+    // Modificar el event listener para mostrar el modal en lugar de llamar scheduleGoogleCalendarReminder directamente
     googleCalendarButton.addEventListener('click', () => {
         if (!mainTask.completed) {
-            scheduleGoogleCalendarReminder(mainTask.id);
+            showReminderModal(mainTask.id); // Llama a la nueva función para mostrar el modal
         }
     });
 
@@ -578,7 +649,7 @@ function createMainTaskHeader(mainTask) {
     taskActionsGroup.append(linkButton, googleCalendarButton, deleteMainButton);
     taskBody.append(mainTaskSpan, taskActionsGroup);
     mainTaskHeader.append(taskPrefixGroup, taskBody);
-    
+
     return mainTaskHeader;
 }
 
@@ -980,7 +1051,7 @@ function applyImportedData(importedData, source = "local file") {
 
         if (typeof importedData.quickNotesContent === 'string') {
             quickNotesArea.value = importedData.quickNotesContent;
-            localStorage.setItem(QUICK_NOTES_STORAGE_KEY, importedData.quickNotesContent);
+            localStorage.setItem(QUICK_NOTES_STORAGE_KEY, quickNotesArea.value);
         } else {
             quickNotesArea.value = '';
             localStorage.removeItem(QUICK_NOTES_STORAGE_KEY);
@@ -1083,6 +1154,15 @@ document.addEventListener('DOMContentLoaded', () => {
     appMainInterface = document.getElementById('app-main-interface');
     installInstructionsSection = document.getElementById('install-instructions-section'); // Todavía obtenemos la referencia, pero no la usamos para mostrar/ocultar basada en tareas
 
+    // Obtener referencias a los elementos del modal de recordatorio (NUEVO)
+    reminderModal = document.getElementById('reminder-modal');
+    closeReminderModalButton = document.getElementById('close-reminder-modal');
+    reminderTaskTextElement = document.getElementById('reminder-task-text');
+    reminderDateInput = document.getElementById('reminder-date');
+    reminderTimeInput = document.getElementById('reminder-time');
+    scheduleReminderButton = document.getElementById('schedule-reminder-button');
+
+
     const storedTheme = localStorage.getItem(THEME_STORAGE_KEY);
     if (storedTheme === 'light') {
         disableDarkMode();
@@ -1131,6 +1211,27 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    // Añadir event listeners para el modal de recordatorio (NUEVO)
+    if (reminderModal && closeReminderModalButton && scheduleReminderButton) {
+        closeReminderModalButton.addEventListener('click', hideReminderModal);
+        scheduleReminderButton.addEventListener('click', handleScheduleReminderClick);
+
+        // Cerrar modal haciendo clic fuera del contenido
+        reminderModal.addEventListener('click', (event) => {
+            if (event.target === reminderModal) {
+                hideReminderModal();
+            }
+        });
+
+        // Cerrar modal con tecla Escape
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && reminderModal.classList.contains('visible')) {
+                hideReminderModal();
+            }
+        });
+    }
+
 
     if (quickNotesArea && clearNotesButton) {
         const savedNotes = localStorage.getItem(QUICK_NOTES_STORAGE_KEY);
