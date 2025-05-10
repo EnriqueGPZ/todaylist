@@ -38,7 +38,7 @@
     --welcome-button-bg: #e74c3c;
     --welcome-button-text: #fff;
     --welcome-button-hover-bg: #c0392b;
-    --drive-icon-color: #4285F4; 
+    --drive-icon-color: #4285F4;
 }
 
 body.dark-mode {
@@ -72,7 +72,7 @@ body.dark-mode {
     --welcome-button-bg: #f39c12;
     --welcome-button-text: #2c3e50;
     --welcome-button-hover-bg: #e67e22;
-    --drive-icon-color: #4A90E2; 
+    --drive-icon-color: #4A90E2;
 }
 
 body {
@@ -250,27 +250,27 @@ body.dark-mode #welcome-section ul li::before {
     margin-bottom: 8px;
     line-height: 1.5;
     font-size: 0.92em;
-    padding-left: 25px; 
+    padding-left: 25px;
     position: relative;
     text-align: left;
 }
 #install-instructions-section ul li::before {
-    font-family: "Font Awesome 6 Brands", "Font Awesome 6 Free"; 
-    font-weight: 400; 
+    font-family: "Font Awesome 6 Brands", "Font Awesome 6 Free";
+    font-weight: 400;
     position: absolute;
     left: 0px;
-    top: 1px; 
-    width: 20px; 
+    top: 1px;
+    width: 20px;
     text-align: center;
     color: var(--button-color);
-    font-size: 1.1em; 
-    -webkit-font-smoothing: antialiased; 
-    -moz-osx-font-smoothing: grayscale; 
+    font-size: 1.1em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
-#install-instructions-section ul li:nth-child(1)::before { content: "\f268"; } 
-#install-instructions-section ul li:nth-child(2)::before { content: "\f17b"; } 
-#install-instructions-section ul li:nth-child(3)::before { content: "\f179"; } 
-#install-instructions-section ul li:nth-child(4)::before { content: "\f267"; } 
+#install-instructions-section ul li:nth-child(1)::before { content: "\f268"; }
+#install-instructions-section ul li:nth-child(2)::before { content: "\f17b"; }
+#install-instructions-section ul li:nth-child(3)::before { content: "\f179"; }
+#install-instructions-section ul li:nth-child(4)::before { content: "\f267"; }
 #install-instructions-section ul li strong {
     color: var(--heading-color);
     font-weight: 700;
@@ -365,7 +365,7 @@ body.dark-mode #welcome-section ul li::before {
      cursor: pointer;
      transition: color 0.2s ease, background-color 0.2s ease, opacity 0.2s ease;
      flex-shrink: 0;
-     padding: 6px 10px;
+     padding: 6px 10px; /* Afecta a google-calendar-button si no se sobreescribe */
      font-size: 1rem;
      line-height: 1;
      display: inline-flex;
@@ -385,7 +385,7 @@ body.dark-mode #welcome-section ul li::before {
     cursor: not-allowed;
  }
  .app-button:disabled:hover {
-    color: var(--button-color); 
+    color: var(--button-color);
  }
 
  .add-button {
@@ -537,7 +537,8 @@ body.dark-mode #welcome-section ul li::before {
     display: flex;
     flex-grow: 1;
     align-items: center;
-    gap: 10px;
+    /* gap: 10px; */ /* MODIFICADO: Reducir el espacio general entre el texto y el grupo de acciones */
+    gap: 8px;
     min-width: 0;
     flex-wrap: wrap;
 }
@@ -550,20 +551,32 @@ body.dark-mode #welcome-section ul li::before {
     transition: color 0.3s ease, text-decoration 0.3s ease;
     min-width: 0;
     word-break: break-word;
+    margin-right: 5px; /* MODIFICADO: Asegurar un pequeño espacio antes de los botones si se pegan mucho */
 }
 
 .todo-item .main-task-header .task-body .task-actions-group {
     display: flex;
     align-items: center;
-    gap: 5px;
+    /* gap: 5px; */ /* MODIFICADO: Se manejará con márgenes o un gap menor */
+    gap: 2px; /* MODIFICADO: Un pequeño espacio base entre todos los botones del grupo */
     margin-left: auto;
     flex-shrink: 0;
 }
 
+/* MODIFICADO: Reducir padding de los botones de acción para que ocupen menos */
+.todo-item .main-task-header .task-body .task-actions-group .link-button,
+.todo-item .main-task-header .task-body .task-actions-group .calendar-button,
+.todo-item .main-task-header .task-body .task-actions-group .google-calendar-button {
+    padding-left: 4px;
+    padding-right: 4px;
+    /* font-size: 0.9rem; /* Opcional: si quieres los iconos un poco más pequeños */
+}
+
+
 .todo-item .main-task-header .task-body .link-button {
     color: var(--button-color);
-    padding: 4px 8px;
-    font-size: 1rem;
+    /* padding: 4px 8px; */ /* Original, ahora gestionado arriba */
+    font-size: 1rem; /* Mantener el tamaño del icono o ajustar con el font-size general de arriba */
     opacity: 0.5;
 }
 .todo-item .main-task-header .task-body .link-button.link-on {
@@ -571,8 +584,8 @@ body.dark-mode #welcome-section ul li::before {
 }
 
 .todo-item .main-task-header .task-body .calendar-button {
-    padding: 4px 8px;
-    font-size: 1rem;
+    /* padding: 4px 8px; */ /* Original, ahora gestionado arriba */
+    font-size: 1rem; /* Mantener el tamaño del icono o ajustar */
 }
 .todo-item .main-task-header .task-body .calendar-button i {
     color: var(--calendar-icon-default-color);
@@ -599,9 +612,17 @@ body.dark-mode #welcome-section ul li::before {
     white-space: nowrap;
 }
 
+/* MODIFICADO: Asegurar que el botón de Google Calendar también tenga padding reducido si no hereda bien */
+.todo-item .main-task-header .task-body .task-actions-group .google-calendar-button {
+    /* Ya cubierto por el selector general de arriba para padding */
+    /* Si es necesario, se puede añadir font-size: 0.9rem aquí también */
+}
+
+
 .todo-item .main-task-header .task-body .task-actions-group .delete-button {
-     padding: 4px 8px;
+     padding: 4px 8px; /* Mantener su padding original o el de .app-button si es diferente y deseado */
      font-size: 1rem;
+     margin-left: 6px; /* MODIFICADO: Añadir un margen para separarlo del grupo anterior */
 }
 
 .todo-item .add-subtasks-toggle {
@@ -875,7 +896,7 @@ body.dark-mode #quick-notes-area:focus {
     background-color: var(--item-bg);
     border: 1px solid var(--border-color);
     box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-    border-radius: 4px; 
+    border-radius: 4px;
 }
 #clear-notes-button:hover {
     color: var(--button-hover-color);
@@ -886,24 +907,24 @@ body.dark-mode #quick-notes-area:focus {
     margin-right: 4px;
 }
 
-#data-management-section { 
-    margin-top: 30px; 
+#data-management-section {
+    margin-top: 30px;
     margin-bottom: 20px;
-    padding: 0 10px; 
+    padding: 0 10px;
 }
 #data-management-section h4 {
     font-family: 'Quicksand', sans-serif;
-    font-size: 1.2rem; 
+    font-size: 1.2rem;
     color: var(--subtitle-color);
-    margin-top: 0; 
-    margin-bottom: 10px; 
+    margin-top: 0;
+    margin-bottom: 10px;
     text-align: center;
 }
 .data-management-intro {
-    font-size: 0.85rem; 
+    font-size: 0.85rem;
     color: var(--legend-text-color);
     text-align: center;
-    margin-bottom: 20px; 
+    margin-bottom: 20px;
     line-height: 1.5;
     max-width: 90%;
     margin-left: auto;
@@ -911,44 +932,44 @@ body.dark-mode #quick-notes-area:focus {
 }
 .data-options-row {
     display: flex;
-    justify-content: space-around; 
-    gap: 15px; 
+    justify-content: space-around;
+    gap: 15px;
     margin-bottom: 15px;
-    flex-wrap: wrap; 
+    flex-wrap: wrap;
 }
 .data-options-row:last-child {
     margin-bottom: 0;
 }
-.data-action-button { 
-    flex-grow: 1; 
-    min-width: 200px; 
-    padding: 9px 15px !important; 
+.data-action-button {
+    flex-grow: 1;
+    min-width: 200px;
+    padding: 9px 15px !important;
     font-size: 0.9rem !important;
-    background-color: var(--item-bg); 
-    border: 1px solid var(--border-color) !important; 
+    background-color: var(--item-bg);
+    border: 1px solid var(--border-color) !important;
     box-shadow: 0 1px 2px rgba(0,0,0,0.06);
-    color: var(--button-color); 
-    font-weight: 400; 
-    border-radius: 6px; 
+    color: var(--button-color);
+    font-weight: 400;
+    border-radius: 6px;
 }
 .data-action-button:hover {
     border-color: var(--button-hover-color) !important;
-    background-color: var(--fixed-button-bg); 
-    color: var(--button-hover-color); 
+    background-color: var(--fixed-button-bg);
+    color: var(--button-hover-color);
 }
 .data-action-button i {
-    margin-right: 8px; 
-    font-size: 0.95em; 
+    margin-right: 8px;
+    font-size: 0.95em;
 }
 .drive-button-style i.fab.fa-google-drive {
-     color: var(--drive-icon-color); 
+     color: var(--drive-icon-color);
 }
 .drive-button-style:disabled i.fab.fa-google-drive {
-    color: inherit; 
+    color: inherit;
     opacity: 0.7;
 }
 .drive-button-style:disabled {
-    background-color: var(--input-bg) !important; 
+    background-color: var(--input-bg) !important;
     border-color: var(--border-color) !important;
     color: var(--placeholder-color) !important;
     opacity: 0.7;
@@ -958,86 +979,86 @@ body.dark-mode #quick-notes-area:focus {
     position: absolute;
     top: 15px;
     left: 15px;
-    font-family: 'Quicksand', sans-serif; 
-    font-weight: bold; 
-    font-size: 1.3rem;  
+    font-family: 'Quicksand', sans-serif;
+    font-weight: bold;
+    font-size: 1.3rem;
     color: var(--button-color);
     background-color: var(--item-bg);
-    border: 1px solid var(--border-color); 
+    border: 1px solid var(--border-color);
     border-radius: 50%;
-    width: 36px;  
-    height: 36px; 
+    width: 36px;
+    height: 36px;
     display: flex;
     justify-content: center;
     align-items: center;
-    text-decoration: none; 
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1); 
+    text-decoration: none;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
     z-index: 900;
-    line-height: 1; 
-    padding: 0; 
+    line-height: 1;
+    padding: 0;
     transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
 }
 #info-button:hover {
     color: var(--button-hover-color);
-    background-color: var(--fixed-button-bg); 
+    background-color: var(--fixed-button-bg);
     border-color: var(--button-hover-color);
 }
 
 footer {
     display: flex;
-    flex-direction: column; 
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
-    font-size: 0.8rem; 
+    font-size: 0.8rem;
     color: var(--footer-text-color);
-    margin-top: 30px; 
-    padding: 20px 10px 15px; 
+    margin-top: 30px;
+    padding: 20px 10px 15px;
     width: 100%;
     max-width: 600px;
     box-sizing: border-box;
     border-top: 1px solid var(--border-color);
 }
 .footer-logo {
-    width: 48px;  
-    height: 48px; 
-    margin-bottom: 10px; 
+    width: 48px;
+    height: 48px;
+    margin-bottom: 10px;
 }
 .footer-text {
-    margin: 0 0 8px 0; 
-    color: var(--footer-text-color); 
-    font-size: 0.85em; 
+    margin: 0 0 8px 0;
+    color: var(--footer-text-color);
+    font-size: 0.85em;
 }
 #support-section-footer {
-    margin-top: 5px; 
+    margin-top: 5px;
     display: flex;
-    flex-direction: column; 
-    align-items: center; 
+    flex-direction: column;
+    align-items: center;
 }
-.support-intro-text { 
-    font-size: 0.7rem; 
-    color: var(--legend-text-color); 
-    margin-bottom: 3px; 
-    line-height: 1.3; 
+.support-intro-text {
+    font-size: 0.7rem;
+    color: var(--legend-text-color);
+    margin-bottom: 3px;
+    line-height: 1.3;
 }
 .paypal-link-footer {
     display: inline-flex;
     align-items: center;
-    font-size: 0.7rem; 
-    color: var(--legend-text-color); 
+    font-size: 0.7rem;
+    color: var(--legend-text-color);
     text-decoration: none;
     transition: color 0.2s ease;
 }
 .paypal-link-footer:hover {
-    color: var(--button-hover-color); 
+    color: var(--button-hover-color);
     text-decoration: underline;
 }
 .paypal-link-footer i.fab.fa-paypal {
-    margin-right: 4px; 
-    font-size: 0.9em;  
+    margin-right: 4px;
+    font-size: 0.9em;
 }
-.footer-legal-links { 
-    margin-top: 15px; 
+.footer-legal-links {
+    margin-top: 15px;
     font-size: 0.75em;
 }
 .footer-legal-links a {
@@ -1073,26 +1094,35 @@ footer {
         left: 10px;
     }
     .todo-item .main-task-header {
-        row-gap: 8px;
+        row-gap: 8px; /* Espacio si los elementos pasan a la siguiente línea */
     }
     .todo-item .main-task-header .task-body {
-         flex-wrap: wrap;
-         gap: 8px;
+         flex-wrap: wrap; /* Ya estaba, permite que los botones bajen si no caben */
+         /* gap: 8px; */ /* Ya estaba, espacio entre texto y grupo de botones */
          align-items: center;
     }
     .todo-item .main-task-header .task-body .task-actions-group {
-        margin-left: auto;
-        justify-content: flex-end;
+        margin-left: auto; /* Mantiene el grupo a la derecha del texto */
+        justify-content: flex-end; /* Alinea los botones a la derecha dentro de su grupo si hay espacio extra */
+        /* gap: 2px; */ /* Mantiene el gap reducido en móvil también */
     }
+
+    /* MODIFICADO: Orden y posible cambio de disposición en móvil si es necesario.
+       El `order` ya está definido, pero si los botones se vuelven demasiado anchos incluso con padding reducido,
+       podrías necesitar hacer que .task-actions-group ocupe todo el ancho y justificar los botones.
+       Por ahora, solo mantenemos el `order` y los cambios de padding/gap.
+    */
     .todo-item .main-task-header .task-body .link-button { order: 1; }
     .todo-item .main-task-header .task-body .calendar-button { order: 2; }
-    .todo-item .main-task-header .task-body .delete-button { order: 3; }
+    /* .todo-item .main-task-header .task-body .google-calendar-button { order: 3; } */ /* Añadir si es necesario un orden específico para GCal */
+    .todo-item .main-task-header .task-body .delete-button { order: 3; } /* O 4 si GCal es 3 */
+
 
      #todo-input-container #reorder-button {
           margin-left: 0;
      }
     #data-management-section {
-        padding: 15px 10px; 
+        padding: 15px 10px;
     }
     #data-management-section h4 {
         font-size: 1.1rem;
@@ -1102,16 +1132,16 @@ footer {
         margin-bottom: 15px;
     }
      .data-options-row {
-        flex-direction: column; 
-        align-items: stretch; 
-        gap: 10px; 
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
     }
     .data-action-button {
-        min-width: unset; 
-        width: 100%; 
-        margin-bottom: 0; 
+        min-width: unset;
+        width: 100%;
+        margin-bottom: 0;
     }
-    .data-options-row .data-action-button + .data-action-button { 
+    .data-options-row .data-action-button + .data-action-button {
          margin-top: 10px;
     }
 
@@ -1146,21 +1176,21 @@ footer {
         font-size: 1em;
     }
     footer {
-        font-size: 0.75rem; 
-        padding-top: 15px; 
+        font-size: 0.75rem;
+        padding-top: 15px;
     }
     .footer-logo {
-        width: 40px; 
+        width: 40px;
         height: 40px;
         margin-bottom: 8px;
     }
     .footer-text {
         margin-bottom: 6px;
-        font-size: 0.9em; 
+        font-size: 0.9em;
     }
     .support-intro-text,
     .paypal-link-footer {
-        font-size: 0.7em; 
+        font-size: 0.7em;
     }
     .support-intro-text {
         margin-bottom: 2px;
