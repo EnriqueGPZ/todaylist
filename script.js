@@ -23,7 +23,13 @@ let importDriveButton;
 // IMPORTANTE: REEMPLAZA ESTOS VALORES CON TUS CREDENCIALES DE GOOGLE CLOUD CONSOLE
 // -------------------------------------------------------------------------------------
 const CLIENT_ID = '25607067695-mgv7jfvio4vr1goi5ci6o952mgpii8nf.apps.googleusercontent.com'; // <<<< VERIFICA/REEMPLAZA CON TU CLIENT_ID REAL
-const API_KEY = 'AIzaSyAhr2kqUcRf5qZi0yMHsFDsyp_x8Ekfj7k';         // <<<< ESTA ES TU API_KEY (YA INSERTADA)
+
+// --- OFUSCACIÓN DE API_KEY (Método Base64) ---
+// La clave original 'AIzaSyAhr2kqUcRf5qZi0yMHsFDsyp_x8Ekfj7k' codificada en Base64
+const _0xapikey_b64 = 'QUl6YVN5QWhyMmtxVWNSZjVxWmkwMHlzRkRzeXBfeDhFa2ZqN2s='; 
+const API_KEY = atob(_0xapikey_b64); // Decodificar en tiempo de ejecución
+// --- FIN OFUSCACIÓN ---
+
 // -------------------------------------------------------------------------------------
 const SCOPES = 'https://www.googleapis.com/auth/drive.file';
 let tokenClient;
@@ -172,7 +178,7 @@ async function exportToGoogleDrive() {
         await ensureDriveClientLoaded();
 
         const dataToExport = {
-            theme: localStorage.getItem(THEME_STORAGE_KEY) || 'dark', // Default to dark if somehow not set
+            theme: localStorage.getItem(THEME_STORAGE_KEY) || 'dark',
             dailyMedalData: JSON.parse(localStorage.getItem(MEDALS_STORAGE_KEY) || '{}'),
             quickNotesContent: localStorage.getItem(QUICK_NOTES_STORAGE_KEY) || '',
             tasks: todos
@@ -264,7 +270,7 @@ function importFromGoogleDrive() {
                 .setAppId(null) 
                 .setOAuthToken(oauthToken)
                 .addView(view)
-                .setDeveloperKey(API_KEY) 
+                .setDeveloperKey(API_KEY) // API_KEY se usa aquí
                 .setCallback(pickerCallback)
                 .build();
             picker.setVisible(true);
@@ -916,7 +922,7 @@ function toggleDarkMode() {
 
 function exportAllDataLocal() { 
     const dataToExport = {
-        theme: localStorage.getItem(THEME_STORAGE_KEY) || 'dark', // Default to dark if somehow not set
+        theme: localStorage.getItem(THEME_STORAGE_KEY) || 'dark',
         dailyMedalData: JSON.parse(localStorage.getItem(MEDALS_STORAGE_KEY) || '{}'),
         quickNotesContent: localStorage.getItem(QUICK_NOTES_STORAGE_KEY) || '',
         tasks: todos
