@@ -12,9 +12,9 @@ let quickNotesArea;
 let clearNotesButton;
 const QUICK_NOTES_STORAGE_KEY = 'todoListQuickNotes';
 
-let exportDataButton;
-let importDataButton;
-let importFileInput;
+let exportDataButton; 
+let importDataButton; 
+let importFileInput;  
 
 // Google Drive Integration Variables
 let exportDriveButton;
@@ -56,7 +56,7 @@ window.gisLoaded = () => {
         tokenClient = google.accounts.oauth2.initTokenClient({
             client_id: CLIENT_ID,
             scope: SCOPES,
-            callback: '',
+            callback: '', 
         });
         gisInited = true;
         console.log("Google Identity Services (GIS) loaded.");
@@ -109,12 +109,12 @@ function handleAuthClick(callbackFn) {
             if (resp.error !== 'popup_closed_by_user' && resp.error !== 'access_denied') {
                 alert("Error de autenticación con Google: " + (resp.error_description || resp.error || "Desconocido"));
             }
-            return;
+            return; 
         }
         console.log("Autenticación con Google exitosa o token refrescado.");
-
+        
         if (gapi && gapi.client) {
-            gapi.client.setToken(resp);
+            gapi.client.setToken(resp); 
         } else {
             console.error("gapi.client no está disponible para setToken.");
             alert("Error: El cliente API de Google no está listo.");
@@ -133,10 +133,10 @@ function handleAuthClick(callbackFn) {
 
     if (gapi && gapi.client && gapi.client.getToken && gapi.client.getToken() !== null) {
         console.log("Token existente encontrado, solicitando acceso (puede ser silencioso).");
-        tokenClient.requestAccessToken({prompt: ''});
+        tokenClient.requestAccessToken({prompt: ''}); 
     } else {
         console.log("No hay token o gapi.client no está listo, solicitando con consentimiento.");
-        tokenClient.requestAccessToken({prompt: 'consent'});
+        tokenClient.requestAccessToken({prompt: 'consent'}); 
     }
 }
 
@@ -165,14 +165,14 @@ async function ensureDriveClientLoaded() {
 async function exportToGoogleDrive() {
     if (!gapi || !gapi.client || !gapi.client.getToken || !gapi.client.getToken()) {
          alert("Por favor, conéctate con Google Drive primero.");
-         handleAuthClick(exportToGoogleDrive);
+         handleAuthClick(exportToGoogleDrive); 
          return;
     }
     try {
         await ensureDriveClientLoaded();
 
         const dataToExport = {
-            theme: localStorage.getItem(THEME_STORAGE_KEY) || 'dark',
+            theme: localStorage.getItem(THEME_STORAGE_KEY) || 'dark', // Default to dark if somehow not set
             dailyMedalData: JSON.parse(localStorage.getItem(MEDALS_STORAGE_KEY) || '{}'),
             quickNotesContent: localStorage.getItem(QUICK_NOTES_STORAGE_KEY) || '',
             tasks: todos
@@ -187,15 +187,15 @@ async function exportToGoogleDrive() {
 
         const metadata = {
             'name': fileName,
-            'mimeType': 'application/json; charset=UTF-8',
+            'mimeType': 'application/json; charset=UTF-8', 
         };
 
         const multipartRequestBody =
             delimiter +
-            'Content-Type: application/json; charset=UTF-8\r\n\r\n' +
+            'Content-Type: application/json; charset=UTF-8\r\n\r\n' + 
             JSON.stringify(metadata) +
             delimiter +
-            'Content-Type: application/json; charset=UTF-8\r\n\r\n' +
+            'Content-Type: application/json; charset=UTF-8\r\n\r\n' + 
             jsonString +
             close_delim;
 
@@ -211,7 +211,7 @@ async function exportToGoogleDrive() {
         });
 
         const response = await request;
-
+        
         if (response && response.result && response.result.id) {
             console.log('Archivo exportado a Google Drive:', response.result);
             alert('¡Datos exportados a Google Drive con éxito como ' + fileName + '!');
@@ -261,10 +261,10 @@ function importFromGoogleDrive() {
             view.setMimeTypes("application/json");
 
             const picker = new google.picker.PickerBuilder()
-                .setAppId(null)
+                .setAppId(null) 
                 .setOAuthToken(oauthToken)
                 .addView(view)
-                .setDeveloperKey(API_KEY)
+                .setDeveloperKey(API_KEY) 
                 .setCallback(pickerCallback)
                 .build();
             picker.setVisible(true);
@@ -282,16 +282,16 @@ async function pickerCallback(data) {
         const fileId = data.docs[0].id;
         const fileName = data.docs[0].name;
         console.log(`Archivo seleccionado de Drive: "${fileName}", ID: ${fileId}`);
-
+        
         try {
             await ensureDriveClientLoaded();
-
+            
             console.log("Descargando archivo de Google Drive...");
             const response = await gapi.client.drive.files.get({
                 fileId: fileId,
                 alt: 'media'
             });
-
+            
             if (typeof response.body !== 'string') {
                 console.error("El contenido del archivo descargado no es un string:", response.body);
                 alert("Error: El formato del archivo descargado es incorrecto.");
@@ -300,7 +300,7 @@ async function pickerCallback(data) {
 
             const importedData = JSON.parse(response.body);
             console.log("Datos parseados desde Google Drive:", importedData);
-
+            
             if (!confirm(`¡Atención! Importar "${fileName}" desde Google Drive reemplazará todos los datos actuales. ¿Deseas continuar?`)) {
                 return;
             }
@@ -321,7 +321,7 @@ async function pickerCallback(data) {
     } else if (data.action === google.picker.Action.ERROR ) {
          console.error("Error en Google Picker:", data);
          alert("Ocurrió un error con el selector de archivos de Google Drive.");
-    } else if (data.error) {
+    } else if (data.error) { 
         console.error("Error explícito de Google Picker:", data.error);
         alert("Ocurrió un error con el selector de archivos de Google Drive: " + data.error);
     } else if (!data.docs || data.docs.length === 0 && data.action !== google.picker.Action.CANCEL) {
@@ -419,7 +419,7 @@ function syncAndRender() {
 }
 
 function updateDateHighlight(listItemElement, task) {
-    const calendarLabel = listItemElement.querySelector('.calendar-button'); // Este es el label para el input de fecha de la tarea
+    const calendarLabel = listItemElement.querySelector('.calendar-button');
     const calendarIcon = calendarLabel ? calendarLabel.querySelector('i') : null;
 
     if (!calendarLabel || !calendarIcon) return;
@@ -431,16 +431,14 @@ function updateDateHighlight(listItemElement, task) {
     calendarLabel.classList.remove('date-set', 'date-today');
     calendarIcon.style.color = '';
     calendarIcon.style.fontWeight = 'normal';
-    // El title se actualiza en base a si la tarea está completada o tiene fecha
-    // calendarLabel.title = 'Establecer fecha'; // No resetear aquí, se maneja abajo
+    calendarLabel.title = 'Establecer fecha';
 
     if (task.completed) {
         if (hasDate) calendarLabel.title = `Fecha: ${task.date} (Completada)`;
         else calendarLabel.title = 'Fecha no establecida (Completada)';
-        return; // No más actualizaciones si está completada
+        return;
     }
 
-    // Si no está completada:
     if (hasDate) {
         calendarLabel.classList.add('date-set');
         calendarLabel.title = `Fecha: ${task.date}`;
@@ -523,11 +521,10 @@ function createMainTaskHeader(mainTask) {
         }
     });
 
-    const calendarLabel = document.createElement('label'); // Este es el label para el input de fecha de la tarea
+    const calendarLabel = document.createElement('label');
     calendarLabel.classList.add('app-button', 'calendar-button');
     calendarLabel.innerHTML = '<i class="fas fa-calendar-alt"></i>';
-    calendarLabel.setAttribute('aria-label', 'Establecer fecha para la tarea'); // Modificado para ser más específico
-    // El title para este calendarLabel se gestiona en updateDateHighlight
+    calendarLabel.setAttribute('aria-label', 'Establecer fecha');
 
     const actualDateInput = document.createElement('input');
     actualDateInput.type = 'date';
@@ -543,60 +540,6 @@ function createMainTaskHeader(mainTask) {
         updateTaskDate(task.id, event.target.value);
     });
 
-    // --- NUEVO BOTÓN PARA GOOGLE CALENDAR ---
-    const addToGoogleCalendarButton = document.createElement('button');
-    addToGoogleCalendarButton.classList.add('app-button', 'google-calendar-button');
-    addToGoogleCalendarButton.innerHTML = '<i class="fab fa-google"></i><i class="fas fa-calendar-plus" style="margin-left: 3px;"></i>';
-    addToGoogleCalendarButton.setAttribute('aria-label', 'Agendar en Google Calendar');
-    addToGoogleCalendarButton.title = 'Agendar en Google Calendar';
-
-    if (mainTask.completed) { // Deshabilitar si la tarea está completada
-        addToGoogleCalendarButton.disabled = true;
-    }
-
-    addToGoogleCalendarButton.addEventListener('click', () => {
-        const task = findTaskById(mainTask.id);
-        if (!task || task.completed) return;
-
-        let taskDate = task.date;
-        if (!taskDate) {
-            if (confirm("Esta tarea no tiene una fecha asignada. ¿Deseas agendarla para hoy en Google Calendar?")) {
-                taskDate = getTodayDateString();
-            } else {
-                return; // El usuario canceló
-            }
-        }
-
-        // Formato para Google Calendar: YYYYMMDD (para eventos de todo el día)
-        const googleDate = taskDate.replace(/-/g, '');
-        const startDate = googleDate;
-        // Para un evento de todo el día, la fecha de fin es el día siguiente.
-        let nextDay = new Date(taskDate); // Asegurarse de que la hora es 00:00:00 en la zona local
-        nextDay.setDate(nextDay.getDate() + 1);
-        const endDate = nextDay.toISOString().split('T')[0].replace(/-/g, '');
-
-
-        let calendarUrl = `https://www.google.com/calendar/render?action=TEMPLATE`;
-        calendarUrl += `&text=${encodeURIComponent(task.text)}`;
-        calendarUrl += `&dates=${startDate}/${endDate}`; // Ej: 20240315/20240316 para un evento de todo el día el 20240315
-
-        let details = `Tarea de ToDayList: ${task.text}`;
-        if (task.linkUrl) {
-            details += `\nEnlace: ${task.linkUrl}`;
-        }
-        if (task.subtasks && task.subtasks.length > 0) {
-            details += `\n\nSubtareas:`;
-            task.subtasks.forEach(sub => {
-                details += `\n- ${sub.text} ${sub.completed ? '(Completada)' : ''}`;
-            });
-        }
-        calendarUrl += `&details=${encodeURIComponent(details)}`;
-        // Puedes añadir más parámetros como &location=... &crm=... etc.
-
-        window.open(calendarUrl, '_blank');
-    });
-    // --- FIN NUEVO BOTÓN ---
-
     const deleteMainButton = document.createElement('button');
     deleteMainButton.classList.add('app-button', 'delete-button');
     deleteMainButton.innerHTML = '<i class="fas fa-trash-alt"></i>';
@@ -610,8 +553,7 @@ function createMainTaskHeader(mainTask) {
         deleteTodo(task.id);
     });
 
-    // Orden de los botones: Enlace, Fecha Tarea, Input Fecha Tarea (oculto), Agendar Google Cal, Eliminar
-    taskActionsGroup.append(linkButton, calendarLabel, actualDateInput, addToGoogleCalendarButton, deleteMainButton);
+    taskActionsGroup.append(linkButton, calendarLabel, actualDateInput, deleteMainButton);
     taskBody.append(mainTaskSpan, taskActionsGroup);
     mainTaskHeader.append(mainCheckbox, priorityLabel, taskBody);
     return mainTaskHeader;
@@ -752,7 +694,7 @@ function renderTodosUI() {
              listItem.appendChild(createSubtaskInputContainer(mainTask.id));
         }
         todoListContainer.appendChild(listItem);
-        updateDateHighlight(listItem, mainTask); // Asegúrate que esto se llama después de añadir al DOM si depende de estilos computados.
+        updateDateHighlight(listItem, mainTask);
     });
     if (todoInput) todoInput.value = '';
 }
@@ -781,11 +723,8 @@ function updateTaskDate(taskId, newDateValue) {
     if (task && !task.completed) {
         task.date = newDateValue || null;
         saveTodosToLocalStorage();
-        syncAndRender(); // Esto re-renderizará y llamará a updateDateHighlight
+        syncAndRender();
     } else if (task && task.completed) {
-        // Si está completada y se cambia la fecha, simplemente re-renderizar para actualizar el title del input de fecha
-        task.date = newDateValue || null; // Permitir cambiar la fecha incluso si está completada (para registro)
-        saveTodosToLocalStorage();
         syncAndRender();
     }
 }
@@ -830,9 +769,9 @@ function addSubtask(mainTaskId, subtaskInput) {
      if (mainTask && !mainTask.completed) {
          if (!mainTask.subtasks) mainTask.subtasks = [];
          mainTask.subtasks.push({ id: generateLocalId(), text: newSubtaskText, completed: false });
-         mainTask.completed = false; // Si se añade sub-tarea, la principal no puede estar completada
+         mainTask.completed = false;
          mainTask.completedDate = null;
-         mainTask.showSubtaskUI = false; // Ocultar input después de añadir
+         mainTask.showSubtaskUI = false;
          saveTodosToLocalStorage();
          syncAndRender();
          if (subtaskInput) subtaskInput.value = '';
@@ -863,8 +802,8 @@ function deleteSubtask(mainTaskId, subtaskId) {
          const subtaskIndex = mainTask.subtasks.findIndex(sub => sub.id === subtaskId);
          if (subtaskIndex > -1) {
              mainTask.subtasks.splice(subtaskIndex, 1);
-             // mainTask.completed = false; // No necesariamente, depende de otras sub-tareas
-             // mainTask.completedDate = null;
+             mainTask.completed = false;
+             mainTask.completedDate = null;
              saveTodosToLocalStorage();
              syncAndRender();
          }
@@ -893,20 +832,18 @@ function toggleMainCompletion(taskId, isChecked) {
 
         if (isChecked) {
             task.completedDate = today;
-            task.priorityColor = 'none'; // Reset priority on completion
+            task.priorityColor = 'none';
             task.showSubtaskUI = false;
             if (!wasCompletedTodayBefore) {
                 updateMedalCount(1);
             }
             if (typeof confetti === 'function') confetti({ particleCount: 150, spread: 90, origin: { y: 0.55 }});
-        } else { // Unchecking
+        } else {
             if (wasCompletedTodayBefore) {
                 updateMedalCount(-1);
             }
             task.completedDate = null;
-            // No cambiar priorityColor al desmarcar, el usuario podría querer mantenerla
         }
-        // Sincronizar estado de subtareas con la tarea principal si se completa/descompleta la principal
         if (task.subtasks) {
             task.subtasks.forEach(sub => sub.completed = isChecked);
         }
@@ -943,9 +880,8 @@ function performManualSort() {
          const dateB = b.date ? new Date(b.date).getTime() : Infinity;
          if (dateA !== dateB) return dateA - dateB;
 
-         return (a.order || 0) - (b.order || 0); // Mantener orden original como último criterio
+         return (a.order || 0) - (b.order || 0);
      });
-     // Actualizar el 'order' property después de ordenar, para futuras clasificaciones que lo usen como fallback
      todos.forEach((task, index) => {
          task.order = index;
      });
@@ -975,12 +911,12 @@ function disableDarkMode() {
 
 function toggleDarkMode() {
     body.classList.contains('dark-mode') ? disableDarkMode() : enableDarkMode();
-    // syncAndRender(); // No es estrictamente necesario si los estilos CSS se aplican bien, pero puede ser útil si JS afecta estilos dinámicamente basados en el tema
+    syncAndRender(); 
 }
 
-function exportAllDataLocal() {
+function exportAllDataLocal() { 
     const dataToExport = {
-        theme: localStorage.getItem(THEME_STORAGE_KEY) || 'dark',
+        theme: localStorage.getItem(THEME_STORAGE_KEY) || 'dark', // Default to dark if somehow not set
         dailyMedalData: JSON.parse(localStorage.getItem(MEDALS_STORAGE_KEY) || '{}'),
         quickNotesContent: localStorage.getItem(QUICK_NOTES_STORAGE_KEY) || '',
         tasks: todos
@@ -1044,7 +980,7 @@ function applyImportedData(importedData, source = "local file") {
             priorityColor: PRIORITY_COLORS.includes(task.priorityColor) ? task.priorityColor : 'none',
             date: (typeof task.date === 'string' && task.date.match(/^\d{4}-\d{2}-\d{2}$/)) ? task.date : null,
             linkUrl: typeof task.linkUrl === 'string' ? task.linkUrl : null,
-            order: typeof task.order === 'number' ? task.order : Date.now()
+            order: typeof task.order === 'number' ? task.order : Date.now() 
         }));
 
         saveTodosToLocalStorage();
@@ -1067,7 +1003,7 @@ function applyImportedData(importedData, source = "local file") {
 }
 
 
-function importAllDataLocal(event) {
+function importAllDataLocal(event) { 
     const file = event.target.files[0];
     if (!file) return;
 
@@ -1128,7 +1064,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (storedTheme === 'light') {
         disableDarkMode();
     } else {
-        enableDarkMode(); // Default a dark
+        enableDarkMode(); 
     }
 
     loadTodosFromLocalStorage();
@@ -1182,10 +1118,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    if (exportDataButton) {
+    if (exportDataButton) { 
         exportDataButton.addEventListener('click', exportAllDataLocal);
     }
-    if (importDataButton && importFileInput) {
+    if (importDataButton && importFileInput) { 
         importDataButton.addEventListener('click', () => importFileInput.click());
         importFileInput.addEventListener('change', importAllDataLocal);
     }
@@ -1196,6 +1132,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (importDriveButton) {
         importDriveButton.addEventListener('click', importFromGoogleDrive);
     }
-
-    maybeEnableDriveButtons();
+    
+    maybeEnableDriveButtons(); 
 });
