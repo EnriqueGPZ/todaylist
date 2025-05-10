@@ -38,38 +38,24 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="manifest" href="/site.webmanifest"> <!-- Asegúrate que este archivo exista en la raíz del servidor -->
-    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#e74c3c">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#e74c3c"> <!-- Color de acento -->
     <link rel="shortcut icon" href="/favicon.ico">
-    <meta name="msapplication-TileColor" content="#e74c3c">
+    <meta name="msapplication-TileColor" content="#e74c3c"> <!-- Color de acento -->
     <meta name="msapplication-config" content="/browserconfig.xml">
-    <meta name="theme-color" content="#f4f7f6">
+    <meta name="theme-color" content="#f4f7f6"> <!-- Color de fondo modo claro -->
     <!-- FIN FAVICONS -->
 
-    <!-- Preconnect para dominios de fuentes y CDN -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
-    <!-- Carga asíncrona de Google Fonts -->
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap"></noscript>
-
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;700&display=swap"></noscript>
-
-    <!-- Carga asíncrona de Font Awesome -->
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"></noscript>
-
-    <!-- Tu CSS principal. Se mantiene síncrono por ahora para evitar FOUC.
-         Si PageSpeed sigue marcándolo como bloqueante severo, considera hacerlo asíncrono también:
-    <link rel="preload" href="style.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="style.css"></noscript>
-    -->
+    <!-- Enlace al archivo CSS externo -->
     <link rel="stylesheet" href="style.css">
 
-
+    <!-- Schema.org markup for Google -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -90,13 +76,13 @@
       },
       "image": "https://www.todaylist.es/ToDayList.png",
       "screenshot": "https://www.todaylist.es/images/todaylist-screenshot.jpg",
-      "softwareVersion": "1.2.2", /* Incrementa si consideras estos cambios una nueva versión */
-      "datePublished": "2024-03-15", /* Actualiza la fecha */
-      "keywords": "lista de tareas, to-do list, gestor de tareas diarias, productividad, organización, planificación, web app, tareas pendientes, subtareas, prioridades, google drive, google calendar, favicon, pwa"
+      "softwareVersion": "1.2.0", /* Incrementa la versión (ej. por cambio en func. calendario) */
+      "datePublished": "2024-03-14", /* Actualiza la fecha */
+      "keywords": "lista de tareas, to-do list, gestor de tareas diarias, productividad, organización, planificación, web app, tareas pendientes, subtareas, prioridades, google drive, google calendar, favicon"
     }
     </script>
 
-    <!-- Google API Scripts (ya usan async defer, lo cual es bueno) -->
+    <!-- Google API Scripts (Necesarios si mantienes la funcionalidad de Google Drive) -->
     <script async defer src="https://accounts.google.com/gsi/client" onload="gisLoaded()"></script>
     <script async defer src="https://apis.google.com/js/api.js" onload="gapiLoaded()"></script>
 
@@ -163,11 +149,11 @@
             <div id="priority-legend">
                 Prioridad:
                 <span class="priority-legend-item"><span class="priority-color-label" data-color="red"></span>Urgente</span>
-                >
+                > <!-- Usar entidad HTML para > -->
                 <span class="priority-legend-item"><span class="priority-color-label" data-color="orange"></span>Alta</span>
-                >
+                > <!-- Usar entidad HTML para > -->
                 <span class="priority-legend-item"><span class="priority-color-label" data-color="yellow"></span>No Olvidar</span>
-                >
+                > <!-- Usar entidad HTML para > -->
                 <span class="priority-legend-item"><span class="priority-color-label" data-color="green"></span>Puede Esperar</span>
             </div>
 
@@ -203,9 +189,9 @@
                 </div>
             </div>
 
-        </div>
+        </div> <!-- Fin de #app-main-interface -->
 
-    </div>
+    </div> <!-- Fin de .container -->
 
     <footer>
         <img src="https://www.todaylist.es/ToDayList.png" alt="Logo ToDayList" class="footer-logo">
@@ -234,6 +220,7 @@
                 <li><strong>Añadir Tareas:</strong> Escribe tu tarea en el campo inferior y pulsa el botón <i class="fas fa-plus"></i> o la tecla "Enter".</li>
                 <li><strong>Marcar como Completada:</strong> Haz clic en el círculo a la izquierda de la tarea. ¡Ganas una medalla <i class="fas fa-medal"></i> por cada tarea completada en el día!</li>
                 <li><strong>Prioridad:</strong> Haz clic en el cuadrado de color junto al círculo para cambiar la prioridad de la tarea (Rojo: Urgente > Naranja: Alta > Amarillo: No Olvidar > Verde: Puede Esperar > Gris: Sin prioridad).</li>
+                <!-- <li><strong>Fecha Límite:</strong> Haz clic en el icono de calendario <i class="fas fa-calendar-alt"></i> para asignar una fecha a la tarea. Las tareas para "hoy" resaltarán su icono de calendario con el color de su prioridad.</li> --> <!-- Comentado ya que la funcionalidad de fecha directa en la tarea cambió -->
                 <li><strong>Agendar en Google Calendar:</strong> Haz clic en el icono de calendario <i class="far fa-calendar-plus"></i> para que se abra una plantilla de Google Calendar con los detalles de la tarea. Introduce la fecha/hora deseada y guarda el evento en tu calendario. Esta opción está deshabilitada para tareas completadas.</li>
                 <li><strong>Enlaces:</strong> Haz clic en el icono de enlace <i class="fas fa-link"></i> para añadir o abrir un enlace web asociado a la tarea.</li>
                 <li><strong>Sub-Tareas:</strong>
@@ -254,6 +241,8 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+
+    <!-- Enlace al archivo JavaScript externo -->
     <script type="module" src="script.js"></script>
 
 </body>
