@@ -76,15 +76,45 @@
       },
       "image": "https://www.todaylist.es/ToDayList.png",
       "screenshot": "https://www.todaylist.es/images/todaylist-screenshot.jpg",
-      "softwareVersion": "1.2.0", /* Incrementa la versión (ej. por cambio en func. calendario) */
-      "datePublished": "2024-03-14", /* Actualiza la fecha */
+      "softwareVersion": "1.2.3", /* Nueva versión por corrección de carga de API */
+      "datePublished": "2024-03-15",
       "keywords": "lista de tareas, to-do list, gestor de tareas diarias, productividad, organización, planificación, web app, tareas pendientes, subtareas, prioridades, google drive, google calendar, favicon"
     }
     </script>
 
+    <!-- ***** INICIO: Script global para los callbacks onload de Google ***** -->
+    <script>
+        // Estas funciones se definen globalmente y son llamadas por los scripts de Google.
+        // Luego, llaman a las funciones dentro de nuestro módulo cuando estén disponibles.
+        window.onGisLoaded = function() {
+            console.log("HTML SCRIPT: onGisLoaded CALLED by Google GSI Client");
+            if (window.googleApiCallbacks && typeof window.googleApiCallbacks.gisLoaded === 'function') {
+                window.googleApiCallbacks.gisLoaded();
+            } else {
+                // Guardar una bandera para que script.js sepa que GIS está listo si carga después
+                window.isGoogleGisScriptReady = true;
+                console.log("HTML SCRIPT: GIS script loaded, app script (module) might not be ready yet.");
+            }
+        };
+
+        window.onGapiLoaded = function() {
+            console.log("HTML SCRIPT: onGapiLoaded CALLED by Google API.js");
+            if (window.googleApiCallbacks && typeof window.googleApiCallbacks.gapiLoaded === 'function') {
+                window.googleApiCallbacks.gapiLoaded();
+            } else {
+                // Guardar una bandera para que script.js sepa que GAPI está listo si carga después
+                window.isGoogleGapiScriptReady = true;
+                console.log("HTML SCRIPT: GAPI script loaded, app script (module) might not be ready yet.");
+            }
+        };
+    </script>
+    <!-- ***** FIN: Script global para los callbacks onload de Google ***** -->
+
+
     <!-- Google API Scripts (Necesarios si mantienes la funcionalidad de Google Drive) -->
-    <script async defer src="https://accounts.google.com/gsi/client" onload="gisLoaded()"></script>
-    <script async defer src="https://apis.google.com/js/api.js" onload="gapiLoaded()"></script>
+    <!-- Ahora llaman a las funciones definidas globalmente arriba -->
+    <script async defer src="https://accounts.google.com/gsi/client" onload="onGisLoaded()"></script>
+    <script async defer src="https://apis.google.com/js/api.js" onload="onGapiLoaded()"></script>
 
 </head>
 <body>
@@ -220,7 +250,6 @@
                 <li><strong>Añadir Tareas:</strong> Escribe tu tarea en el campo inferior y pulsa el botón <i class="fas fa-plus"></i> o la tecla "Enter".</li>
                 <li><strong>Marcar como Completada:</strong> Haz clic en el círculo a la izquierda de la tarea. ¡Ganas una medalla <i class="fas fa-medal"></i> por cada tarea completada en el día!</li>
                 <li><strong>Prioridad:</strong> Haz clic en el cuadrado de color junto al círculo para cambiar la prioridad de la tarea (Rojo: Urgente > Naranja: Alta > Amarillo: No Olvidar > Verde: Puede Esperar > Gris: Sin prioridad).</li>
-                <!-- <li><strong>Fecha Límite:</strong> Haz clic en el icono de calendario <i class="fas fa-calendar-alt"></i> para asignar una fecha a la tarea. Las tareas para "hoy" resaltarán su icono de calendario con el color de su prioridad.</li> --> <!-- Comentado ya que la funcionalidad de fecha directa en la tarea cambió -->
                 <li><strong>Agendar en Google Calendar:</strong> Haz clic en el icono de calendario <i class="far fa-calendar-plus"></i> para que se abra una plantilla de Google Calendar con los detalles de la tarea. Introduce la fecha/hora deseada y guarda el evento en tu calendario. Esta opción está deshabilitada para tareas completadas.</li>
                 <li><strong>Enlaces:</strong> Haz clic en el icono de enlace <i class="fas fa-link"></i> para añadir o abrir un enlace web asociado a la tarea.</li>
                 <li><strong>Sub-Tareas:</strong>
