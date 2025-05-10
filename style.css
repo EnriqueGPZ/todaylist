@@ -38,6 +38,15 @@
     --welcome-button-hover-bg: #c0392b;
     --drive-icon-color: #4285F4;
     --accent-color: #3498db;
+
+    /* Nuevas variables para el modal de recordatorio */
+    --modal-input-background-color: var(--input-bg);
+    --modal-input-border-color: var(--border-color);
+    --modal-button-background-color: var(--accent-color);
+    --modal-button-text-color: #fff;
+    --modal-button-hover-background-color: #2980b9; /* Un poco más oscuro que accent-color */
+    --modal-button-disabled-background: #bdc3c7;
+    --modal-button-disabled-text: #7f8c8d;
 }
 
 body.dark-mode {
@@ -56,6 +65,7 @@ body.dark-mode {
     --completed-text-color: #7f8c8d;
     --progress-bg: #4a627a;
     --progress-bar-color: #8bc34a;
+    --progress-bar-completed-color: #28a745;
     --empty-list-color: #bdc3c7;
     --fixed-button-bg: #34495e;
     --fixed-button-border: #4a627a;
@@ -73,6 +83,15 @@ body.dark-mode {
     --welcome-button-hover-bg: #e67e22;
     --drive-icon-color: #4A90E2;
     --accent-color: #5dade2;
+
+    /* Nuevas variables para el modal de recordatorio (Dark Mode) */
+    --modal-input-background-color: var(--input-bg);
+    --modal-input-border-color: var(--border-color);
+    --modal-button-background-color: var(--accent-color);
+    --modal-button-text-color: var(--text-color); /* Texto claro en botón oscuro */
+    --modal-button-hover-background-color: #3498db; /* Un poco más oscuro que accent-color en DM */
+    --modal-button-disabled-background: #4a627a;
+    --modal-button-disabled-text: #7f8c8d;
 }
 
 body {
@@ -1177,6 +1196,7 @@ footer {
     }
 }
 
+/* Estilos para los modales (info y recordatorio) */
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -1191,6 +1211,8 @@ footer {
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s ease, visibility 0s linear 0.3s;
+    padding-top: 60px; /* Espacio superior para evitar que se pegue al top */
+    box-sizing: border-box;
 }
 .modal-overlay.visible {
     opacity: 1;
@@ -1210,6 +1232,7 @@ footer {
     position: relative;
     transform: scale(0.95);
     transition: transform 0.3s ease;
+    box-sizing: border-box;
 }
 .modal-overlay.visible .modal-content {
     transform: scale(1);
@@ -1222,6 +1245,95 @@ footer {
     font-family: 'Quicksand', sans-serif;
     font-size: 1.8rem;
 }
+
+/* Estilos específicos para el modal de recordatorio */
+#reminder-modal .modal-content h2 {
+    color: var(--accent-color); /* Usar color de acento para el título del recordatorio */
+}
+
+#reminder-modal p#reminder-task-text {
+    text-align: center;
+    font-style: italic;
+    margin-bottom: 20px;
+    word-break: break-word; /* Romper palabras largas */
+    color: var(--text-color);
+}
+
+.modal-input-group {
+    margin-bottom: 15px;
+}
+
+.modal-input-group label {
+    display: block; /* Etiqueta en su propia línea */
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+.modal-input-group input[type="date"],
+.modal-input-group input[type="time"] {
+    width: calc(100% - 22px); /* Ancho completo menos padding y borde */
+    padding: 10px;
+    border: 1px solid var(--modal-input-border-color); /* Usar color de borde del tema */
+    border-radius: 4px;
+    background-color: var(--modal-input-background-color); /* Usar color de fondo de input del tema */
+    color: var(--input-text-color); /* Usar color de texto del tema */
+    font-size: 1rem;
+    box-sizing: border-box;
+    outline: none;
+    transition: border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+}
+
+.modal-input-group input[type="date"]:focus,
+.modal-input-group input[type="time"]:focus {
+    border-color: var(--button-hover-color);
+    box-shadow: 0 0 0 0.2rem rgba(231, 76, 60, 0.25);
+}
+body.dark-mode .modal-input-group input[type="date"]:focus,
+body.dark-mode .modal-input-group input[type="time"]:focus {
+     box-shadow: 0 0 0 0.2rem rgba(243, 156, 18, 0.2);
+}
+
+
+/* Estilos para el input de fecha/hora en modo oscuro (puede variar según navegador) */
+/* Intentamos invertir colores, pero la apariencia nativa es difícil de controlar */
+/* body.dark-mode .modal-input-group input[type="date"], */
+/* body.dark-mode .modal-input-group input[type="time"] { */
+     /* filter: invert(1) hue-rotate(180deg); */
+/* } */
+
+
+#reminder-modal .modal-content button.app-button {
+    display: block; /* Botón en su propia línea */
+    width: 100%; /* Ancho completo */
+    padding: 12px;
+    background-color: var(--modal-button-background-color); /* Usar color de acento */
+    color: var(--modal-button-text-color); /* Color de texto del botón */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: background-color 0.2s ease;
+    font-weight: bold;
+}
+
+#reminder-modal .modal-content button.app-button:hover {
+    background-color: var(--modal-button-hover-background-color); /* Color de acento más oscuro al pasar el ratón */
+}
+
+#reminder-modal .modal-content button.app-button:disabled {
+    background-color: var(--modal-button-disabled-background);
+    color: var(--modal-button-disabled-text);
+    cursor: not-allowed;
+    opacity: 1; /* No reducir opacidad, solo cambiar color */
+}
+#reminder-modal .modal-content button.app-button:disabled:hover {
+    background-color: var(--modal-button-disabled-background); /* Mantener color deshabilitado al pasar el ratón */
+    color: var(--modal-button-disabled-text);
+}
+
+
+/* Estilos para el modal de información (ya existían, solo se asegura compatibilidad) */
 .modal-content ol {
     padding-left: 20px;
     margin-bottom: 0;
@@ -1242,7 +1354,7 @@ footer {
 .modal-content strong {
     color: var(--heading-color);
 }
-.modal-content i.fas, .modal-content i.far {
+.modal-content i.fas, .modal-content i.far, .modal-content i.fab {
     color: var(--button-hover-color);
     margin: 0 2px;
     font-size: 0.9em;
@@ -1260,4 +1372,55 @@ footer {
 }
 .close-modal:hover {
     color: var(--button-hover-color);
+}
+
+@media (max-width: 500px) {
+    /* ... (media queries existentes) ... */
+
+    /* Ajustes para modales en pantallas pequeñas */
+    .modal-overlay {
+        padding-top: 20px; /* Reducir padding top en móviles */
+    }
+    .modal-content {
+        padding: 20px 25px; /* Reducir padding */
+        max-height: 90vh; /* Permitir que ocupe más alto si es necesario */
+    }
+    .modal-content h2 {
+        font-size: 1.5rem; /* Reducir tamaño título */
+        margin-bottom: 15px;
+    }
+    #reminder-modal p#reminder-task-text {
+        font-size: 0.9rem; /* Reducir tamaño texto tarea */
+        margin-bottom: 15px;
+    }
+    .modal-input-group {
+        margin-bottom: 10px;
+    }
+    .modal-input-group label {
+        font-size: 0.9rem;
+        margin-bottom: 3px;
+    }
+    .modal-input-group input[type="date"],
+    .modal-input-group input[type="time"] {
+        padding: 8px;
+        font-size: 0.95rem;
+    }
+    #reminder-modal .modal-content button.app-button {
+        padding: 10px;
+        font-size: 1rem;
+    }
+    .modal-content ol li {
+        font-size: 0.9em;
+        margin-bottom: 10px;
+    }
+    .modal-content ol li ul li {
+        font-size: 0.9em;
+        margin-bottom: 6px;
+    }
+    .close-modal {
+        font-size: 1.7rem;
+        top: 8px;
+        right: 10px;
+        padding: 3px 8px;
+    }
 }
