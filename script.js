@@ -25,7 +25,6 @@ let importDriveButton;
 const CLIENT_ID = '25607067695-mgv7jfvio4vr1goi5ci6o952mgpii8nf.apps.googleusercontent.com'; // <<<< VERIFICA/REEMPLAZA CON TU CLIENT_ID REAL
 
 // --- OFUSCACIÓN DE API_KEY (Método Base64) ---
-// La clave original 'AIzaSyAhr2kqUcRf5qZi0yMHsFDsyp_x8Ekfj7k' codificada en Base64
 const _0xapikey_b64 = 'QUl6YVN5QWhyMmtxVWNSZjVxWmkwMHlzRkRzeXBfeDhFa2ZqN2s='; 
 const API_KEY = atob(_0xapikey_b64); // Decodificar en tiempo de ejecución
 // --- FIN OFUSCACIÓN ---
