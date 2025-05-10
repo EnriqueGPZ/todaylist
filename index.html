@@ -3,15 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ToDayList - Tu Gestor de Tareas Diarias</title> <!-- O el título que prefieras -->
+    <title>ToDayList - Tu Gestor de Tareas Diarias</title>
     <link rel="stylesheet" href="style.css">
-    <!-- Si estás usando Font Awesome para los iconos como i class="fas fa-download", necesitas enlazarlo también -->
+    <!-- Enlace a Font Awesome para los iconos (si los usas) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUA6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <!-- Si tienes un favicon -->
+    <!-- Si tienes un favicon, descomenta y ajusta la siguiente línea -->
     <!-- <link rel="icon" href="favicon.ico" type="image/x-icon"> -->
 </head>
 <body>
-    <!-- TU CONTENIDO ACTUAL DEL BODY VA AQUÍ (el que me pasaste) -->
     <div class="container">
         <button id="info-button" class="app-button" aria-label="Información de la aplicación" title="Cómo usar la aplicación">
             i
@@ -136,7 +135,6 @@
     </div>
     <!-- Fin Modal para agendar recordatorio -->
 
-
     <footer>
         <img src="https://www.todaylist.es/ToDayList.png" alt="Logo ToDayList" class="footer-logo">
         <p class="footer-text">WebApp creada por Henry Gil</p>
@@ -185,7 +183,30 @@
 
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
 
-    <!-- Enlace al archivo JavaScript externo -->
+    <!-- Scripts de Google API (para Drive y Picker) -->
+    <!-- Asegúrate de que los callbacks 'window.googleApiCallbacks.gapiLoaded' y 'window.googleApiCallbacks.gisLoaded' -->
+    <!-- estén definidos en tu script.js antes de que estos scripts se carguen completamente y los llamen. -->
+    <!-- El uso de 'async defer' y la verificación 'typeof ... !== "undefined"' ayuda a manejar esto. -->
+    <script async defer src="https://apis.google.com/js/api.js" 
+            onload="console.log('GAPI script loaded, setting flag and attempting callback.'); 
+                    window.isGoogleGapiScriptReady = true; 
+                    if (typeof window.googleApiCallbacks !== 'undefined' && typeof window.googleApiCallbacks.gapiLoaded === 'function') { 
+                        window.googleApiCallbacks.gapiLoaded(); 
+                    } else { 
+                        console.log('GAPI script loaded, but googleApiCallbacks.gapiLoaded not (yet) a function or googleApiCallbacks is undefined.'); 
+                    }">
+    </script>
+    <script async defer src="https://accounts.google.com/gsi/client" 
+            onload="console.log('GIS client script loaded, setting flag and attempting callback.'); 
+                    window.isGoogleGisScriptReady = true; 
+                    if (typeof window.googleApiCallbacks !== 'undefined' && typeof window.googleApiCallbacks.gisLoaded === 'function') { 
+                        window.googleApiCallbacks.gisLoaded(); 
+                    } else { 
+                        console.log('GIS client script loaded, but googleApiCallbacks.gisLoaded not (yet) a function or googleApiCallbacks is undefined.'); 
+                    }">
+    </script>
+
+    <!-- Enlace al archivo JavaScript externo (tu lógica principal) -->
     <script type="module" src="script.js"></script>
 </body>
 </html>
