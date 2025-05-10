@@ -1667,7 +1667,7 @@
                 await ensureDriveClientLoaded();
 
                 const dataToExport = {
-                    theme: localStorage.getItem(THEME_STORAGE_KEY) || 'light',
+                    theme: localStorage.getItem(THEME_STORAGE_KEY) || 'dark', // Default to dark if somehow not set
                     dailyMedalData: JSON.parse(localStorage.getItem(MEDALS_STORAGE_KEY) || '{}'),
                     quickNotesContent: localStorage.getItem(QUICK_NOTES_STORAGE_KEY) || '',
                     tasks: todos
@@ -2411,7 +2411,7 @@
 
         function exportAllDataLocal() { 
             const dataToExport = {
-                theme: localStorage.getItem(THEME_STORAGE_KEY) || 'light',
+                theme: localStorage.getItem(THEME_STORAGE_KEY) || 'dark', // Default to dark if somehow not set
                 dailyMedalData: JSON.parse(localStorage.getItem(MEDALS_STORAGE_KEY) || '{}'),
                 quickNotesContent: localStorage.getItem(QUICK_NOTES_STORAGE_KEY) || '',
                 tasks: todos
@@ -2437,9 +2437,15 @@
                     throw new Error('El formato del archivo es inválido o no contiene tareas.');
                 }
 
-                const themeToApply = importedData.theme === 'dark' ? 'dark' : 'light';
+                // MODIFICADO: Si el tema importado es 'light', aplicar 'light'.
+                // De lo contrario (es 'dark', undefined, o cualquier otra cosa), aplicar 'dark'.
+                const themeToApply = importedData.theme === 'light' ? 'light' : 'dark';
                 localStorage.setItem(THEME_STORAGE_KEY, themeToApply);
-                if (themeToApply === 'dark') enableDarkMode(); else disableDarkMode();
+                if (themeToApply === 'dark') {
+                    enableDarkMode();
+                } else {
+                    disableDarkMode();
+                }
 
                 if (importedData.dailyMedalData && typeof importedData.dailyMedalData === 'object') {
                     localStorage.setItem(MEDALS_STORAGE_KEY, JSON.stringify(importedData.dailyMedalData));
@@ -2551,10 +2557,12 @@
             appMainInterface = document.getElementById('app-main-interface');
             installInstructionsSection = document.getElementById('install-instructions-section');
 
-            if (localStorage.getItem(THEME_STORAGE_KEY) === 'dark') {
-                enableDarkMode();
+            // MODIFICADO: Aplicar tema oscuro por defecto
+            const storedTheme = localStorage.getItem(THEME_STORAGE_KEY);
+            if (storedTheme === 'light') {
+                disableDarkMode(); // Aplicar modo claro solo si está explícitamente guardado como 'light'
             } else {
-                disableDarkMode();
+                enableDarkMode();  // Aplicar modo oscuro por defecto (si storedTheme es null) o si está guardado como 'dark'
             }
 
             loadTodosFromLocalStorage();
