@@ -1,1254 +1,981 @@
-:root {
-    --bg-color: #f4f7f6;
-    --text-color: #333;
-    --heading-color: #222;
-    --item-bg: #ffffff;
-    --border-color: #e0e0e0;
-    --input-bg: #f8f8f8;
-    --input-text-color: #333;
-    --placeholder-color: #888;
-    --button-color: #555;
-    --button-hover-color: #e74c3c;
-    --delete-button-color: var(--button-color);
-    --delete-button-hover-color: var(--button-hover-color);
-    --completed-text-color: #999;
-    --progress-bg: #e0ffe0;
-    --progress-bar-color: #66c266;
-    --progress-bar-completed-color: #28a745;
-    --empty-list-color: #888;
-    --fixed-button-bg: #ffffff;
-    --fixed-button-border: #ccc;
-    --fixed-button-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    --legend-text-color: #666;
-    --sort-button-color: #555;
-    --sort-button-hover-color: #3498db;
-    --footer-text-color: #aaa;
-    --medal-color: #ffd700;
-    --medal-text-color: var(--text-color);
-    --subtitle-color: #777;
-    --app-description-color: #555;
-    --priority-red-color: #e74c3c;
-    --priority-orange-color: #f39c12;
-    --priority-yellow-color: #f1c40f;
-    --priority-green-color: #2ecc71;
-    --priority-none-color: var(--border-color);
-    --calendar-icon-default-color: var(--button-color);
-    --calendar-icon-set-color: var(--text-color);
-    --welcome-button-bg: #e74c3c;
-    --welcome-button-text: #fff;
-    --welcome-button-hover-bg: #c0392b;
-    --auth-box-bg: #ffffff;
-    --auth-box-border: #e0e0e0;
-    --auth-button-bg: #4285F4;
-    --auth-button-text: #fff;
-    --auth-button-hover-bg: #357ae8;
-}
-
-body.dark-mode {
-    --bg-color: #2c3e50;
-    --text-color: #ecf0f1;
-    --heading-color: #ecf0f1;
-    --item-bg: #34495e;
-    --border-color: #4a627a;
-    --input-bg: #445b71;
-    --input-text-color: #ecf0f1;
-    --placeholder-color: #bdc3c7;
-    --button-color: #bdc3c7;
-    --button-hover-color: #f39c12;
-    --delete-button-color: var(--button-color);
-    --delete-button-hover-color: var(--button-hover-color);
-    --completed-text-color: #7f8c8d;
-    --progress-bg: #4a627a;
-    --progress-bar-color: #8bc34a;
-    --empty-list-color: #bdc3c7;
-    --fixed-button-bg: #34495e;
-    --fixed-button-border: #4a627a;
-    --fixed-button-shadow: 0 2px 5px rgba(0,0,0,0.4);
-    --legend-text-color: #a0a0a0;
-    --sort-button-color: #bdc3c7;
-    --sort-button-hover-color: #3498db;
-    --checkbox-checkmark-color: var(--bg-color);
-    --footer-text-color: #777;
-    --medal-text-color: var(--text-color);
-    --subtitle-color: #bdc3c7;
-    --app-description-color: #a0a0a0;
-    --welcome-button-bg: #f39c12;
-    --welcome-button-text: #2c3e50;
-    --welcome-button-hover-bg: #e67e22;
-    --auth-box-bg: #34495e;
-    --auth-box-border: #4a627a;
-    --auth-button-bg: #f39c12; /* Dark mode Google button, can be styled differently */
-    --auth-button-text: #2c3e50;
-    --auth-button-hover-bg: #e67e22;
-}
-
-body {
-    font-family: 'Lexend', sans-serif;
-    margin: 0;
-    padding: 20px;
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    line-height: 1.6;
-    padding-bottom: 120px;
-    transition: background-color 0.3s ease, color 0.3s ease;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-height: 100vh;
-    box-sizing: border-box;
-}
-
-#authBox {
-    background-color: var(--auth-box-bg);
-    border: 1px solid var(--auth-box-border);
-    padding: 25px 30px;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    text-align: center;
-    margin: 40px auto;
-    max-width: 400px;
-    width: 90%;
-}
-
-#authBox h2 {
-    font-family: 'Quicksand', sans-serif;
-    color: var(--heading-color);
-    margin-top: 0;
-    margin-bottom: 20px;
-    font-size: 1.8rem;
-}
-
-#btnGoogle {
-    background-color: var(--auth-button-bg);
-    color: var(--auth-button-text);
-    border: none;
-    padding: 12px 25px;
-    font-size: 1.1rem;
-    font-weight: bold;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.2s ease, transform 0.2s ease;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-}
-
-#btnGoogle:hover {
-    background-color: var(--auth-button-hover-bg);
-    transform: translateY(-2px);
-}
-
-#authStatus {
-    margin-top: 15px;
-    font-size: 0.9rem;
-    color: var(--text-color);
-}
-
-.container {
-    width: 100%;
-    max-width: 600px;
-    padding: 0 10px;
-    box-sizing: border-box;
-    flex-grow: 1;
-    position: relative;
-    padding-bottom: 20px;
-}
-
-h1 {
-    font-family: 'Quicksand', sans-serif;
-    color: var(--heading-color);
-    text-align: center;
-    margin-top: 0;
-    margin-bottom: 2px;
-    font-weight: 700;
-    font-size: 2.8rem;
-    letter-spacing: -0.5px;
-    padding-top: 45px;
-}
-.subtitle {
-    text-align: center;
-    font-family: 'Lexend', sans-serif;
-    font-size: 1.1rem;
-    font-weight: 400;
-    color: var(--subtitle-color);
-    margin-top: 0;
-    margin-bottom: 10px;
-    letter-spacing: 0.2px;
-}
-.app-description-static {
-    text-align: center;
-    font-family: 'Lexend', sans-serif;
-    font-size: 0.9rem;
-    font-weight: 300;
-    color: var(--app-description-color);
-    margin-top: 0;
-    margin-bottom: 20px;
-    line-height: 1.5;
-    max-width: 90%;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-#welcome-section {
-    margin-top: 20px;
-    margin-bottom: 30px;
-    padding: 25px;
-    background-color: var(--item-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    text-align: center;
-}
-.welcome-icon {
-    width: 64px;
-    height: 64px;
-    margin-bottom: 15px;
-    border-radius: 12px;
-}
-#welcome-section h2 {
-    font-family: 'Quicksand', sans-serif;
-    font-size: 1.8rem;
-    color: var(--heading-color);
-    margin-top: 0;
-    margin-bottom: 15px;
-}
-#welcome-section p {
-    font-size: 0.95rem;
-    color: var(--text-color);
-    margin-bottom: 15px;
-    line-height: 1.6;
-}
-#welcome-section ul {
-    list-style: none;
-    padding-left: 0;
-    margin: 20px auto;
-    max-width: 400px;
-    text-align: left;
-}
-#welcome-section ul li {
-    font-size: 0.9rem;
-    color: var(--text-color);
-    margin-bottom: 10px;
-    padding-left: 25px;
-    position: relative;
-    line-height: 1.5;
-}
-#welcome-section ul li::before {
-    content: "\f00c";
-    font-family: "Font Awesome 6 Free";
-    font-weight: 900;
-    position: absolute;
-    left: 0;
-    top: 3px;
-    color: var(--progress-bar-completed-color);
-}
-body.dark-mode #welcome-section ul li::before {
-    color: var(--progress-bar-color);
-}
-#start-app-button {
-    background-color: var(--welcome-button-bg);
-    color: var(--welcome-button-text);
-    border: none;
-    padding: 12px 25px;
-    font-size: 1.1rem;
-    font-weight: bold;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.2s ease, transform 0.2s ease;
-    margin-top: 20px;
-    display: inline-block;
-}
-#start-app-button:hover {
-    background-color: var(--welcome-button-hover-bg);
-    transform: translateY(-2px);
-}
-#start-app-button:focus, #start-app-button:focus-visible {
-     outline: 3px solid var(--button-hover-color);
-     outline-offset: 2px;
-}
-
-/* --- ESTILOS PARA LA SECCIÓN DE INSTALACIÓN (CON ICONOS CORREGIDOS) --- */
-#install-instructions-section {
-    margin-top: 20px;
-    margin-bottom: 30px;
-    padding: 18px 22px;
-    background-color: var(--item-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
-    font-size: 0.85rem;
-    color: var(--text-color);
-}
-
-#install-instructions-section h4 {
-    font-family: 'Quicksand', sans-serif;
-    font-size: 1.2rem;
-    color: var(--heading-color);
-    margin-top: 0;
-    margin-bottom: 8px;
-    text-align: center;
-}
-
-#install-instructions-section p {
-    font-size: 0.95em;
-    color: var(--text-color);
-    margin-bottom: 12px;
-    line-height: 1.45;
-    text-align: center;
-}
-
-#install-instructions-section ul {
-    list-style: none;
-    padding-left: 5px;
-    margin: 0 auto;
-    max-width: 480px;
-}
-
-#install-instructions-section ul li {
-    margin-bottom: 8px;
-    line-height: 1.5;
-    font-size: 0.92em;
-    padding-left: 25px;
-    position: relative;
-    text-align: left;
-}
-
-#install-instructions-section ul li::before {
-    font-family: "Font Awesome 6 Brands", "Font Awesome 6 Free";
-    font-weight: 400; /* Para iconos de marca (fab) en FA6 */
-    position: absolute;
-    left: 0px;
-    top: 1px;
-    width: 20px;
-    text-align: center;
-    color: var(--button-color);
-    font-size: 1.1em;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
-
-#install-instructions-section ul li:nth-child(1)::before { content: "\f268"; } /* Chrome */
-#install-instructions-section ul li:nth-child(2)::before { content: "\f17b"; } /* Android */
-#install-instructions-section ul li:nth-child(3)::before { content: "\f179"; } /* Apple */
-#install-instructions-section ul li:nth-child(4)::before { content: "\f267"; } /* Safari */
-
-#install-instructions-section ul li strong {
-    color: var(--heading-color);
-    font-weight: 700;
-}
-
-#install-instructions-section ul li i.fas.fa-download,
-#install-instructions-section ul li i.fas.fa-ellipsis-v,
-#install-instructions-section ul li i.fas.fa-share-square {
-    color: var(--button-hover-color);
-    margin-left: 0.1em;
-    margin-right: 0.1em;
-    font-size: 0.9em;
-}
-/* --- FIN ESTILOS SECCIÓN DE INSTALACIÓN --- */
-
-.hidden {
-    display: none !important;
-}
-
-#medal-counter-container {
-    text-align: center;
-    font-size: 1.2rem;
-    color: var(--medal-text-color);
-    margin-bottom: 20px;
-}
-#medal-counter-container .fa-medal {
-    color: var(--medal-color);
-    margin-right: 5px;
-}
-#medal-count {
-    font-weight: bold;
-}
-
-#priority-legend {
-    text-align: center;
-    font-size: 0.75rem;
-    color: var(--legend-text-color);
-    margin-top: 30px;
-    margin-bottom: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 5px 10px;
-}
-#priority-legend .priority-legend-item {
-     display: inline-flex;
-     align-items: center;
-     gap: 4px;
-}
- #priority-legend .priority-color-label {
-     width: 10px;
-     height: 10px;
-     margin-right: 0;
-     flex-shrink: 0;
- }
- #priority-legend .priority-color-label:hover {
-     transform: none;
- }
-
-#todo-list {
-    list-style: none;
-    padding: 0;
-    margin: 0 0 30px 0;
-}
-
-.todo-item {
-    background-color: var(--item-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    padding: 15px;
-    margin-bottom: 15px;
-    box-sizing: border-box;
-    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-    border-left: 5px solid var(--border-color);
-    padding-left: 10px;
-}
- .todo-item:last-child {
-     margin-bottom: 0;
- }
-
-.todo-item[data-priority-color="red"] { border-left-color: var(--priority-red-color); }
-.todo-item[data-priority-color="orange"] { border-left-color: var(--priority-orange-color); }
-.todo-item[data-priority-color="yellow"] { border-left-color: var(--priority-yellow-color); }
-.todo-item[data-priority-color="green"] { border-left-color: var(--priority-green-color); }
-.todo-item[data-priority-color="none"] { border-left-color: var(--priority-none-color); }
-
-
- .app-button {
-     background: none;
-     border: none;
-     border-radius: 4px;
-     cursor: pointer;
-     transition: color 0.2s ease, background-color 0.2s ease, opacity 0.2s ease;
-     flex-shrink: 0;
-     padding: 6px 10px;
-     font-size: 1rem;
-     line-height: 1;
-     display: inline-flex;
-     align-items: center;
-     justify-content: center;
-     text-decoration: none;
- }
- .app-button:hover {
-     color: var(--button-hover-color);
- }
- .app-button:focus, .app-button:focus-visible {
-      outline: 2px solid var(--button-hover-color);
-      outline-offset: 2px;
- }
- .add-button {
-     color: var(--button-color);
-     font-weight: bold;
- }
- .add-button:hover {
-     color: var(--button-hover-color);
- }
- .delete-button {
-     color: var(--delete-button-color);
- }
- .delete-button:hover {
-     color: var(--delete-button-hover-color);
- }
- .sort-button {
-     color: var(--sort-button-color);
-     font-weight: normal;
-     padding: 10px 15px;
-     font-size: 1.1rem;
- }
- .sort-button:hover {
-     color: var(--sort-button-hover-color);
- }
-
- #dark-mode-toggle {
-     position: fixed;
-     bottom: 20px;
-     right: 20px;
-     font-size: 1.3rem;
-     color: var(--button-color);
-     z-index: 1000;
-     background-color: var(--fixed-button-bg);
-     border: 1px solid var(--fixed-button-border);
-     border-radius: 50%;
-     width: 45px;
-     height: 45px;
-     display: flex;
-     justify-content: center;
-     align-items: center;
-     box-shadow: var(--fixed-button-shadow);
-     transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
- }
- #dark-mode-toggle:hover {
-     color: var(--button-hover-color);
- }
- #dark-mode-toggle i {
-     line-height: 1;
- }
-
-#new-todo-input,
-.todo-item .subtask-input-container input[type="text"] {
-    padding: 10px 12px;
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
-    flex-grow: 1;
-    min-width: 150px;
-    font-size: 0.95rem;
-    box-sizing: border-box;
-    background-color: var(--input-bg);
-    color: var(--input-text-color);
-    outline: none;
-    transition: border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease;
-}
-#new-todo-input:focus,
-.todo-item .subtask-input-container input[type="text"]:focus {
-    border-color: var(--button-hover-color);
-    box-shadow: 0 0 0 0.2rem rgba(231, 76, 60, 0.25);
-}
-#new-todo-input::placeholder,
-.todo-item .subtask-input-container input[type="text"]::placeholder {
-     color: var(--placeholder-color);
-     opacity: 1;
-}
-
- .custom-checkbox {
-     margin-right: 10px;
-     border: 1px solid var(--text-color);
-     border-radius: 50%;
-     appearance: none;
-     -webkit-appearance: none;
-     width: 20px;
-     height: 20px;
-     background-color: var(--item-bg);
-     cursor: pointer;
-     position: relative;
-     flex-shrink: 0;
-     box-sizing: border-box;
-     transition: background-color 0.2s ease, border-color 0.2s ease;
- }
- .custom-checkbox:checked {
-      background-color: var(--text-color);
-      border-color: var(--text-color);
- }
-
- .custom-checkbox:checked::after {
-     content: '';
-     position: absolute;
-     box-sizing: content-box;
-     width: 5px;
-     height: 9px;
-     border: solid var(--item-bg);
-     border-width: 0 2px 2px 0;
-     top: 3px;
-     left: 6px;
-     transform: rotate(45deg);
- }
- body.dark-mode .custom-checkbox:checked::after {
-     border-color: var(--checkbox-checkmark-color) !important;
- }
-
-
-.todo-item .main-task-header {
-    display: flex;
-    align-items: center;
-    margin-bottom: 15px;
-    padding: 0;
-    gap: 10px;
-}
-.todo-item .main-task-header input[type="checkbox"] {
-     border-color: var(--text-color);
-     background-color: var(--item-bg);
-}
- .todo-item .main-task-header input[type="checkbox"]:checked {
-      background-color: var(--text-color);
-      border-color: var(--text-color);
- }
-
-
-.todo-item .priority-color-label {
-     display: inline-block;
-     width: 16px;
-     height: 16px;
-     border: 1px solid var(--border-color);
-     border-radius: 4px;
-     cursor: pointer;
-     flex-shrink: 0;
-     transition: border-color 0.2s ease, transform 0.1s ease, background-color 0.2s ease;
-     box-sizing: border-box;
-}
- .todo-item .priority-color-label:hover {
-     transform: scale(1.1);
- }
-.priority-color-label[data-color="red"] { background-color: var(--priority-red-color); border-color: var(--priority-red-color); }
-.priority-color-label[data-color="orange"] { background-color: var(--priority-orange-color); border-color: var(--priority-orange-color); }
-.priority-color-label[data-color="yellow"] { background-color: var(--priority-yellow-color); border-color: var(--priority-yellow-color); }
-.priority-color-label[data-color="green"] { background-color: var(--priority-green-color); border-color: var(--priority-green-color); }
-.priority-color-label[data-color="none"] { background-color: transparent; border-color: var(--border-color); }
-
-
-.todo-item .main-task-header .task-body {
-    display: flex;
-    flex-grow: 1;
-    align-items: center;
-    gap: 10px;
-    min-width: 0;
-    flex-wrap: wrap;
-}
-
-
-.todo-item .main-task-header .task-body span {
-    font-weight: 700;
-    font-size: 1.1rem;
-    flex-grow: 1;
-    color: var(--text-color);
-    transition: color 0.3s ease, text-decoration 0.3s ease;
-    min-width: 0;
-    word-break: break-word;
-}
-
-.todo-item .main-task-header .task-body .task-actions-group {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    margin-left: auto;
-    flex-shrink: 0;
-}
-
-.todo-item .main-task-header .task-body .link-button {
-    color: var(--button-color);
-    padding: 4px 8px;
-    font-size: 1rem;
-    opacity: 0.5;
-}
-.todo-item .main-task-header .task-body .link-button.link-on {
-    opacity: 1;
-}
-
-.todo-item .main-task-header .task-body .calendar-button {
-    padding: 4px 8px;
-    font-size: 1rem;
-}
-.todo-item .main-task-header .task-body .calendar-button i {
-    color: var(--calendar-icon-default-color);
-    transition: color 0.2s ease, font-weight 0.2s ease;
-}
-.todo-item .main-task-header .task-body .calendar-button.date-set i {
-    color: var(--calendar-icon-set-color);
-}
-.todo-item .main-task-header .task-body .calendar-button.date-today i {
-    font-weight: bold;
-}
-
-.task-date-input-real {
-    opacity: 0;
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip: rect(0 0 0 0);
-    clip-path: inset(50%);
-    margin: -1px;
-    padding: 0;
-    border: 0;
-    white-space: nowrap;
-}
-
-.todo-item .main-task-header .task-body .task-actions-group .delete-button {
-     padding: 4px 8px;
-     font-size: 1rem;
-}
-
-
-.todo-item .add-subtasks-toggle {
-     display: block;
-     width: fit-content;
-     margin: 10px 0 0 auto;
-     padding: 4px 8px;
-     font-size: 1.1rem;
-     font-weight: normal;
-     color: var(--legend-text-color);
-}
- .todo-item .add-subtasks-toggle:hover {
-     color: var(--button-hover-color);
- }
-
-.todo-item .subtask-input-container {
-    display: none;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 15px;
-    padding: 0;
-    align-items: center;
-}
- .todo-item .subtask-input-container button {
-     padding: 8px 12px;
-     font-size: 1rem;
- }
-
-.todo-item .subtasks-list {
-    list-style: none;
-    padding: 0;
-    margin-top: 15px;
-    border-left: 2px solid var(--border-color);
-    padding-left: 20px;
-    transition: border-left-color 0.3s ease;
-}
-.todo-item .subtasks-list li {
-    display: flex;
-    align-items: center;
-    margin-bottom: 4px;
-    gap: 5px;
-}
- .todo-item .subtasks-list li:last-child {
-     margin-bottom: 0;
- }
-
-.todo-item .subtasks-list li input[type="checkbox"] {
-     width: 18px;
-     height: 18px;
-     border: 1px solid var(--text-color); /* Use text-color for border */
-     border-radius: 50%;
-     appearance: none;
-     -webkit-appearance: none;
-     background-color: var(--item-bg);
-     cursor: pointer;
-     position: relative;
-     flex-shrink: 0;
-     box-sizing: border-box;
-     transition: background-color 0.2s ease, border-color 0.2s ease;
-}
- .todo-item .subtasks-list li input[type="checkbox"]:checked {
-      background-color: var(--text-color); /* Use text-color for checked background */
-      border-color: var(--text-color);
- }
-
-.todo-item .subtasks-list li input[type="checkbox"]:checked::after {
-    content: '';
-    position: absolute;
-    box-sizing: content-box;
-    width: 4px;
-    height: 8px;
-    border: solid var(--item-bg); /* Use item-bg for checkmark color */
-    border-width: 0 1.8px 1.8px 0;
-    top: 2.5px;
-    left: 5px;
-    transform: rotate(45deg);
-}
- body.dark-mode .todo-item .subtasks-list li input[type="checkbox"]:checked::after {
-     border-color: var(--checkbox-checkmark-color) !important; /* Use checkbox-checkmark-color for dark mode */
- }
-
-.todo-item .subtasks-list li span {
-     flex-grow: 1;
-     margin-right: 5px;
-     color: var(--button-color);
-     text-decoration: none;
-     transition: color 0.3s ease, text-decoration 0.3s ease;
-     word-break: break-word;
-     font-size: 0.85em;
-     font-weight: 300;
-}
- .todo-item .subtasks-list li .subtask-move-button {
-     color: var(--button-color);
-     padding: 4px;
-     font-size: 0.9rem;
- }
- .todo-item .subtasks-list li .subtask-move-button:hover {
-     color: var(--button-hover-color);
- }
- .todo-item .subtasks-list li .subtask-move-button:disabled {
-     opacity: 0.3;
-     cursor: not-allowed;
-     color: var(--button-color);
- }
- .todo-item .subtasks-list li .subtask-move-button:disabled:hover {
-     color: var(--button-color);
- }
- .todo-item .subtasks-list li .delete-button {
-     padding: 4px 8px;
-     font-size: 1rem;
- }
-
-.todo-item .progress-container {
-    width: 100%;
-    height: 6px;
-    border-radius: 3px;
-    margin-top: 15px;
-    margin-bottom: 0;
-    overflow: hidden;
-    background-color: var(--progress-bg);
-    transition: background-color 0.3s ease;
-}
-.todo-item .progress-bar {
-    height: 100%;
-    background-color: var(--progress-bar-color);
-    width: 0%;
-    transition: width 0.5s ease-in-out, background-color 0.3s ease;
-}
- .todo-item .progress-text { display: none; }
-
-#todo-list:empty:before {
-    content: "No hay tareas. ¡Agrega una!";
-    display: block;
-    text-align: center;
-    color: var(--empty-list-color);
-    margin-top: 20px;
-    font-style: italic;
-    transition: color 0.3s ease;
-}
-
-.todo-item.show-subtask-ui .subtask-input-container {
-     display: flex;
-}
-.todo-item.show-subtask-ui .add-subtasks-toggle {
-     display: none;
-}
-
-.todo-item.completed .main-task-header .task-body span,
-.todo-item.completed .subtasks-list li span {
-    color: var(--completed-text-color);
-    text-decoration: line-through;
-}
-.todo-item.completed .progress-bar {
-    background-color: var(--progress-bar-completed-color);
-}
-
-.todo-item.completed .priority-color-label,
-.todo-item.completed .subtasks-list li .app-button {
-    opacity: 0.7;
-    cursor: default;
-}
-
-.todo-item.completed .main-task-header .task-body .calendar-button {
-    opacity: 0.7;
-    cursor: default;
-    pointer-events: none;
-}
-.todo-item.completed .main-task-header .task-body .calendar-button i {
-    color: var(--completed-text-color) !important;
-    font-weight: normal !important;
-}
-
-
-.todo-item.completed .main-task-header .task-body .task-actions-group .delete-button {
-    opacity: 0.7;
-}
-.todo-item.completed .main-task-header .task-body .task-actions-group .delete-button:hover {
-    opacity: 0.7;
-    color: var(--delete-button-color);
-}
-
-.todo-item.completed .main-task-header .task-body .link-button.link-on {
-    opacity: 0.8;
-    cursor: pointer;
-}
-.todo-item.completed .main-task-header .task-body .link-button.link-on:hover {
-    color: var(--button-hover-color);
-    opacity: 1;
-}
-.todo-item.completed .main-task-header .task-body .link-button.link-off {
-    opacity: 0.4;
-    cursor: default;
-}
-.todo-item.completed .main-task-header .task-body .link-button.link-off:hover {
-    color: var(--button-color);
-    opacity: 0.4;
-}
-
-.todo-item.completed .priority-color-label:hover,
-.todo-item.completed .subtasks-list li .app-button:hover {
-    color: inherit;
-    text-decoration: none;
-    transform: none;
-}
+// Import necessary Firebase functions (already exposed globally in index.html)
+// import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "firebase/auth";
+// import { getFirestore, collection, doc, getDoc, setDoc, addDoc, updateDoc, deleteDoc, query, orderBy, onSnapshot } from "firebase/firestore";
 
+let todoInput;
+let addTodoButton;
+let todoListContainer;
+let reorderButton;
+let darkModeToggle;
+let body;
+let medalCountDisplay;
+let infoButton, infoModal, closeModalButton;
 
- .todo-item.completed .main-task-header input[type="checkbox"] {
-     border-color: var(--completed-text-color);
-     background-color: var(--completed-text-color);
- }
-  body.dark-mode .todo-item.completed .main-task-header input[type="checkbox"] {
-      border-color: var(--completed-text-color);
-      background-color: var(--completed-text-color);
-  }
- .todo-item.completed .main-task-header input[type="checkbox"]:checked::after {
-      border-color: var(--item-bg) !important;
- }
-  body.dark-mode .todo-item.completed .main-task-header input[type="checkbox"]:checked::after {
-      border-color: var(--item-bg) !important;
-  }
+let quickNotesArea;
+let clearNotesButton;
+// const QUICK_NOTES_STORAGE_KEY = 'todoListQuickNotes'; // No longer used
 
- #todo-input-container {
-     display: flex;
-     gap: 10px;
-     padding: 0;
-     align-items: center;
-     margin-bottom: 20px;
-     flex-wrap: wrap;
- }
-  #todo-input-container #add-todo-button {
-       margin-left: 0;
-       padding: 10px 15px;
-       font-size: 1.1rem;
-  }
-  #todo-input-container #reorder-button {
-       margin-left: auto;
-  }
+// let exportDataButton; // No longer used for direct export/import
+// let importDataButton; // No longer used for direct export/import
+// let importFileInput; // No longer used
 
-#quick-notes-container {
-    margin-top: 25px;
-    margin-bottom: 10px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
+let welcomeSection;
+// let startAppButton; // No longer needed, auth state handles visibility
+let appMainInterface;
+let installInstructionsSection;
 
-#quick-notes-area {
-    width: 100%;
-    min-height: 70px;
-    padding: 10px 12px;
-    border: 1px solid var(--border-color);
-    border-radius: 6px;
-    font-family: 'Lexend', sans-serif;
-    font-weight: 300;
-    font-size: 0.85rem;
-    line-height: 1.4;
-    background-color: var(--input-bg);
-    color: var(--input-text-color);
-    box-sizing: border-box;
-    resize: vertical;
-    outline: none;
-    transition: border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
-}
-#quick-notes-area::placeholder {
-    color: var(--placeholder-color);
-    opacity: 1;
-}
-#quick-notes-area:focus {
-    border-color: var(--button-hover-color);
-    box-shadow: 0 0 0 2px rgba(231, 76, 60, 0.15);
-}
-body.dark-mode #quick-notes-area:focus {
-    box-shadow: 0 0 0 2px rgba(243, 156, 18, 0.2);
-}
+let authBox;
+let btnGoogle;
+let authStatus;
+let logoutButton;
 
+let currentUser = null; // To store the authenticated user
 
-#clear-notes-button {
-    align-self: flex-end;
-    padding: 5px 10px;
-    font-size: 0.8rem;
-    color: var(--button-color);
-    background-color: var(--item-bg);
-    border: 1px solid var(--border-color);
-    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-}
-#clear-notes-button:hover {
-    color: var(--button-hover-color);
-    border-color: var(--button-hover-color);
-    background-color: var(--fixed-button-bg);
-}
-#clear-notes-button i {
-    margin-right: 4px;
-}
+let todos = []; // Array to hold tasks fetched from Firestore
 
-#data-management-container {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-    margin-top: 10px;
-    margin-bottom: 20px;
-}
-#data-management-container .app-button {
-    padding: 6px 12px;
-    font-size: 0.85rem;
-    background-color: var(--item-bg);
-    border: 1px solid var(--border-color);
-    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-}
-#data-management-container .app-button:hover {
-    border-color: var(--button-hover-color);
-    background-color: var(--fixed-button-bg);
-}
-#data-management-container .app-button i {
-    margin-right: 5px;
-}
+// const TODOS_STORAGE_KEY = 'todoListAppTasks'; // No longer used
+// const MEDALS_STORAGE_KEY = 'todoListDailyMedalData'; // No longer used
+const THEME_STORAGE_KEY = 'todoListTheme'; // Still used for local theme preference
 
-/* --- ESTILOS PARA EL BOTÓN DE INFORMACIÓN (MÁS DISCRETO) --- */
-#info-button {
-    position: absolute;
-    top: 15px;
-    left: 15px;
-    font-family: 'Quicksand', sans-serif;
-    font-weight: bold;
-    font-size: 1.3rem;
-    color: var(--button-color);
-    background-color: var(--item-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 50%;
-    width: 36px;
-    height: 36px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-decoration: none;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    z-index: 900;
-    line-height: 1;
-    padding: 0;
-    transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
-}
-#info-button:hover {
-    color: var(--button-hover-color);
-    background-color: var(--fixed-button-bg);
-    border-color: var(--button-hover-color);
-}
+const PRIORITY_COLORS = ['none', 'red', 'orange', 'yellow', 'green'];
+const PRIORITY_ORDER = { 'red': 1, 'orange': 2, 'yellow': 3, 'green': 4, 'none': 5 };
 
-/* Footer */
-footer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    font-size: 0.8rem;
-    color: var(--footer-text-color);
-    margin-top: 30px;
-    padding: 20px 10px 15px;
-    width: 100%;
-    max-width: 600px;
-    box-sizing: border-box;
-    border-top: 1px solid var(--border-color);
-}
-.footer-logo {
-    width: 48px;
-    height: 48px;
-    margin-bottom: 10px;
-}
-.footer-text {
-    margin: 0 0 8px 0;
-    color: var(--footer-text-color);
-    font-size: 0.85em;
-}
+// --- Firebase Functions ---
 
-#support-section-footer {
-    margin-top: 5px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+// Function to get the user's Firestore document reference
+function getUserDocRef(userId) {
+    return window.doc(window.db, 'users', userId);
 }
 
-.support-intro-text {
-    font-size: 0.7rem;
-    color: var(--legend-text-color);
-    margin-bottom: 3px;
-    line-height: 1.3;
+// Function to get the user's tasks collection reference
+function getTasksCollectionRef(userId) {
+    return window.collection(window.db, 'users', userId, 'tasks');
 }
 
-.paypal-link-footer {
-    display: inline-flex;
-    align-items: center;
-    font-size: 0.7rem;
-    color: var(--legend-text-color);
-    text-decoration: none;
-    transition: color 0.2s ease;
+// Function to get the user's quick notes document reference
+function getQuickNotesDocRef(userId) {
+    return window.doc(window.db, 'users', userId, 'quickNotes', 'notes');
 }
 
-.paypal-link-footer:hover {
-    color: var(--button-hover-color);
-    text-decoration: underline;
+// Function to get the user's medal data document reference
+function getMedalDataDocRef(userId) {
+    return window.doc(window.db, 'users', userId, 'medalData', 'daily');
 }
 
-.paypal-link-footer i.fab.fa-paypal {
-    margin-right: 4px;
-    font-size: 0.9em;
+// Function to get the user's theme preference document reference
+function getThemeDocRef(userId) {
+    return window.doc(window.db, 'users', userId, 'theme', 'preference');
 }
 
 
-@media (max-width: 500px) {
-    h1 {
-        padding-top: 50px;
-        font-size: 2.3rem;
+// Load theme preference from local storage (before Firebase loads)
+function loadThemePreference() {
+    const storedTheme = localStorage.getItem(THEME_STORAGE_KEY);
+    if (storedTheme === 'dark') {
+        enableDarkMode();
+    } else {
+        disableDarkMode();
     }
-    .subtitle {
-        font-size: 1rem;
-    }
-    .app-description-static {
-        font-size: 0.85rem;
-    }
-    #info-button {
-        font-size: 1.2rem;
-        width: 32px;
-        height: 32px;
-        top: 10px;
-        left: 10px;
-    }
-    .todo-item .main-task-header {
-        row-gap: 8px;
-    }
-    .todo-item .main-task-header .task-body {
-         flex-wrap: wrap;
-         gap: 8px;
-         align-items: center;
-    }
-    .todo-item .main-task-header .task-body .task-actions-group {
-        margin-left: auto;
-        justify-content: flex-end;
-    }
-    .todo-item .main-task-header .task-body .link-button { order: 1; }
-    .todo-item .main-task-header .task-body .calendar-button { order: 2; }
-    .todo-item .main-task-header .task-body .delete-button { order: 3; }
+}
 
-     #todo-input-container #reorder-button {
-          margin-left: 0;
+// Save theme preference to Firebase
+async function saveThemePreference(theme) {
+    if (!currentUser) return;
+    try {
+        await window.setDoc(getThemeDocRef(currentUser.uid), { theme: theme }, { merge: true });
+        localStorage.setItem(THEME_STORAGE_KEY, theme); // Keep local storage in sync
+    } catch (e) {
+        console.error("Error saving theme preference to Firebase:", e);
+    }
+}
+
+// Load theme preference from Firebase (overwrites local storage)
+async function loadThemePreferenceFromFirebase() {
+    if (!currentUser) return;
+    try {
+        const docSnap = await window.getDoc(getThemeDocRef(currentUser.uid));
+        if (docSnap.exists()) {
+            const theme = docSnap.data().theme;
+            if (theme === 'dark') {
+                enableDarkMode();
+            } else {
+                disableDarkMode();
+            }
+        } else {
+             // If no theme saved in Firebase, save the current local one
+             const currentLocalTheme = localStorage.getItem(THEME_STORAGE_KEY) || 'light';
+             await saveThemePreference(currentLocalTheme);
+        }
+    } catch (e) {
+        console.error("Error loading theme preference from Firebase:", e);
+        // Fallback to local storage if Firebase load fails
+        loadThemePreference();
+    }
+}
+
+
+// Load quick notes from Firebase
+async function loadQuickNotesFromFirebase() {
+    if (!currentUser || !quickNotesArea) return;
+    try {
+        const docSnap = await window.getDoc(getQuickNotesDocRef(currentUser.uid));
+        if (docSnap.exists()) {
+            quickNotesArea.value = docSnap.data().content || '';
+        } else {
+            quickNotesArea.value = ''; // Clear if no notes in Firebase
+        }
+    } catch (e) {
+        console.error("Error loading quick notes from Firebase:", e);
+        quickNotesArea.value = 'Error al cargar notas.'; // Indicate error
+    }
+}
+
+// Save quick notes to Firebase
+async function saveQuickNotesToFirebase() {
+    if (!currentUser || !quickNotesArea) return;
+    try {
+        await window.setDoc(getQuickNotesDocRef(currentUser.uid), { content: quickNotesArea.value });
+    } catch (e) {
+        console.error("Error saving quick notes to Firebase:", e);
+    }
+}
+
+// Load medal data from Firebase
+async function loadMedalDataFromFirebase() {
+    if (!currentUser) return;
+    try {
+        const docSnap = await window.getDoc(getMedalDataDocRef(currentUser.uid));
+        const today = getTodayDateString();
+        let medalData = { date: today, count: 0 };
+
+        if (docSnap.exists()) {
+            const data = docSnap.data();
+            if (data.date === today) {
+                medalData.count = data.count || 0;
+            } else {
+                // Reset count for a new day
+                medalData.count = 0;
+                // Optionally, save the reset count immediately
+                await window.setDoc(getMedalDataDocRef(currentUser.uid), medalData);
+            }
+        } else {
+             // If no medal data exists, create the initial document
+             await window.setDoc(getMedalDataDocRef(currentUser.uid), medalData);
+        }
+        displayMedalCount(medalData.count);
+
+    } catch (e) {
+        console.error("Error loading medal data from Firebase:", e);
+        displayMedalCount(0); // Show 0 on error
+    }
+}
+
+// Update medal count in Firebase
+async function updateMedalCountInFirebase(change) {
+    if (!currentUser) return;
+    try {
+        const medalDataRef = getMedalDataDocRef(currentUser.uid);
+        const docSnap = await window.getDoc(medalDataRef);
+        const today = getTodayDateString();
+        let currentCount = 0;
+        let medalData = { date: today, count: 0 };
+
+        if (docSnap.exists()) {
+            const data = docSnap.data();
+            if (data.date === today) {
+                currentCount = data.count || 0;
+            }
+            // If date is different, it will be reset below
+        }
+
+        medalData.count = currentCount + change;
+        if (medalData.count < 0) medalData.count = 0;
+
+        await window.setDoc(medalDataRef, medalData);
+        displayMedalCount(medalData.count);
+
+    } catch (e) {
+        console.error("Error updating medal count in Firebase:", e);
+        // Attempt to reload medal count on error
+        loadMedalDataFromFirebase();
+    }
+}
+
+
+// Add a new task to Firebase
+async function addTaskToFirebase(task) {
+    if (!currentUser) return;
+    try {
+        const docRef = await window.addDoc(getTasksCollectionRef(currentUser.uid), task);
+        console.log("Task added with ID: ", docRef.id);
+        // The onSnapshot listener will handle updating the UI
+    } catch (e) {
+        console.error("Error adding task: ", e);
+        alert("Error al agregar la tarea.");
+    }
+}
+
+// Update an existing task in Firebase
+async function updateTaskInFirebase(taskId, updates) {
+    if (!currentUser) return;
+    try {
+        const taskRef = window.doc(getTasksCollectionRef(currentUser.uid), taskId);
+        await window.updateDoc(taskRef, updates);
+        console.log("Task updated:", taskId);
+        // The onSnapshot listener will handle updating the UI
+    } catch (e) {
+        console.error("Error updating task:", e);
+        alert("Error al actualizar la tarea.");
+    }
+}
+
+// Delete a task from Firebase
+async function deleteTaskFromFirebase(taskId) {
+    if (!currentUser) return;
+    try {
+        const taskRef = window.doc(getTasksCollectionRef(currentUser.uid), taskId);
+        await window.deleteDoc(taskRef);
+        console.log("Task deleted:", taskId);
+        // The onSnapshot listener will handle updating the UI
+    } catch (e) {
+        console.error("Error deleting task:", e);
+        alert("Error al eliminar la tarea.");
+    }
+}
+
+// Set up real-time listener for tasks
+let unsubscribeTasks = null;
+function setupTasksListener(userId) {
+    if (unsubscribeTasks) {
+        unsubscribeTasks(); // Detach previous listener
+    }
+    const tasksCollection = getTasksCollectionRef(userId);
+    const q = window.query(tasksCollection, window.orderBy('order', 'asc')); // Order by the 'order' field
+
+    unsubscribeTasks = window.onSnapshot(q, (snapshot) => {
+        todos = snapshot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data()
+        }));
+        // Ensure subtasks have IDs if they don't (for older data or migration)
+        todos.forEach(task => {
+            if (task.subtasks && Array.isArray(task.subtasks)) {
+                task.subtasks = task.subtasks.map(sub => ({
+                    id: sub.id || generateLocalId(), // Add ID if missing
+                    text: sub.text || 'Sub-tarea sin nombre',
+                    completed: typeof sub.completed === 'boolean' ? sub.completed : false
+                }));
+            } else {
+                task.subtasks = []; // Ensure subtasks is always an array
+            }
+             // Ensure other fields have default values if missing
+            task.completed = typeof task.completed === 'boolean' ? task.completed : false;
+            task.completedDate = task.completedDate || null;
+            task.showSubtaskUI = typeof task.showSubtaskUI === 'boolean' ? task.showSubtaskUI : false;
+            task.priorityColor = PRIORITY_COLORS.includes(task.priorityColor) ? task.priorityColor : 'none';
+            task.date = (typeof task.date === 'string' && task.date.match(/^\d{4}-\d{2}-\d{2}$/)) ? task.date : null;
+            task.linkUrl = typeof task.linkUrl === 'string' ? task.linkUrl : null;
+            task.order = typeof task.order === 'number' ? task.order : Date.now(); // Assign order if missing
+        });
+
+        renderTodosUI(); // Re-render the UI with the latest data
+        checkInitialState(); // Check if welcome/install sections should be shown
+    }, (error) => {
+        console.error("Error listening to tasks:", error);
+        // Handle error, maybe show a message to the user
+    });
+}
+
+// --- Authentication Functions ---
+
+async function signInWithGoogle() {
+    try {
+        await window.signInWithPopup(window.auth, window.googleProvider);
+        // onAuthStateChanged listener will handle the rest
+    } catch (error) {
+        console.error("Error signing in with Google:", error);
+        authStatus.textContent = `Error al iniciar sesión: ${error.message}`;
+    }
+}
+
+async function signOutUser() {
+    try {
+        await window.signOut(window.auth);
+        // onAuthStateChanged listener will handle the rest
+    } catch (error) {
+        console.error("Error signing out:", error);
+        authStatus.textContent = `Error al cerrar sesión: ${error.message}`;
+    }
+}
+
+// --- UI Rendering and Logic (Adapted for Firebase) ---
+
+function getTodayDateString() {
+    return new Date().toISOString().split('T')[0];
+}
+
+function displayMedalCount(count) {
+    if (medalCountDisplay) {
+        medalCountDisplay.textContent = count;
+    }
+}
+
+function findTaskById(taskId) {
+    return todos.find(todo => todo.id === taskId);
+}
+
+function findTaskIndexById(taskId) {
+    return todos.findIndex(todo => todo.id === taskId);
+}
+
+function updateDateHighlight(listItemElement, task) {
+    const calendarLabel = listItemElement.querySelector('.calendar-button');
+    const calendarIcon = calendarLabel ? calendarLabel.querySelector('i') : null;
+
+    if (!calendarLabel || !calendarIcon) return;
+
+    const todayString = getTodayDateString();
+    const isToday = task.date === todayString;
+    const hasDate = !!task.date;
+
+    calendarLabel.classList.remove('date-set', 'date-today');
+    calendarIcon.style.color = '';
+    calendarIcon.style.fontWeight = 'normal';
+    calendarLabel.title = 'Establecer fecha';
+
+    if (task.completed) {
+        if (hasDate) calendarLabel.title = `Fecha: ${task.date} (Completada)`;
+        else calendarLabel.title = 'Fecha no establecida (Completada)';
+        return;
+    }
+
+    if (hasDate) {
+        calendarLabel.classList.add('date-set');
+        calendarLabel.title = `Fecha: ${task.date}`;
+    } else {
+         calendarLabel.title = 'Añadir fecha';
+    }
+
+    if (isToday) {
+        calendarLabel.classList.add('date-today');
+        const computedStyle = getComputedStyle(listItemElement);
+        const priorityColorForToday = computedStyle.borderLeftColor;
+        calendarIcon.style.color = priorityColorForToday;
+        calendarLabel.title = `Fecha: ${task.date} (Hoy)`;
+    }
+}
+
+function calculateSubtaskProgress(subtasks) {
+    if (!subtasks || subtasks.length === 0) return 0;
+    const completed = subtasks.filter(sub => sub.completed).length;
+    return (completed / subtasks.length) * 100;
+}
+
+function createMainTaskHeader(mainTask) {
+    const mainTaskHeader = document.createElement('div');
+    mainTaskHeader.classList.add('main-task-header');
+
+    const mainCheckbox = document.createElement('input');
+    mainCheckbox.type = 'checkbox';
+    mainCheckbox.classList.add('custom-checkbox');
+    mainCheckbox.checked = mainTask.completed;
+    mainCheckbox.addEventListener('change', (event) => {
+        toggleMainCompletion(mainTask.id, event.target.checked);
+    });
+
+    const priorityLabel = document.createElement('div');
+    priorityLabel.classList.add('priority-color-label');
+    priorityLabel.dataset.color = mainTask.priorityColor;
+    priorityLabel.title = `Prioridad: ${mainTask.priorityColor.charAt(0).toUpperCase() + mainTask.priorityColor.slice(1)}`;
+    priorityLabel.addEventListener('click', () => {
+         if (!mainTask.completed) cyclePriorityColor(mainTask.id);
+    });
+
+    const taskBody = document.createElement('div');
+    taskBody.classList.add('task-body');
+
+    const mainTaskSpan = document.createElement('span');
+    mainTaskSpan.textContent = mainTask.text;
+    mainTaskSpan.title = mainTask.text;
+
+    const taskActionsGroup = document.createElement('div');
+    taskActionsGroup.classList.add('task-actions-group');
+
+    const linkButton = document.createElement('button');
+    linkButton.classList.add('app-button', 'link-button');
+    linkButton.innerHTML = '<i class="fas fa-link"></i>';
+    linkButton.setAttribute('aria-label', 'Gestionar enlace');
+    if (mainTask.linkUrl) {
+        linkButton.classList.add('link-on');
+        linkButton.title = `Abrir enlace: ${mainTask.linkUrl}`;
+    } else {
+        linkButton.classList.add('link-off');
+        linkButton.title = 'Añadir enlace';
+    }
+    linkButton.addEventListener('click', () => {
+        const task = findTaskById(mainTask.id);
+        if (!task) return;
+        if (task.completed && !task.linkUrl) return; // Don't allow adding link to completed task
+        if (task.linkUrl) {
+            window.open(task.linkUrl, '_blank');
+        } else if (!task.completed) {
+            const newUrl = prompt("Introduce la URL (ej: https://ejemplo.com):", task.linkUrl || "");
+            if (newUrl === null) return;
+            let finalUrl = newUrl.trim();
+            if (finalUrl !== "" && !finalUrl.toLowerCase().startsWith('http://') && !finalUrl.toLowerCase().startsWith('https://')) {
+                finalUrl = 'https://' + finalUrl;
+            }
+            updateTaskInFirebase(task.id, { linkUrl: finalUrl || null });
+        }
+    });
+
+    const calendarLabel = document.createElement('label');
+    calendarLabel.classList.add('app-button', 'calendar-button');
+    calendarLabel.innerHTML = '<i class="fas fa-calendar-alt"></i>';
+    calendarLabel.setAttribute('aria-label', 'Establecer fecha');
+
+    const actualDateInput = document.createElement('input');
+    actualDateInput.type = 'date';
+    actualDateInput.classList.add('task-date-input-real');
+    const dateInputId = `date-input-${mainTask.id}`; // Use Firebase ID
+    actualDateInput.id = dateInputId;
+    calendarLabel.htmlFor = dateInputId;
+    actualDateInput.value = mainTask.date || '';
+    if (mainTask.completed) actualDateInput.disabled = true;
+
+
+    actualDateInput.addEventListener('change', (event) => {
+        const task = findTaskById(mainTask.id);
+        if (!task || task.completed) return;
+        updateTaskDate(task.id, event.target.value);
+    });
+
+    const deleteMainButton = document.createElement('button');
+    deleteMainButton.classList.add('app-button', 'delete-button');
+    deleteMainButton.innerHTML = '<i class="fas fa-trash-alt"></i>';
+    deleteMainButton.setAttribute('aria-label', 'Eliminar tarea');
+    deleteMainButton.addEventListener('click', () => {
+        const task = findTaskById(mainTask.id);
+        if (!task) return;
+         if ((task.subtasks && task.subtasks.length > 0) || task.completed) {
+             if (!confirm(`¿Seguro que quieres eliminar "${task.text}"?`)) return;
+         }
+        deleteTodo(task.id);
+    });
+
+    taskActionsGroup.append(linkButton, calendarLabel, actualDateInput, deleteMainButton);
+    taskBody.append(mainTaskSpan, taskActionsGroup);
+    mainTaskHeader.append(mainCheckbox, priorityLabel, taskBody);
+    return mainTaskHeader;
+}
+
+function createProgressBar(mainTask) {
+     const progressContainer = document.createElement('div');
+     progressContainer.classList.add('progress-container');
+     const progressBar = document.createElement('div');
+     progressBar.classList.add('progress-bar');
+     let displayedProgress = 0;
+     if (mainTask.completed) {
+         displayedProgress = 100;
+     } else if (mainTask.subtasks && mainTask.subtasks.length > 0) {
+         const subtaskProgress = calculateSubtaskProgress(mainTask.subtasks);
+         displayedProgress = subtaskProgress === 100 ? 90 : subtaskProgress; // Show 90% if subtasks complete but main not
      }
-     #data-management-container {
-        justify-content: center;
+     progressBar.style.width = `${displayedProgress}%`;
+     if (mainTask.completed) {
+         progressBar.classList.add('completed');
+     } else {
+         progressBar.classList.remove('completed');
      }
-     #welcome-section h2 {
-         font-size: 1.5rem;
+     progressContainer.appendChild(progressBar);
+     return progressContainer;
+}
+
+function createAddSubtasksToggle(mainTaskId) {
+     const addSubtasksToggle = document.createElement('button');
+     addSubtasksToggle.classList.add('app-button', 'add-button', 'add-subtasks-toggle');
+     addSubtasksToggle.innerHTML = '<i class="fas fa-plus"></i>';
+     addSubtasksToggle.setAttribute('aria-label', 'Agregar sub-tarea');
+     addSubtasksToggle.addEventListener('click', () => {
+         const task = findTaskById(mainTaskId);
+         if (task && !task.completed) {
+             // Toggle showSubtaskUI state in Firebase
+             updateTaskInFirebase(task.id, { showSubtaskUI: !task.showSubtaskUI });
+             // UI will update via onSnapshot
+         }
+     });
+     return addSubtasksToggle;
+}
+
+function createSubtasksList(mainTask) {
+    const subtasksList = document.createElement('ul');
+    subtasksList.classList.add('subtasks-list');
+    if (mainTask.subtasks && mainTask.subtasks.length > 0) {
+        mainTask.subtasks.forEach((subtask, subIndex) => {
+            const subtaskItem = document.createElement('li');
+            subtaskItem.dataset.subtaskId = subtask.id;
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.classList.add('custom-checkbox');
+            checkbox.checked = subtask.completed;
+            if (mainTask.completed) checkbox.disabled = true;
+            checkbox.addEventListener('change', () => {
+                 if (!mainTask.completed) toggleSubtaskCompletion(mainTask.id, subtask.id);
+            });
+            const subtaskSpan = document.createElement('span');
+            subtaskSpan.textContent = subtask.text;
+            subtaskSpan.title = subtask.text;
+            const moveUpButton = document.createElement('button');
+            moveUpButton.classList.add('app-button', 'subtask-move-button');
+            moveUpButton.innerHTML = '<i class="fas fa-arrow-up"></i>';
+            moveUpButton.setAttribute('aria-label', 'Mover sub-tarea arriba');
+            if (mainTask.completed || subIndex === 0) moveUpButton.disabled = true;
+            moveUpButton.addEventListener('click', () => {
+                 if (!mainTask.completed) moveSubtaskUp(mainTask.id, subtask.id);
+            });
+            const moveDownButton = document.createElement('button');
+            moveDownButton.classList.add('app-button', 'subtask-move-button');
+            moveDownButton.innerHTML = '<i class="fas fa-arrow-down"></i>';
+            moveDownButton.setAttribute('aria-label', 'Mover sub-tarea abajo');
+            if (mainTask.completed || subIndex === mainTask.subtasks.length - 1) moveDownButton.disabled = true;
+            moveDownButton.addEventListener('click', () => {
+                 if (!mainTask.completed) moveSubtaskDown(mainTask.id, subtask.id);
+            });
+            const deleteSubtaskButton = document.createElement('button');
+            deleteSubtaskButton.classList.add('app-button', 'delete-button');
+            deleteSubtaskButton.innerHTML = '<i class="fas fa-trash-alt"></i>';
+            deleteSubtaskButton.setAttribute('aria-label', 'Eliminar sub-tarea');
+             if (mainTask.completed) deleteSubtaskButton.disabled = true;
+            deleteSubtaskButton.addEventListener('click', () => {
+                 if (!mainTask.completed) deleteSubtask(mainTask.id, subtask.id);
+            });
+            subtaskItem.append(checkbox, subtaskSpan, moveUpButton, moveDownButton, deleteSubtaskButton);
+            subtasksList.appendChild(subtaskItem);
+        });
+    }
+    return subtasksList;
+}
+
+function createSubtaskInputContainer(mainTaskId) {
+     const subtaskInputContainer = document.createElement('div');
+     subtaskInputContainer.classList.add('subtask-input-container');
+     const subtaskInput = document.createElement('input');
+     subtaskInput.type = 'text';
+     subtaskInput.placeholder = 'Agregar nueva sub-tarea...';
+     const addSubtaskButton = document.createElement('button');
+     addSubtaskButton.classList.add('app-button', 'add-button');
+     addSubtaskButton.innerHTML = '<i class="fas fa-plus"></i>';
+     const handleAddSubtask = () => addSubtask(mainTaskId, subtaskInput);
+     addSubtaskButton.addEventListener('click', handleAddSubtask);
+     subtaskInput.addEventListener('keypress', (e) => { if (e.key==='Enter'){ e.preventDefault(); handleAddSubtask();}});
+     subtaskInputContainer.append(subtaskInput, addSubtaskButton);
+     return subtaskInputContainer;
+}
+
+function renderTodosUI() {
+    if (!todoListContainer) return;
+    todoListContainer.innerHTML = '';
+    todos.forEach((mainTask) => {
+        const listItem = document.createElement('li');
+        listItem.classList.add('todo-item');
+        listItem.dataset.taskId = mainTask.id;
+        listItem.dataset.priorityColor = mainTask.priorityColor || 'none';
+        if (mainTask.completed) listItem.classList.add('completed');
+        if (mainTask.showSubtaskUI) listItem.classList.add('show-subtask-ui');
+
+        listItem.appendChild(createMainTaskHeader(mainTask));
+        listItem.appendChild(createProgressBar(mainTask));
+        if (!mainTask.completed) {
+            listItem.appendChild(createAddSubtasksToggle(mainTask.id));
+        } else {
+            // If main task is completed, hide the toggle and input container
+            mainTask.showSubtaskUI = false; // Ensure state is correct
+        }
+
+        if (mainTask.subtasks && mainTask.subtasks.length > 0) {
+            listItem.appendChild(createSubtasksList(mainTask));
+        }
+        if (mainTask.showSubtaskUI && !mainTask.completed) {
+             listItem.appendChild(createSubtaskInputContainer(mainTask.id));
+        }
+        todoListContainer.appendChild(listItem);
+        updateDateHighlight(listItem, mainTask);
+    });
+    if (todoInput) todoInput.value = '';
+}
+
+function cyclePriorityColor(taskId) {
+     const task = findTaskById(taskId);
+     if (task && !task.completed) {
+         const currentIndex = PRIORITY_COLORS.indexOf(task.priorityColor || 'none');
+         const newPriorityColor = PRIORITY_COLORS[(currentIndex + 1) % PRIORITY_COLORS.length];
+         updateTaskInFirebase(taskId, { priorityColor: newPriorityColor });
+         // UI will update via onSnapshot
      }
-     #welcome-section p {
-         font-size: 0.9rem;
+}
+
+function updateTaskDate(taskId, newDateValue) {
+    const task = findTaskById(taskId);
+    if (task && !task.completed) {
+        updateTaskInFirebase(taskId, { date: newDateValue || null });
+        // UI will update via onSnapshot
+    }
+}
+
+function showAppInterface() {
+    if (authBox) authBox.hidden = true;
+    if (app) app.hidden = false; // Use the #app div
+    if (welcomeSection) welcomeSection.classList.remove('hidden'); // Show welcome/install initially
+    if (installInstructionsSection) installInstructionsSection.classList.remove('hidden');
+    if (todoInput) todoInput.focus();
+}
+
+function hideAppInterface() {
+    if (authBox) authBox.hidden = false;
+    if (app) app.hidden = true; // Use the #app div
+    if (welcomeSection) welcomeSection.classList.add('hidden');
+    if (installInstructionsSection) installInstructionsSection.classList.add('hidden');
+}
+
+function checkInitialState() {
+    // If there are tasks, hide welcome/install sections
+    if (todos.length > 0) {
+        if (welcomeSection) welcomeSection.classList.add('hidden');
+        if (installInstructionsSection) installInstructionsSection.classList.add('hidden');
+    } else {
+        // If no tasks, show them
+        if (welcomeSection) welcomeSection.classList.remove('hidden');
+        if (installInstructionsSection) installInstructionsSection.classList.remove('hidden');
+    }
+}
+
+
+async function addTodo() {
+    if (!currentUser) return;
+    const newTodoText = todoInput.value.trim();
+    if (newTodoText === '') return alert('Ingresa el nombre de la tarea.');
+
+    // Find the maximum order value to add the new task at the end
+    const maxOrder = todos.length > 0 ? Math.max(...todos.map(t => t.order || 0)) : -1;
+
+    const newTodo = {
+        text: newTodoText,
+        completed: false,
+        completedDate: null,
+        subtasks: [],
+        showSubtaskUI: false,
+        priorityColor: 'none',
+        date: null,
+        linkUrl: null,
+        order: maxOrder + 1 // Assign an order value
+    };
+
+    await addTaskToFirebase(newTodo);
+    if (todoInput) todoInput.value = '';
+    // UI update handled by onSnapshot
+}
+
+async function addSubtask(mainTaskId, subtaskInput) {
+     if (!currentUser) return;
+     const newSubtaskText = subtaskInput.value.trim();
+     if (newSubtaskText === '') return alert('Ingresa el nombre de la sub-tarea.');
+     const mainTask = findTaskById(mainTaskId);
+     if (mainTask && !mainTask.completed) {
+         const updatedSubtasks = Array.isArray(mainTask.subtasks) ? [...mainTask.subtasks] : [];
+         updatedSubtasks.push({ id: generateLocalId(), text: newSubtaskText, completed: false });
+
+         // Update the task in Firebase
+         await updateTaskInFirebase(mainTaskId, {
+             subtasks: updatedSubtasks,
+             completed: false, // Mark main task as not completed if adding subtask
+             completedDate: null,
+             showSubtaskUI: false // Hide input after adding
+         });
+
+         if (subtaskInput) subtaskInput.value = '';
+         // UI update handled by onSnapshot
      }
-     #welcome-section ul li {
-         font-size: 0.85rem;
+}
+
+async function deleteTodo(taskId) {
+    if (!currentUser) return;
+    const taskIndex = findTaskIndexById(taskId);
+    if (taskIndex > -1) {
+        const taskToDelete = todos[taskIndex];
+        const today = getTodayDateString();
+        if (taskToDelete.completed && taskToDelete.completedDate === today) {
+            await updateMedalCountInFirebase(-1);
+        }
+        await deleteTaskFromFirebase(taskId);
+        // UI update handled by onSnapshot
+    }
+}
+
+async function deleteSubtask(mainTaskId, subtaskId) {
+     if (!currentUser) return;
+     const mainTask = findTaskById(mainTaskId);
+     if (mainTask && mainTask.subtasks && !mainTask.completed) {
+         const updatedSubtasks = mainTask.subtasks.filter(sub => sub.id !== subtaskId);
+         // Update the task in Firebase
+         await updateTaskInFirebase(mainTaskId, {
+             subtasks: updatedSubtasks,
+             completed: false, // Mark main task as not completed if deleting subtask
+             completedDate: null
+         });
+         // UI update handled by onSnapshot
      }
-     #start-app-button {
-        padding: 10px 20px;
-        font-size: 1rem;
-    }
-
-    #install-instructions-section {
-        padding: 15px 18px;
-        font-size: 0.8rem;
-    }
-    #install-instructions-section h4 {
-        font-size: 1.1rem;
-    }
-    #install-instructions-section ul li {
-        font-size: 0.95em;
-        padding-left: 22px;
-        margin-bottom: 7px;
-    }
-    #install-instructions-section ul li::before {
-        top: 0px;
-        font-size: 1em;
-    }
-
-    footer {
-        font-size: 0.75rem;
-        padding-top: 15px;
-    }
-    .footer-logo {
-        width: 40px;
-        height: 40px;
-        margin-bottom: 8px;
-    }
-    .footer-text {
-        margin-bottom: 6px;
-        font-size: 0.9em;
-    }
-    .support-intro-text,
-    .paypal-link-footer {
-        font-size: 0.7em;
-    }
-    .support-intro-text {
-        margin-bottom: 2px;
-    }
 }
 
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.65);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1050;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0s linear 0.3s;
-}
-.modal-overlay.visible {
-    opacity: 1;
-    visibility: visible;
-    transition: opacity 0.3s ease, visibility 0s linear 0s;
+async function toggleSubtaskCompletion(mainTaskId, subtaskId) {
+     if (!currentUser) return;
+     const mainTask = findTaskById(mainTaskId);
+     if (mainTask && mainTask.subtasks && !mainTask.completed) {
+        const updatedSubtasks = mainTask.subtasks.map(sub => {
+            if (sub.id === subtaskId) {
+                return { ...sub, completed: !sub.completed };
+            }
+            return sub;
+        });
+        // Update the task in Firebase
+        await updateTaskInFirebase(mainTaskId, { subtasks: updatedSubtasks });
+        // UI update handled by onSnapshot
+     }
 }
 
-.modal-content {
-    background-color: var(--item-bg);
-    color: var(--text-color);
-    padding: 25px 30px;
-    border-radius: 10px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.3);
-    width: 90%;
-    max-width: 580px;
-    max-height: 85vh;
-    overflow-y: auto;
-    position: relative;
-    transform: scale(0.95);
-    transition: transform 0.3s ease;
-}
-.modal-overlay.visible .modal-content {
-    transform: scale(1);
+async function toggleMainCompletion(taskId, isChecked) {
+    if (!currentUser) return;
+    const task = findTaskById(taskId);
+    if (task) {
+        const wasCompletedTodayBefore = task.completed && task.completedDate === getTodayDateString();
+        const today = getTodayDateString();
+
+        const updates = {
+            completed: isChecked,
+            completedDate: isChecked ? today : null,
+            showSubtaskUI: isChecked ? false : task.showSubtaskUI // Hide subtask UI if completed
+        };
+
+        // If completing, mark all subtasks as complete
+        if (isChecked && task.subtasks) {
+            updates.subtasks = task.subtasks.map(sub => ({ ...sub, completed: true }));
+        } else if (!isChecked && task.subtasks) {
+             // If uncompleting, mark all subtasks as incomplete
+             updates.subtasks = task.subtasks.map(sub => ({ ...sub, completed: false }));
+        }
+
+
+        await updateTaskInFirebase(taskId, updates);
+
+        if (isChecked && !wasCompletedTodayBefore) {
+            await updateMedalCountInFirebase(1);
+            if (typeof confetti === 'function') confetti({ particleCount: 150, spread: 90, origin: { y: 0.55 }});
+        } else if (!isChecked && wasCompletedTodayBefore) {
+            await updateMedalCountInFirebase(-1);
+        }
+        // UI update handled by onSnapshot
+    }
 }
 
-.modal-content h2 {
-    margin-top: 0;
-    margin-bottom: 20px;
-    color: var(--heading-color);
-    text-align: center;
-    font-family: 'Quicksand', sans-serif;
-    font-size: 1.8rem;
-}
+async function moveSubtask(mainTaskId, subtaskId, direction) {
+    if (!currentUser) return;
+    const mainTask = findTaskById(mainTaskId);
+    if (mainTask && mainTask.subtasks && !mainTask.completed) {
+        const subtaskIndex = mainTask.subtasks.findIndex(sub => sub.id === subtaskId);
+        if (subtaskIndex === -1) return;
 
-.modal-content ol {
-    padding-left: 20px;
-    margin-bottom: 0;
-}
-.modal-content ol li {
-    margin-bottom: 12px;
-    line-height: 1.5;
-}
-.modal-content ol li ul {
-    padding-left: 20px;
-    margin-top: 8px;
-    list-style-type: disc;
-}
-.modal-content ol li ul li {
-    margin-bottom: 8px;
-    font-size: 0.95em;
-}
+        const newIndex = subtaskIndex + direction;
+        if (newIndex >= 0 && newIndex < mainTask.subtasks.length) {
+            const updatedSubtasks = [...mainTask.subtasks];
+            [updatedSubtasks[subtaskIndex], updatedSubtasks[newIndex]] =
+            [updatedSubtasks[newIndex], updatedSubtasks[subtaskIndex]];
 
-.modal-content strong {
-    color: var(--heading-color);
+            // Update the task in Firebase
+            await updateTaskInFirebase(mainTaskId, { subtasks: updatedSubtasks });
+            // UI update handled by onSnapshot
+        }
+    }
 }
-.modal-content i.fas, .modal-content i.far, .modal-content i.fab {
-    color: var(--button-hover-color);
-    margin: 0 2px;
-    font-size: 0.9em;
+function moveSubtaskUp(mainTaskId, subtaskId) { moveSubtask(mainTaskId, subtaskId, -1); }
+function moveSubtaskDown(mainTaskId, subtaskId) { moveSubtask(mainTaskId, subtaskId, 1); }
+
+async function performManualSort() {
+    if (!currentUser) return;
+
+    // Sort the local array first
+    todos.sort((a, b) => {
+        const rankA = PRIORITY_ORDER[a.priorityColor] || PRIORITY_ORDER['none'];
+        const rankB = PRIORITY_ORDER[b.priorityColor] || PRIORITY_ORDER['none'];
+        if (rankA !== rankB) return rankA - rankB;
+
+        const dateA = a.date ? new Date(a.date).getTime() : Infinity;
+        const dateB = b.date ? new Date(b.date).getTime() : Infinity;
+        if (dateA !== dateB) return dateA - dateB;
+
+        return (a.order || 0) - (b.order || 0); // Fallback to original order if dates/priorities are same
+    });
+
+    // Update the 'order' field in Firebase for each task
+    const batch = window.db.batch();
+    todos.forEach((task, index) => {
+        const taskRef = window.doc(getTasksCollectionRef(currentUser.uid), task.id);
+        batch.update(taskRef, { order: index });
+    });
+
+    try {
+        await batch.commit();
+        console.log("Tasks reordered in Firebase.");
+        // UI will update via onSnapshot triggered by the batch commit
+    } catch (e) {
+        console.error("Error reordering tasks:", e);
+        alert("Error al reordenar las tareas.");
+        // Re-render with current data if batch fails
+        renderTodosUI();
+    }
 }
 
 
-.close-modal {
-    position: absolute;
-    top: 10px;
-    right: 12px;
-    font-size: 1.9rem;
-    color: var(--button-color);
-    padding: 5px 10px;
-    line-height: 1;
-    background: none;
-    border: none;
+function enableDarkMode() {
+    body.classList.add('dark-mode');
+    if (darkModeToggle) {
+        darkModeToggle.querySelector('i').className = 'fas fa-sun';
+        darkModeToggle.setAttribute('aria-label', 'Alternar a modo claro');
+        darkModeToggle.title = 'Alternar a modo claro';
+    }
 }
-.close-modal:hover {
-    color: var(--button-hover-color);
+
+function disableDarkMode() {
+    body.classList.remove('dark-mode');
+    if (darkModeToggle) {
+         darkModeToggle.querySelector('i').className = 'fas fa-moon';
+         darkModeToggle.setAttribute('aria-label', 'Alternar a modo oscuro');
+         darkModeToggle.title = 'Alternar a modo oscuro';
+    }
 }
+
+async function toggleDarkMode() {
+    const isDarkMode = body.classList.contains('dark-mode');
+    const newTheme = isDarkMode ? 'light' : 'dark';
+    if (newTheme === 'dark') {
+        enableDarkMode();
+    } else {
+        disableDarkMode();
+    }
+    if (currentUser) {
+        await saveThemePreference(newTheme);
+    } else {
+         // If not logged in, just save to local storage
+         localStorage.setItem(THEME_STORAGE_KEY, newTheme);
+    }
+}
+
+// --- Initialization and Event Listeners ---
+
+document.addEventListener('DOMContentLoaded', () => {
+    authBox = document.getElementById('authBox');
+    btnGoogle = document.getElementById('btnGoogle');
+    authStatus = document.getElementById('authStatus');
+    app = document.getElementById('app'); // The main app container div
+    logoutButton = document.getElementById('logoutButton');
+
+    todoInput = document.getElementById('new-todo-input');
+    addTodoButton = document.getElementById('add-todo-button');
+    todoListContainer = document.getElementById('todo-list');
+    reorderButton = document.getElementById('reorder-button');
+    darkModeToggle = document.getElementById('dark-mode-toggle');
+    body = document.body;
+    medalCountDisplay = document.getElementById('medal-count');
+
+    infoButton = document.getElementById('info-button');
+    infoModal = document.getElementById('info-modal');
+    closeModalButton = document.getElementById('close-modal-button');
+
+    quickNotesArea = document.getElementById('quick-notes-area');
+    clearNotesButton = document.getElementById('clear-notes-button');
+
+    // exportDataButton = document.getElementById('export-data-button'); // Not used with Firebase
+    // importDataButton = document.getElementById('import-data-button'); // Not used with Firebase
+    // importFileInput = document.getElementById('import-file-input'); // Not used with Firebase
+
+    welcomeSection = document.getElementById('welcome-section');
+    // startAppButton = document.getElementById('start-app-button'); // Not used with auth
+    installInstructionsSection = document.getElementById('install-instructions-section');
+
+    // Load theme preference from local storage immediately for quick UI update
+    loadThemePreference();
+
+
+    // --- Event Listeners ---
+    if (btnGoogle) btnGoogle.addEventListener('click', signInWithGoogle);
+    if (logoutButton) logoutButton.addEventListener('click', signOutUser);
+
+    if (addTodoButton) addTodoButton.addEventListener('click', addTodo);
+    if (todoInput) todoInput.addEventListener('keypress', (e) => { if (e.key==='Enter'){ e.preventDefault(); addTodo();}});
+    if (reorderButton) reorderButton.addEventListener('click', performManualSort);
+    if (darkModeToggle) darkModeToggle.addEventListener('click', toggleDarkMode);
+
+    // if (startAppButton) { // Not used with auth
+    //     startAppButton.addEventListener('click', showAppInterface);
+    // }
+
+    if (infoButton && infoModal && closeModalButton) {
+        infoButton.addEventListener('click', () => infoModal.classList.add('visible'));
+        closeModalButton.addEventListener('click', () => infoModal.classList.remove('visible'));
+        infoModal.addEventListener('click', (event) => {
+            if (event.target === infoModal) infoModal.classList.remove('visible');
+        });
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && infoModal.classList.contains('visible')) {
+                infoModal.classList.remove('visible');
+            }
+        });
+    }
+
+    if (quickNotesArea && clearNotesButton) {
+        // Quick notes saving is handled by input event and Firebase
+        quickNotesArea.addEventListener('input', saveQuickNotesToFirebase);
+        clearNotesButton.addEventListener('click', () => {
+            quickNotesArea.value = '';
+            saveQuickNotesToFirebase(); // Save empty notes to Firebase
+            quickNotesArea.focus();
+        });
+    }
+
+    // No longer need export/import buttons with Firebase sync
+    // if (exportDataButton) {
+    //     exportDataButton.addEventListener('click', exportAllData);
+    // }
+    // if (importDataButton && importFileInput) {
+    //     importDataButton.addEventListener('click', () => importFileInput.click());
+    //     importFileInput.addEventListener('change', importAllData);
+    // }
+
+
+    // --- Firebase Auth State Listener ---
+    window.onAuthStateChanged(window.auth, async (user) => {
+        currentUser = user;
+        if (user) {
+            // User is signed in
+            authStatus.textContent = `Sesión iniciada como ${user.displayName || user.email}`;
+            showAppInterface();
+            setupTasksListener(user.uid); // Start listening for tasks
+            await loadQuickNotesFromFirebase(); // Load quick notes
+            await loadMedalDataFromFirebase(); // Load medal data
+            await loadThemePreferenceFromFirebase(); // Load theme preference from Firebase
+
+        } else {
+            // User is signed out
+            authStatus.textContent = 'Inicia sesión para guardar tus tareas.';
+            hideAppInterface();
+            if (unsubscribeTasks) {
+                unsubscribeTasks(); // Stop listening for tasks
+                unsubscribeTasks = null;
+            }
+            todos = []; // Clear local tasks
+            renderTodosUI(); // Clear UI
+            displayMedalCount(0); // Reset medal count display
+            if (quickNotesArea) quickNotesArea.value = ''; // Clear quick notes UI
+            // Theme preference remains based on local storage until login
+        }
+    });
+
+});
