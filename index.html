@@ -103,7 +103,7 @@
                 window.googleApiCallbacks.gapiLoaded();
             } else {
                 // Guardar una bandera para que script.js sepa que GAPI está listo si carga después
-                window.isGoogleGapiScriptReady = true;
+                window.isGoogleGapiReady = true; // Corregido: usar isGoogleGapiReady
                 console.log("HTML SCRIPT: GAPI script loaded, app script (module) might not be ready yet.");
             }
         };
@@ -223,7 +223,7 @@
 
     </div> <!-- Fin de .container -->
 
-    <!-- Modal para agendar recordatorio (MODIFICADO: Botón de cerrar) -->
+    <!-- Modal para agendar recordatorio -->
     <div id="reminder-modal" class="modal-overlay">
         <div class="modal-content">
             <!-- Botón de cerrar con las mismas clases que el de info-modal -->
