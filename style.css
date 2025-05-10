@@ -37,6 +37,11 @@
     --welcome-button-bg: #e74c3c;
     --welcome-button-text: #fff;
     --welcome-button-hover-bg: #c0392b;
+    --auth-box-bg: #ffffff;
+    --auth-box-border: #e0e0e0;
+    --auth-button-bg: #4285F4;
+    --auth-button-text: #fff;
+    --auth-button-hover-bg: #357ae8;
 }
 
 body.dark-mode {
@@ -70,6 +75,11 @@ body.dark-mode {
     --welcome-button-bg: #f39c12;
     --welcome-button-text: #2c3e50;
     --welcome-button-hover-bg: #e67e22;
+    --auth-box-bg: #34495e;
+    --auth-box-border: #4a627a;
+    --auth-button-bg: #f39c12; /* Dark mode Google button, can be styled differently */
+    --auth-button-text: #2c3e50;
+    --auth-button-hover-bg: #e67e22;
 }
 
 body {
@@ -86,6 +96,52 @@ body {
     align-items: center;
     min-height: 100vh;
     box-sizing: border-box;
+}
+
+#authBox {
+    background-color: var(--auth-box-bg);
+    border: 1px solid var(--auth-box-border);
+    padding: 25px 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    text-align: center;
+    margin: 40px auto;
+    max-width: 400px;
+    width: 90%;
+}
+
+#authBox h2 {
+    font-family: 'Quicksand', sans-serif;
+    color: var(--heading-color);
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 1.8rem;
+}
+
+#btnGoogle {
+    background-color: var(--auth-button-bg);
+    color: var(--auth-button-text);
+    border: none;
+    padding: 12px 25px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#btnGoogle:hover {
+    background-color: var(--auth-button-hover-bg);
+    transform: translateY(-2px);
+}
+
+#authStatus {
+    margin-top: 15px;
+    font-size: 0.9rem;
+    color: var(--text-color);
 }
 
 .container {
@@ -252,23 +308,23 @@ body.dark-mode #welcome-section ul li::before {
     margin-bottom: 8px;
     line-height: 1.5;
     font-size: 0.92em;
-    padding-left: 25px; 
+    padding-left: 25px;
     position: relative;
     text-align: left;
 }
 
 #install-instructions-section ul li::before {
-    font-family: "Font Awesome 6 Brands", "Font Awesome 6 Free"; 
+    font-family: "Font Awesome 6 Brands", "Font Awesome 6 Free";
     font-weight: 400; /* Para iconos de marca (fab) en FA6 */
     position: absolute;
     left: 0px;
-    top: 1px; 
-    width: 20px; 
+    top: 1px;
+    width: 20px;
     text-align: center;
     color: var(--button-color);
-    font-size: 1.1em; 
-    -webkit-font-smoothing: antialiased; 
-    -moz-osx-font-smoothing: grayscale; 
+    font-size: 1.1em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 #install-instructions-section ul li:nth-child(1)::before { content: "\f268"; } /* Chrome */
@@ -655,11 +711,19 @@ body.dark-mode #welcome-section ul li::before {
 .todo-item .subtasks-list li input[type="checkbox"] {
      width: 18px;
      height: 18px;
-     border-color: var(--text-color);
+     border: 1px solid var(--text-color); /* Use text-color for border */
+     border-radius: 50%;
+     appearance: none;
+     -webkit-appearance: none;
      background-color: var(--item-bg);
+     cursor: pointer;
+     position: relative;
+     flex-shrink: 0;
+     box-sizing: border-box;
+     transition: background-color 0.2s ease, border-color 0.2s ease;
 }
  .todo-item .subtasks-list li input[type="checkbox"]:checked {
-      background-color: var(--text-color);
+      background-color: var(--text-color); /* Use text-color for checked background */
       border-color: var(--text-color);
  }
 
@@ -669,14 +733,14 @@ body.dark-mode #welcome-section ul li::before {
     box-sizing: content-box;
     width: 4px;
     height: 8px;
-    border: solid var(--item-bg);
+    border: solid var(--item-bg); /* Use item-bg for checkmark color */
     border-width: 0 1.8px 1.8px 0;
     top: 2.5px;
     left: 5px;
     transform: rotate(45deg);
 }
- body.dark-mode .todo-item .subtasks-list li input[type="checkbox"]:checked::after {
-     border-color: var(--checkbox-checkmark-color) !important;
+ body.dark-mode .todo-item.subtasks-list li input[type="checkbox"]:checked::after {
+     border-color: var(--checkbox-checkmark-color) !important; /* Use checkbox-checkmark-color for dark mode */
  }
 
 .todo-item .subtasks-list li span {
@@ -919,89 +983,89 @@ body.dark-mode #quick-notes-area:focus {
     position: absolute;
     top: 15px;
     left: 15px;
-    font-family: 'Quicksand', sans-serif; 
-    font-weight: bold; 
-    font-size: 1.3rem;  
+    font-family: 'Quicksand', sans-serif;
+    font-weight: bold;
+    font-size: 1.3rem;
     color: var(--button-color);
     background-color: var(--item-bg);
-    border: 1px solid var(--border-color); 
+    border: 1px solid var(--border-color);
     border-radius: 50%;
-    width: 36px;  
-    height: 36px; 
+    width: 36px;
+    height: 36px;
     display: flex;
     justify-content: center;
     align-items: center;
-    text-decoration: none; 
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1); 
+    text-decoration: none;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
     z-index: 900;
-    line-height: 1; 
-    padding: 0; 
+    line-height: 1;
+    padding: 0;
     transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
 }
 #info-button:hover {
     color: var(--button-hover-color);
-    background-color: var(--fixed-button-bg); 
+    background-color: var(--fixed-button-bg);
     border-color: var(--button-hover-color);
 }
 
 /* Footer */
 footer {
     display: flex;
-    flex-direction: column; 
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
-    font-size: 0.8rem; 
+    font-size: 0.8rem;
     color: var(--footer-text-color);
-    margin-top: 30px; 
-    padding: 20px 10px 15px; 
+    margin-top: 30px;
+    padding: 20px 10px 15px;
     width: 100%;
     max-width: 600px;
     box-sizing: border-box;
     border-top: 1px solid var(--border-color);
 }
 .footer-logo {
-    width: 48px;  
-    height: 48px; 
-    margin-bottom: 10px; 
+    width: 48px;
+    height: 48px;
+    margin-bottom: 10px;
 }
 .footer-text {
-    margin: 0 0 8px 0; 
-    color: var(--footer-text-color); 
-    font-size: 0.85em; 
+    margin: 0 0 8px 0;
+    color: var(--footer-text-color);
+    font-size: 0.85em;
 }
 
 #support-section-footer {
-    margin-top: 5px; 
+    margin-top: 5px;
     display: flex;
-    flex-direction: column; 
-    align-items: center; 
+    flex-direction: column;
+    align-items: center;
 }
 
-.support-intro-text { 
-    font-size: 0.7rem; 
-    color: var(--legend-text-color); 
-    margin-bottom: 3px; 
-    line-height: 1.3; 
+.support-intro-text {
+    font-size: 0.7rem;
+    color: var(--legend-text-color);
+    margin-bottom: 3px;
+    line-height: 1.3;
 }
 
 .paypal-link-footer {
     display: inline-flex;
     align-items: center;
-    font-size: 0.7rem; 
-    color: var(--legend-text-color); 
+    font-size: 0.7rem;
+    color: var(--legend-text-color);
     text-decoration: none;
     transition: color 0.2s ease;
 }
 
 .paypal-link-footer:hover {
-    color: var(--button-hover-color); 
+    color: var(--button-hover-color);
     text-decoration: underline;
 }
 
 .paypal-link-footer i.fab.fa-paypal {
-    margin-right: 4px; 
-    font-size: 0.9em;  
+    margin-right: 4px;
+    font-size: 0.9em;
 }
 
 
@@ -1075,23 +1139,23 @@ footer {
         top: 0px;
         font-size: 1em;
     }
-    
+
     footer {
-        font-size: 0.75rem; 
-        padding-top: 15px; 
+        font-size: 0.75rem;
+        padding-top: 15px;
     }
     .footer-logo {
-        width: 40px; 
+        width: 40px;
         height: 40px;
         margin-bottom: 8px;
     }
     .footer-text {
         margin-bottom: 6px;
-        font-size: 0.9em; 
+        font-size: 0.9em;
     }
     .support-intro-text,
     .paypal-link-footer {
-        font-size: 0.7em; 
+        font-size: 0.7em;
     }
     .support-intro-text {
         margin-bottom: 2px;
@@ -1167,7 +1231,7 @@ footer {
 .modal-content strong {
     color: var(--heading-color);
 }
-.modal-content i.fas, .modal-content i.far {
+.modal-content i.fas, .modal-content i.far, .modal-content i.fab {
     color: var(--button-hover-color);
     margin: 0 2px;
     font-size: 0.9em;
