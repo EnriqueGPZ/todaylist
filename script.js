@@ -289,17 +289,16 @@ async function pickerCallback(data) {
 }
 // --- Fin Funciones de Google API (SOLO PARA DRIVE) ---
 
-// ***** MODIFICACIÓN 1: getTodayDateString ahora devuelve DD-MM-YYYY *****
 function getTodayDateString(format = 'dd-mm-yyyy') {
     const today = new Date();
     const yyyy = today.getFullYear();
-    const mm = String(today.getMonth() + 1).padStart(2, '0'); // Meses son 0-indexados
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
     const dd = String(today.getDate()).padStart(2, '0');
 
-    if (format === 'yyyy-mm-dd') { // Formato original para compatibilidad si se necesita
+    if (format === 'yyyy-mm-dd') {
         return `${yyyy}-${mm}-${dd}`;
     }
-    return `${dd}-${mm}-${yyyy}`; // Nuevo formato por defecto
+    return `${dd}-${mm}-${yyyy}`;
 }
 
 
@@ -311,28 +310,25 @@ function scheduleGoogleCalendarReminder(taskId) {
     }
 
     const summary = task.text;
-    // ***** MODIFICACIÓN 2: Usar el nuevo formato en el prompt *****
     let dateStrInput = prompt("Introduce la fecha para el recordatorio (DD-MM-YYYY):", getTodayDateString());
-    if (!dateStrInput) return; // El usuario canceló
+    if (!dateStrInput) return;
 
-    // ***** MODIFICACIÓN 3: Validar el formato DD-MM-YYYY *****
     if (!/^\d{2}-\d{2}-\d{4}$/.test(dateStrInput)) {
         alert("Formato de fecha inválido. Usa DD-MM-YYYY.");
         return;
     }
 
     let timeStr = prompt("Introduce la hora para el recordatorio (HH:MM - formato 24h):", "09:00");
-    if (!timeStr) return; // El usuario canceló
+    if (!timeStr) return;
 
     if (!/^\d{2}:\d{2}$/.test(timeStr)) {
         alert("Formato de hora inválido. Usa HH:MM.");
         return;
     }
 
-    // ***** MODIFICACIÓN 4: Parsear la fecha DD-MM-YYYY *****
     const dateParts = dateStrInput.split('-');
     const day = parseInt(dateParts[0], 10);
-    const month = parseInt(dateParts[1], 10); // Mes es 1-indexado aquí
+    const month = parseInt(dateParts[1], 10);
     const year = parseInt(dateParts[2], 10);
 
     const [hours, minutes] = timeStr.split(':').map(Number);
@@ -342,7 +338,7 @@ function scheduleGoogleCalendarReminder(taskId) {
         return;
     }
 
-    const startDate = new Date(year, month - 1, day, hours, minutes); // Mes es 0-indexado para el constructor de Date
+    const startDate = new Date(year, month - 1, day, hours, minutes);
     if (isNaN(startDate.getTime()) || startDate.getDate() !== day || startDate.getMonth() !== month - 1 || startDate.getFullYear() !== year) {
         alert("La fecha ingresada no es válida (ej. 31 de Febrero).");
         return;
@@ -369,7 +365,6 @@ function scheduleGoogleCalendarReminder(taskId) {
         const calButton = listItemElement.querySelector('.google-calendar-button i');
         if (calButton) {
             calButton.style.color = 'var(--accent-color)';
-            // ***** MODIFICACIÓN 5: Usar el formato DD-MM-YYYY en el title *****
             calButton.parentElement.title = `Se intentó agendar un recordatorio. Última fecha/hora: ${dateStrInput} ${timeStr}. Confirma en Google Calendar.`;
         }
     }
@@ -387,8 +382,6 @@ function findTaskById(taskId) {
 function findTaskIndexById(taskId) {
     return todos.findIndex(todo => todo.id === taskId);
 }
-
-// getTodayDateString ya fue modificada arriba
 
 function displayMedalCount(count) {
     if (medalCountDisplay) {
@@ -411,10 +404,9 @@ function loadTodosFromLocalStorage() {
             })) : [],
             showSubtaskUI: typeof task.showSubtaskUI === 'boolean' ? task.showSubtaskUI : false,
             priorityColor: PRIORITY_COLORS.includes(task.priorityColor) ? task.priorityColor : 'none',
-            // El campo 'date' se mantiene por si se usa para ordenar,
-            // pero la interfaz principal no lo modifica con un input de fecha directo.
-            // Si se quisiera usar este campo para el prompt, necesitaría estar en formato DD-MM-YYYY.
-            date: (typeof task.date === 'string' && task.date.match(/^\d{2}-\d{2}-\d{4}$/)) ? task.date : ( (typeof task.date === 'string' && task.date.match(/^\d{4}-\d{2}-\d{2}$/)) ? getTodayDateString() /* Convertir si es formato antiguo */ : null),
+            date: (typeof task.date === 'string' && task.date.match(/^\d{4}-\d{2}-\d{2}$/))
+                    ? task.date.split('-').reverse().join('-') // Convertir YYYY-MM-DD a DD-MM-YYYY
+                    : ((typeof task.date === 'string' && task.date.match(/^\d{2}-\d{2}-\d{4}$/)) ? task.date : null),
             linkUrl: typeof task.linkUrl === 'string' ? task.linkUrl : null,
             order: typeof task.order === 'number' ? task.order : Date.now()
         }));
@@ -438,7 +430,6 @@ function loadAndRefreshMedalData() {
         medalData = null;
     }
 
-    // Usa el formato yyyy-mm-dd para la comparación interna de fechas de medallas
     const todayForMedal = getTodayDateString('yyyy-mm-dd');
 
     if (!medalData || medalData.date !== todayForMedal) {
@@ -476,6 +467,11 @@ function createMainTaskHeader(mainTask) {
     const mainTaskHeader = document.createElement('div');
     mainTaskHeader.classList.add('main-task-header');
 
+    // ***** INICIO CAMBIO PARA taskPrefixGroup *****
+    const taskPrefixGroup = document.createElement('div');
+    taskPrefixGroup.classList.add('task-prefix-group');
+    // ***** FIN CAMBIO PARA taskPrefixGroup *****
+
     const mainCheckbox = document.createElement('input');
     mainCheckbox.type = 'checkbox';
     mainCheckbox.classList.add('custom-checkbox');
@@ -491,6 +487,10 @@ function createMainTaskHeader(mainTask) {
     priorityLabel.addEventListener('click', () => {
          if (!mainTask.completed) cyclePriorityColor(mainTask.id);
     });
+
+    // ***** INICIO CAMBIO PARA taskPrefixGroup *****
+    taskPrefixGroup.append(mainCheckbox, priorityLabel);
+    // ***** FIN CAMBIO PARA taskPrefixGroup *****
 
     const taskBody = document.createElement('div');
     taskBody.classList.add('task-body');
@@ -561,9 +561,14 @@ function createMainTaskHeader(mainTask) {
 
     taskActionsGroup.append(linkButton, googleCalendarButton, deleteMainButton);
     taskBody.append(mainTaskSpan, taskActionsGroup);
-    mainTaskHeader.append(mainCheckbox, priorityLabel, taskBody);
+
+    // ***** INICIO CAMBIO PARA taskPrefixGroup *****
+    mainTaskHeader.append(taskPrefixGroup, taskBody);
+    // ***** FIN CAMBIO PARA taskPrefixGroup *****
+    
     return mainTaskHeader;
 }
+
 
 function createProgressBar(mainTask) {
      const progressContainer = document.createElement('div');
@@ -764,10 +769,9 @@ function addSubtask(mainTaskId, subtaskInput) {
          mainTask.subtasks.push({ id: generateLocalId(), text: newSubtaskText, completed: false });
          mainTask.completed = false;
          mainTask.completedDate = null;
-         mainTask.showSubtaskUI = false; // Ocultar UI de sub-tarea después de añadir una
+         mainTask.showSubtaskUI = false;
          saveTodosToLocalStorage();
          syncAndRender();
-         // No es necesario enfocar el input de sub-tarea aquí, ya que se oculta
      }
 }
 
@@ -869,7 +873,6 @@ function performManualSort() {
          const rankB = PRIORITY_ORDER[b.priorityColor] || PRIORITY_ORDER['none'];
          if (rankA !== rankB) return rankA - rankB;
 
-         // Parsear fechas DD-MM-YYYY para la comparación si existen
          const parseDateDDMMYYYY = (dateStr) => {
             if (!dateStr || !/^\d{2}-\d{2}-\d{4}$/.test(dateStr)) return Infinity;
             const [day, month, year] = dateStr.split('-').map(Number);
@@ -970,7 +973,7 @@ function applyImportedData(importedData, source = "local file") {
             id: task.id || generateLocalId(),
             text: task.text || 'Tarea importada',
             completed: !!task.completed,
-            completedDate: task.completedDate || null, // Se asume que este está en YYYY-MM-DD
+            completedDate: task.completedDate || null,
             subtasks: Array.isArray(task.subtasks) ? task.subtasks.map(sub => ({
                 id: sub.id || generateLocalId(),
                 text: sub.text || 'Sub-tarea importada',
@@ -978,10 +981,8 @@ function applyImportedData(importedData, source = "local file") {
             })) : [],
             showSubtaskUI: !!task.showSubtaskUI,
             priorityColor: PRIORITY_COLORS.includes(task.priorityColor) ? task.priorityColor : 'none',
-            // Si el task.date importado está en YYYY-MM-DD, se convierte a DD-MM-YYYY para consistencia interna.
-            // Si ya está en DD-MM-YYYY o es nulo, se mantiene.
             date: (typeof task.date === 'string' && task.date.match(/^\d{4}-\d{2}-\d{2}$/))
-                    ? task.date.split('-').reverse().join('-') // Convertir YYYY-MM-DD a DD-MM-YYYY
+                    ? task.date.split('-').reverse().join('-')
                     : ((typeof task.date === 'string' && task.date.match(/^\d{2}-\d{2}-\d{4}$/)) ? task.date : null),
             linkUrl: typeof task.linkUrl === 'string' ? task.linkUrl : null,
             order: typeof task.order === 'number' ? task.order : Date.now()
@@ -1071,8 +1072,8 @@ document.addEventListener('DOMContentLoaded', () => {
         enableDarkMode();
     }
 
-    loadTodosFromLocalStorage(); // Cargar tareas (puede incluir conversión de formato de fecha si es necesario)
-    saveTodosToLocalStorage(); // Guardar de nuevo por si hubo conversión de formato en `task.date`
+    loadTodosFromLocalStorage();
+    saveTodosToLocalStorage();
 
     if (todos.length === 0) {
         if (welcomeSection) welcomeSection.classList.remove('hidden');
