@@ -33,12 +33,13 @@
     --priority-yellow-color: #f1c40f;
     --priority-green-color: #2ecc71;
     --priority-none-color: var(--border-color);
-    --calendar-icon-default-color: var(--button-color);
-    --calendar-icon-set-color: var(--text-color);
+    /* --calendar-icon-default-color: var(--button-color); /* OBSOLETO */
+    /* --calendar-icon-set-color: var(--text-color);       /* OBSOLETO */
     --welcome-button-bg: #e74c3c;
     --welcome-button-text: #fff;
     --welcome-button-hover-bg: #c0392b;
     --drive-icon-color: #4285F4;
+    --accent-color: #3498db; /* NUEVO: Para indicar acción, como evento de calendario agendado */
 }
 
 body.dark-mode {
@@ -73,6 +74,7 @@ body.dark-mode {
     --welcome-button-text: #2c3e50;
     --welcome-button-hover-bg: #e67e22;
     --drive-icon-color: #4A90E2;
+    --accent-color: #5dade2; /* NUEVO: Para modo oscuro */
 }
 
 body {
@@ -564,18 +566,22 @@ body.dark-mode #welcome-section ul li::before {
 
 /* Padding reducido para botones de acción, excepto delete */
 .todo-item .main-task-header .task-body .task-actions-group .link-button,
-.todo-item .main-task-header .task-body .task-actions-group .calendar-button,
+/* .todo-item .main-task-header .task-body .task-actions-group .calendar-button, /* OBSOLETO */
 .todo-item .main-task-header .task-body .task-actions-group .google-calendar-button {
     padding-left: 4px;
     padding-right: 4px;
-    /* font-size: 0.9rem; Opcional para iconos más pequeños */
+    font-size: 1rem;
 }
 
-/* Asegurar que el icono de google (.fab) use el color del botón */
-.todo-item .main-task-header .task-body .task-actions-group .google-calendar-button .fab.fa-google {
-    color: currentColor;
+/* Estilo para el nuevo botón de Google Calendar */
+.todo-item .main-task-header .task-body .task-actions-group .google-calendar-button i {
+    color: var(--button-color);
+    transition: color 0.2s ease;
 }
-/* El .fas.fa-calendar-plus dentro del botón de google ya debería heredar color bien */
+.todo-item .main-task-header .task-body .task-actions-group .google-calendar-button:hover i {
+    color: var(--button-hover-color);
+}
+/* El JS aplica el color var(--accent-color) directamente al <i> si se agenda un recordatorio. */
 
 
 .todo-item .main-task-header .task-body .link-button {
@@ -586,11 +592,12 @@ body.dark-mode #welcome-section ul li::before {
     opacity: 1;
 }
 
-.todo-item .main-task-header .task-body .calendar-button {
+/* ESTILOS OBSOLETOS PARA EL ANTIGUO BOTÓN DE CALENDARIO */
+/* .todo-item .main-task-header .task-body .calendar-button {
     font-size: 1rem;
 }
 .todo-item .main-task-header .task-body .calendar-button i {
-    color: var(--calendar-icon-default-color); /* Usa var(--button-color) por defecto */
+    color: var(--calendar-icon-default-color);
     transition: color 0.2s ease, font-weight 0.2s ease;
 }
 .todo-item .main-task-header .task-body .calendar-button.date-set i {
@@ -598,10 +605,10 @@ body.dark-mode #welcome-section ul li::before {
 }
 .todo-item .main-task-header .task-body .calendar-button.date-today i {
     font-weight: bold;
-    /* Color específico de 'today' se maneja en JS/clase */
-}
+} */
 
-.task-date-input-real {
+/* ESTE INPUT YA NO SE USA PARA LAS TAREAS */
+/* .task-date-input-real {
     opacity: 0;
     position: absolute;
     width: 1px;
@@ -613,7 +620,7 @@ body.dark-mode #welcome-section ul li::before {
     padding: 0;
     border: 0;
     white-space: nowrap;
-}
+} */
 
 .todo-item .main-task-header .task-body .task-actions-group .delete-button {
      padding: 4px 8px; /* Padding original para el botón de eliminar */
@@ -773,7 +780,21 @@ body.dark-mode #welcome-section ul li::before {
     cursor: default;
 }
 
-.todo-item.completed .main-task-header .task-body .calendar-button {
+/* Ajuste para el nuevo botón de Google Calendar en estado completado */
+.todo-item.completed .main-task-header .task-body .task-actions-group .google-calendar-button {
+    opacity: 0.7;
+    cursor: default;
+    pointer-events: none;
+}
+.todo-item.completed .main-task-header .task-body .task-actions-group .google-calendar-button i {
+    color: var(--completed-text-color) !important;
+}
+.todo-item.completed .main-task-header .task-body .task-actions-group .google-calendar-button:hover i {
+    color: var(--completed-text-color) !important; /* Evitar cambio de color al pasar el ratón */
+}
+
+/* ESTILOS OBSOLETOS PARA EL ANTIGUO BOTÓN DE CALENDARIO EN ESTADO COMPLETADO */
+/* .todo-item.completed .main-task-header .task-body .calendar-button {
     opacity: 0.7;
     cursor: default;
     pointer-events: none;
@@ -781,7 +802,7 @@ body.dark-mode #welcome-section ul li::before {
 .todo-item.completed .main-task-header .task-body .calendar-button i {
     color: var(--completed-text-color) !important;
     font-weight: normal !important;
-}
+} */
 
 .todo-item.completed .main-task-header .task-body .task-actions-group .delete-button {
     opacity: 0.7;
@@ -1101,9 +1122,9 @@ footer {
         justify-content: flex-end;
     }
     .todo-item .main-task-header .task-body .link-button { order: 1; }
-    .todo-item .main-task-header .task-body .calendar-button { order: 2; }
-    /* Si se añade orden para google-calendar-button, debe ir aquí */
-    .todo-item .main-task-header .task-body .delete-button { order: 3; } /* O 4 si GCal se ordena */
+    /* .todo-item .main-task-header .task-body .calendar-button { order: 2; } /* OBSOLETO */
+    .todo-item .main-task-header .task-body .google-calendar-button { order: 2; } /* NUEVO ORDEN */
+    .todo-item .main-task-header .task-body .delete-button { order: 3; }
 
 
      #todo-input-container #reorder-button {
