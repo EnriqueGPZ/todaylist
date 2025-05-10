@@ -740,8 +740,8 @@
             left: 5px;
             transform: rotate(45deg);
         }
-         body.dark-mode .todo-item .subtasks-list li input[type="checkbox"]:checked::after {
-             border-color: var(--checkbox-checkmark-color) !important;
+         body.dark-mode .todo-item.completed .subtasks-list li input[type="checkbox"]:checked::after {
+             border-color: var(--item-bg) !important;
          }
 
         .todo-item .subtasks-list li span {
@@ -1403,14 +1403,15 @@
 
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
 
-    <!-- Firebase SDKs -->
+    <!-- Firebase SDKs (using compat versions) -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
 
     <script type="module">
         // Import the necessary Firebase modules using the compat syntax
-        import firebase from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js';
+        // The firebase object is made available globally by firebase-app-compat.js
+        import 'https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js';
         import 'https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js';
         import 'https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js';
 
@@ -1426,6 +1427,7 @@
         };
 
         // Initialize Firebase
+        // Access the global 'firebase' object after importing firebase-app-compat.js
         const app = firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth(); // Get Auth instance using compat syntax
         const db = firebase.firestore(); // Get Firestore instance using compat syntax
@@ -1509,6 +1511,7 @@
             // Recalculate today's medals based on loaded Firebase data if date changes
             if (!medalData || medalData.date !== today) {
                 let countForToday = 0;
+                // Only count completed tasks from the current user's loaded data
                 if (todos && todos.length > 0) {
                     todos.forEach(task => {
                         if (task.completed && task.completedDate === today) countForToday++;
@@ -2268,7 +2271,7 @@
 
             // Clear local tasks array and re-render
             todos = [];
-            renderTodosUI();
+            renderTodosUI(); // Clear UI immediately on sign out
             displayMedalCount(0); // Reset medal display
 
              // Show the welcome section button which now triggers sign-in
@@ -2439,6 +2442,8 @@
                     console.log("User signed out.");
                     stopFirestoreListener(); // Stop listening for tasks
                     todos = []; // Clear local tasks
+                    renderTodosUI(); // Clear UI immediately on sign out
+                    displayMedalCount(0); // Reset medal display
                     showUnauthenticatedUI();
                 }
             });
