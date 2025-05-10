@@ -1379,16 +1379,17 @@ body.dark-mode .modal-input-group input[type="time"]:focus {
 /* Estilo para el botón de cerrar (aplicado a ambos modales) */
 .close-modal {
     position: absolute;
-    top: 8px; /* Ajustado: Más cerca de la esquina */
-    right: 10px; /* Ajustado: Más cerca de la esquina */
-    font-size: 1.2rem; /* REDUCIDO: Tamaño del icono 'x' */
+    top: 10px; /* Ajustado para que esté más arriba */
+    right: 10px; /* Ajustado para que esté más a la derecha */
+    font-size: 1.4rem; /* REDUCIDO: Tamaño del icono 'x' */
     color: var(--button-color);
-    padding: 4px 6px; /* REDUCIDO: Padding para el área clickeable */
+    padding: 2px 5px; /* REDUCIDO: Padding para el área clickeable, más pequeño */
     line-height: 1;
     background: none;
     border: none;
     cursor: pointer;
     transition: color 0.2s ease;
+    z-index: 10; /* Asegurar que esté por encima de otro contenido del modal */
 }
 .close-modal:hover {
     color: var(--button-hover-color);
@@ -1399,7 +1400,7 @@ body.dark-mode .modal-input-group input[type="time"]:focus {
     background: none !important;
     border: none !important;
     box-shadow: none !important;
-    padding: 4px 6px !important; /* Mantener padding del close-modal */
+    padding: 2px 5px !important; /* Mantener padding del close-modal */
 }
 
 
@@ -1461,6 +1462,6 @@ body.dark-mode .modal-input-group input[type="time"]:focus {
         font-size: 1.2rem; /* REDUCIDO: Tamaño del icono 'x' en móvil */
         top: 6px; /* Ajustado: Más cerca de la esquina en móvil */
         right: 8px; /* Ajustado: Más cerca de la esquina en móvil */
-        padding: 3px 5px; /* REDUCIDO: Padding en móvil */
+        padding: 2px 4px; /* REDUCIDO: Padding en móvil */
     }
 }
