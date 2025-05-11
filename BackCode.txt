@@ -2,12 +2,11 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <!-- MODIFIED: Removed user-scalable=no, maximum-scale=1.0 for accessibility -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>ToDayList - Gestor de Tareas Diarias y Lista To-Do en Español</title> <!-- MODIFIED: Slightly strengthened title for keywords -->
-    <meta name="description" content="ToDayList: Tu gestor de tareas diarias y lista to-do minimalista y eficiente en español. Organiza tus pendientes, establece prioridades, añade subtareas y fechas límite. Con integración Google Drive y Calendar. ¡Mejora tu productividad hoy!"> <!-- MODIFIED: Slightly strengthened description for keywords -->
-    <meta name="keywords" content="lista de tareas, to-do list, gestor de tareas diarias, organizador personal, productividad, planificación diaria, tareas pendientes, subtareas, prioridades, web app, enrique gil, ToDayList, google drive, google calendar, español, en español"> <!-- MODIFIED: Added 'español', 'en español' keywords -->
+    <title>ToDayList - Gestor de Tareas Diarias y Lista To-Do en Español</title>
+    <meta name="description" content="ToDayList: Tu gestor de tareas diarias y lista to-do minimalista y eficiente en español. Organiza tus pendientes, establece prioridades, añade subtareas y fechas límite. Con integración Google Drive y Calendar. ¡Mejora tu productividad hoy!">
+    <meta name="keywords" content="lista de tareas, to-do list, gestor de tareas diarias, organizador personal, productividad, planificación diaria, tareas pendientes, subtareas, prioridades, web app, enrique gil, ToDayList, google drive, google calendar, español, en español">
     <meta name="author" content="Enrique Gil">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://www.todaylist.es/">
@@ -15,9 +14,7 @@
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://www.todaylist.es/">
-    <!-- MODIFIED: Harmonized OG title with new title -->
     <meta property="og:title" content="ToDayList - Gestor de Tareas Diarias y Lista To-Do en Español">
-    <!-- MODIFIED: Slightly strengthened OG description -->
     <meta property="og:description" content="Organiza tus pendientes con ToDayList: tu gestor de tareas diarias y lista to-do minimalista y eficiente en español con integración de Google Drive y Calendar.">
     <meta property="og:image" content="https://www.todaylist.es/ToDayList.png">
     <meta property="og:site_name" content="ToDayList">
@@ -25,9 +22,7 @@
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://www.todaylist.es/">
-     <!-- MODIFIED: Harmonized Twitter title with new title -->
     <meta property="twitter:title" content="ToDayList - Gestor de Tareas Diarias y Lista To-Do en Español">
-     <!-- MODIFIED: Slightly strengthened Twitter description -->
     <meta property="twitter:description" content="Organiza tus pendientes con ToDayList: tu gestor de tareas diarias y lista to-do minimalista y eficiente en español con integración de Google Drive y Calendar.">
     <meta property="twitter:image" content="https://www.todaylist.es/ToDayList.png">
 
@@ -36,7 +31,6 @@
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" sizes="any">
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-    <!-- REMOVED: Link to PWA manifest -->
 
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -45,13 +39,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
-     <!-- Código Schema.org para SEO -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "WebPage",
-      "name": "ToDayList - Gestor de Tareas Diarias y Lista To-Do en Español", <!-- MODIFIED: Harmonized with title -->
-      "description": "ToDayList es tu gestor de tareas diarias y lista to-do minimalista y eficiente en español. Organiza tus pendientes, establece prioridades, añade subtareas y fechas límite. Con integración para agendar en Google Calendar y sincronización de datos con Google Drive. ¡Mejora tu productividad hoy!", <!-- MODIFIED: Harmonized and slightly expanded -->
+      "name": "ToDayList - Gestor de Tareas Diarias y Lista To-Do en Español",
+      "description": "ToDayList es tu gestor de tareas diarias y lista to-do minimalista y eficiente en español. Organiza tus pendientes, establece prioridades, añade subtareas y fechas límite. Con integración para agendar en Google Calendar y sincronización de datos con Google Drive. ¡Mejora tu productividad hoy!",
       "url": "https://www.todaylist.es/",
       "primaryImageOfPage": "https://www.todaylist.es/ToDayList.png",
       "mainEntity": {
@@ -59,7 +52,7 @@
         "name": "ToDayList",
         "applicationCategory": "https://schema.org/ProductivityApplication",
         "operatingSystem": "Web Browser",
-        "description": "ToDayList es un gestor de tareas diarias y lista to-do minimalista y eficiente en español que te ayuda a organizar tus pendientes, establecer prioridades, añadir subtareas, agendar en Google Calendar y sincronizar con Google Drive. Ideal para simplificar y organizar tus tareas diarias y aumentar tu productividad.", <!-- MODIFIED: Added 'en español' -->
+        "description": "ToDayList es un gestor de tareas diarias y lista to-do minimalista y eficiente en español que te ayuda a organizar tus pendientes, establecer prioridades, añadir subtareas, agendar en Google Calendar y sincronizar con Google Drive. Ideal para simplificar y organizar tus tareas diarias y aumentar tu productividad.",
         "url": "https://www.todaylist.es/",
         "author": {
           "@type": "Person",
@@ -76,16 +69,14 @@
            "https://www.todaylist.es/favicon-96x96.png",
            "https://www.todaylist.es/favicon.svg"
         ],
-        "softwareVersion": "1.1.0",
+        "softwareVersion": "1.1.1", /* MODIFIED: Version bump */
         "datePublished": "2024-03-15",
-        "keywords": "lista de tareas, to-do list, gestor de tareas diarias, organizador personal, productividad, planificación diaria, tareas pendientes, subtareas, prioridades, web app, task management, daily planner, online organizer, google drive sync, google calendar integration, free app, español, en español" <!-- MODIFIED: Added 'español', 'en español' keywords -->
+        "keywords": "lista de tareas, to-do list, gestor de tareas diarias, organizador personal, productividad, planificación diaria, tareas pendientes, subtareas, prioridades, web app, task management, daily planner, online organizer, google drive sync, google calendar integration, free app, español, en español"
       }
     }
     </script>
-    <!-- Fin Código Schema.org -->
 
     <style>
-        /* ADDED: Visually hidden class for accessibility labels */
          .sr-only {
             position: absolute;
             width: 1px;
@@ -99,16 +90,12 @@
         }
 
         :root {
-            /* CAMBIO SOLICITADO 1: Fondo general gris crema/beige para modo dia */
-            --bg-color: #d4ccbc; /* Fondo general */
-
+            --bg-color: #d4ccbc;
             --text-color: #333;
             --heading-color: #222;
-
-            /* NUEVO CAMBIO SOLICITADO: Fondos de elementos específicos en modo dia */
-            --item-bg: #f2eee6; /* Fondo de tareas, secciones, modales, botones de datos */
-            --border-color: #e0e0e0; /* Mantener borde original o ajustar si quieres */
-            --input-bg: #f2eee6; /* Fondo de cajas de texto */
+            --item-bg: #f2eee6;
+            --border-color: #e0e0e0;
+            --input-bg: #f2eee6;
             --input-text-color: #333;
             --placeholder-color: #888;
             --button-color: #555;
@@ -120,14 +107,16 @@
             --progress-bar-color: #66c266;
             --progress-bar-completed-color: #28a745;
             --empty-list-color: #888;
-            --fixed-button-bg: #f2eee6; /* Fondo de botones fijos (modo oscuro, borrar notas hover) */
-            --fixed-button-border: #ccc; /* Mantener borde original o ajustar si quieres */
+            --fixed-button-bg: #f2eee6;
+            --fixed-button-border: #ccc;
             --fixed-button-shadow: 0 2px 5px rgba(0,0,0,0.2);
             --legend-text-color: #666;
             --sort-button-color: #555;
             --sort-button-hover-color: #3498db;
             --footer-text-color: #aaa;
             --medal-color: #ffd700;
+            --total-score-label-color: #7f8c8d; /* Color para "Total Score:" */
+            --total-score-value-color: var(--text-color); /* Color para el número del score */
             --medal-text-color: var(--text-color);
             --subtitle-color: #777;
             --app-description-color: #555;
@@ -139,17 +128,16 @@
             --welcome-button-bg: #e74c3c;
             --welcome-button-text: #fff;
             --welcome-button-hover-bg: #c0392b;
-
             --drive-icon-color: #4285F4;
             --accent-color: #3498db;
-
-            /* NUEVO CAMBIO SOLICITADO: Fondo de inputs en modales en modo dia */
-            --modal-input-background-color: #f2eee6; /* Fondo de inputs en modales */
-            --modal-input-border-color: var(--border-color); /* Mantener borde original o ajustar si quieres */
+            --modal-input-background-color: #f2eee6;
+            --modal-input-border-color: var(--border-color);
             --schedule-link-text-color: var(--accent-color);
             --schedule-link-hover-text-color: #2980b9;
             --schedule-link-disabled-text-color: #7f8c8d;
-            --checkbox-checkmark-color: var(--item-bg); /* El checkmark usa el color del item-bg */
+            --checkbox-checkmark-color: var(--item-bg);
+            --reset-button-text-color: #95a5a6;
+            --reset-button-hover-text-color: #e74c3c;
         }
 
         body.dark-mode {
@@ -179,6 +167,8 @@
             --checkbox-checkmark-color: var(--bg-color);
             --footer-text-color: #777;
             --medal-text-color: var(--text-color);
+            --total-score-label-color: #95a5a6;
+            --total-score-value-color: var(--text-color);
             --subtitle-color: #bdc3c7;
             --app-description-color: #a0a0a0;
             --welcome-button-bg: #f39c12;
@@ -186,12 +176,13 @@
             --welcome-button-hover-bg: #e67e22;
             --drive-icon-color: #4A90E2;
             --accent-color: #5dade2;
-
             --modal-input-background-color: var(--input-bg);
             --modal-input-border-color: var(--border-color);
             --schedule-link-text-color: var(--accent-color);
             --schedule-link-hover-text-color: #3498db;
             --schedule-link-disabled-text-color: #7f8c8d;
+            --reset-button-text-color: #7f8c8d;
+            --reset-button-hover-text-color: #f39c12;
         }
 
         body {
@@ -220,52 +211,25 @@
             padding-bottom: 20px;
         }
 
-        /* --- ESTILOS ORIGINALES H1 (AJUSTADOS) --- */
-        h1 { /* Estilos generales para h1 si hubiera otros, aunque solo hay uno principal */
-            font-family: 'Quicksand', sans-serif;
-            color: var(--heading-color); /* Mantener para el texto oculto/fallback */
-            text-align: center;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-            margin: 0; /* Reiniciar márgenes */
-            padding: 0; /* Reiniciar padding */
-            font-size: 2.8rem; /* Mantener para el texto oculto/fallback */
-            /* Añadimos estilos para ocultar el texto y preparar para la imagen */
-            text-indent: 101%; /* Mueve el texto fuera de la vista */
-            overflow: hidden; /* Oculta el texto movido */
-            white-space: nowrap; /* Evita que el texto se envuelva antes de moverlo */
-            display: block; /* Necesario para controlar width/height */
-        }
-
-        /* --- NUEVOS ESTILOS PARA EL LOGO EN EL H1 --- */
-        #page-title { /* Estilos específicos para el logo */
-            /* Ocultar el texto del h1 de forma robusta */
+        #page-title {
             text-indent: 101%;
             overflow: hidden;
             white-space: nowrap;
-            font-size: 0; /* Asegura que no haya espacio por el tamaño de fuente */
-            line-height: 0; /* Asegura que no haya espacio por la altura de línea */
-            color: transparent; /* Fallback por si acaso */
-            padding: 0; /* Asegura que no haya padding */
-
-            /* Configurar la imagen de fondo */
-            background-image: url('/Logo.png'); /* Ruta a tu logo, asumiendo que está en la raíz */
-            background-size: contain; /* La imagen se ajusta sin cortarse */
-            background-repeat: no-repeat; /* No repetir la imagen */
-            background-position: center; /* Centrar la imagen */
-
-            /* Tamaño y posición del contenedor del logo */
-            display: block; /* Necesario para width/height */
-            width: 100%; /* Ocupa todo el ancho disponible */
-            max-width: 300px; /* Tamaño máximo del logo (ajusta si es necesario) */
-            height: 90px; /* Altura del logo (ajusta si es necesario) */
-            margin: 40px auto 10px auto; /* Margen superior, centrado horizontal, margen inferior */
-
-            /* Elimina estilos no deseados en el contenedor */
+            font-size: 0;
+            line-height: 0;
+            color: transparent;
+            padding: 0;
+            background-image: url('/Logo.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            display: block;
+            width: 100%;
+            max-width: 300px;
+            height: 90px;
+            margin: 40px auto 10px auto;
             cursor: default;
         }
-        /* --- FIN ESTILOS LOGO --- */
-
 
         .subtitle {
             text-align: center;
@@ -284,7 +248,6 @@
             font-weight: 300;
             color: var(--app-description-color);
             margin-top: 0;
-            /* Increased space after this paragraph */
             margin-bottom: 40px;
             line-height: 1.5;
             max-width: 90%;
@@ -318,13 +281,11 @@
         #welcome-section p {
             font-size: 0.95rem;
             color: var(--text-color);
-            /* Default margin for paragraphs in welcome section */
-            margin-bottom: 15px; /* Kept original value for other paragraphs */
+            margin-bottom: 15px;
             line-height: 1.6;
         }
-        /* MODIFIED: Increased space specifically after the first paragraph in welcome section */
         #welcome-section p:first-of-type {
-             margin-bottom: 40px; /* Increased from 15px */
+             margin-bottom: 40px;
         }
 
         #welcome-section ul {
@@ -418,7 +379,7 @@
         }
         #install-instructions-section ul li::before {
             font-family: "Font Awesome 6 Brands", "Font Awesome 6 Free";
-            font-weight: 400; /* FontAwesome Free uses 900 for solid, 400 for regular/brands */
+            font-weight: 400;
             position: absolute;
             left: 0px;
             top: 1px;
@@ -429,10 +390,10 @@
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
         }
-        #install-instructions-section ul li:nth-child(1)::before { content: "\f268"; font-weight: 400; } /* Chrome Icon (fab) */
-        #install-instructions-section ul li:nth-child(2)::before { content: "\f17b"; font-weight: 400; } /* Android Icon (fab) */
-        #install-instructions-section ul li:nth-child(3)::before { content: "\f179"; font-weight: 400; } /* Apple Icon (fab) */
-        #install-instructions-section ul li:nth-child(4)::before { content: "\f267"; font-weight: 400; } /* Safari Icon (fab) */
+        #install-instructions-section ul li:nth-child(1)::before { content: "\f268"; font-weight: 400; }
+        #install-instructions-section ul li:nth-child(2)::before { content: "\f17b"; font-weight: 400; }
+        #install-instructions-section ul li:nth-child(3)::before { content: "\f179"; font-weight: 400; }
+        #install-instructions-section ul li:nth-child(4)::before { content: "\f267"; font-weight: 400; }
 
         #install-instructions-section ul li strong {
             color: var(--heading-color);
@@ -446,24 +407,64 @@
             font-size: 0.9em;
         }
 
-
         .hidden {
             display: none !important;
         }
 
         #medal-counter-container {
             text-align: center;
-            font-size: 1.2rem;
+            font-size: 1.2rem; /* Tamaño base para ambos contadores */
             color: var(--medal-text-color);
             margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 25px; /* Espacio entre los dos contadores */
+            flex-wrap: wrap; /* Para que se ajusten en pantallas pequeñas si es necesario */
         }
-        #medal-counter-container .fa-medal {
+        #medal-counter-container .daily-medals .fa-medal {
             color: var(--medal-color);
             margin-right: 5px;
         }
         #medal-count {
             font-weight: bold;
         }
+
+        /* Estilos para el contador "Total Score" */
+        #medal-counter-container .total-score-counter {
+            font-size: 0.9em; /* Un poco más pequeño que el diario */
+            display: flex;
+            align-items: center;
+        }
+        #total-score-label {
+            color: var(--total-score-label-color);
+            font-weight: 300; /* Fuente más fina para la etiqueta */
+            margin-right: 6px;
+        }
+        #total-score-value {
+            font-weight: 400; /* Peso normal para el valor */
+            color: var(--total-score-value-color);
+            min-width: 2.5ch; /* Para asegurar espacio para 3 dígitos */
+            text-align: left;
+        }
+        #reset-total-score-button {
+            font-size: 0.7em; /* Muy pequeño */
+            color: var(--reset-button-text-color);
+            background: none;
+            border: none;
+            padding: 0 0 0 5px; /* Solo padding a la izquierda */
+            margin-left: 3px; /* Pequeño margen */
+            cursor: pointer;
+            line-height: 1;
+            vertical-align: middle; /* Alinear con el texto del score */
+        }
+        #reset-total-score-button:hover {
+            color: var(--reset-button-hover-text-color);
+        }
+        #reset-total-score-button i {
+            font-size: 0.9em; /* Icono un poco más pequeño que el texto del botón */
+        }
+
 
         #priority-legend {
             text-align: center;
@@ -664,7 +665,7 @@
             margin-bottom: 15px;
             padding: 0;
             gap: 8px;
-            transition: margin-bottom 0.3s ease; /* Added for smooth transition */
+            transition: margin-bottom 0.3s ease;
         }
         .todo-item .main-task-header .task-prefix-group {
             display: flex;
@@ -760,7 +761,7 @@
              font-size: 1.1rem;
              font-weight: normal;
              color: var(--legend-text-color);
-             transition: opacity 0.3s ease, visibility 0.3s ease; /* Added for smooth transition */
+             transition: opacity 0.3s ease, visibility 0.3s ease;
         }
          .todo-item .add-subtasks-toggle:hover {
              color: var(--button-hover-color);
@@ -773,7 +774,7 @@
             margin-top: 15px;
             padding: 0;
             align-items: center;
-            transition: opacity 0.3s ease, visibility 0.3s ease; /* Added for smooth transition */
+            transition: opacity 0.3s ease, visibility 0.3s ease;
         }
          .todo-item .subtask-input-container button {
              padding: 8px 12px;
@@ -786,7 +787,7 @@
             margin-top: 15px;
             border-left: 2px solid var(--border-color);
             padding-left: 20px;
-            transition: border-left-color 0.3s ease, opacity 0.3s ease, visibility 0.3s ease; /* Added for smooth transition */
+            transition: border-left-color 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
         }
         .todo-item .subtasks-list li {
             display: flex;
@@ -802,7 +803,7 @@
              width: 18px;
              height: 18px;
              border-color: var(--text-color);
-             border-radius: 50%; /* Ensure subtask checkboxes are also round */
+             border-radius: 50%;
              appearance: none;
              -webkit-appearance: none;
              background-color: var(--item-bg);
@@ -870,7 +871,7 @@
             margin-bottom: 0;
             overflow: hidden;
             background-color: var(--progress-bg);
-            transition: background-color 0.3s ease, opacity 0.3s ease, visibility 0.3s ease; /* Added for smooth transition */
+            transition: background-color 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
         }
         .todo-item .progress-bar {
             height: 100%;
@@ -971,8 +972,8 @@
              margin-bottom: 20px;
              flex-wrap: wrap;
          }
-          #todo-input-container label.sr-only { /* Ensure label doesn't affect layout */
-              flex-shrink: 0; /* Prevent shrinking, but it's visually hidden anyway */
+          #todo-input-container label.sr-only {
+              flex-shrink: 0;
           }
 
           #todo-input-container #add-todo-button {
@@ -1035,7 +1036,7 @@
         #clear-notes-button:hover {
             color: var(--button-hover-color);
             border-color: var(--button-hover-color);
-            background-color: var(--fixed-button-bg); /* Usa el nuevo fondo para hover en modo día */
+            background-color: var(--fixed-button-bg);
         }
         #clear-notes-button i {
             margin-right: 4px;
@@ -1066,8 +1067,7 @@
         }
         .data-options-row {
             display: flex;
-            /* CAMBIO SOLICITADO: Centrar los botones en la fila */
-            justify-content: center; /* Cambiado de space-around */
+            justify-content: center;
             gap: 15px;
             margin-bottom: 15px;
             flex-wrap: wrap;
@@ -1077,14 +1077,11 @@
         }
 
         .data-action-button {
-            /* CAMBIO SOLICITADO: Eliminar flex-grow para que no se expandan */
-            /* flex-grow: 1; */ /* Elimina o comenta esta línea */
-            min-width: 200px; /* Mantiene un tamaño mínimo */
-            /* CAMBIO SOLICITADO: Añadir un ancho máximo para que sean más pequeños */
-            max-width: 300px; /* Añade esta línea (ajusta el valor si quieres) */
+            min-width: 200px;
+            max-width: 300px;
             padding: 9px 15px !important;
             font-size: 0.9rem !important;
-            background-color: var(--item-bg); /* Usará #f2eee6 en modo día */
+            background-color: var(--item-bg);
             border: 1px solid var(--border-color) !important;
             box-shadow: 0 1px 2px rgba(0,0,0,0.06);
             color: var(--button-color);
@@ -1093,7 +1090,7 @@
         }
         .data-action-button:hover {
             border-color: var(--button-hover-color) !important;
-            background-color: var(--fixed-button-bg); /* Usará #f2eee6 en modo día */
+            background-color: var(--fixed-button-bg);
             color: var(--button-hover-color);
         }
         .data-action-button i {
@@ -1221,58 +1218,41 @@
             color: var(--legend-text-color);
         }
 
-        /* --- Estilos para Tareas Completadas Minimizadas --- */
         .todo-item.completed {
-            padding-top: 8px;    /* Reducir padding vertical */
+            padding-top: 8px;
             padding-bottom: 8px;
         }
 
         .todo-item.completed .main-task-header {
-            margin-bottom: 0; /* No hay nada debajo (progreso, subtareas) */
-            align-items: center; /* Alinear verticalmente checkbox, prioridad, texto y botón de borrar */
+            margin-bottom: 0;
+            align-items: center;
         }
 
-        /* Ocultar elementos no esenciales en la vista minimizada de tareas completadas */
         .todo-item.completed .progress-container,
-        .todo-item.completed .add-subtasks-toggle, /* Este es el botón '+' para mostrar UI de añadir subtarea */
+        .todo-item.completed .add-subtasks-toggle,
         .todo-item.completed .subtasks-list,
         .todo-item.completed .main-task-header .task-body .task-actions-group .google-calendar-button,
         .todo-item.completed .main-task-header .task-body .task-actions-group .link-button {
             display: none;
         }
-        /* Nota: .subtask-input-container no necesita ocultarse específicamente con .completed
-           porque la lógica JS (task.showSubtaskUI = false al completar) previene su renderizado. */
 
-
-        /* Ajustar el texto de la tarea principal completada */
         .todo-item.completed .main-task-header .task-body span {
-            /* El color y text-decoration ya están definidos por .todo-item.completed ... span */
-            font-size: 1rem; /* Ligeramente más pequeño que el normal (1.1rem) */
-            line-height: 1.4; /* Ajustar si el font-size cambia */
+            font-size: 1rem;
+            line-height: 1.4;
         }
-
-        /* El grupo de acciones en tareas completadas ya se ajusta bien
-           porque los botones de calendario y enlace están ocultos.
-           El botón de eliminar permanece visible gracias a que su opacidad ya está
-           gestionada por las reglas existentes para .todo-item.completed ... .delete-button */
-        /* --- Fin Estilos para Tareas Completadas Minimizadas --- */
 
 
         @media (max-width: 500px) {
-            /* --- AJUSTES LOGO EN H1 PARA MÓVILES --- */
-            #page-title { /* Estilos específicos para el logo en móviles */
-                height: 70px; /* Altura un poco menor en móviles (ajusta si es necesario) */
-                margin-top: 20px; /* Ajusta el margen superior en móviles */
-                margin-bottom: 5px; /* Ajusta el margen inferior en móviles */
+            #page-title {
+                height: 70px;
+                margin-top: 20px;
+                margin-bottom: 5px;
             }
-            /* --- FIN AJUSTES LOGO --- */
-
             .subtitle {
                 font-size: 1rem;
             }
             .app-description-static {
                 font-size: 0.85rem;
-                /* Keep increased margin for mobile too */
                 margin-bottom: 40px;
             }
             #info-button {
@@ -1301,30 +1281,25 @@
             }
              .data-options-row {
                 flex-direction: column;
-                align-items: stretch; /* Esto hace que vuelvan a ocupar todo el ancho en móviles */
+                align-items: stretch;
                 gap: 10px;
             }
             .data-action-button {
                 min-width: unset;
-                width: 100%; /* Esto los hace ocupar el 100% del ancho en móviles */
-                /* CAMBIO SOLICITADO: Asegurar que no estén limitados por el max-width de escritorio en móvil */
-                max-width: unset; /* Añade esta línea */
+                width: 100%;
+                max-width: unset;
                 margin-bottom: 0;
             }
-
-
 
              #welcome-section h2 {
                  font-size: 1.5rem;
              }
              #welcome-section p {
                  font-size: 0.9rem;
-                 /* Default margin for paragraphs in welcome section */
-                 margin-bottom: 15px; /* Kept original value for other paragraphs */
+                 margin-bottom: 15px;
              }
-             /* MODIFIED: Keep increased space specifically after the first paragraph for mobile */
              #welcome-section p:first-of-type {
-                 margin-bottom: 40px; /* Increased from 15px */
+                 margin-bottom: 40px;
              }
              #welcome-section ul li {
                  font-size: 0.85rem;
@@ -1392,7 +1367,6 @@
             transition: opacity 0.3s ease, visibility 0s linear 0.3s;
             padding-top: 60px;
             box-sizing: border-box;
-             /* ADDED ARIA attributes for accessibility */
             role="dialog"
             aria-modal="true"
         }
@@ -1439,7 +1413,6 @@
             margin-bottom: 15px;
             text-align: center;
         }
-         /* ADDED ID for ARIA-labelledby */
         #reminder-modal .modal-content h2#reminder-modal-title { }
 
 
@@ -1646,9 +1619,8 @@
         <button id="info-button" class="app-button" aria-label="Información de la aplicación" title="Cómo usar la aplicación">
             i
         </button>
-        <!-- Título cambiado para mostrar el logo -->
         <h1 id="page-title" aria-label="ToDayList Logo">ToDayList</h1>
-        <h2 class="subtitle">Tu Gestor de Tareas Diarias</h2> <!-- Kept for keyword relevance -->
+        <h2 class="subtitle">Tu Gestor de Tareas Diarias</h2>
         <p class="app-description-static">
             Organiza tu día y aumenta tu productividad de forma sencilla y eficaz.
         </p>
@@ -1656,7 +1628,6 @@
         <section id="welcome-section" class="hidden">
             <img src="https://www.todaylist.es/ToDayList.png" alt="ToDayList Icono" class="welcome-icon">
             <h2>¡Bienvenido a ToDayList!</h2>
-            <!-- MODIFIED: Updated the first paragraph with the new text -->
             <p>
                 ¿Te cuesta empezar? ToDayList convierte tus tareas en pequeñas victorias. Menos caos, más control… y el placer de avanzar sin esfuerzo. Adiós a la procrastinación, hola a la productividad.
             </p>
@@ -1690,12 +1661,20 @@
 
         <div id="app-main-interface" class="hidden">
             <div id="medal-counter-container">
-                <i class="fas fa-medal"></i> <span id="medal-count">0</span>
+                <span class="daily-medals" title="Medallas ganadas hoy">
+                    <i class="fas fa-medal"></i> <span id="medal-count">0</span>
+                </span>
+                <span class="total-score-counter" title="Total de tareas completadas históricamente">
+                    <span id="total-score-label">Total Score:</span>
+                    <span id="total-score-value">000</span>
+                    <button id="reset-total-score-button" aria-label="Resetear Total Score" title="Resetear Total Score">
+                        <i class="fas fa-undo-alt"></i>
+                    </button>
+                </span>
             </div>
 
             <ul id="todo-list"></ul>
             <div id="todo-input-container">
-                <!-- ADDED: Visually hidden label for accessibility -->
                 <label for="new-todo-input" class="sr-only">Agregar nueva tarea</label>
                 <input type="text" id="new-todo-input" placeholder="Agregar nueva tarea...">
                 <button id="add-todo-button" class="app-button add-button" aria-label="Agregar Tarea"><i class="fas fa-plus"></i></button>
@@ -1713,7 +1692,6 @@
             </div>
 
             <div id="quick-notes-container">
-                 <!-- ADDED: Visually hidden label for accessibility -->
                 <label for="quick-notes-area" class="sr-only">Anotaciones rápidas</label>
                 <textarea id="quick-notes-area" placeholder="Anotaciones rápidas..."></textarea>
                 <button id="clear-notes-button" class="app-button" aria-label="Borrar anotaciones">
@@ -1746,16 +1724,13 @@
                 </div>
             </div>
 
-        </div> <!-- Fin de #app-main-interface -->
+        </div>
 
-    </div> <!-- Fin de .container -->
+    </div>
 
-    <!-- Modal para agendar recordatorio -->
-    <!-- ADDED ARIA attributes -->
     <div id="reminder-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="reminder-modal-title">
         <div class="modal-content">
             <button class="app-button close-modal" id="close-reminder-modal" aria-label="Cerrar ventana de recordatorio">×</button>
-             <!-- ADDED ID for ARIA-labelledby -->
             <h2 id="reminder-modal-title">Agendar Recordatorio</h2>
             <p id="reminder-task-text"></p>
             <div class="modal-input-group">
@@ -1770,16 +1745,13 @@
         </div>
     </div>
 
-    <!-- Modal para información/instrucciones -->
-    <!-- ADDED ARIA attributes -->
     <div id="info-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="info-modal-title">
         <div class="modal-content">
             <button id="close-modal-button" class="app-button close-modal" aria-label="Cerrar ventana de información">×</button>
-             <!-- ADDED ID for ARIA-labelledby -->
             <h2 id="info-modal-title">Cómo usar ToDayList</h2>
             <ol>
                 <li><strong>Añadir Tareas:</strong> Escribe tu tarea en el campo inferior y pulsa el botón <i class="fas fa-plus"></i> o la tecla "Enter".</li>
-                <li><strong>Marcar como Completada:</strong> Haz clic en el círculo a la izquierda de la tarea. ¡Ganas una medalla <i class="fas fa-medal"></i> por cada tarea completada en el día!</li>
+                <li><strong>Marcar como Completada:</strong> Haz clic en el círculo a la izquierda de la tarea. ¡Ganas una medalla <i class="fas fa-medal"></i> por cada tarea completada en el día! El contador "Total Score" aumenta con cada tarea completada históricamente.</li>
                 <li><strong>Prioridad:</strong> Haz clic en el cuadrado de color junto al círculo para cambiar la prioridad de la tarea (Rojo: Urgente &gt; Naranja: Alta &gt; Amarillo: No Olvidar &gt; Verde: Puede Esperar &gt; Gris: Sin prioridad).</li>
                 <li><strong>Agendar en Google Calendar:</strong> Haz clic en el icono de calendario <i class="far fa-calendar-plus"></i> para que se abra Google Calendar con los detalles de la tarea. Introduce la fecha/hora deseada y guarda el evento en tu calendario.</li>
                 <li><strong>Enlaces:</strong> Haz clic en el icono de enlace <i class="fas fa-link"></i> para añadir o abrir un enlace web asociado a la tarea.</li>
@@ -1834,6 +1806,8 @@
         let darkModeToggle;
         let body;
         let medalCountDisplay;
+        let totalScoreValueDisplay; // MODIFIED: Renamed for clarity
+        let resetTotalScoreButton; // MODIFIED: New button element
         let infoButton, infoModal, closeModalButton;
 
         let quickNotesArea;
@@ -1848,7 +1822,6 @@
         let importDriveButton;
 
         const CLIENT_ID = '25607067695-mgv7jfvio4vr1goi5ci6o952mgpii8nf.apps.googleusercontent.com';
-        // CORRECTED: Updated API_KEY with the correct value provided by the user
         const API_KEY = 'AIzaSyAhr2kqUcRf5qZi0yMHsFDsyp_x8Ekfj7k';
 
         const SCOPES = 'https://www.googleapis.com/auth/drive.file';
@@ -1862,9 +1835,11 @@
         let installInstructionsSection;
 
         let todos = [];
+        let totalMedalsEarned = 0;
 
         const TODOS_STORAGE_KEY = 'todoListAppTasks';
         const MEDALS_STORAGE_KEY = 'todoListDailyMedalData';
+        const TOTAL_MEDALS_STORAGE_KEY = 'todoListTotalMedals';
         const THEME_STORAGE_KEY = 'todoListTheme';
 
         const PRIORITY_COLORS = ['none', 'red', 'orange', 'yellow', 'green'];
@@ -2016,6 +1991,7 @@
                 const dataToExport = {
                     theme: localStorage.getItem(THEME_STORAGE_KEY) || 'dark',
                     dailyMedalData: JSON.parse(localStorage.getItem(MEDALS_STORAGE_KEY) || '{}'),
+                    totalMedals: totalMedalsEarned,
                     quickNotesContent: localStorage.getItem(QUICK_NOTES_STORAGE_KEY) || '',
                     tasks: todos
                 };
@@ -2092,7 +2068,7 @@
                     const view = new google.picker.View(google.picker.ViewId.DOCS);
                     view.setMimeTypes("application/json");
                     const picker = new google.picker.PickerBuilder()
-                        .setAppId(null) // Assuming no specific app ID registration beyond client ID
+                        .setAppId(null)
                         .setOAuthToken(oauthToken)
                         .addView(view)
                         .setDeveloperKey(API_KEY)
@@ -2164,7 +2140,6 @@
             reminderDateInput.value = todayForInput;
             reminderTimeInput.value = "09:00";
             reminderModal.classList.add('visible');
-             // ADDED: Set focus when modal opens
             requestAnimationFrame(() => reminderDateInput.focus());
         }
 
@@ -2172,8 +2147,7 @@
             reminderModal.classList.remove('visible');
             currentTaskIdForReminder = null;
             reminderTaskTextElement.textContent = '';
-             // ADDED: Return focus to the button that opened the modal (basic implementation)
-             const lastFocusedButton = document.querySelector(`button[data-task-id="${currentTaskIdForReminder}"] .google-calendar-button`); // This selector might need adjustment
+             const lastFocusedButton = document.querySelector(`button[data-task-id="${currentTaskIdForReminder}"] .google-calendar-button`);
              if (lastFocusedButton) {
                  lastFocusedButton.focus();
              }
@@ -2233,17 +2207,12 @@
                      console.error("Fecha inválida proporcionada a formatDateForGoogle");
                      return '';
                 }
-                // Google Calendar API expects RFC3339, but render=template often uses a simplified format or requires UTC/Z
-                // Let's format in local time first for simplicity with the template URL
                  const year = dateObj.getFullYear();
                  const month = String(dateObj.getMonth() + 1).padStart(2, '0');
                  const day = String(dateObj.getDate()).padStart(2, '0');
                  const hours = String(dateObj.getHours()).padStart(2, '0');
                  const minutes = String(dateObj.getMinutes()).padStart(2, '0');
-                 const seconds = String(dateObj.getSeconds()).padStart(dateObj.getSeconds() === 0 ? 2 : 0, '0'); // Pad seconds only if 0
-
-                // For the template URL, YYMMDDTHHMMSS or YYYYMMDDTHHMMSSZ (for UTC) are common formats.
-                // Let's use YYYYMMDDTHHMMSS for local time as it's simpler with template.
+                 const seconds = String(dateObj.getSeconds()).padStart(dateObj.getSeconds() === 0 ? 2 : 0, '0');
                 return `${year}${month}${day}T${hours}${minutes}${seconds}`;
             };
 
@@ -2254,7 +2223,7 @@
             if (listItemElement) {
                 const calButton = listItemElement.querySelector('.google-calendar-button i');
                 if (calButton) {
-                    calButton.style.color = 'var(--accent-color)'; // Keep accent color after scheduling attempt
+                    calButton.style.color = 'var(--accent-color)';
                     const displayDate = `${String(day).padStart(2,'0')}-${String(month).padStart(2,'0')}-${year}`;
                     calButton.parentElement.title = `Se intentó agendar un recordatorio: ${displayDate} ${timeStr}. Confirma en Google Calendar.`;
                 }
@@ -2281,6 +2250,13 @@
             }
         }
 
+        function displayTotalScore(count) { // MODIFIED: Renamed function
+            if (totalScoreValueDisplay) {
+                totalScoreValueDisplay.textContent = String(count).padStart(3, '0');
+            }
+        }
+
+
         function loadTodosFromLocalStorage() {
             const storedTodos = localStorage.getItem(TODOS_STORAGE_KEY);
             if (storedTodos) {
@@ -2290,7 +2266,7 @@
                     text: task.text || 'Tarea sin nombre',
                     completed: typeof task.completed === 'boolean' ? task.completed : false,
                     completedDate: task.completedDate || null,
-                    createdAt: task.createdAt || null, // MODIFIED: Load createdAt
+                    createdAt: task.createdAt || null,
                     subtasks: Array.isArray(task.subtasks) ? task.subtasks.map(sub => ({
                         id: sub.id || generateLocalId(), text: sub.text || 'Sub-tarea sin nombre',
                         completed: typeof sub.completed === 'boolean' ? sub.completed : false
@@ -2365,14 +2341,13 @@
             mainCheckbox.type = 'checkbox';
             mainCheckbox.classList.add('custom-checkbox');
             mainCheckbox.checked = mainTask.completed;
-             // ADDED: Associate checkbox with a label for accessibility (visually hidden span)
             const mainCheckboxId = `main-task-checkbox-${mainTask.id}`;
             mainCheckbox.id = mainCheckboxId;
             const mainCheckboxLabel = document.createElement('label');
             mainCheckboxLabel.setAttribute('for', mainCheckboxId);
             mainCheckboxLabel.classList.add('sr-only');
-            mainCheckboxLabel.textContent = `Marcar tarea "${mainTask.text}" como completada`; // Dynamic label text
-             taskPrefixGroup.appendChild(mainCheckboxLabel); // Add label first
+            mainCheckboxLabel.textContent = `Marcar tarea "${mainTask.text}" como completada`;
+             taskPrefixGroup.appendChild(mainCheckboxLabel);
 
 
             mainCheckbox.addEventListener('change', (event) => {
@@ -2387,7 +2362,7 @@
                  if (!mainTask.completed) cyclePriorityColor(mainTask.id);
             });
 
-            taskPrefixGroup.append(mainCheckbox, priorityLabel); // Append checkbox and priority label
+            taskPrefixGroup.append(mainCheckbox, priorityLabel);
 
             const taskBody = document.createElement('div');
             taskBody.classList.add('task-body');
@@ -2413,11 +2388,8 @@
             linkButton.addEventListener('click', () => {
                 const task = findTaskById(mainTask.id);
                 if (!task) return;
-                 // If completed and no link, do nothing
                 if (task.completed && !task.linkUrl) return;
-                // If there's a link, open it (even if completed)
                 if (task.linkUrl) {
-                    // Basic URL validation for safety and better opening
                     try {
                         const url = new URL(task.linkUrl);
                         window.open(url.href, '_blank');
@@ -2425,34 +2397,33 @@
                          alert("Enlace inválido guardado: " + task.linkUrl);
                          console.error("Invalid URL saved:", task.linkUrl, e);
                     }
-                } else if (!task.completed) { // If not completed and no link, prompt to add
+                } else if (!task.completed) {
                     const currentUrl = task.linkUrl || "";
                     let newUrl = prompt("Introduce la URL (ej: https://ejemplo.com):", currentUrl);
 
-                    if (newUrl === null) return; // User cancelled prompt
+                    if (newUrl === null) return;
 
                     newUrl = newUrl.trim();
                     let finalUrl = null;
 
                     if (newUrl !== "") {
                         if (!newUrl.toLowerCase().startsWith('http://') && !newUrl.toLowerCase().startsWith('https://')) {
-                            finalUrl = 'https://' + newUrl; // Prepend https if missing
+                            finalUrl = 'https://' + newUrl;
                         } else {
-                            finalUrl = newUrl; // Use provided url if it starts with http/https
+                            finalUrl = newUrl;
                         }
-                        // Basic validation for the constructed URL
                         try {
-                            new URL(finalUrl); // Check if it's a valid URL format
+                            new URL(finalUrl);
                         } catch (e) {
                              alert("La URL introducida no es válida.");
                              console.error("Invalid URL format entered:", finalUrl, e);
-                             finalUrl = currentUrl; // Revert to previous or null if current was null
+                             finalUrl = currentUrl;
                         }
                     } else {
-                        finalUrl = null; // Treat empty input as removing the link
+                        finalUrl = null;
                     }
 
-                    if (task.linkUrl !== finalUrl) { // Only save/render if it changed
+                    if (task.linkUrl !== finalUrl) {
                          task.linkUrl = finalUrl;
                          saveTodosToLocalStorage();
                          syncAndRender();
@@ -2488,14 +2459,9 @@
             deleteMainButton.addEventListener('click', () => {
                 const task = findTaskById(mainTask.id);
                 if (!task) return;
-
-                // CAMBIO SOLICITADO 2: Preguntar SIEMPRE antes de eliminar una tarea principal
-                // Eliminamos la condición previa y preguntamos directamente
                 if (confirm(`¿Borramos esta tarea "${task.text}"?`)) {
-                    // Si el usuario confirma (hace clic en OK), procedemos a eliminar
                     deleteTodo(task.id);
                 }
-                // Si el usuario cancela (hace clic en Cancelar), la función simplemente termina y no se hace nada.
             });
             taskActionsGroup.append(linkButton, googleCalendarButton, deleteMainButton);
             taskBody.append(mainTaskSpan, taskActionsGroup);
@@ -2515,7 +2481,7 @@
                  displayedProgress = 100;
              } else if (mainTask.subtasks && mainTask.subtasks.length > 0) {
                  const subtaskProgress = calculateSubtaskProgress(mainTask.subtasks);
-                 displayedProgress = subtaskProgress === 100 ? 90 : subtaskProgress; // Cap at 90% if subtasks complete but main isn't
+                 displayedProgress = subtaskProgress === 100 ? 90 : subtaskProgress;
              }
              progressBar.style.width = `${displayedProgress}%`;
              progressContainer.appendChild(progressBar);
@@ -2565,14 +2531,13 @@
                     checkbox.checked = subtask.completed;
                     if (mainTask.completed) checkbox.disabled = true;
 
-                    // ADDED: Associate subtask checkbox with a label for accessibility
                     const subtaskCheckboxId = `subtask-checkbox-${subtask.id}`;
                     checkbox.id = subtaskCheckboxId;
                     const subtaskCheckboxLabel = document.createElement('label');
                     subtaskCheckboxLabel.setAttribute('for', subtaskCheckboxId);
                     subtaskCheckboxLabel.classList.add('sr-only');
-                    subtaskCheckboxLabel.textContent = `Marcar sub-tarea "${subtask.text}" como completada`; // Dynamic label text
-                    subtaskItem.appendChild(subtaskCheckboxLabel); // Add label first
+                    subtaskCheckboxLabel.textContent = `Marcar sub-tarea "${subtask.text}" como completada`;
+                    subtaskItem.appendChild(subtaskCheckboxLabel);
 
                     checkbox.addEventListener('change', () => {
                          if (!mainTask.completed) toggleSubtaskCompletion(mainTask.id, subtask.id);
@@ -2615,29 +2580,28 @@
              const subtaskInputContainer = document.createElement('div');
              subtaskInputContainer.classList.add('subtask-input-container');
 
-             // ADDED: Visually hidden label for accessibility
-             const subtaskInputId = `subtask-input-${mainTaskId}`; // Unique ID for the input
+             const subtaskInputId = `subtask-input-${mainTaskId}`;
              const subtaskLabel = document.createElement('label');
              subtaskLabel.setAttribute('for', subtaskInputId);
              subtaskLabel.classList.add('sr-only');
-             subtaskLabel.textContent = 'Agregar nueva sub-tarea'; // Static label text
+             subtaskLabel.textContent = 'Agregar nueva sub-tarea';
 
              const subtaskInput = document.createElement('input');
              subtaskInput.type = 'text';
-             subtaskInput.id = subtaskInputId; // Assign ID to input
+             subtaskInput.id = subtaskInputId;
              subtaskInput.placeholder = 'Agregar nueva sub-tarea...';
 
              const addSubtaskButton = document.createElement('button');
              addSubtaskButton.classList.add('app-button', 'add-button');
              addSubtaskButton.innerHTML = '<i class="fas fa-plus"></i>';
-             addSubtaskButton.setAttribute('aria-label', 'Agregar sub-tarea'); // Ensure button has label
+             addSubtaskButton.setAttribute('aria-label', 'Agregar sub-tarea');
 
 
              const handleAddSubtask = () => addSubtask(mainTaskId, subtaskInput);
              addSubtaskButton.addEventListener('click', handleAddSubtask);
              subtaskInput.addEventListener('keypress', (e) => { if (e.key==='Enter'){ e.preventDefault(); handleAddSubtask();}});
 
-             subtaskInputContainer.append(subtaskLabel, subtaskInput, addSubtaskButton); // Append label first
+             subtaskInputContainer.append(subtaskLabel, subtaskInput, addSubtaskButton);
              return subtaskInputContainer;
         }
 
@@ -2650,19 +2614,16 @@
                 listItem.dataset.taskId = mainTask.id;
                 listItem.dataset.priorityColor = mainTask.priorityColor || 'none';
                 if (mainTask.completed) listItem.classList.add('completed');
-                // Keep showSubtaskUI class on item even if completed, though UI is hidden
                 if (mainTask.showSubtaskUI) listItem.classList.add('show-subtask-ui');
 
 
                 listItem.appendChild(createMainTaskHeader(mainTask));
                 listItem.appendChild(createProgressBar(mainTask));
-                // Always create toggle button, but hide with CSS if completed
                 listItem.appendChild(createAddSubtasksToggle(mainTask.id));
 
                 if (mainTask.subtasks && mainTask.subtasks.length > 0) {
                     listItem.appendChild(createSubtasksList(mainTask));
                 }
-                // Only create input container if showSubtaskUI is true AND not completed
                 if (mainTask.showSubtaskUI && !mainTask.completed) {
                      listItem.appendChild(createSubtaskInputContainer(mainTask.id));
                 }
@@ -2705,7 +2666,7 @@
                 text: newTodoText,
                 completed: false,
                 completedDate: null,
-                createdAt: new Date().toISOString(), // MODIFIED: Add creation date
+                createdAt: new Date().toISOString(),
                 subtasks: [],
                 showSubtaskUI: false,
                 priorityColor: 'none',
@@ -2718,16 +2679,10 @@
             syncAndRender();
             if (todoInput) todoInput.value = '';
 
-            // Check if it's the very first task being added globally (including past data)
              const hasAnyTasksEver = localStorage.getItem(TODOS_STORAGE_KEY);
-             // Check if todos array length is 1 *after* pushing the new todo
              if (todos.length === 1 && welcomeSection && !welcomeSection.classList.contains('hidden')) {
-                 // If adding the very first task, transition to the app interface
                  showAppInterface();
              }
-             // If the interface is already visible because there were tasks loaded initially, do nothing here.
-
-
         }
 
         function addSubtask(mainTaskId, subtaskInput) {
@@ -2737,10 +2692,7 @@
              if (mainTask && !mainTask.completed) {
                  if (!mainTask.subtasks) mainTask.subtasks = [];
                  mainTask.subtasks.push({ id: generateLocalId(), text: newSubtaskText, completed: false });
-                 // Do NOT mark main task as complete here
-                 // mainTask.completed = false;
-                 // mainTask.completedDate = null;
-                 mainTask.showSubtaskUI = false; // Close input after adding one subtask
+                 mainTask.showSubtaskUI = false;
                  saveTodosToLocalStorage();
                  syncAndRender();
              }
@@ -2751,14 +2703,12 @@
             if (taskIndex > -1) {
                 const taskToDelete = todos[taskIndex];
                 const todayForMedal = getTodayDateString('yyyy-mm-dd');
-                 // Only decrease medal count if the task was completed *today*
                 if (taskToDelete.completed && taskToDelete.completedDate === todayForMedal) {
                     updateMedalCount(-1);
                 }
                 todos.splice(taskIndex, 1);
                 saveTodosToLocalStorage();
                 syncAndRender();
-                // Check if the list is empty AFTER deletion
                 if (todos.length === 0 && welcomeSection && appMainInterface && installInstructionsSection) {
                     welcomeSection.classList.remove('hidden');
                     installInstructionsSection.classList.remove('hidden');
@@ -2781,7 +2731,7 @@
 
         function toggleSubtaskCompletion(mainTaskId, subtaskId) {
              const mainTask = findTaskById(mainTaskId);
-             if (mainTask && mainTask.subtasks && !mainTask.completed) { // Only allow toggling if main task is not completed
+             if (mainTask && mainTask.subtasks && !mainTask.completed) {
                 const subtask = mainTask.subtasks.find(sub => sub.id === subtaskId);
                 if (subtask) {
                      subtask.completed = !subtask.completed;
@@ -2791,56 +2741,53 @@
              }
         }
 
-        // MODIFIED: Function to handle toggling main task completion
         function toggleMainCompletion(taskId, isChecked) {
             const task = findTaskById(taskId);
             if (task) {
                 const todayForMedal = getTodayDateString('yyyy-mm-dd');
                 const wasCompletedTodayBefore = task.completed && task.completedDate === todayForMedal;
+                const wasEverCompletedBeforeThisAction = task.completed;
 
-                 // Prevent unchecking if the task has incomplete subtasks
-                 if (!isChecked && task.subtasks && task.subtasks.some(sub => !sub.completed)) {
-                     // Visually revert checkbox state if needed (syncAndRender will handle the data)
+                if (!isChecked && task.subtasks && task.subtasks.some(sub => !sub.completed)) {
                      const listItemElement = todoListContainer.querySelector(`li[data-task-id="${task.id}"]`);
                       if(listItemElement) {
                           const checkboxElement = listItemElement.querySelector('.main-task-header .custom-checkbox');
-                          if(checkboxElement) checkboxElement.checked = true; // Keep it checked visually for a moment
+                          if(checkboxElement) checkboxElement.checked = true;
                       }
                      alert("No puedes desmarcar una tarea principal si tiene sub-tareas incompletas.");
-                     // Re-render immediately to ensure UI matches data
                      syncAndRender();
-                     return; // Stop here, do not change task.completed state
+                     return;
                  }
 
                 task.completed = isChecked;
 
-                if (isChecked) { // Task is being marked as completed
+                if (isChecked) {
                     task.completedDate = todayForMedal;
-                    task.showSubtaskUI = false; // Hide subtask input when main task is completed
-                    // Auto-complete all subtasks if main task is checked
+                    task.showSubtaskUI = false;
                     if (task.subtasks) {
                        task.subtasks.forEach(sub => sub.completed = true);
                     }
 
-                    // Trigger medal count and confetti ONLY if it wasn't completed today before this action
                     if (!wasCompletedTodayBefore) {
                         updateMedalCount(1);
-                        // Trigger confetti if the function is available
                         if (typeof confetti === 'function') {
                              confetti({ particleCount: 150, spread: 90, origin: { y: 0.55 }});
                         }
                     }
+                    if (!wasEverCompletedBeforeThisAction) {
+                        totalMedalsEarned++;
+                        localStorage.setItem(TOTAL_MEDALS_STORAGE_KEY, totalMedalsEarned.toString());
+                        displayTotalScore(totalMedalsEarned);
+                    }
 
-                } else { // Becoming incomplete
-                    // If it was completed today before, decrease medal count
+                } else {
                     if (wasCompletedTodayBefore) {
                         updateMedalCount(-1);
                     }
                     task.completedDate = null;
-                     // Do NOT auto-uncomplete subtasks when main task is unchecked
                 }
                  saveTodosToLocalStorage();
-                 syncAndRender(); // Re-render after state change
+                 syncAndRender();
             }
         }
 
@@ -2865,32 +2812,26 @@
 
         function performManualSort() {
              todos.sort((a, b) => {
-                 // 1. Sort by completion status (incomplete first)
                  if (a.completed !== b.completed) {
                      return a.completed ? 1 : -1;
                  }
-                 // 2. Sort by priority (higher priority first)
                  const rankA = PRIORITY_ORDER[a.priorityColor] || PRIORITY_ORDER['none'];
                  const rankB = PRIORITY_ORDER[b.priorityColor] || PRIORITY_ORDER['none'];
                  if (rankA !== rankB) return rankA - rankB;
 
-                 // 3. Sort by date (tasks with dates first, then by date ascending)
                  const hasDateA = a.date !== null && a.date !== undefined && a.date !== "";
                  const hasDateB = b.date !== null && b.date !== undefined && b.date !== "";
 
-                 if (hasDateA && !hasDateB) return -1; // A has date, B doesn't -> A comes first
-                 if (!hasDateA && hasDateB) return 1;  // B has date, A doesn't -> B comes first
+                 if (hasDateA && !hasDateB) return -1;
+                 if (!hasDateA && hasDateB) return 1;
 
-                 if (hasDateA && hasDateB) { // Both have dates, sort by date
+                 if (hasDateA && hasDateB) {
                      const dateA = new Date(a.date).getTime();
                      const dateB = new Date(b.date).getTime();
-                     if (dateA !== dateB) return dateA - dateB; // Earlier date comes first
+                     if (dateA !== dateB) return dateA - dateB;
                  }
-
-                 // 4. Finally, maintain original order (or current order) - Fallback sort
                  return (a.order || 0) - (b.order || 0);
              });
-             // Re-assign order to maintain the new sorted order for next time
              todos.forEach((task, index) => {
                  task.order = index;
              });
@@ -2920,13 +2861,14 @@
 
         function toggleDarkMode() {
             body.classList.contains('dark-mode') ? disableDarkMode() : enableDarkMode();
-            syncAndRender(); // Re-render might be needed for some complex styles depending on setup
+            syncAndRender();
         }
 
         function exportAllDataLocal() {
             const dataToExport = {
                 theme: localStorage.getItem(THEME_STORAGE_KEY) || 'dark',
                 dailyMedalData: JSON.parse(localStorage.getItem(MEDALS_STORAGE_KEY) || '{}'),
+                totalMedals: totalMedalsEarned,
                 quickNotesContent: localStorage.getItem(QUICK_NOTES_STORAGE_KEY) || '',
                 tasks: todos
             };
@@ -2960,7 +2902,6 @@
                 }
 
                 if (importedData.dailyMedalData && typeof importedData.dailyMedalData === 'object') {
-                    // Basic validation for medal data structure
                     if (typeof importedData.dailyMedalData.date === 'string' && typeof importedData.dailyMedalData.count === 'number') {
                          localStorage.setItem(MEDALS_STORAGE_KEY, JSON.stringify(importedData.dailyMedalData));
                          displayMedalCount(importedData.dailyMedalData.count || 0);
@@ -2969,11 +2910,19 @@
                          localStorage.removeItem(MEDALS_STORAGE_KEY);
                          displayMedalCount(0);
                     }
-
                 } else {
                     localStorage.removeItem(MEDALS_STORAGE_KEY);
                     displayMedalCount(0);
                 }
+
+                if (typeof importedData.totalMedals === 'number' && !isNaN(importedData.totalMedals)) {
+                    totalMedalsEarned = importedData.totalMedals;
+                } else {
+                    totalMedalsEarned = 0;
+                }
+                localStorage.setItem(TOTAL_MEDALS_STORAGE_KEY, totalMedalsEarned.toString());
+                displayTotalScore(totalMedalsEarned);
+
 
                 if (typeof importedData.quickNotesContent === 'string') {
                     quickNotesArea.value = importedData.quickNotesContent;
@@ -2984,35 +2933,34 @@
                 }
 
                 todos = importedData.tasks.map(task => ({
-                    id: task.id || generateLocalId(), // Ensure ID exists
+                    id: task.id || generateLocalId(),
                     text: task.text || 'Tarea importada',
                     completed: !!task.completed,
                     completedDate: task.completedDate || null,
-                    createdAt: task.createdAt || null, // MODIFIED: Handle createdAt on import
+                    createdAt: task.createdAt || null,
                     subtasks: Array.isArray(task.subtasks) ? task.subtasks.map(sub => ({
-                        id: sub.id || generateLocalId(), // Ensure subtask ID exists
+                        id: sub.id || generateLocalId(),
                         text: sub.text || 'Sub-tarea importada',
                         completed: !!sub.completed
                     })) : [],
                     showSubtaskUI: !!task.showSubtaskUI,
                     priorityColor: PRIORITY_COLORS.includes(task.priorityColor) ? task.priorityColor : 'none',
-                    date: (typeof task.date === 'string' && task.date.match(/^\d{4}-\d{2}-\d{2}$/)) ? task.date : null, // Validate date format
+                    date: (typeof task.date === 'string' && task.date.match(/^\d{4}-\d{2}-\d{2}$/)) ? task.date : null,
                     linkUrl: typeof task.linkUrl === 'string' ? task.linkUrl : null,
-                    order: typeof task.order === 'number' ? task.order : Date.now() // Assign a default if missing
+                    order: typeof task.order === 'number' ? task.order : Date.now()
                 }));
 
-                // Simple unique ID check after mapping (could still have collisions but less likely)
                  const idMap = new Set();
                  todos.forEach(task => {
                      if (idMap.has(task.id)) {
-                         task.id = generateLocalId(); // Assign new ID if duplicate
+                         task.id = generateLocalId();
                      }
                      idMap.add(task.id);
                      if (task.subtasks) {
                          const subIdMap = new Set();
                          task.subtasks.forEach(subtask => {
                              if (subIdMap.has(subtask.id)) {
-                                 subtask.id = generateLocalId(); // Assign new ID if duplicate within subtasks of this task
+                                 subtask.id = generateLocalId();
                              }
                              subIdMap.add(subtask.id);
                          });
@@ -3022,18 +2970,16 @@
 
                 saveTodosToLocalStorage();
 
-                // Determine which section to show based on imported tasks
                 if (todos.length === 0) {
                      if (welcomeSection) welcomeSection.classList.remove('hidden');
                      if (installInstructionsSection) installInstructionsSection.classList.remove('hidden');
                      if (appMainInterface) appMainInterface.classList.add('hidden');
                 } else {
-                     showAppInterface(); // Calls renderTodosUI internally
+                     showAppInterface();
                 }
 
-                // CAMBIO SOLICITADO 2: Aviso y recarga automática después de importar
                 alert(`Datos importados exitosamente desde ${source}. La página se recargará para aplicar los cambios.`);
-                window.location.reload(); // Forzar recarga para asegurar que todo el estado se actualice
+                window.location.reload();
 
             } catch (error) {
                 console.error(`Error al procesar datos importados desde ${source}:`, error);
@@ -3047,7 +2993,7 @@
             if (!file) return;
 
             if (!confirm("¡Atención! Importar datos reemplazará todos los datos actuales (tareas, notas, medallas, tema). ¿Deseas continuar?")) {
-                if (importFileInput) importFileInput.value = ''; // Reset file input
+                if (importFileInput) importFileInput.value = '';
                 return;
             }
 
@@ -3060,14 +3006,24 @@
                      console.error('Error al parsear JSON del archivo local:', error);
                      alert(`Error al leer el archivo local: ${error.message}. Asegúrate de que sea un archivo JSON válido de ToDayList.`);
                 } finally {
-                    if (importFileInput) importFileInput.value = ''; // Reset file input
+                    if (importFileInput) importFileInput.value = '';
                 }
             };
             reader.onerror = () => {
                 alert('Error al leer el archivo local.');
-                if (importFileInput) importFileInput.value = ''; // Reset file input
+                if (importFileInput) importFileInput.value = '';
             };
             reader.readAsText(file);
+        }
+
+        // MODIFIED: Function to reset only the total score
+        function resetTotalScore() {
+            if (confirm("¿Estás seguro de que quieres resetear el 'Total Score' a cero? Esta acción no se puede deshacer.")) {
+                totalMedalsEarned = 0;
+                localStorage.setItem(TOTAL_MEDALS_STORAGE_KEY, totalMedalsEarned.toString());
+                displayTotalScore(totalMedalsEarned);
+                alert("Total Score reseteado a 0.");
+            }
         }
 
 
@@ -3079,6 +3035,8 @@
             darkModeToggle = document.getElementById('dark-mode-toggle');
             body = document.body;
             medalCountDisplay = document.getElementById('medal-count');
+            totalScoreValueDisplay = document.getElementById('total-score-value'); // MODIFIED: Get new element
+            resetTotalScoreButton = document.getElementById('reset-total-score-button'); // MODIFIED: Get new button
 
             infoButton = document.getElementById('info-button');
             infoModal = document.getElementById('info-modal');
@@ -3107,35 +3065,36 @@
             scheduleReminderButton = document.getElementById('schedule-reminder-button');
 
 
-            // Initialize theme first
             const storedTheme = localStorage.getItem(THEME_STORAGE_KEY);
             if (storedTheme === 'light') {
                 disableDarkMode();
             } else {
-                enableDarkMode(); // Default to dark if no theme stored or invalid value
+                enableDarkMode();
             }
 
             loadTodosFromLocalStorage();
 
-            // Determine which section to show based on stored tasks
             if (todos.length === 0) {
-                // If no tasks, show welcome/install sections and hide main interface
                 if (welcomeSection) welcomeSection.classList.remove('hidden');
                 if (installInstructionsSection) installInstructionsSection.classList.remove('hidden');
                 if (appMainInterface) appMainInterface.classList.add('hidden');
             } else {
-                // If tasks exist, show main interface and hide welcome/install sections
                 if (welcomeSection) welcomeSection.classList.add('hidden');
                 if (installInstructionsSection) installInstructionsSection.classList.add('hidden');
                 if (appMainInterface) appMainInterface.classList.remove('hidden');
-                renderTodosUI(); // Render tasks only if main interface is shown
+                renderTodosUI();
             }
 
 
             const initialMedalData = loadAndRefreshMedalData();
             displayMedalCount(initialMedalData.count);
 
-            // Add event listeners only after elements are found
+            const storedTotalMedals = localStorage.getItem(TOTAL_MEDALS_STORAGE_KEY);
+            totalMedalsEarned = storedTotalMedals ? parseInt(storedTotalMedals, 10) : 0;
+            if (isNaN(totalMedalsEarned)) totalMedalsEarned = 0;
+            displayTotalScore(totalMedalsEarned); // MODIFIED: Call renamed function
+
+
             if (addTodoButton && todoInput) {
                  addTodoButton.addEventListener('click', addTodo);
                  todoInput.addEventListener('keypress', (e) => { if (e.key==='Enter'){ e.preventDefault(); addTodo();}});
@@ -3146,6 +3105,10 @@
             if (darkModeToggle) {
                  darkModeToggle.addEventListener('click', toggleDarkMode);
             }
+            // MODIFIED: Add event listener for the new reset button
+            if (resetTotalScoreButton) {
+                resetTotalScoreButton.addEventListener('click', resetTotalScore);
+            }
 
 
             if (startAppButton) {
@@ -3155,13 +3118,12 @@
             if (infoButton && infoModal && closeModalButton) {
                 infoButton.addEventListener('click', () => {
                      infoModal.classList.add('visible');
-                     // ADDED: Set focus when modal opens
                     requestAnimationFrame(() => {
                          const firstFocusableElement = infoModal.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
                          if (firstFocusableElement) {
                              firstFocusableElement.focus();
                          } else {
-                             closeModalButton.focus(); // Fallback focus on close button
+                             closeModalButton.focus();
                          }
                     });
                 });
@@ -3173,26 +3135,21 @@
                     if (event.key === 'Escape' && infoModal.classList.contains('visible')) {
                         infoModal.classList.remove('visible');
                     }
-                     // Basic focus trapping for modals (optional but good)
-                     // Could add more robust focus trapping here if needed
                 });
             }
 
             if (reminderModal && closeReminderModalButton && scheduleReminderButton && reminderDateInput && reminderTimeInput && reminderTaskTextElement) {
                 closeReminderModalButton.addEventListener('click', hideReminderModal);
                 scheduleReminderButton.addEventListener('click', handleScheduleReminderClick);
-                 // Close modal on clicking outside the content
                 reminderModal.addEventListener('click', (event) => {
                     if (event.target === reminderModal) {
                         hideReminderModal();
                     }
                 });
-                 // Close modal on pressing Escape key
                 document.addEventListener('keydown', (event) => {
                     if (event.key === 'Escape' && reminderModal.classList.contains('visible')) {
                         hideReminderModal();
                     }
-                     // Basic focus trapping for modals (optional but good)
                 });
             }
 
@@ -3225,8 +3182,6 @@
                 importDriveButton.addEventListener('click', () => handleAuthClick(importFromGoogleDrive));
             }
 
-            // Ensure Google API callbacks are triggered if scripts loaded before DOMContentLoaded
-            // Added explicit check for window.googleApiCallbacks before accessing properties
             if (window.googleApiCallbacks && window.isGoogleGisScriptReady && typeof window.googleApiCallbacks.gisLoaded === 'function') {
                 console.log("DOMContentLoaded: GIS script was ready, ensuring initialization.");
                 window.googleApiCallbacks.gisLoaded();
@@ -3246,10 +3201,8 @@
             }
 
 
-            // Double-check Drive buttons state after DOM is ready and scripts might have loaded
             maybeEnableDriveButtons();
 
-            // REMOVED: Service Worker registration code
 
         });
     </script>
