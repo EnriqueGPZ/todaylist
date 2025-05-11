@@ -505,7 +505,7 @@
             padding: 15px;
             margin-bottom: 15px;
             box-sizing: border-box;
-            transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+            transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, padding 0.3s ease;
             box-shadow: 0 1px 3px rgba(0,0,0,0.08);
             border-left: 5px solid var(--border-color);
             padding-left: 10px;
@@ -664,6 +664,7 @@
             margin-bottom: 15px;
             padding: 0;
             gap: 8px;
+            transition: margin-bottom 0.3s ease; /* Added for smooth transition */
         }
         .todo-item .main-task-header .task-prefix-group {
             display: flex;
@@ -706,7 +707,7 @@
             font-size: 1.1rem;
             flex-grow: 1;
             color: var(--text-color);
-            transition: color 0.3s ease, text-decoration 0.3s ease;
+            transition: color 0.3s ease, text-decoration 0.3s ease, font-size 0.3s ease;
             min-width: 0;
             word-break: break-word;
             line-height: 1.45;
@@ -759,6 +760,7 @@
              font-size: 1.1rem;
              font-weight: normal;
              color: var(--legend-text-color);
+             transition: opacity 0.3s ease, visibility 0.3s ease; /* Added for smooth transition */
         }
          .todo-item .add-subtasks-toggle:hover {
              color: var(--button-hover-color);
@@ -771,6 +773,7 @@
             margin-top: 15px;
             padding: 0;
             align-items: center;
+            transition: opacity 0.3s ease, visibility 0.3s ease; /* Added for smooth transition */
         }
          .todo-item .subtask-input-container button {
              padding: 8px 12px;
@@ -783,7 +786,7 @@
             margin-top: 15px;
             border-left: 2px solid var(--border-color);
             padding-left: 20px;
-            transition: border-left-color 0.3s ease;
+            transition: border-left-color 0.3s ease, opacity 0.3s ease, visibility 0.3s ease; /* Added for smooth transition */
         }
         .todo-item .subtasks-list li {
             display: flex;
@@ -867,7 +870,7 @@
             margin-bottom: 0;
             overflow: hidden;
             background-color: var(--progress-bg);
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s ease, opacity 0.3s ease, visibility 0.3s ease; /* Added for smooth transition */
         }
         .todo-item .progress-bar {
             height: 100%;
@@ -1217,6 +1220,42 @@
         .footer-legal-links span {
             color: var(--legend-text-color);
         }
+
+        /* --- Estilos para Tareas Completadas Minimizadas --- */
+        .todo-item.completed {
+            padding-top: 8px;    /* Reducir padding vertical */
+            padding-bottom: 8px;
+        }
+
+        .todo-item.completed .main-task-header {
+            margin-bottom: 0; /* No hay nada debajo (progreso, subtareas) */
+            align-items: center; /* Alinear verticalmente checkbox, prioridad, texto y botón de borrar */
+        }
+
+        /* Ocultar elementos no esenciales en la vista minimizada de tareas completadas */
+        .todo-item.completed .progress-container,
+        .todo-item.completed .add-subtasks-toggle, /* Este es el botón '+' para mostrar UI de añadir subtarea */
+        .todo-item.completed .subtasks-list,
+        .todo-item.completed .main-task-header .task-body .task-actions-group .google-calendar-button,
+        .todo-item.completed .main-task-header .task-body .task-actions-group .link-button {
+            display: none;
+        }
+        /* Nota: .subtask-input-container no necesita ocultarse específicamente con .completed
+           porque la lógica JS (task.showSubtaskUI = false al completar) previene su renderizado. */
+
+
+        /* Ajustar el texto de la tarea principal completada */
+        .todo-item.completed .main-task-header .task-body span {
+            /* El color y text-decoration ya están definidos por .todo-item.completed ... span */
+            font-size: 1rem; /* Ligeramente más pequeño que el normal (1.1rem) */
+            line-height: 1.4; /* Ajustar si el font-size cambia */
+        }
+
+        /* El grupo de acciones en tareas completadas ya se ajusta bien
+           porque los botones de calendario y enlace están ocultos.
+           El botón de eliminar permanece visible gracias a que su opacidad ya está
+           gestionada por las reglas existentes para .todo-item.completed ... .delete-button */
+        /* --- Fin Estilos para Tareas Completadas Minimizadas --- */
 
 
         @media (max-width: 500px) {
