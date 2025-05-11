@@ -100,7 +100,7 @@
 
         :root {
             /* CAMBIO SOLICITADO 1: Fondo gris crema para modo dia */
-            --bg-color: #d4ccbc; /* Gris crema */
+            --bg-color: #d4ccbc; /* Gris crema/beige elegido */
             --text-color: #333;
             --heading-color: #222;
             --item-bg: #ffffff;
@@ -2441,10 +2441,14 @@
             deleteMainButton.addEventListener('click', () => {
                 const task = findTaskById(mainTask.id);
                 if (!task) return;
-                 if ((task.subtasks && task.subtasks.length > 0) || task.completed) {
-                     if (!confirm(`¿Seguro que quieres eliminar "${task.text}"?`)) return;
-                 }
-                deleteTodo(task.id);
+
+                // CAMBIO SOLICITADO 2: Preguntar SIEMPRE antes de eliminar una tarea principal
+                // Eliminamos la condición previa y preguntamos directamente
+                if (confirm(`¿Borramos esta tarea "${task.text}"?`)) {
+                    // Si el usuario confirma (hace clic en OK), procedemos a eliminar
+                    deleteTodo(task.id);
+                }
+                // Si el usuario cancela (hace clic en Cancelar), la función simplemente termina y no se hace nada.
             });
             taskActionsGroup.append(linkButton, googleCalendarButton, deleteMainButton);
             taskBody.append(mainTaskSpan, taskActionsGroup);
