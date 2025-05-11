@@ -451,12 +451,28 @@
             display: none !important;
         }
 
+        /* MODIFIED: Container for medal count and max score */
         #medal-counter-container {
             text-align: center;
             font-size: 1.2rem;
             color: var(--medal-text-color);
             margin-bottom: 20px;
+            display: flex; /* Use flexbox to align items */
+            justify-content: center; /* Center the content */
+            align-items: center; /* Vertically align items */
+            gap: 15px; /* Space between daily count and max score */
+            cursor: pointer; /* Indicate it's clickable */
+            padding: 5px 10px; /* Add some padding for click area */
+            border-radius: 5px;
+            transition: background-color 0.2s ease;
         }
+         #medal-counter-container:hover {
+             background-color: rgba(0,0,0,0.05); /* Subtle hover effect */
+         }
+         body.dark-mode #medal-counter-container:hover {
+             background-color: rgba(255,255,255,0.05);
+         }
+
         #medal-counter-container .fa-medal {
             color: var(--medal-color);
             margin-right: 5px;
@@ -464,6 +480,19 @@
         #medal-count {
             font-weight: bold;
         }
+        /* NEW: Style for the max score display */
+        #max-medal-score {
+             font-size: 0.9em; /* Slightly smaller */
+             color: var(--legend-text-color); /* More subtle color */
+             font-weight: normal;
+             margin-left: 5px; /* Space from daily count */
+        }
+        #max-medal-score i {
+             color: var(--medal-color); /* Medal icon color */
+             margin-right: 3px;
+             font-size: 0.9em; /* Match text size */
+        }
+
 
         #priority-legend {
             text-align: center;
@@ -1378,7 +1407,8 @@
             transition: transform 0.3s ease;
             box-sizing: border-box;
         }
-        #info-modal .modal-content {
+        #info-modal .modal-content,
+        #weekly-medals-modal .modal-content { /* Added weekly medals modal */
             max-width: 580px;
         }
         .modal-overlay.visible .modal-content {
@@ -1402,6 +1432,38 @@
         }
          /* ADDED ID for ARIA-labelledby */
         #reminder-modal .modal-content h2#reminder-modal-title { }
+
+        /* NEW: Style for Weekly Medals Modal Title */
+        #weekly-medals-modal .modal-content h2 {
+             color: var(--heading-color);
+             font-size: 1.5rem;
+             margin-bottom: 15px;
+        }
+         /* NEW: Style for Weekly Medals List */
+        #weekly-medals-modal .modal-content ul {
+             list-style: none;
+             padding: 0;
+             margin: 0;
+        }
+        #weekly-medals-modal .modal-content ul li {
+             display: flex;
+             justify-content: space-between;
+             align-items: center;
+             padding: 8px 0;
+             border-bottom: 1px solid var(--border-color);
+             font-size: 1rem;
+             color: var(--text-color);
+        }
+         #weekly-medals-modal .modal-content ul li:last-child {
+             border-bottom: none;
+         }
+         #weekly-medals-modal .modal-content ul li span {
+             font-weight: bold;
+         }
+         #weekly-medals-modal .modal-content ul li .medal-icon {
+             color: var(--medal-color);
+             margin-left: 5px;
+         }
 
 
         #reminder-modal p#reminder-task-text {
@@ -1514,7 +1576,10 @@
             font-size: 0.9em;
         }
 
-        div.modal-overlay div.modal-content > button.close-modal {
+        /* MODIFIED: Added :focus and :focus-visible to remove outline */
+        div.modal-overlay div.modal-content > button.close-modal,
+        div.modal-overlay div.modal-content > button.close-modal:focus,
+        div.modal-overlay div.modal-content > button.close-modal:focus-visible {
             position: absolute !important;
             top: 10px !important;
             right: 10px !important;
@@ -1531,7 +1596,8 @@
             cursor: pointer;
             transition: color 0.2s ease;
             z-index: 10 !important;
-            box-shadow: none !important;
+            box-shadow: none !important; /* Ensure no box-shadow on focus */
+            outline: none !important; /* Remove the outline on focus */
         }
         div.modal-overlay div.modal-content > button.close-modal:hover {
             color: var(--button-hover-color) !important;
@@ -1556,6 +1622,10 @@
             }
             #reminder-modal .modal-content h2 {
                  font-size: 1.1rem;
+            }
+            /* NEW: Adjust weekly medals modal title size for mobile */
+            #weekly-medals-modal .modal-content h2 {
+                 font-size: 1.3rem;
             }
             #reminder-modal p#reminder-task-text {
                 font-size: 0.85rem;
@@ -1592,11 +1662,16 @@
                 font-size: 0.9em;
                 margin-bottom: 6px;
             }
-            div.modal-overlay div.modal-content > button.close-modal {
+            /* MODIFIED: Added :focus and :focus-visible to remove outline */
+            div.modal-overlay div.modal-content > button.close-modal,
+            div.modal-overlay div.modal-content > button.close-modal:focus,
+            div.modal-overlay div.modal-content > button.close-modal:focus-visible {
                 font-size: 1.2rem !important;
                 top: 6px !important;
                 right: 8px !important;
                 padding: 2px 4px !important;
+                outline: none !important; /* Remove the outline on focus */
+                box-shadow: none !important; /* Ensure no box-shadow on focus */
             }
         }
     </style>
@@ -1650,8 +1725,10 @@
         </section>
 
         <div id="app-main-interface" class="hidden">
-            <div id="medal-counter-container">
+            <!-- MODIFIED: Added max score display -->
+            <div id="medal-counter-container" role="button" tabindex="0" aria-label="Medallas de hoy y récord. Clic para ver medallas de la semana." title="Medallas de hoy y récord. Clic para ver medallas de la semana.">
                 <i class="fas fa-medal"></i> <span id="medal-count">0</span>
+                <span id="max-medal-score"><i class="fas fa-trophy"></i> <span id="max-medal-count">0</span></span>
             </div>
 
             <ul id="todo-list"></ul>
@@ -1731,6 +1808,18 @@
         </div>
     </div>
 
+    <!-- NEW: Modal para medallas semanales -->
+     <div id="weekly-medals-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="weekly-medals-modal-title">
+        <div class="modal-content">
+            <button class="app-button close-modal" id="close-weekly-medals-modal" aria-label="Cerrar ventana de medallas semanales">×</button>
+            <h2 id="weekly-medals-modal-title">Medallas de la Semana</h2>
+            <div id="weekly-medals-list-container">
+                <!-- Content will be generated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+
     <!-- Modal para información/instrucciones -->
     <!-- ADDED ARIA attributes -->
     <div id="info-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="info-modal-title">
@@ -1794,7 +1883,9 @@
         let reorderButton;
         let darkModeToggle;
         let body;
+        let medalCounterContainer; // NEW: Reference to the clickable container
         let medalCountDisplay;
+        let maxMedalCountDisplay; // NEW: Reference to the max medal count span
         let infoButton, infoModal, closeModalButton;
 
         let quickNotesArea;
@@ -1826,6 +1917,7 @@
 
         const TODOS_STORAGE_KEY = 'todoListAppTasks';
         const MEDALS_STORAGE_KEY = 'todoListDailyMedalData';
+        const HISTORICAL_MEDALS_STORAGE_KEY = 'todoListHistoricalMedals'; // NEW: Storage key for historical data
         const THEME_STORAGE_KEY = 'todoListTheme';
 
         const PRIORITY_COLORS = ['none', 'red', 'orange', 'yellow', 'green'];
@@ -1838,6 +1930,12 @@
         let reminderTimeInput;
         let scheduleReminderButton;
         let currentTaskIdForReminder = null;
+
+        // NEW: Weekly Medals Modal elements
+        let weeklyMedalsModal;
+        let closeWeeklyMedalsModalButton;
+        let weeklyMedalsListContainer;
+
 
         window.googleApiCallbacks = {
             gisLoaded: function() {
@@ -1977,6 +2075,7 @@
                 const dataToExport = {
                     theme: localStorage.getItem(THEME_STORAGE_KEY) || 'dark',
                     dailyMedalData: JSON.parse(localStorage.getItem(MEDALS_STORAGE_KEY) || '{}'),
+                    historicalMedals: JSON.parse(localStorage.getItem(HISTORICAL_MEDALS_STORAGE_KEY) || '{}'), // NEW: Export historical data
                     quickNotesContent: localStorage.getItem(QUICK_NOTES_STORAGE_KEY) || '',
                     tasks: todos
                 };
@@ -2113,6 +2212,23 @@
             return `${yyyy}-${mm}-${dd}`;
         }
 
+        // NEW: Function to format a date for display
+        function formatDateForDisplay(dateString) {
+            try {
+                const [year, month, day] = dateString.split('-').map(Number);
+                const date = new Date(year, month - 1, day);
+                if (isNaN(date.getTime())) return dateString; // Return original if invalid
+
+                const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                // Use locale 'es-ES' for Spanish day/month names
+                return date.toLocaleDateString('es-ES', options);
+            } catch (e) {
+                console.error("Error formatting date:", dateString, e);
+                return dateString; // Fallback
+            }
+        }
+
+
         function showReminderModal(taskId) {
             const task = findTaskById(taskId);
             if (!task || task.completed) {
@@ -2242,6 +2358,13 @@
             }
         }
 
+        // NEW: Function to display the maximum medal score
+        function displayMaxMedalCount(count) {
+             if (maxMedalCountDisplay) {
+                 maxMedalCountDisplay.textContent = count;
+             }
+        }
+
         function loadTodosFromLocalStorage() {
             const storedTodos = localStorage.getItem(TODOS_STORAGE_KEY);
             if (storedTodos) {
@@ -2270,6 +2393,35 @@
             localStorage.setItem(TODOS_STORAGE_KEY, JSON.stringify(todos));
         }
 
+        // NEW: Load historical medal data
+        function loadHistoricalMedals() {
+            const historicalDataString = localStorage.getItem(HISTORICAL_MEDALS_STORAGE_KEY);
+            try {
+                return historicalDataString ? JSON.parse(historicalDataString) : {};
+            } catch (e) {
+                console.error("Error parsing historical medal data from localStorage", e);
+                return {};
+            }
+        }
+
+        // NEW: Save historical medal data
+        function saveHistoricalMedals(historicalData) {
+            localStorage.setItem(HISTORICAL_MEDALS_STORAGE_KEY, JSON.stringify(historicalData));
+        }
+
+        // NEW: Calculate maximum medal score from historical data
+        function calculateMaxMedals(historicalData) {
+            let max = 0;
+            for (const date in historicalData) {
+                if (Object.hasOwnProperty.call(historicalData, date)) {
+                    if (historicalData[date] > max) {
+                        max = historicalData[date];
+                    }
+                }
+            }
+            return max;
+        }
+
 
         function loadAndRefreshMedalData() {
             let medalDataString = localStorage.getItem(MEDALS_STORAGE_KEY);
@@ -2282,8 +2434,17 @@
             }
 
             const todayForMedal = getTodayDateString('yyyy-mm-dd');
+            let historicalMedals = loadHistoricalMedals(); // Load historical data
 
             if (!medalData || medalData.date !== todayForMedal) {
+                // It's a new day or no previous data
+                if (medalData && medalData.date) {
+                    // Save previous day's count to historical data before resetting
+                    historicalMedals[medalData.date] = medalData.count;
+                    saveHistoricalMedals(historicalMedals); // Save historical data
+                }
+
+                // Recalculate today's count based on current tasks (in case of import or manual change)
                 let countForToday = 0;
                 if (todos && todos.length > 0) {
                     todos.forEach(task => {
@@ -2292,20 +2453,40 @@
                 }
                 medalData = { date: todayForMedal, count: countForToday };
                 localStorage.setItem(MEDALS_STORAGE_KEY, JSON.stringify(medalData));
+
+            } else {
+                 // Same day, ensure historical data includes today's count
+                 historicalMedals[todayForMedal] = medalData.count;
+                 saveHistoricalMedals(historicalMedals); // Save historical data (redundant on same day unless count changed, but safe)
             }
-            return medalData;
+
+            // Update displays
+            displayMedalCount(medalData.count);
+            displayMaxMedalCount(calculateMaxMedals(historicalMedals)); // Display max score
+
+            return medalData; // Return current day's data
         }
 
         function updateMedalCount(change) {
-            let medalData = loadAndRefreshMedalData();
+            let medalData = loadAndRefreshMedalData(); // Load current day's data (and refresh historical/max)
             medalData.count += change;
             if (medalData.count < 0) medalData.count = 0;
             localStorage.setItem(MEDALS_STORAGE_KEY, JSON.stringify(medalData));
+
+            // Update historical data for today's count
+            let historicalMedals = loadHistoricalMedals();
+            historicalMedals[getTodayDateString('yyyy-mm-dd')] = medalData.count;
+            saveHistoricalMedals(historicalMedals);
+
+            // Update displays
             displayMedalCount(medalData.count);
+            displayMaxMedalCount(calculateMaxMedals(historicalMedals)); // Recalculate and display max score
         }
 
         function syncAndRender() {
             renderTodosUI();
+            // Ensure medal counts are updated after any rendering/data sync
+            loadAndRefreshMedalData();
         }
 
         function calculateSubtaskProgress(subtasks) {
@@ -2712,7 +2893,7 @@
                 const todayForMedal = getTodayDateString('yyyy-mm-dd');
                  // Only decrease medal count if the task was completed *today*
                 if (taskToDelete.completed && taskToDelete.completedDate === todayForMedal) {
-                    updateMedalCount(-1);
+                    updateMedalCount(-1); // This will also update historical and max
                 }
                 todos.splice(taskIndex, 1);
                 saveTodosToLocalStorage();
@@ -2783,7 +2964,7 @@
 
                     // Trigger medal count and confetti ONLY if it wasn't completed today before this action
                     if (!wasCompletedTodayBefore) {
-                        updateMedalCount(1);
+                        updateMedalCount(1); // This will also update historical and max
                         // Trigger confetti if the function is available
                         if (typeof confetti === 'function') {
                              confetti({ particleCount: 150, spread: 90, origin: { y: 0.55 }});
@@ -2793,7 +2974,7 @@
                 } else { // Becoming incomplete
                     // If it was completed today before, decrease medal count
                     if (wasCompletedTodayBefore) {
-                        updateMedalCount(-1);
+                        updateMedalCount(-1); // This will also update historical and max
                     }
                     task.completedDate = null;
                      // Do NOT auto-uncomplete subtasks when main task is unchecked
@@ -2886,6 +3067,7 @@
             const dataToExport = {
                 theme: localStorage.getItem(THEME_STORAGE_KEY) || 'dark',
                 dailyMedalData: JSON.parse(localStorage.getItem(MEDALS_STORAGE_KEY) || '{}'),
+                historicalMedals: loadHistoricalMedals(), // NEW: Export historical data
                 quickNotesContent: localStorage.getItem(QUICK_NOTES_STORAGE_KEY) || '',
                 tasks: todos
             };
@@ -2922,17 +3104,21 @@
                     // Basic validation for medal data structure
                     if (typeof importedData.dailyMedalData.date === 'string' && typeof importedData.dailyMedalData.count === 'number') {
                          localStorage.setItem(MEDALS_STORAGE_KEY, JSON.stringify(importedData.dailyMedalData));
-                         displayMedalCount(importedData.dailyMedalData.count || 0);
                     } else {
                          console.warn("Invalid daily medal data format in imported file:", importedData.dailyMedalData);
                          localStorage.removeItem(MEDALS_STORAGE_KEY);
-                         displayMedalCount(0);
                     }
-
                 } else {
                     localStorage.removeItem(MEDALS_STORAGE_KEY);
-                    displayMedalCount(0);
                 }
+
+                // NEW: Import historical medal data
+                if (importedData.historicalMedals && typeof importedData.historicalMedals === 'object') {
+                    saveHistoricalMedals(importedData.historicalMedals);
+                } else {
+                    localStorage.removeItem(HISTORICAL_MEDALS_STORAGE_KEY);
+                }
+
 
                 if (typeof importedData.quickNotesContent === 'string') {
                     quickNotesArea.value = importedData.quickNotesContent;
@@ -2999,33 +3185,52 @@
             }
         }
 
-
-        function importAllDataLocal(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-
-            if (!confirm("¡Atención! Importar datos reemplazará todos los datos actuales (tareas, notas, medallas, tema). ¿Deseas continuar?")) {
-                if (importFileInput) importFileInput.value = ''; // Reset file input
-                return;
+        // NEW: Function to show the weekly medals modal
+        function showWeeklyMedalsModal() {
+            const historicalMedals = loadHistoricalMedals();
+            const today = new Date();
+            const weekDates = [];
+            // Get the last 7 days including today
+            for (let i = 6; i >= 0; i--) {
+                const date = new Date(today);
+                date.setDate(today.getDate() - i);
+                const dateString = date.toISOString().slice(0, 10);
+                weekDates.push(dateString);
             }
 
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                try {
-                    const importedData = JSON.parse(e.target.result);
-                    applyImportedData(importedData, "archivo local");
-                } catch (error) {
-                     console.error('Error al parsear JSON del archivo local:', error);
-                     alert(`Error al leer el archivo local: ${error.message}. Asegúrate de que sea un archivo JSON válido de ToDayList.`);
-                } finally {
-                    if (importFileInput) importFileInput.value = ''; // Reset file input
-                }
-            };
-            reader.onerror = () => {
-                alert('Error al leer el archivo local.');
-                if (importFileInput) importFileInput.value = ''; // Reset file input
-            };
-            reader.readAsText(file);
+            let listHtml = '<ul>';
+            weekDates.forEach(dateString => {
+                const count = historicalMedals[dateString] || 0;
+                const displayDate = formatDateForDisplay(dateString);
+                listHtml += `<li>${displayDate}: <span>${count} <i class="fas fa-medal medal-icon"></i></span></li>`;
+            });
+            listHtml += '</ul>';
+
+            if (weeklyMedalsListContainer) {
+                 weeklyMedalsListContainer.innerHTML = listHtml;
+            }
+
+            if (weeklyMedalsModal) {
+                 weeklyMedalsModal.classList.add('visible');
+                 // Set focus when modal opens
+                 requestAnimationFrame(() => {
+                     const firstFocusableElement = weeklyMedalsModal.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+                     if (firstFocusableElement) {
+                         firstFocusableElement.focus();
+                     } else if (closeWeeklyMedalsModalButton) {
+                         closeWeeklyMedalsModalButton.focus(); // Fallback focus on close button
+                     }
+                 });
+            }
+        }
+
+        // NEW: Function to hide the weekly medals modal
+        function hideWeeklyMedalsModal() {
+            if (weeklyMedalsModal) {
+                weeklyMedalsModal.classList.remove('visible');
+                 // Optional: Return focus to the element that opened the modal
+                 if (medalCounterContainer) medalCounterContainer.focus();
+            }
         }
 
 
@@ -3036,7 +3241,9 @@
             reorderButton = document.getElementById('reorder-button');
             darkModeToggle = document.getElementById('dark-mode-toggle');
             body = document.body;
+            medalCounterContainer = document.getElementById('medal-counter-container'); // NEW
             medalCountDisplay = document.getElementById('medal-count');
+            maxMedalCountDisplay = document.getElementById('max-medal-count'); // NEW
 
             infoButton = document.getElementById('info-button');
             infoModal = document.getElementById('info-modal');
@@ -3064,6 +3271,11 @@
             reminderTimeInput = document.getElementById('reminder-time');
             scheduleReminderButton = document.getElementById('schedule-reminder-button');
 
+            // NEW: Weekly Medals Modal elements
+            weeklyMedalsModal = document.getElementById('weekly-medals-modal');
+            closeWeeklyMedalsModalButton = document.getElementById('close-weekly-medals-modal');
+            weeklyMedalsListContainer = document.getElementById('weekly-medals-list-container');
+
 
             // Initialize theme first
             const storedTheme = localStorage.getItem(THEME_STORAGE_KEY);
@@ -3089,9 +3301,9 @@
                 renderTodosUI(); // Render tasks only if main interface is shown
             }
 
+            // Load and display medal counts (daily and max)
+            loadAndRefreshMedalData();
 
-            const initialMedalData = loadAndRefreshMedalData();
-            displayMedalCount(initialMedalData.count);
 
             // Add event listeners only after elements are found
             if (addTodoButton && todoInput) {
@@ -3103,6 +3315,18 @@
             }
             if (darkModeToggle) {
                  darkModeToggle.addEventListener('click', toggleDarkMode);
+            }
+
+            // NEW: Add event listener to medal counter to show weekly modal
+            if (medalCounterContainer) {
+                medalCounterContainer.addEventListener('click', showWeeklyMedalsModal);
+                 // Also handle Enter key for accessibility
+                 medalCounterContainer.addEventListener('keypress', (e) => {
+                     if (e.key === 'Enter' || e.key === ' ') { // Space key also common for buttons/interactive elements
+                         e.preventDefault();
+                         showWeeklyMedalsModal();
+                     }
+                 });
             }
 
 
@@ -3153,6 +3377,24 @@
                      // Basic focus trapping for modals (optional but good)
                 });
             }
+
+             // NEW: Add event listeners for weekly medals modal
+             if (weeklyMedalsModal && closeWeeklyMedalsModalButton) {
+                closeWeeklyMedalsModalButton.addEventListener('click', hideWeeklyMedalsModal);
+                 // Close modal on clicking outside the content
+                 weeklyMedalsModal.addEventListener('click', (event) => {
+                     if (event.target === weeklyMedalsModal) {
+                         hideWeeklyMedalsModal();
+                     }
+                 });
+                 // Close modal on pressing Escape key
+                 document.addEventListener('keydown', (event) => {
+                     if (event.key === 'Escape' && weeklyMedalsModal.classList.contains('visible')) {
+                         hideWeeklyMedalsModal();
+                     }
+                     // Basic focus trapping for modals (optional but good)
+                 });
+             }
 
 
             if (quickNotesArea && clearNotesButton) {
