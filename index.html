@@ -99,7 +99,8 @@
         }
 
         :root {
-            --bg-color: #f4f7f6;
+            /* CAMBIO SOLICITADO 1: Fondo gris crema para modo dia */
+            --bg-color: #f8f8f0; /* Gris crema */
             --text-color: #333;
             --heading-color: #222;
             --item-bg: #ffffff;
@@ -2979,7 +2980,9 @@
                      showAppInterface(); // Calls renderTodosUI internally
                 }
 
-                alert(`Datos importados exitosamente desde ${source}.`);
+                // CAMBIO SOLICITADO 2: Aviso y recarga automática después de importar
+                alert(`Datos importados exitosamente desde ${source}. La página se recargará para aplicar los cambios.`);
+                window.location.reload(); // Forzar recarga para asegurar que todo el estado se actualice
 
             } catch (error) {
                 console.error(`Error al procesar datos importados desde ${source}:`, error);
