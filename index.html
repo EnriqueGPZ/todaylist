@@ -203,27 +203,45 @@
             padding-bottom: 20px;
         }
 
-        h1 {
+        /* --- NUEVAS REGLAS PARA EL LOGO (IMAGEN + TEXTO) --- */
+        .header-logo-area {
+            text-align: center; /* Centra la imagen y los títulos */
+            padding-top: 45px; /* Mueve el grupo completo hacia abajo, como antes el h1 */
+            margin-bottom: 10px; /* Espacio entre este grupo y la descripción */
+        }
+
+        .header-logo-area .logo-img {
+            display: block; /* Permite margin: auto para centrar y asegura que el h1 vaya debajo */
+            margin: 0 auto 5px auto; /* Centra la imagen y añade espacio debajo */
+            width: 60px; /* Ajusta el tamaño del logo según necesites */
+            height: auto; /* Mantiene la proporción */
+        }
+
+        .header-logo-area h1 {
             font-family: 'Quicksand', sans-serif;
             color: var(--heading-color);
-            text-align: center;
-            margin-top: 0;
-            margin-bottom: 2px;
+            text-align: center; /* Ya estaba, pero lo mantengo */
+            margin-top: 0; /* Asegura que no haya espacio excesivo encima del h1 */
+            margin-bottom: 2px; /* Mantiene el espacio original con el subtítulo */
             font-weight: 700;
             font-size: 2.8rem;
             letter-spacing: -0.5px;
-            padding-top: 45px;
+            /* padding-top: 45px; REMOVIDO DE AQUÍ Y PUESTO EN .header-logo-area */
         }
-        .subtitle {
-            text-align: center;
+
+        .header-logo-area .subtitle {
+            text-align: center; /* Ya estaba, pero lo mantengo */
             font-family: 'Lexend', sans-serif;
             font-size: 1.1rem;
             font-weight: 400;
             color: var(--subtitle-color);
-            margin-top: 0;
-            margin-bottom: 10px;
+            margin-top: 0; /* Asegura que no haya espacio excesivo encima del subtítulo */
+            margin-bottom: 10px; /* Espacio debajo del subtítulo */
             letter-spacing: 0.2px;
         }
+        /* --- FIN NUEVAS REGLAS --- */
+
+
         .app-description-static {
             text-align: center;
             font-family: 'Lexend', sans-serif;
@@ -1144,16 +1162,32 @@
 
 
         @media (max-width: 500px) {
-            h1 {
-                padding-top: 50px;
+            /* Ajustar el padding-top del contenedor principal o del nuevo grupo */
+            .header-logo-area {
+                 padding-top: 50px; /* Ajustar el padding para móviles si es necesario */
+                 margin-bottom: 8px;
+            }
+
+            .header-logo-area .logo-img {
+                 width: 50px; /* Ajustar tamaño del logo en móviles */
+                 margin-bottom: 3px; /* Espacio más pequeño en móviles */
+            }
+
+            .header-logo-area h1 {
                 font-size: 2.3rem;
+                margin-bottom: 1px; /* Ajuste pequeño */
             }
-            .subtitle {
+            .header-logo-area .subtitle {
                 font-size: 1rem;
+                margin-bottom: 8px; /* Ajuste pequeño */
             }
+
             .app-description-static {
                 font-size: 0.85rem;
+                margin-bottom: 15px; /* Ajuste pequeño */
             }
+
+
             #info-button {
                 font-size: 1.2rem;
                 width: 32px;
@@ -1511,8 +1545,15 @@
         <button id="info-button" class="app-button" aria-label="Información de la aplicación" title="Cómo usar la aplicación">
             i
         </button>
-        <h1>ToDayList</h1>
-        <h2 class="subtitle">Tu Gestor de Tareas Diarias</h2>
+
+        <!-- INICIO: Nuevo div para agrupar logo (imagen) y texto -->
+        <div class="header-logo-area">
+            <img src="sun.png" alt="Logo del Sol para ToDayList" class="logo-img">
+            <h1>ToDayList</h1>
+            <h2 class="subtitle">Tu Gestor de Tareas Diarias</h2>
+        </div>
+        <!-- FIN: Nuevo div -->
+
         <p class="app-description-static">
             Organiza tu día y aumenta tu productividad de forma sencilla y eficaz.
         </p>
