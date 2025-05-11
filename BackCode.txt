@@ -2290,6 +2290,7 @@
                     text: task.text || 'Tarea sin nombre',
                     completed: typeof task.completed === 'boolean' ? task.completed : false,
                     completedDate: task.completedDate || null,
+                    createdAt: task.createdAt || null, // MODIFIED: Load createdAt
                     subtasks: Array.isArray(task.subtasks) ? task.subtasks.map(sub => ({
                         id: sub.id || generateLocalId(), text: sub.text || 'Sub-tarea sin nombre',
                         completed: typeof sub.completed === 'boolean' ? sub.completed : false
@@ -2704,6 +2705,7 @@
                 text: newTodoText,
                 completed: false,
                 completedDate: null,
+                createdAt: new Date().toISOString(), // MODIFIED: Add creation date
                 subtasks: [],
                 showSubtaskUI: false,
                 priorityColor: 'none',
@@ -2986,6 +2988,7 @@
                     text: task.text || 'Tarea importada',
                     completed: !!task.completed,
                     completedDate: task.completedDate || null,
+                    createdAt: task.createdAt || null, // MODIFIED: Handle createdAt on import
                     subtasks: Array.isArray(task.subtasks) ? task.subtasks.map(sub => ({
                         id: sub.id || generateLocalId(), // Ensure subtask ID exists
                         text: sub.text || 'Sub-tarea importada',
