@@ -203,17 +203,53 @@
             padding-bottom: 20px;
         }
 
-        h1 {
+        /* --- ESTILOS ORIGINALES H1 (AJUSTADOS) --- */
+        h1 { /* Estilos generales para h1 si hubiera otros, aunque solo hay uno principal */
             font-family: 'Quicksand', sans-serif;
-            color: var(--heading-color);
+            color: var(--heading-color); /* Mantener para el texto oculto/fallback */
             text-align: center;
-            margin-top: 0;
-            margin-bottom: 2px;
             font-weight: 700;
-            font-size: 2.8rem;
             letter-spacing: -0.5px;
-            padding-top: 45px;
+            margin: 0; /* Reiniciar márgenes */
+            padding: 0; /* Reiniciar padding */
+            font-size: 2.8rem; /* Mantener para el texto oculto/fallback */
+            /* Añadimos estilos para ocultar el texto y preparar para la imagen */
+            text-indent: 101%; /* Mueve el texto fuera de la vista */
+            overflow: hidden; /* Oculta el texto movido */
+            white-space: nowrap; /* Evita que el texto se envuelva antes de moverlo */
+            display: block; /* Necesario para controlar width/height */
         }
+
+        /* --- NUEVOS ESTILOS PARA EL LOGO EN EL H1 --- */
+        #page-title { /* Estilos específicos para el logo */
+            /* Ocultar el texto del h1 de forma robusta */
+            text-indent: 101%;
+            overflow: hidden;
+            white-space: nowrap;
+            font-size: 0; /* Asegura que no haya espacio por el tamaño de fuente */
+            line-height: 0; /* Asegura que no haya espacio por la altura de línea */
+            color: transparent; /* Fallback por si acaso */
+            padding: 0; /* Asegura que no haya padding */
+
+            /* Configurar la imagen de fondo */
+            background-image: url('/Logo.png'); /* Ruta a tu logo, asumiendo que está en la raíz */
+            background-size: contain; /* La imagen se ajusta sin cortarse */
+            background-repeat: no-repeat; /* No repetir la imagen */
+            background-position: center; /* Centrar la imagen */
+
+            /* Tamaño y posición del contenedor del logo */
+            display: block; /* Necesario para width/height */
+            width: 100%; /* Ocupa todo el ancho disponible */
+            max-width: 300px; /* Tamaño máximo del logo (ajusta si es necesario) */
+            height: 90px; /* Altura del logo (ajusta si es necesario) */
+            margin: 40px auto 10px auto; /* Margen superior, centrado horizontal, margen inferior */
+
+            /* Elimina estilos no deseados en el contenedor */
+            cursor: default;
+        }
+        /* --- FIN ESTILOS LOGO --- */
+
+
         .subtitle {
             text-align: center;
             font-family: 'Lexend', sans-serif;
@@ -1144,10 +1180,14 @@
 
 
         @media (max-width: 500px) {
-            h1 {
-                padding-top: 50px;
-                font-size: 2.3rem;
+            /* --- AJUSTES LOGO EN H1 PARA MÓVILES --- */
+            #page-title { /* Estilos específicos para el logo en móviles */
+                height: 70px; /* Altura un poco menor en móviles (ajusta si es necesario) */
+                margin-top: 20px; /* Ajusta el margen superior en móviles */
+                margin-bottom: 5px; /* Ajusta el margen inferior en móviles */
             }
+            /* --- FIN AJUSTES LOGO --- */
+
             .subtitle {
                 font-size: 1rem;
             }
@@ -1511,7 +1551,8 @@
         <button id="info-button" class="app-button" aria-label="Información de la aplicación" title="Cómo usar la aplicación">
             i
         </button>
-        <h1>ToDayList</h1>
+        <!-- Título cambiado para mostrar el logo -->
+        <h1 id="page-title" aria-label="ToDayList Logo">ToDayList</h1>
         <h2 class="subtitle">Tu Gestor de Tareas Diarias</h2>
         <p class="app-description-static">
             Organiza tu día y aumenta tu productividad de forma sencilla y eficaz.
@@ -2244,21 +2285,53 @@
             linkButton.addEventListener('click', () => {
                 const task = findTaskById(mainTask.id);
                 if (!task) return;
+                 // If completed and no link, do nothing
                 if (task.completed && !task.linkUrl) return;
+                // If there's a link, open it (even if completed)
                 if (task.linkUrl) {
-                    window.open(task.linkUrl, '_blank');
-                } else if (!task.completed) {
-                    const newUrl = prompt("Introduce la URL (ej: https://ejemplo.com):", task.linkUrl || "");
-                    if (newUrl === null) return;
-                    let finalUrl = newUrl.trim();
-                    if (finalUrl !== "" && !finalUrl.toLowerCase().startsWith('http://') && !finalUrl.toLowerCase().startsWith('https://')) {
-                        finalUrl = 'https://' + finalUrl;
+                    // Basic URL validation for safety and better opening
+                    try {
+                        const url = new URL(task.linkUrl);
+                        window.open(url.href, '_blank');
+                    } catch (e) {
+                         alert("Enlace inválido guardado: " + task.linkUrl);
+                         console.error("Invalid URL saved:", task.linkUrl, e);
                     }
-                    task.linkUrl = finalUrl || null;
-                    saveTodosToLocalStorage();
-                    syncAndRender();
+                } else if (!task.completed) { // If not completed and no link, prompt to add
+                    const currentUrl = task.linkUrl || "";
+                    let newUrl = prompt("Introduce la URL (ej: https://ejemplo.com):", currentUrl);
+
+                    if (newUrl === null) return; // User cancelled prompt
+
+                    newUrl = newUrl.trim();
+                    let finalUrl = null;
+
+                    if (newUrl !== "") {
+                        if (!newUrl.toLowerCase().startsWith('http://') && !newUrl.toLowerCase().startsWith('https://')) {
+                            finalUrl = 'https://' + newUrl; // Prepend https if missing
+                        } else {
+                            finalUrl = newUrl; // Use provided url if it starts with http/https
+                        }
+                        // Basic validation for the constructed URL
+                        try {
+                            new URL(finalUrl); // Check if it's a valid URL format
+                        } catch (e) {
+                             alert("La URL introducida no es válida.");
+                             console.error("Invalid URL format entered:", finalUrl, e);
+                             finalUrl = currentUrl; // Revert to previous or null if current was null
+                        }
+                    } else {
+                        finalUrl = null; // Treat empty input as removing the link
+                    }
+
+                    if (task.linkUrl !== finalUrl) { // Only save/render if it changed
+                         task.linkUrl = finalUrl;
+                         saveTodosToLocalStorage();
+                         syncAndRender();
+                    }
                 }
             });
+
 
             const googleCalendarButton = document.createElement('button');
             googleCalendarButton.classList.add('app-button', 'google-calendar-button');
@@ -2500,7 +2573,7 @@
                  mainTask.subtasks.push({ id: generateLocalId(), text: newSubtaskText, completed: false });
                  mainTask.completed = false;
                  mainTask.completedDate = null;
-                 mainTask.showSubtaskUI = false;
+                 mainTask.showSubtaskUI = false; // Close input after adding one subtask
                  saveTodosToLocalStorage();
                  syncAndRender();
              }
@@ -2558,17 +2631,21 @@
 
                 if (isChecked) {
                     task.completedDate = todayForMedal;
-                    task.showSubtaskUI = false;
+                    task.showSubtaskUI = false; // Hide subtask input when main task is completed
                     if (!wasCompletedTodayBefore) {
                         updateMedalCount(1);
                     }
-                    if (typeof confetti === 'function') confetti({ particleCount: 150, spread: 90, origin: { y: 0.55 }});
+                    // Trigger confetti only if it just became completed today
+                    if (!wasCompletedTodayBefore && typeof confetti === 'function') {
+                         confetti({ particleCount: 150, spread: 90, origin: { y: 0.55 }});
+                    }
                 } else {
                     if (wasCompletedTodayBefore) {
                         updateMedalCount(-1);
                     }
                     task.completedDate = null;
                 }
+                 // Auto-complete/un-complete subtasks based on main task state
                 if (task.subtasks) {
                     task.subtasks.forEach(sub => sub.completed = isChecked);
                 }
@@ -2597,16 +2674,32 @@
 
         function performManualSort() {
              todos.sort((a, b) => {
+                 // 1. Sort by completion status (incomplete first)
+                 if (a.completed !== b.completed) {
+                     return a.completed ? 1 : -1;
+                 }
+                 // 2. Sort by priority (higher priority first)
                  const rankA = PRIORITY_ORDER[a.priorityColor] || PRIORITY_ORDER['none'];
                  const rankB = PRIORITY_ORDER[b.priorityColor] || PRIORITY_ORDER['none'];
                  if (rankA !== rankB) return rankA - rankB;
 
-                 const dateA = a.date ? new Date(a.date).getTime() : Infinity;
-                 const dateB = b.date ? new Date(b.date).getTime() : Infinity;
-                 if (dateA !== dateB) return dateA - dateB;
+                 // 3. Sort by date (tasks with dates first, then by date ascending)
+                 const hasDateA = a.date !== null && a.date !== undefined && a.date !== "";
+                 const hasDateB = b.date !== null && b.date !== undefined && b.date !== "";
 
+                 if (hasDateA && !hasDateB) return -1; // A has date, B doesn't -> A comes first
+                 if (!hasDateA && hasDateB) return 1;  // B has date, A doesn't -> B comes first
+
+                 if (hasDateA && hasDateB) { // Both have dates, sort by date
+                     const dateA = new Date(a.date).getTime();
+                     const dateB = new Date(b.date).getTime();
+                     if (dateA !== dateB) return dateA - dateB; // Earlier date comes first
+                 }
+
+                 // 4. Finally, maintain original order (or current order)
                  return (a.order || 0) - (b.order || 0);
              });
+             // Re-assign order to maintain the new sorted order for next time
              todos.forEach((task, index) => {
                  task.order = index;
              });
@@ -2636,7 +2729,7 @@
 
         function toggleDarkMode() {
             body.classList.contains('dark-mode') ? disableDarkMode() : enableDarkMode();
-            syncAndRender();
+            syncAndRender(); // Re-render might be needed for some complex styles depending on setup
         }
 
         function exportAllDataLocal() {
@@ -2705,8 +2798,28 @@
                     priorityColor: PRIORITY_COLORS.includes(task.priorityColor) ? task.priorityColor : 'none',
                     date: (typeof task.date === 'string' && task.date.match(/^\d{4}-\d{2}-\d{2}$/)) ? task.date : null,
                     linkUrl: typeof task.linkUrl === 'string' ? task.linkUrl : null,
-                    order: typeof task.order === 'number' ? task.order : Date.now()
+                    order: typeof task.order === 'number' ? task.order : Date.now() // Assign a default if missing
                 }));
+
+                // Ensure unique IDs if possible, though importing might introduce duplicates
+                // This is a simplistic approach; a robust app would handle this better on import
+                 const idMap = new Map();
+                 todos.forEach(task => {
+                     if (idMap.has(task.id)) {
+                         task.id = generateLocalId(); // Assign new ID if duplicate
+                     }
+                     idMap.set(task.id, task);
+                     if (task.subtasks) {
+                         const subIdMap = new Map();
+                         task.subtasks.forEach(subtask => {
+                             if (subIdMap.has(subtask.id)) {
+                                 subtask.id = generateLocalId(); // Assign new ID if duplicate within subtasks of this task
+                             }
+                             subIdMap.set(subtask.id, subtask);
+                         });
+                     }
+                 });
+
 
                 saveTodosToLocalStorage();
 
@@ -2746,12 +2859,12 @@
                      console.error('Error al parsear JSON del archivo local:', error);
                      alert(`Error al leer el archivo local: ${error.message}. Asegúrate de que sea un archivo JSON válido de ToDayList.`);
                 } finally {
-                    if (importFileInput) importFileInput.value = '';
+                    if (importFileInput) importFileInput.value = ''; // Reset file input
                 }
             };
             reader.onerror = () => {
                 alert('Error al leer el archivo local.');
-                if (importFileInput) importFileInput.value = '';
+                if (importFileInput) importFileInput.value = ''; // Reset file input
             };
             reader.readAsText(file);
         }
@@ -2792,33 +2905,47 @@
             reminderTimeInput = document.getElementById('reminder-time');
             scheduleReminderButton = document.getElementById('schedule-reminder-button');
 
+
+            // Initialize theme first
             const storedTheme = localStorage.getItem(THEME_STORAGE_KEY);
             if (storedTheme === 'light') {
                 disableDarkMode();
             } else {
-                enableDarkMode();
+                enableDarkMode(); // Default to dark if no theme stored or invalid value
             }
 
             loadTodosFromLocalStorage();
 
+            // Determine which section to show based on stored tasks
             if (todos.length === 0) {
+                // If no tasks, show welcome/install sections and hide main interface
                 if (welcomeSection) welcomeSection.classList.remove('hidden');
                 if (installInstructionsSection) installInstructionsSection.classList.remove('hidden');
                 if (appMainInterface) appMainInterface.classList.add('hidden');
             } else {
+                // If tasks exist, show main interface and hide welcome/install sections
                 if (welcomeSection) welcomeSection.classList.add('hidden');
                 if (installInstructionsSection) installInstructionsSection.classList.add('hidden');
                 if (appMainInterface) appMainInterface.classList.remove('hidden');
-                renderTodosUI();
+                renderTodosUI(); // Render tasks only if main interface is shown
             }
+
 
             const initialMedalData = loadAndRefreshMedalData();
             displayMedalCount(initialMedalData.count);
 
-            addTodoButton.addEventListener('click', addTodo);
-            todoInput.addEventListener('keypress', (e) => { if (e.key==='Enter'){ e.preventDefault(); addTodo();}});
-            reorderButton.addEventListener('click', performManualSort);
-            darkModeToggle.addEventListener('click', toggleDarkMode);
+            // Add event listeners only after elements are found
+            if (addTodoButton && todoInput) {
+                 addTodoButton.addEventListener('click', addTodo);
+                 todoInput.addEventListener('keypress', (e) => { if (e.key==='Enter'){ e.preventDefault(); addTodo();}});
+            }
+            if (reorderButton) {
+                 reorderButton.addEventListener('click', performManualSort);
+            }
+            if (darkModeToggle) {
+                 darkModeToggle.addEventListener('click', toggleDarkMode);
+            }
+
 
             if (startAppButton) {
                 startAppButton.addEventListener('click', showAppInterface);
@@ -2837,14 +2964,16 @@
                 });
             }
 
-            if (reminderModal && closeReminderModalButton && scheduleReminderButton) {
+            if (reminderModal && closeReminderModalButton && scheduleReminderButton && reminderDateInput && reminderTimeInput && reminderTaskTextElement) {
                 closeReminderModalButton.addEventListener('click', hideReminderModal);
                 scheduleReminderButton.addEventListener('click', handleScheduleReminderClick);
+                 // Close modal on clicking outside the content
                 reminderModal.addEventListener('click', (event) => {
                     if (event.target === reminderModal) {
                         hideReminderModal();
                     }
                 });
+                 // Close modal on pressing Escape key
                 document.addEventListener('keydown', (event) => {
                     if (event.key === 'Escape' && reminderModal.classList.contains('visible')) {
                         hideReminderModal();
@@ -2881,17 +3010,37 @@
                 importDriveButton.addEventListener('click', () => handleAuthClick(importFromGoogleDrive));
             }
 
+            // Ensure Google API callbacks are triggered if scripts loaded before DOMContentLoaded
             if (window.isGoogleGisScriptReady && typeof window.googleApiCallbacks.gisLoaded === 'function') {
                 console.log("DOMContentLoaded: GIS script was ready, ensuring initialization.");
                 window.googleApiCallbacks.gisLoaded();
+            } else if (!window.isGoogleGisScriptReady) {
+                 console.log("DOMContentLoaded: GIS script was not ready. Waiting for onload event.");
+            } else {
+                 console.error("DOMContentLoaded: window.googleApiCallbacks.gisLoaded is not a function.");
             }
+
             if (window.isGoogleGapiScriptReady && typeof window.googleApiCallbacks.gapiLoaded === 'function') {
                 console.log("DOMContentLoaded: GAPI script was ready, ensuring initialization.");
                 window.googleApiCallbacks.gapiLoaded();
+            } else if (!window.isGoogleGapiScriptReady) {
+                 console.log("DOMContentLoaded: GAPI script was not ready. Waiting for onload event.");
+            } else {
+                 console.error("DOMContentLoaded: window.googleApiCallbacks.gapiLoaded is not a function.");
             }
+
+
+            // Double-check Drive buttons state after DOM is ready and scripts might have loaded
             maybeEnableDriveButtons();
         });
     </script>
 
 </body>
 </html>
+```
+
+**Importante:**
+
+1.  Asegúrate de que el archivo `Logo.png` esté en la **misma carpeta** que este archivo HTML. La ruta `/Logo.png` asume que está en la raíz del servidor web, lo cual suele ser la misma carpeta si simplemente abres el archivo HTML localmente. Si no funciona, prueba cambiando `url('/Logo.png')` a `url('Logo.png')`.
+2.  He añadido un `aria-label` al `<h1>` y he usado técnicas CSS como `text-indent` para ocultar el texto visualmente. Esto es importante para la accesibilidad, ya que los lectores de pantalla aún leerán "ToDayList Logo", indicando a los usuarios con discapacidad visual qué es ese elemento.
+3.  Ajusta los valores de `max-width` y `height` en las reglas CSS para `#page-title` (y en la media query para `@media (max-width: 500px)`) si el tamaño del logo no es el deseado.
