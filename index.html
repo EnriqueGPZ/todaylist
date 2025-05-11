@@ -2770,25 +2770,26 @@
                      return; // Stop here, do not change task.completed state
                  }
 
+                // CORRECCIÓN URGENTE: Calcular si tenía subtareas incompletas *antes* de completarlas automáticamente
+                const hadIncompleteSubtasksBeforeCompletion = task.subtasks && task.subtasks.some(sub => !sub.completed);
+                const hasNoSubtasks = !task.subtasks || task.subtasks.length === 0; // Esta comprobación está bien como está
 
                 task.completed = isChecked;
 
-                if (isChecked) {
+                if (isChecked) { // Task is being marked as completed
                     task.completedDate = todayForMedal;
                     task.showSubtaskUI = false; // Hide subtask input when main task is completed
                     // Auto-complete all subtasks if main task is checked
                     if (task.subtasks) {
-                       task.subtasks.forEach(sub => sub.completed = true);
+                       task.subtasks.forEach(sub => sub.completed = true); // <-- Esto ocurre *después* de la comprobación
                     }
 
                     if (!wasCompletedTodayBefore) {
                         updateMedalCount(1);
                     }
-                    // Trigger confetti only if it just became completed today AND had incomplete subtasks OR no subtasks
-                    const hadIncompleteSubtasks = task.subtasks && task.subtasks.some(sub => !sub.completed);
-                     const hasNoSubtasks = !task.subtasks || task.subtasks.length === 0;
 
-                    if (!wasCompletedTodayBefore && (hadIncompleteSubtasks || hasNoSubtasks) && typeof confetti === 'function') {
+                    // Trigger confetti only if it just became completed today AND (it had incomplete subtasks BEFORE OR it had no subtasks)
+                    if (!wasCompletedTodayBefore && (hadIncompleteSubtasksBeforeCompletion || hasNoSubtasks) && typeof confetti === 'function') {
                          confetti({ particleCount: 150, spread: 90, origin: { y: 0.55 }});
                     }
 
@@ -2798,7 +2799,6 @@
                     }
                     task.completedDate = null;
                      // Do NOT auto-uncomplete subtasks when main task is unchecked
-                     // Subtask completion state is independent unless the main task is checked.
                 }
                  saveTodosToLocalStorage();
                  syncAndRender(); // Re-render after state change
