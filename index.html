@@ -1153,306 +1153,6 @@
 
 
         @media (max-width: 500px) {
-            h1 {
-                padding-top: 50px;
-                font-size: 2.3rem;
-            }
-            .subtitle {
-                font-size: 1rem;
-            }
-            .app-description-static {
-                font-size: 0.85rem;
-            }
-            #info-button {
-                font-size: 1.2rem;
-                width: 32px;
-                height: 32px;
-                top: 10px;
-                left: 10px;
-            }
-            .todo-item .main-task-header {
-                row-gap: 8px;
-            }
-
-             #todo-input-container #reorder-button {
-                  margin-left: 0;
-             }
-             #data-management-section {
-                padding: 15px 10px;
-             }
-             #data-management-section h4 {
-                font-size: 1.1rem;
-             }
-            .data-management-intro {
-                font-size: 0.8rem;
-                margin-bottom: 15px;
-            }
-             .data-options-row {
-                flex-direction: column;
-                align-items: stretch;
-                gap: 10px;
-            }
-            .data-action-button {
-                min-width: unset;
-                width: 100%;
-                margin-bottom: 0;
-            }
-
-
-
-             #welcome-section h2 {
-                 font-size: 1.5rem;
-             }
-             #welcome-section p {
-                 font-size: 0.9rem;
-             }
-             #welcome-section ul li {
-                 font-size: 0.85rem;
-             }
-             #start-app-button {
-                padding: 10px 20px;
-                font-size: 1rem;
-            }
-
-            #install-instructions-section {
-                padding: 15px 18px;
-                font-size: 0.8rem;
-            }
-            #install-instructions-section h4 {
-                font-size: 1.1rem;
-            }
-            #install-instructions-section ul li {
-                font-size: 0.95em;
-                padding-left: 22px;
-                margin-bottom: 7px;
-            }
-            #install-instructions-section ul li::before {
-                top: 0px;
-                font-size: 1em;
-            }
-
-            footer {
-                font-size: 0.75rem;
-                padding-top: 15px;
-            }
-            .footer-logo {
-                width: 40px;
-                height: 40px;
-                margin-bottom: 8px;
-            }
-            .footer-text {
-                margin-bottom: 6px;
-                font-size: 0.9em;
-            }
-            .support-intro-text,
-            .paypal-link-footer {
-                font-size: 0.7em;
-            }
-            .support-intro-text {
-                margin-bottom: 2px;
-            }
-            .footer-legal-links {
-                font-size: 0.7em;
-            }
-        }
-
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.65);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1050;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease, visibility 0s linear 0.3s;
-            padding-top: 60px;
-            box-sizing: border-box;
-        }
-        .modal-overlay.visible {
-            opacity: 1;
-            visibility: visible;
-            transition: opacity 0.3s ease, visibility 0s linear 0s;
-        }
-
-        .modal-content {
-            background-color: var(--item-bg);
-            color: var(--text-color);
-            padding: 25px 30px;
-            border-radius: 10px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
-            width: 90%;
-            max-width: 380px;
-            max-height: 85vh;
-            overflow-y: auto;
-            position: relative;
-            transform: scale(0.95);
-            transition: transform 0.3s ease;
-            box-sizing: border-box;
-        }
-        #info-modal .modal-content {
-            max-width: 580px;
-        }
-        .modal-overlay.visible .modal-content {
-            transform: scale(1);
-        }
-
-        .modal-content h2 {
-            margin-top: 0;
-            margin-bottom: 20px;
-            color: var(--heading-color);
-            text-align: center;
-            font-family: 'Quicksand', sans-serif;
-            font-size: 1.8rem;
-        }
-
-        #reminder-modal .modal-content h2 {
-            color: var(--accent-color);
-            font-size: 1.3rem;
-            margin-bottom: 15px;
-            text-align: center;
-        }
-
-        #reminder-modal p#reminder-task-text {
-            text-align: center;
-            font-style: italic;
-            margin: 0 auto 20px auto;
-            word-break: break-word;
-            color: var(--text-color);
-            font-size: 0.85rem;
-            font-weight: normal;
-            max-width: 90%;
-        }
-
-        .modal-input-group {
-            margin: 15px auto;
-            width: fit-content;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            justify-content: center;
-        }
-
-        .modal-input-group label {
-            display: block;
-            margin-bottom: 0;
-            font-weight: bold;
-            color: var(--text-color);
-            font-size: 0.85rem;
-            flex-shrink: 0;
-        }
-
-        .modal-input-group input[type="date"],
-        .modal-input-group input[type="time"] {
-            width: 130px;
-            padding: 8px;
-            border: 1px solid var(--modal-input-border-color);
-            border-radius: 4px;
-            background-color: var(--modal-input-background-color);
-            color: var(--input-text-color);
-            font-size: 0.85rem;
-            box-sizing: border-box;
-            outline: none;
-            transition: border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease;
-            font-family: 'Lexend', sans-serif;
-        }
-
-        .modal-input-group input[type="date"]:focus,
-        .modal-input-group input[type="time"]:focus {
-            border-color: var(--button-hover-color);
-            box-shadow: 0 0 0 0.2rem rgba(231, 76, 60, 0.25);
-        }
-        body.dark-mode .modal-input-group input[type="date"]:focus,
-        body.dark-mode .modal-input-group input[type="time"]:focus {
-             box-shadow: 0 0 0 0.2rem rgba(243, 156, 18, 0.2);
-        }
-
-        #schedule-reminder-button {
-            display: block;
-            width: 100%;
-            max-width: 300px;
-            margin: 25px auto 5px auto;
-            padding: 10px;
-            background: none !important;
-            border: none !important;
-            color: var(--schedule-link-text-color) !important;
-            text-decoration: underline !important;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: bold;
-            text-align: center;
-            transition: color 0.2s ease;
-            box-shadow: none !important;
-        }
-        #schedule-reminder-button:hover {
-            color: var(--schedule-link-hover-text-color) !important;
-            background: none !important;
-        }
-        #schedule-reminder-button:disabled {
-            color: var(--schedule-link-disabled-text-color) !important;
-            text-decoration: none !important;
-            cursor: not-allowed;
-            opacity: 0.7 !important;
-        }
-
-        .modal-content ol {
-            padding-left: 20px;
-            margin-bottom: 0;
-            text-align: left;
-        }
-        .modal-content ol li {
-            margin-bottom: 12px;
-            line-height: 1.5;
-        }
-        .modal-content ol li ul {
-            padding-left: 20px;
-            margin-top: 8px;
-            list-style-type: disc;
-        }
-        .modal-content ol li ul li {
-            margin-bottom: 8px;
-            font-size: 0.95em;
-        }
-
-        .modal-content strong {
-            color: var(--heading-color);
-        }
-        .modal-content i.fas, .modal-content i.far, .modal-content i.fab {
-            color: var(--button-hover-color);
-            margin: 0 2px;
-            font-size: 0.9em;
-        }
-
-        div.modal-overlay div.modal-content > button.close-modal {
-            position: absolute !important;
-            top: 10px !important;
-            right: 10px !important;
-            left: auto !important;
-            bottom: auto !important;
-            transform: none !important;
-            margin: 0 !important;
-            font-size: 1.4rem;
-            color: var(--button-color);
-            padding: 2px 5px !important;
-            line-height: 1;
-            background: none !important;
-            border: none !important;
-            cursor: pointer;
-            transition: color 0.2s ease;
-            z-index: 10 !important;
-            box-shadow: none !important;
-        }
-        div.modal-overlay div.modal-content > button.close-modal:hover {
-            color: var(--button-hover-color) !important;
-            background: none !important;
-        }
-
-
-        @media (max-width: 500px) {
 
             .modal-overlay {
                 padding-top: 20px;
@@ -2825,6 +2525,7 @@
             displayMedalCount(initialMedalData.count);
 
             // AÑADE ESTE BLOQUE PARA REGISTRAR EL SERVICE WORKER
+            console.log('Intentando registrar SW'); // <-- Añadido para verificar si este código se ejecuta
             if ('serviceWorker' in navigator) {
               // Usamos 'load' para asegurar que la página inicial se cargue completamente antes de registrar el SW
               window.addEventListener('load', () => {
@@ -2923,3 +2624,249 @@
 
 </body>
 </html>
+```
+
+---
+
+**2. Código Completo para `service-worker.js`:**
+
+Este es el mismo código que te pasé, con el `CACHE_NAME` incrementado y las URLs de fuentes como ejemplos.
+
+```javascript
+const CACHE_NAME = 'todaylist-cache-v3'; // <= ¡CAMBIA ESTE NÚMERO cada vez que modifiques index.html, manifest.json, service-worker.js o añadas/cambies archivos estáticos cacheados!
+const OFFLINE_URL = '/'; // La ruta a tu página principal (index.html)
+
+// Archivos que se cachearán durante la instalación.
+// Es fundamental incluir '/index.html', '/manifest.json' y todos los recursos estáticos que quieres offline.
+const urlsToCache = [
+    OFFLINE_URL, // Cachea la página principal (el propio index.html)
+    '/index.html', // Redundancia segura si OFFLINE_URL es '/'
+    '/manifest.json',
+
+    // Iconos y otras imágenes que tienes en la raíz y usas
+    '/favicon-96x96.png',
+    '/favicon.svg',
+    '/favicon.ico', // Aunque es menos común usarlo en PWA, inclúyelo si quieres compatibilidad total
+    '/apple-touch-icon.png',
+    '/ToDayList.png', // Tu icono principal si lo usas fuera del manifest
+    '/ToDayList-192.png',
+    '/ToDayList-512.png',
+    // '/web-app-manifest-192x192.png', // Incluir si son diferentes o necesarios
+    // '/web-app-manifest-512x512.png', // Incluir si son diferentes o necesarios
+
+    // Páginas adicionales que quieres que estén disponibles offline
+    '/privacy-policy.html',
+    '/terms-of-service.html',
+
+    // CDNs - Importante incluirlas para funcionalidad y diseño offline
+    'https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js',
+    'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css',
+    'https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap', // El archivo CSS de Google Fonts
+    'https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;700&display=swap', // El archivo CSS de Google Fonts
+
+    // **** MUY IMPORTANTE: AÑADIR LAS URLs EXACTAS DE LOS ARCHIVOS DE FUENTES REALES (.woff2, etc.) ****
+    // VERIFICA ESTAS URLs CON LAS HERRAMIENTAS DE DESARROLLO (Network tab, filter: Font)
+    // Estas URLs se encuentran referenciadas dentro de los archivos CSS de Google Fonts y Font Awesome.
+    // Aquí hay EJEMPLOS comunes, PUEDEN VARIAR:
+     'https://fonts.gstatic.com/s/quicksand/v31/6xKtdSZaM9iE8KbpRA_LLPFv.woff2', // Ejemplo Quicksand Regular
+     'https://fonts.gstatic.com/s/quicksand/v31/6xKpdSZaM9iE8KbpRA_LLPFvOjKd.woff2', // Ejemplo Quicksand Bold
+     'https://fonts.gstatic.com/s/lexend/v20/RrQDbo_9toNAJSEe_AKn4C_X6GG0k2n_B0Y.woff2', // Ejemplo Lexend Regular
+     'https://fonts.gstatic.com/s/lexend/v20/RrQDbo_9toNAJSEe_AKn4C_X6Lq0k2n_B0Y.woff2', // Ejemplo Lexend Bold
+     'https://fonts.gstatic.com/s/lexend/v20/RrQDbo_9toNAJSEe_AKn4C_X6Fm0k2n_B0Y.woff2', // Ejemplo Lexend Light
+     'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/webfonts/fa-solid-900.woff2', // Ejemplo Font Awesome Solid
+     'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/webfonts/fa-brands-400.woff2', // Ejemplo Font Awesome Brands (para PayPal)
+     'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/webfonts/fa-regular-400.woff2', // Ejemplo Font Awesome Regular (para Calendario)
+    // ... quizás otros formatos (.woff, .ttf) si quieres máxima compatibilidad offline
+];
+
+// Evento 'install': Cacha los archivos listados
+self.addEventListener('install', (event) => {
+    console.log('Service Worker: Instalando...');
+    // skipWaiting() activa el nuevo service worker inmediatamente,
+    // evitando que el usuario tenga que cerrar todas las pestañas viejas.
+    self.skipWaiting();
+    event.waitUntil(
+        caches.open(CACHE_NAME)
+            .then((cache) => {
+                console.log('Service Worker: Cacheando archivos esenciales:', urlsToCache);
+                // cache.addAll puede fallar si una sola URL es inaccesible (404, CORS, etc.)
+                // Envuelve las URLs de CDN en Request con mode: 'cors' si tienes problemas.
+                // El .map ya lo hace en el código de ejemplo.
+                return cache.addAll(urlsToCache.map(url => {
+                     try {
+                        new URL(url); // Check if it's a full URL
+                        return new Request(url, { mode: 'cors' });
+                     } catch (e) {
+                        return url; // Relative URL (e.g., /index.html)
+                     }
+                 }));
+            })
+            .catch(err => console.error('Service Worker: Error al cachear durante la instalación', err))
+    );
+});
+
+// Evento 'activate': Limpia cachés viejas
+self.addEventListener('activate', (event) => {
+    console.log('Service Worker: Activando...');
+    event.waitUntil(
+        caches.keys().then((cacheNames) => {
+            return Promise.all(
+                cacheNames.map((cacheName) => {
+                    // Borra cualquier caché que no sea la actual (CACHE_NAME)
+                    if (cacheName !== CACHE_NAME) {
+                        console.log('Service Worker: Borrando cache antigua', cacheName);
+                        return caches.delete(cacheName);
+                    }
+                    return null;
+                })
+            );
+        })
+    );
+    // claim() permite que este SW tome control de la página inmediatamente después de la activación,
+    // sin necesidad de recargar la página nuevamente.
+    return self.clients.claim();
+});
+
+// Evento 'fetch': Intercepta peticiones de red
+self.addEventListener('fetch', (event) => {
+    // Ignora peticiones que no son HTTP/HTTPS (ej: chrome-extension://)
+    if (!(event.request.url.startsWith('http:') || event.request.url.startsWith('https:'))) {
+        return;
+    }
+
+     // Ignora las peticiones a las APIs de Google Drive/Calendar (siempre a la red)
+     // Estas URLs NO DEBEN ser cacheadas ya que son peticiones de API dinámicas y requieren autenticación.
+     if (event.request.url.includes('googleapis.com') || event.request.url.includes('gsi/client') || event.request.url.includes('google.com/calendar') || event.request.url.includes('accounts.google.com')) {
+         return fetch(event.request); // Siempre intenta ir a la red para estas URLs
+     }
+
+    // Estrategia Cache-first, falling back to network
+    // Para todas las demás peticiones (index.html, CSS, JS, imágenes, fuentes, etc.):
+    // 1. Intenta encontrar la respuesta en la caché.
+    // 2. Si está en caché, la devuelve inmediatamente.
+    // 3. Si NO está en caché, va a la red.
+    // 4. Si la red responde, devuelve la respuesta Y opcionalmente la añade a la caché para futuras veces.
+    // 5. Si la red falla Y NO estaba en caché:
+    //    - Si la petición original fue una navegación (abrir la página), sirve la página offline cacheada (index.html) como fallback.
+    //    - Para otras peticiones (un icono, una fuente, etc.), la petición simplemente falla.
+
+    event.respondWith(
+        caches.match(event.request)
+            .then((response) => {
+                // Si encuentra la respuesta en la caché, la devuelve
+                if (response) {
+                    console.log('Service Worker: Sirviendo desde cache:', event.request.url);
+                    return response;
+                }
+
+                // Si no está en caché, intenta obtenerla de la red
+                console.log('Service Worker: Fetching de la red:', event.request.url);
+                return fetch(event.request)
+                     .then(networkResponse => {
+                         // Opcional: Cachear nuevas respuestas si son exitosas (status 200)
+                         // Esto es útil si la app carga recursos que no están en urlsToCache.
+                         // Pero para una app con todo en index.html + CDNs pre-cacheables, no es estrictamente necesario.
+                         /*
+                         if (networkResponse && networkResponse.status === 200 && networkResponse.type === 'basic') {
+                             const responseToCache = networkResponse.clone();
+                             caches.open(CACHE_NAME)
+                                 .then(cache => {
+                                     cache.put(event.request, responseToCache);
+                                 });
+                         }
+                         */
+                         return networkResponse;
+                     })
+                    .catch(() => {
+                        // Si falla la red Y no estaba en caché
+                        console.error('Service Worker: Fetch fallido y no en cache para:', event.request.url);
+
+                        // Si la petición fallida era para una navegación (cargar una página HTML),
+                        // intenta devolver la página offline cacheada (index.html)
+                        if (event.request.mode === 'navigate') {
+                            console.log('Service Worker: Network failed for navigation, serving offline page.');
+                            return caches.match(OFFLINE_URL);
+                        }
+
+                        // Para otras peticiones fallidas (imágenes, fuentes, etc.),
+                        // simplemente deja que la petición falle.
+                        throw new Error('Network or cache failed');
+                    });
+            })
+    );
+});
+```
+
+---
+
+**3. Código Completo para `manifest.json`:**
+
+Este es el mismo código que te pasé antes, ajustado a los nombres de tus archivos.
+
+```json
+{
+  "name": "ToDayList",
+  "short_name": "ToDayList",
+  "description": "Tu gestor de tareas diarias minimalista y eficiente.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f4f7f6",
+  "theme_color": "#e74c3c",
+  "icons": [
+    {
+      "src": "/ToDayList-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/ToDayList-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+       "src": "/favicon-96x96.png",
+       "sizes": "96x96",
+       "type": "image/png"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+    // Si los archivos web-app-manifest-XXX.png son necesarios o diferentes, añádelos aquí también
+    /*
+    ,{
+       "src": "/web-app-manifest-192x192.png",
+       "sizes": "192x192",
+       "type": "image/png"
+    },
+    {
+       "src": "/web-app-manifest-512x512.png",
+       "sizes": "512x512",
+       "type": "image/png"
+    }
+    */
+  ],
+   "screenshots": [
+     // Opcional: Si tienes capturas de pantalla de tu app para tiendas o directorios de PWAs
+     /*
+     {
+       "src": "/screenshot-desktop.png",
+       "sizes": "1280x800",
+       "type": "image/png",
+       "form_factor": "wide"
+     },
+     {
+       "src": "/screenshot-mobile.png",
+       "sizes": "750x1334",
+       "type": "image/png",
+       "form_factor": "narrow"
+     }
+     */
+   ]
+}
