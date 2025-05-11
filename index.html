@@ -279,8 +279,8 @@
             font-weight: 300;
             color: var(--app-description-color);
             margin-top: 0;
-            /* MODIFIED: Increased space after this paragraph */
-            margin-bottom: 40px; /* Increased from 20px */
+            /* Increased space after this paragraph */
+            margin-bottom: 40px;
             line-height: 1.5;
             max-width: 90%;
             margin-left: auto;
@@ -313,14 +313,15 @@
         #welcome-section p {
             font-size: 0.95rem;
             color: var(--text-color);
-            /* MODIFIED: Increased space after this paragraph */
-            margin-bottom: 30px; /* Increased from 15px */
+            /* Default margin for paragraphs in welcome section */
+            margin-bottom: 15px; /* Kept original value for other paragraphs */
             line-height: 1.6;
-            /* Ensure the first paragraph has this margin */
-            &:first-of-type {
-                 margin-bottom: 30px; /* Apply specifically to the first p */
-            }
         }
+        /* MODIFIED: Increased space specifically after the first paragraph in welcome section */
+        #welcome-section p:first-of-type {
+             margin-bottom: 40px; /* Increased from 15px */
+        }
+
         #welcome-section ul {
             list-style: none;
             padding-left: 0;
@@ -1226,7 +1227,7 @@
             }
             .app-description-static {
                 font-size: 0.85rem;
-                /* MODIFIED: Keep increased margin for mobile too */
+                /* Keep increased margin for mobile too */
                 margin-bottom: 40px;
             }
             #info-button {
@@ -1271,11 +1272,12 @@
              }
              #welcome-section p {
                  font-size: 0.9rem;
-                 /* MODIFIED: Keep increased margin for mobile too */
-                 margin-bottom: 30px;
-                 &:first-of-type {
-                     margin-bottom: 30px;
-                 }
+                 /* Default margin for paragraphs in welcome section */
+                 margin-bottom: 15px; /* Kept original value for other paragraphs */
+             }
+             /* MODIFIED: Keep increased space specifically after the first paragraph for mobile */
+             #welcome-section p:first-of-type {
+                 margin-bottom: 40px; /* Increased from 15px */
              }
              #welcome-section ul li {
                  font-size: 0.85rem;
