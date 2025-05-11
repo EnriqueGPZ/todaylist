@@ -2750,6 +2750,7 @@
              }
         }
 
+        // MODIFIED: Function to handle toggling main task completion
         function toggleMainCompletion(taskId, isChecked) {
             const task = findTaskById(taskId);
             if (task) {
@@ -2770,10 +2771,6 @@
                      return; // Stop here, do not change task.completed state
                  }
 
-                // CORRECCIÓN URGENTE: Calcular si tenía subtareas incompletas *antes* de completarlas automáticamente
-                const hadIncompleteSubtasksBeforeCompletion = task.subtasks && task.subtasks.some(sub => !sub.completed);
-                const hasNoSubtasks = !task.subtasks || task.subtasks.length === 0; // Esta comprobación está bien como está
-
                 task.completed = isChecked;
 
                 if (isChecked) { // Task is being marked as completed
@@ -2781,19 +2778,20 @@
                     task.showSubtaskUI = false; // Hide subtask input when main task is completed
                     // Auto-complete all subtasks if main task is checked
                     if (task.subtasks) {
-                       task.subtasks.forEach(sub => sub.completed = true); // <-- Esto ocurre *después* de la comprobación
+                       task.subtasks.forEach(sub => sub.completed = true);
                     }
 
+                    // Trigger medal count and confetti ONLY if it wasn't completed today before this action
                     if (!wasCompletedTodayBefore) {
                         updateMedalCount(1);
-                    }
-
-                    // Trigger confetti only if it just became completed today AND (it had incomplete subtasks BEFORE OR it had no subtasks)
-                    if (!wasCompletedTodayBefore && (hadIncompleteSubtasksBeforeCompletion || hasNoSubtasks) && typeof confetti === 'function') {
-                         confetti({ particleCount: 150, spread: 90, origin: { y: 0.55 }});
+                        // Trigger confetti if the function is available
+                        if (typeof confetti === 'function') {
+                             confetti({ particleCount: 150, spread: 90, origin: { y: 0.55 }});
+                        }
                     }
 
                 } else { // Becoming incomplete
+                    // If it was completed today before, decrease medal count
                     if (wasCompletedTodayBefore) {
                         updateMedalCount(-1);
                     }
