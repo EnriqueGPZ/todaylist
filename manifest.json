@@ -4,37 +4,35 @@
   "description": "Tu gestor de tareas diarias minimalista y eficiente.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#f4f7f6", // Color de fondo para la pantalla de inicio (splash screen)
-  "theme_color": "#e74c3c", // Color de la barra de estado/direcciones del navegador (en modo navegador normal)
+  "background_color": "#f4f7f6",
+  "theme_color": "#e74c3c",
   "icons": [
     {
-      "src": "/ToDayList-192.png", // Icono principal para tamaños medianos
+      "src": "/ToDayList-192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "/ToDayList-512.png", // Icono principal para tamaños grandes
+      "src": "/ToDayList-512.png",
       "sizes": "512x512",
       "type": "image/png"
     },
     {
-       "src": "/favicon-96x96.png", // Un tamaño intermedio común
+       "src": "/favicon-96x96.png",
        "sizes": "96x96",
        "type": "image/png"
     },
     {
-      "src": "/apple-touch-icon.png", // Icono usado por iOS para añadir a pantalla de inicio
-      "sizes": "180x180", // Tamaño estándar para apple-touch-icon
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
       "type": "image/png"
     },
     {
-      "src": "/favicon.svg", // Icono SVG para escalabilidad
+      "src": "/favicon.svg",
       "sizes": "any",
       "type": "image/svg+xml"
     }
-    // Las imágenes con nombres como web-app-manifest-XXX.png a menudo son redundantes
-    // si ya tienes otras imágenes de 192x192 y 512x512.
-    // Si fueran diferentes o quisieras incluirlas, podrías añadir:
+    // Si los archivos web-app-manifest-XXX.png son necesarios o diferentes, añádelos aquí también
     /*
     ,{
        "src": "/web-app-manifest-192x192.png",
@@ -47,24 +45,21 @@
        "type": "image/png"
     }
     */
-    // Pero con ToDayList-192.png, ToDayList-512.png, favicon-96x96.png, apple-touch-icon.png y favicon.svg
-    // ya tienes buena cobertura de tamaños y tipos.
   ],
    "screenshots": [
-     // Opcional pero recomendado para tiendas de apps de PWA (como la de Microsoft Store)
-     // Requiere tener imágenes de capturas de pantalla de tu app en uso
+     // Opcional: Si tienes capturas de pantalla de tu app para tiendas o directorios de PWAs
      /*
      {
-       "src": "/screenshot-desktop.png", // Ruta a tu captura de pantalla de escritorio
+       "src": "/screenshot-desktop.png",
        "sizes": "1280x800",
        "type": "image/png",
-       "form_factor": "wide" // Para escritorio
+       "form_factor": "wide"
      },
      {
-       "src": "/screenshot-mobile.png", // Ruta a tu captura de pantalla de móvil
+       "src": "/screenshot-mobile.png",
        "sizes": "750x1334",
        "type": "image/png",
-       "form_factor": "narrow" // Para móvil
+       "form_factor": "narrow"
      }
      */
    ]
