@@ -16,7 +16,7 @@
     <meta property="og:url" content="https://www.todaylist.es/">
     <meta property="og:title" content="ToDayList - Simplifica Tu Día, Organiza Tus Tareas">
     <meta property="og:description" content="Organiza tus pendientes con ToDayList: tu gestor de tareas diarias minimalista con integración de Google Drive y Calendar.">
-    <meta property="og:image" content="https://www.todaylist.es/ToDayList.png"> <!-- Imagen principal para OG, podría ser ToDayList-512.png -->
+    <meta property="og:image" content="/Logo.png"> <!-- Imagen principal para OG, CAMBIADO a Logo.png -->
     <meta property="og:site_name" content="ToDayList">
 
     <!-- Twitter -->
@@ -24,7 +24,7 @@
     <meta property="twitter:url" content="https://www.todaylist.es/">
     <meta property="twitter:title" content="ToDayList - Simplifica Tu Día, Organiza Tus Tareas">
     <meta property="twitter:description" content="Organiza tus pendientes con ToDayList: tu gestor de tareas diarias minimalista con integración de Google Drive y Calendar.">
-    <meta property="twitter:image" content="https://www.todaylist.es/ToDayList.png"> <!-- Imagen principal para Twitter -->
+    <meta property="twitter:image" content="/Logo.png"> <!-- Imagen principal para Twitter, CAMBIADO a Logo.png -->
 
     <!-- Favicons -->
     <link rel="icon" href="/favicon-96x96.png" type="image/png" sizes="96x96"> <!-- Para Google Search y navegadores modernos -->
@@ -52,7 +52,7 @@
       "name": "ToDayList - Simplifica Tu Día, Organiza Tus Tareas",
       "description": "ToDayList es tu gestor de tareas diarias minimalista y eficiente. Organiza tus pendientes, establece prioridades, añade subtareas y fechas límite. Con integración para agendar en Google Calendar y sincronización de datos con Google Drive. ¡Mejora tu productividad hoy!",
       "url": "https://www.todaylist.es/",
-      "primaryImageOfPage": "https://www.todaylist.es/ToDayList.png",
+      "primaryImageOfPage": "/Logo.png", <!-- CAMBIADO a Logo.png -->
       "mentions": [
         {
           "@type": "SoftwareApplication",
@@ -72,7 +72,7 @@
             "availability": "https://schema.org/OnlineOnly"
           },
           "image": [
-             "https://www.todaylist.es/ToDayList.png",
+             "/Logo.png", <!-- CAMBIADO a Logo.png -->
              "https://www.todaylist.es/favicon-96x96.png",
              "https://www.todaylist.es/favicon.svg"
           ],
@@ -203,45 +203,27 @@
             padding-bottom: 20px;
         }
 
-        /* --- NUEVAS REGLAS PARA EL LOGO (IMAGEN + TEXTO) --- */
-        .header-logo-area {
-            text-align: center; /* Centra la imagen y los títulos */
-            padding-top: 45px; /* Mueve el grupo completo hacia abajo, como antes el h1 */
-            margin-bottom: 10px; /* Espacio entre este grupo y la descripción */
-        }
-
-        .header-logo-area .logo-img {
-            display: block; /* Permite margin: auto para centrar y asegura que el h1 vaya debajo */
-            margin: 0 auto 5px auto; /* Centra la imagen y añade espacio debajo */
-            width: 60px; /* Ajusta el tamaño del logo según necesites */
-            height: auto; /* Mantiene la proporción */
-        }
-
-        .header-logo-area h1 {
+        h1 {
             font-family: 'Quicksand', sans-serif;
             color: var(--heading-color);
-            text-align: center; /* Ya estaba, pero lo mantengo */
-            margin-top: 0; /* Asegura que no haya espacio excesivo encima del h1 */
-            margin-bottom: 2px; /* Mantiene el espacio original con el subtítulo */
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 2px;
             font-weight: 700;
             font-size: 2.8rem;
             letter-spacing: -0.5px;
-            /* padding-top: 45px; REMOVIDO DE AQUÍ Y PUESTO EN .header-logo-area */
+            padding-top: 45px;
         }
-
-        .header-logo-area .subtitle {
-            text-align: center; /* Ya estaba, pero lo mantengo */
+        .subtitle {
+            text-align: center;
             font-family: 'Lexend', sans-serif;
             font-size: 1.1rem;
             font-weight: 400;
             color: var(--subtitle-color);
-            margin-top: 0; /* Asegura que no haya espacio excesivo encima del subtítulo */
-            margin-bottom: 10px; /* Espacio debajo del subtítulo */
+            margin-top: 0;
+            margin-bottom: 10px;
             letter-spacing: 0.2px;
         }
-        /* --- FIN NUEVAS REGLAS --- */
-
-
         .app-description-static {
             text-align: center;
             font-family: 'Lexend', sans-serif;
@@ -1162,32 +1144,16 @@
 
 
         @media (max-width: 500px) {
-            /* Ajustar el padding-top del contenedor principal o del nuevo grupo */
-            .header-logo-area {
-                 padding-top: 50px; /* Ajustar el padding para móviles si es necesario */
-                 margin-bottom: 8px;
-            }
-
-            .header-logo-area .logo-img {
-                 width: 50px; /* Ajustar tamaño del logo en móviles */
-                 margin-bottom: 3px; /* Espacio más pequeño en móviles */
-            }
-
-            .header-logo-area h1 {
+            h1 {
+                padding-top: 50px;
                 font-size: 2.3rem;
-                margin-bottom: 1px; /* Ajuste pequeño */
             }
-            .header-logo-area .subtitle {
+            .subtitle {
                 font-size: 1rem;
-                margin-bottom: 8px; /* Ajuste pequeño */
             }
-
             .app-description-static {
                 font-size: 0.85rem;
-                margin-bottom: 15px; /* Ajuste pequeño */
             }
-
-
             #info-button {
                 font-size: 1.2rem;
                 width: 32px;
@@ -1545,21 +1511,14 @@
         <button id="info-button" class="app-button" aria-label="Información de la aplicación" title="Cómo usar la aplicación">
             i
         </button>
-
-        <!-- INICIO: Nuevo div para agrupar logo (imagen) y texto -->
-        <div class="header-logo-area">
-            <img src="sun.png" alt="Logo del Sol para ToDayList" class="logo-img">
-            <h1>ToDayList</h1>
-            <h2 class="subtitle">Tu Gestor de Tareas Diarias</h2>
-        </div>
-        <!-- FIN: Nuevo div -->
-
+        <h1>ToDayList</h1>
+        <h2 class="subtitle">Tu Gestor de Tareas Diarias</h2>
         <p class="app-description-static">
             Organiza tu día y aumenta tu productividad de forma sencilla y eficaz.
         </p>
 
         <section id="welcome-section" class="hidden">
-            <img src="https://www.todaylist.es/ToDayList.png" alt="ToDayList Icono" class="welcome-icon">
+            <img src="/Logo.png" alt="Logo ToDayList" class="welcome-icon"> <!-- CAMBIADO a Logo.png -->
             <h2>¡Bienvenido a ToDayList!</h2>
             <p>
                 ToDayList es más que una simple lista de tareas. Es una aplicación web diseñada para ayudarte
@@ -1671,7 +1630,7 @@
     </div>
 
     <footer>
-        <img src="https://www.todaylist.es/ToDayList.png" alt="Logo ToDayList" class="footer-logo">
+        <img src="/Logo.png" alt="Logo ToDayList" class="footer-logo"> <!-- CAMBIADO a Logo.png -->
         <p class="footer-text">WebApp creada por Henry Gil</p>
 
         <div id="support-section-footer">
