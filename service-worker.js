@@ -1,8 +1,8 @@
-const CACHE_NAME = 'todaylist-cache-v2'; // ¡CAMBIA este número cada vez que actualices index.html, manifest.json, service-worker.js, o cualquier archivo estático CACHEADO!
+const CACHE_NAME = 'todaylist-cache-v3'; // <= ¡CAMBIA ESTE NÚMERO cada vez que modifiques index.html, manifest.json, service-worker.js o añadas/cambies archivos estáticos cacheados!
 const OFFLINE_URL = '/'; // La ruta a tu página principal (index.html)
 
 // Archivos que se cachearán durante la instalación.
-// Es fundamental incluir '/index.html', '/manifest.json' y todos los recursos estáticos.
+// Es fundamental incluir '/index.html', '/manifest.json' y todos los recursos estáticos que quieres offline.
 const urlsToCache = [
     OFFLINE_URL, // Cachea la página principal (el propio index.html)
     '/index.html', // Redundancia segura si OFFLINE_URL es '/'
@@ -29,10 +29,9 @@ const urlsToCache = [
     'https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap', // El archivo CSS de Google Fonts
     'https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;700&display=swap', // El archivo CSS de Google Fonts
 
-    // **** MUY IMPORTANTE: AÑADIR LAS URLs DE LOS ARCHIVOS DE FUENTES REALES (.woff2, etc.) ****
-    // Estas URLs se encuentran en los archivos CSS de Google Fonts y Font Awesome.
-    // Debes cargarlas en tu navegador, abrir las herramientas de desarrollo (Network tab)
-    // y ver qué URLs de archivos de fuentes se descargan. Añádelas aquí.
+    // **** MUY IMPORTANTE: AÑADIR LAS URLs EXACTAS DE LOS ARCHIVOS DE FUENTES REALES (.woff2, etc.) ****
+    // VERIFICA ESTAS URLs CON LAS HERRAMIENTAS DE DESARROLLO (Network tab, filter: Font)
+    // Estas URLs se encuentran referenciadas dentro de los archivos CSS de Google Fonts y Font Awesome.
     // Aquí hay EJEMPLOS comunes, PUEDEN VARIAR:
      'https://fonts.gstatic.com/s/quicksand/v31/6xKtdSZaM9iE8KbpRA_LLPFv.woff2', // Ejemplo Quicksand Regular
      'https://fonts.gstatic.com/s/quicksand/v31/6xKpdSZaM9iE8KbpRA_LLPFvOjKd.woff2', // Ejemplo Quicksand Bold
@@ -48,19 +47,22 @@ const urlsToCache = [
 // Evento 'install': Cacha los archivos listados
 self.addEventListener('install', (event) => {
     console.log('Service Worker: Instalando...');
-    // skipWaiting() activa el nuevo service worker inmediatamente
+    // skipWaiting() activa el nuevo service worker inmediatamente,
+    // evitando que el usuario tenga que cerrar todas las pestañas viejas.
     self.skipWaiting();
     event.waitUntil(
         caches.open(CACHE_NAME)
             .then((cache) => {
                 console.log('Service Worker: Cacheando archivos esenciales:', urlsToCache);
-                // Usa Request con mode: 'cors' para CDNs si es necesario
+                // cache.addAll puede fallar si una sola URL es inaccesible (404, CORS, etc.)
+                // Envuelve las URLs de CDN en Request con mode: 'cors' si tienes problemas.
+                // El .map ya lo hace en el código de ejemplo.
                 return cache.addAll(urlsToCache.map(url => {
                      try {
                         new URL(url); // Check if it's a full URL
                         return new Request(url, { mode: 'cors' });
                      } catch (e) {
-                        return url; // Relative URL
+                        return url; // Relative URL (e.g., /index.html)
                      }
                  }));
             })
@@ -75,6 +77,7 @@ self.addEventListener('activate', (event) => {
         caches.keys().then((cacheNames) => {
             return Promise.all(
                 cacheNames.map((cacheName) => {
+                    // Borra cualquier caché que no sea la actual (CACHE_NAME)
                     if (cacheName !== CACHE_NAME) {
                         console.log('Service Worker: Borrando cache antigua', cacheName);
                         return caches.delete(cacheName);
@@ -84,25 +87,34 @@ self.addEventListener('activate', (event) => {
             );
         })
     );
-    // Toma control inmediato de los clientes (pestañas abiertas)
+    // claim() permite que este SW tome control de la página inmediatamente después de la activación,
+    // sin necesidad de recargar la página nuevamente.
     return self.clients.claim();
 });
 
-// Evento 'fetch': Intercepta peticiones y sirve desde cache si es posible
+// Evento 'fetch': Intercepta peticiones de red
 self.addEventListener('fetch', (event) => {
-    // Ignora peticiones que no son HTTP/HTTPS
+    // Ignora peticiones que no son HTTP/HTTPS (ej: chrome-extension://)
     if (!(event.request.url.startsWith('http:') || event.request.url.startsWith('https:'))) {
         return;
     }
 
      // Ignora las peticiones a las APIs de Google Drive/Calendar (siempre a la red)
-     // Estas URLs NO DEBEN ser cacheadas ya que son peticiones de API dinámicas.
-     if (event.request.url.includes('googleapis.com') || event.request.url.includes('gsi/client') || event.request.url.includes('google.com/calendar')) {
-         return fetch(event.request);
+     // Estas URLs NO DEBEN ser cacheadas ya que son peticiones de API dinámicas y requieren autenticación.
+     if (event.request.url.includes('googleapis.com') || event.request.url.includes('gsi/client') || event.request.url.includes('google.com/calendar') || event.request.url.includes('accounts.google.com')) {
+         return fetch(event.request); // Siempre intenta ir a la red para estas URLs
      }
 
-    // Para todas las demás peticiones (incluida la de index.html, CSS, JS, imágenes, fuentes),
-    // intenta primero la caché, luego la red.
+    // Estrategia Cache-first, falling back to network
+    // Para todas las demás peticiones (index.html, CSS, JS, imágenes, fuentes, etc.):
+    // 1. Intenta encontrar la respuesta en la caché.
+    // 2. Si está en caché, la devuelve inmediatamente.
+    // 3. Si NO está en caché, va a la red.
+    // 4. Si la red responde, devuelve la respuesta Y opcionalmente la añade a la caché para futuras veces.
+    // 5. Si la red falla Y NO estaba en caché:
+    //    - Si la petición original fue una navegación (abrir la página), sirve la página offline cacheada (index.html) como fallback.
+    //    - Para otras peticiones (un icono, una fuente, etc.), la petición simplemente falla.
+
     event.respondWith(
         caches.match(event.request)
             .then((response) => {
@@ -117,9 +129,8 @@ self.addEventListener('fetch', (event) => {
                 return fetch(event.request)
                      .then(networkResponse => {
                          // Opcional: Cachear nuevas respuestas si son exitosas (status 200)
-                         // para recursos que no están en urlsToCache.
-                         // Útil para imágenes cargadas dinámicamente, etc.
-                         // Si tu app es 100% estática y todo está en index.html o urlsToCache, puedes omitir esto.
+                         // Esto es útil si la app carga recursos que no están en urlsToCache.
+                         // Pero para una app con todo en index.html + CDNs pre-cacheables, no es estrictamente necesario.
                          /*
                          if (networkResponse && networkResponse.status === 200 && networkResponse.type === 'basic') {
                              const responseToCache = networkResponse.clone();
@@ -133,18 +144,18 @@ self.addEventListener('fetch', (event) => {
                      })
                     .catch(() => {
                         // Si falla la red Y no estaba en caché
-                        // Si la petición original era una navegación de página (como abrir la app o refrescar),
-                        // sirve la página offline cacheada (index.html) como fallback.
+                        console.error('Service Worker: Fetch fallido y no en cache para:', event.request.url);
+
+                        // Si la petición fallida era para una navegación (cargar una página HTML),
+                        // intenta devolver la página offline cacheada (index.html)
                         if (event.request.mode === 'navigate') {
                             console.log('Service Worker: Network failed for navigation, serving offline page.');
                             return caches.match(OFFLINE_URL);
                         }
-                         // Para otras peticiones que fallen (una imagen que no se cacheó, etc.),
-                         // simplemente deja que la petición falle (mostrará un error en la consola del navegador).
-                        console.error('Service Worker: Fetch failed and not in cache:', event.request.url);
-                         // Puedes devolver un Response de error genérico si quieres:
-                         // return new Response('Offline', { status: 503, statusText: 'Offline' });
-                         throw new Error('Network or cache failed'); // O simplemente lanzar el error
+
+                        // Para otras peticiones fallidas (imágenes, fuentes, etc.),
+                        // simplemente deja que la petición falle.
+                        throw new Error('Network or cache failed');
                     });
             })
     );
