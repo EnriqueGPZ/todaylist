@@ -99,57 +99,57 @@
         }
 
         :root {
-             /* CAMBIO SOLICITADO 1: Fondo general gris crema/beige para modo dia */
-        --bg-color: #d4ccbc; /* Fondo general */
+            /* CAMBIO SOLICITADO 1: Fondo general gris crema/beige para modo dia */
+            --bg-color: #d4ccbc; /* Fondo general */
 
-        --text-color: #333;
-        --heading-color: #222;
+            --text-color: #333;
+            --heading-color: #222;
 
-        /* NUEVO CAMBIO SOLICITADO: Fondos de elementos específicos en modo dia */
-        --item-bg: #f2eee6; /* Fondo de tareas, secciones, modales, botones de datos */
-        --border-color: #e0e0e0; /* Mantener borde original o ajustar si quieres */
-        --input-bg: #f2eee6; /* Fondo de cajas de texto */
-        --input-text-color: #333;
-        --placeholder-color: #888;
-        --button-color: #555;
-        --button-hover-color: #e74c3c;
-        --delete-button-color: var(--button-color);
-        --delete-button-hover-color: var(--button-hover-color);
-        --completed-text-color: #999;
-        --progress-bg: #e0ffe0;
-        --progress-bar-color: #66c266;
-        --progress-bar-completed-color: #28a745;
-        --empty-list-color: #888;
-        --fixed-button-bg: #f2eee6; /* Fondo de botones fijos (modo oscuro, borrar notas hover) */
-        --fixed-button-border: #ccc; /* Mantener borde original o ajustar si quieres */
-        --fixed-button-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        --legend-text-color: #666;
-        --sort-button-color: #555;
-        --sort-button-hover-color: #3498db;
-        --footer-text-color: #aaa;
-        --medal-color: #ffd700;
-        --medal-text-color: var(--text-color);
-        --subtitle-color: #777;
-        --app-description-color: #555;
-        --priority-red-color: #e74c3c;
-        --priority-orange-color: #f39c12;
-        --priority-yellow-color: #f1c40f;
-        --priority-green-color: #2ecc71;
-        --priority-none-color: var(--border-color);
-        --welcome-button-bg: #e74c3c;
-        --welcome-button-text: #fff;
-        --welcome-button-hover-bg: #c0392b;
+            /* NUEVO CAMBIO SOLICITADO: Fondos de elementos específicos en modo dia */
+            --item-bg: #f2eee6; /* Fondo de tareas, secciones, modales, botones de datos */
+            --border-color: #e0e0e0; /* Mantener borde original o ajustar si quieres */
+            --input-bg: #f2eee6; /* Fondo de cajas de texto */
+            --input-text-color: #333;
+            --placeholder-color: #888;
+            --button-color: #555;
+            --button-hover-color: #e74c3c;
+            --delete-button-color: var(--button-color);
+            --delete-button-hover-color: var(--button-hover-color);
+            --completed-text-color: #999;
+            --progress-bg: #e0ffe0;
+            --progress-bar-color: #66c266;
+            --progress-bar-completed-color: #28a745;
+            --empty-list-color: #888;
+            --fixed-button-bg: #f2eee6; /* Fondo de botones fijos (modo oscuro, borrar notas hover) */
+            --fixed-button-border: #ccc; /* Mantener borde original o ajustar si quieres */
+            --fixed-button-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            --legend-text-color: #666;
+            --sort-button-color: #555;
+            --sort-button-hover-color: #3498db;
+            --footer-text-color: #aaa;
+            --medal-color: #ffd700;
+            --medal-text-color: var(--text-color);
+            --subtitle-color: #777;
+            --app-description-color: #555;
+            --priority-red-color: #e74c3c;
+            --priority-orange-color: #f39c12;
+            --priority-yellow-color: #f1c40f;
+            --priority-green-color: #2ecc71;
+            --priority-none-color: var(--border-color);
+            --welcome-button-bg: #e74c3c;
+            --welcome-button-text: #fff;
+            --welcome-button-hover-bg: #c0392b;
 
-        --drive-icon-color: #4285F4;
-        --accent-color: #3498db;
+            --drive-icon-color: #4285F4;
+            --accent-color: #3498db;
 
-        /* NUEVO CAMBIO SOLICITADO: Fondo de inputs en modales en modo dia */
-        --modal-input-background-color: #f2eee6; /* Fondo de inputs en modales */
-        --modal-input-border-color: var(--border-color); /* Mantener borde original o ajustar si quieres */
-        --schedule-link-text-color: var(--accent-color);
-        --schedule-link-hover-text-color: #2980b9;
-        --schedule-link-disabled-text-color: #7f8c8d;
-        --checkbox-checkmark-color: var(--item-bg); /* El checkmark usa el color del item-bg */
+            /* NUEVO CAMBIO SOLICITADO: Fondo de inputs en modales en modo dia */
+            --modal-input-background-color: #f2eee6; /* Fondo de inputs en modales */
+            --modal-input-border-color: var(--border-color); /* Mantener borde original o ajustar si quieres */
+            --schedule-link-text-color: var(--accent-color);
+            --schedule-link-hover-text-color: #2980b9;
+            --schedule-link-disabled-text-color: #7f8c8d;
+            --checkbox-checkmark-color: var(--item-bg); /* El checkmark usa el color del item-bg */
         }
 
         body.dark-mode {
@@ -914,9 +914,6 @@
             cursor: default;
             pointer-events: none;
         }
-        .todo-item.completed .main-task-header .task-body .task-actions-group .google-calendar-button i {
-            color: var(--completed-text-color) !important;
-        }
         .todo-item.completed .main-task-header .task-body .task-actions-group .google-calendar-button:hover i {
             color: var(--completed-text-color) !important;
         }
@@ -1035,7 +1032,7 @@
         #clear-notes-button:hover {
             color: var(--button-hover-color);
             border-color: var(--button-hover-color);
-            background-color: var(--fixed-button-bg);
+            background-color: var(--fixed-button-bg); /* Usa el nuevo fondo para hover en modo día */
         }
         #clear-notes-button i {
             margin-right: 4px;
@@ -1066,7 +1063,8 @@
         }
         .data-options-row {
             display: flex;
-            justify-content: space-around;
+            /* CAMBIO SOLICITADO: Centrar los botones en la fila */
+            justify-content: center; /* Cambiado de space-around */
             gap: 15px;
             margin-bottom: 15px;
             flex-wrap: wrap;
@@ -1076,11 +1074,14 @@
         }
 
         .data-action-button {
-            flex-grow: 1;
-            min-width: 200px;
+            /* CAMBIO SOLICITADO: Eliminar flex-grow para que no se expandan */
+            /* flex-grow: 1; */ /* Elimina o comenta esta línea */
+            min-width: 200px; /* Mantiene un tamaño mínimo */
+            /* CAMBIO SOLICITADO: Añadir un ancho máximo para que sean más pequeños */
+            max-width: 300px; /* Añade esta línea (ajusta el valor si quieres) */
             padding: 9px 15px !important;
             font-size: 0.9rem !important;
-            background-color: var(--item-bg);
+            background-color: var(--item-bg); /* Usará #f2eee6 en modo día */
             border: 1px solid var(--border-color) !important;
             box-shadow: 0 1px 2px rgba(0,0,0,0.06);
             color: var(--button-color);
@@ -1089,7 +1090,7 @@
         }
         .data-action-button:hover {
             border-color: var(--button-hover-color) !important;
-            background-color: var(--fixed-button-bg);
+            background-color: var(--fixed-button-bg); /* Usará #f2eee6 en modo día */
             color: var(--button-hover-color);
         }
         .data-action-button i {
@@ -1261,12 +1262,14 @@
             }
              .data-options-row {
                 flex-direction: column;
-                align-items: stretch;
+                align-items: stretch; /* Esto hace que vuelvan a ocupar todo el ancho en móviles */
                 gap: 10px;
             }
             .data-action-button {
                 min-width: unset;
-                width: 100%;
+                width: 100%; /* Esto los hace ocupar el 100% del ancho en móviles */
+                /* CAMBIO SOLICITADO: Asegurar que no estén limitados por el max-width de escritorio en móvil */
+                max-width: unset; /* Añade esta línea */
                 margin-bottom: 0;
             }
 
