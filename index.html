@@ -36,8 +36,7 @@
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" sizes="any">
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-    <!-- ADDED: Link to PWA manifest -->
-    <link rel="manifest" href="/manifest.json">
+    <!-- REMOVED: Link to PWA manifest -->
 
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -466,7 +465,7 @@
             flex-wrap: wrap;
             gap: 5px 10px;
         }
-        #priority-legend .priority-legend-item {
+         #priority-legend .priority-legend-item {
              display: inline-flex;
              align-items: center;
              gap: 4px;
@@ -788,7 +787,15 @@
              width: 18px;
              height: 18px;
              border-color: var(--text-color);
+             border-radius: 50%; /* Ensure subtask checkboxes are also round */
+             appearance: none;
+             -webkit-appearance: none;
              background-color: var(--item-bg);
+             cursor: pointer;
+             position: relative;
+             flex-shrink: 0;
+             box-sizing: border-box;
+             transition: background-color 0.2s ease, border-color 0.2s ease;
         }
          .todo-item .subtasks-list li input[type="checkbox"]:checked {
               background-color: var(--text-color);
@@ -807,6 +814,7 @@
             left: 5px;
             transform: rotate(45deg);
         }
+
 
         .todo-item .subtasks-list li span {
              flex-grow: 1;
@@ -1586,10 +1594,9 @@
         <section id="welcome-section" class="hidden">
             <img src="https://www.todaylist.es/ToDayList.png" alt="ToDayList Icono" class="welcome-icon">
             <h2>¡Bienvenido a ToDayList!</h2>
+            <!-- MODIFIED: Updated the first paragraph with the new text -->
             <p>
-                ToDayList es más que una simple lista de tareas. Es una aplicación web diseñada para ayudarte
-                a gestionar tu tiempo y tus proyectos de manera eficiente. Descubre cómo ToDayList puede transformar
-                tu productividad diaria:
+                ¿Te cuesta empezar? ToDayList convierte tus tareas en pequeñas victorias. Menos caos, más control… y el placer de avanzar sin esfuerzo. Adiós a la procrastinación, hola a la productividad.
             </p>
             <ul>
                 <li><strong>Gestión Intuitiva de Tareas:</strong> Crea, edita y organiza tus tareas fácilmente.</li>
@@ -2422,7 +2429,6 @@
                  }
                 deleteTodo(task.id);
             });
-
             taskActionsGroup.append(linkButton, googleCalendarButton, deleteMainButton);
             taskBody.append(mainTaskSpan, taskActionsGroup);
             mainTaskHeader.append(taskPrefixGroup, taskBody);
@@ -2503,7 +2509,6 @@
                     checkbox.addEventListener('change', () => {
                          if (!mainTask.completed) toggleSubtaskCompletion(mainTask.id, subtask.id);
                     });
-
                     const subtaskSpan = document.createElement('span');
                     subtaskSpan.textContent = subtask.text;
                     subtaskSpan.title = subtask.text;
@@ -2646,11 +2651,10 @@
 
             // Check if it's the very first task being added globally (including past data)
              const hasAnyTasksEver = localStorage.getItem(TODOS_STORAGE_KEY);
-             if (!hasAnyTasksEver || JSON.parse(hasAnyTasksEver || '[]').length <= 1) { // Check if this is the first task or the first after clearing
+             // Check if todos array length is 1 *after* pushing the new todo
+             if (todos.length === 1 && welcomeSection && !welcomeSection.classList.contains('hidden')) {
                  // If adding the very first task, transition to the app interface
-                 if (welcomeSection && !welcomeSection.classList.contains('hidden')) {
-                     showAppInterface();
-                 }
+                 showAppInterface();
              }
              // If the interface is already visible because there were tasks loaded initially, do nothing here.
 
@@ -3175,20 +3179,7 @@
             // Double-check Drive buttons state after DOM is ready and scripts might have loaded
             maybeEnableDriveButtons();
 
-            // ADDED: Register Service Worker for PWA
-            if ('serviceWorker' in navigator) {
-              window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js')
-                  .then(registration => {
-                    console.log('Service Worker registered:', registration);
-                  })
-                  .catch(error => {
-                    console.error('Service Worker registration failed:', error);
-                  });
-              });
-            } else {
-                console.warn('Service Worker not supported in this browser.');
-            }
+            // REMOVED: Service Worker registration code
 
         });
     </script>
