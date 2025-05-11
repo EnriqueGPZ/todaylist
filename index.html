@@ -36,8 +36,16 @@
     <!-- Si ToDayList-192.png es el que quieres para Apple Touch, puedes añadir: -->
     <!-- <link rel="apple-touch-icon" href="/ToDayList-192.png"> -->
     <!-- Si no, los dispositivos Apple intentarán usar el favicon general o el más grande que encuentren -->
-    
+
+    <!-- PWA / Manifest -->
     <link rel="manifest" href="/manifest.json">
+
+    <!-- Apple specific PWA meta tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"> <!-- O 'black' -->
+    <meta name="apple-mobile-web-app-title" content="ToDayList">
+    <meta name="theme-color" content="#e74c3c"> <!-- Color para la barra de URL en navegadores que lo soportan -->
+
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -747,7 +755,7 @@
          }
 
         .todo-item .subtasks-list li input[type="checkbox"]:checked::after {
-            content: '';
+            content: '',
             position: absolute;
             box-sizing: content-box;
             width: 4px;
@@ -2815,6 +2823,25 @@
 
             const initialMedalData = loadAndRefreshMedalData();
             displayMedalCount(initialMedalData.count);
+
+            // AÑADE ESTE BLOQUE PARA REGISTRAR EL SERVICE WORKER
+            if ('serviceWorker' in navigator) {
+              // Usamos 'load' para asegurar que la página inicial se cargue completamente antes de registrar el SW
+              window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                  .then(registration => {
+                    console.log('Service Worker registrado con éxito:', registration);
+                    // Puedes añadir lógica aquí si necesitas interactuar con el SW
+                  })
+                  .catch(error => {
+                    console.error('Error al registrar el Service Worker:', error);
+                  });
+              });
+            } else {
+                 console.log('El navegador no soporta Service Workers.');
+            }
+            // FIN DEL BLOQUE DE REGISTRO DEL SERVICE WORKER
+
 
             addTodoButton.addEventListener('click', addTodo);
             todoInput.addEventListener('keypress', (e) => { if (e.key==='Enter'){ e.preventDefault(); addTodo();}});
