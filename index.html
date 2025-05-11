@@ -6,7 +6,7 @@
 
     <title>ToDayList - Gestor de Tareas Diarias y Lista To-Do en Español</title>
     <meta name="description" content="ToDayList: Tu gestor de tareas diarias y lista to-do minimalista y eficiente en español. Organiza tus pendientes, establece prioridades, añade subtareas y fechas límite. Con integración Google Drive y Calendar. ¡Mejora tu productividad hoy!">
-    <meta name="keywords" content="lista de tareas, to-do list, gestor de tareas diarias, organizador personal, productividad, planificación diaria, tareas pendientes, subtareas, prioridades, web app, enrique gil, ToDayList, google drive, google calendar, español, en español">
+    <meta name="keywords" content="lista de tareas, to-do list, gestor de tareas diarias, organizador personal, productividad, planificación diaria, tareas pendientes, subtareas, prioridades, web app, enrique gil, ToDayList, google drive, google calendar, español, en español, tareas recurrentes, programar eventos">
     <meta name="author" content="Enrique Gil">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://www.todaylist.es/">
@@ -15,7 +15,7 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://www.todaylist.es/">
     <meta property="og:title" content="ToDayList - Gestor de Tareas Diarias y Lista To-Do en Español">
-    <meta property="og:description" content="Organiza tus pendientes con ToDayList: tu gestor de tareas diarias y lista to-do minimalista y eficiente en español con integración de Google Drive y Calendar.">
+    <meta property="og:description" content="Organiza tus pendientes con ToDayList: tu gestor de tareas diarias y lista to-do minimalista y eficiente en español con integración de Google Drive y Calendar. Programa eventos recurrentes fácilmente.">
     <meta property="og:image" content="https://www.todaylist.es/ToDayList.png">
     <meta property="og:site_name" content="ToDayList">
 
@@ -23,7 +23,7 @@
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://www.todaylist.es/">
     <meta property="twitter:title" content="ToDayList - Gestor de Tareas Diarias y Lista To-Do en Español">
-    <meta property="twitter:description" content="Organiza tus pendientes con ToDayList: tu gestor de tareas diarias y lista to-do minimalista y eficiente en español con integración de Google Drive y Calendar.">
+    <meta property="twitter:description" content="Organiza tus pendientes con ToDayList: tu gestor de tareas diarias y lista to-do minimalista y eficiente en español con integración de Google Drive y Calendar. Programa eventos recurrentes fácilmente.">
     <meta property="twitter:image" content="https://www.todaylist.es/ToDayList.png">
 
     <!-- Favicons -->
@@ -44,7 +44,7 @@
       "@context": "https://schema.org",
       "@type": "WebPage",
       "name": "ToDayList - Gestor de Tareas Diarias y Lista To-Do en Español",
-      "description": "ToDayList es tu gestor de tareas diarias y lista to-do minimalista y eficiente en español. Organiza tus pendientes, establece prioridades, añade subtareas y fechas límite. Con integración para agendar en Google Calendar y sincronización de datos con Google Drive. ¡Mejora tu productividad hoy!",
+      "description": "ToDayList es tu gestor de tareas diarias y lista to-do minimalista y eficiente en español. Organiza tus pendientes, establece prioridades, añade subtareas, fechas límite y programa eventos recurrentes en Google Calendar. Con integración Google Drive. ¡Mejora tu productividad hoy!",
       "url": "https://www.todaylist.es/",
       "primaryImageOfPage": "https://www.todaylist.es/ToDayList.png",
       "mainEntity": {
@@ -52,7 +52,7 @@
         "name": "ToDayList",
         "applicationCategory": "https://schema.org/ProductivityApplication",
         "operatingSystem": "Web Browser",
-        "description": "ToDayList es un gestor de tareas diarias y lista to-do minimalista y eficiente en español que te ayuda a organizar tus pendientes, establecer prioridades, añadir subtareas, agendar en Google Calendar y sincronizar con Google Drive. Ideal para simplificar y organizar tus tareas diarias y aumentar tu productividad.",
+        "description": "ToDayList es un gestor de tareas diarias y lista to-do minimalista y eficiente en español que te ayuda a organizar tus pendientes, establecer prioridades, añadir subtareas, agendar en Google Calendar (incluyendo eventos recurrentes) y sincronizar con Google Drive. Ideal para simplificar y organizar tus tareas diarias y aumentar tu productividad.",
         "url": "https://www.todaylist.es/",
         "author": {
           "@type": "Person",
@@ -69,9 +69,9 @@
            "https://www.todaylist.es/favicon-96x96.png",
            "https://www.todaylist.es/favicon.svg"
         ],
-        "softwareVersion": "1.1.1", /* MODIFIED: Version bump */
+        "softwareVersion": "1.1.3",
         "datePublished": "2024-03-15",
-        "keywords": "lista de tareas, to-do list, gestor de tareas diarias, organizador personal, productividad, planificación diaria, tareas pendientes, subtareas, prioridades, web app, task management, daily planner, online organizer, google drive sync, google calendar integration, free app, español, en español"
+        "keywords": "lista de tareas, to-do list, gestor de tareas diarias, organizador personal, productividad, planificación diaria, tareas pendientes, subtareas, prioridades, web app, task management, daily planner, online organizer, google drive sync, google calendar integration, free app, español, en español, tareas recurrentes, programar eventos, recurring events"
       }
     }
     </script>
@@ -115,8 +115,8 @@
             --sort-button-hover-color: #3498db;
             --footer-text-color: #aaa;
             --medal-color: #ffd700;
-            --total-score-label-color: #7f8c8d; /* Color para "Total Score:" */
-            --total-score-value-color: var(--text-color); /* Color para el número del score */
+            --total-score-label-color: #7f8c8d;
+            --total-score-value-color: var(--text-color);
             --medal-text-color: var(--text-color);
             --subtitle-color: #777;
             --app-description-color: #555;
@@ -138,6 +138,8 @@
             --checkbox-checkmark-color: var(--item-bg);
             --reset-button-text-color: #95a5a6;
             --reset-button-hover-text-color: #e74c3c;
+            --quick-calendar-section-bg: #e9e4d9; /* Un poco más oscuro que item-bg para diferenciar */
+            --quick-calendar-border-color: #d1c8b8; /* Borde sutil */
         }
 
         body.dark-mode {
@@ -183,6 +185,8 @@
             --schedule-link-disabled-text-color: #7f8c8d;
             --reset-button-text-color: #7f8c8d;
             --reset-button-hover-text-color: #f39c12;
+            --quick-calendar-section-bg: #2f4254; /* Un poco más claro que item-bg en modo oscuro */
+            --quick-calendar-border-color: #3e5265;
         }
 
         body {
@@ -413,14 +417,14 @@
 
         #medal-counter-container {
             text-align: center;
-            font-size: 1.2rem; /* Tamaño base para ambos contadores */
+            font-size: 1.2rem;
             color: var(--medal-text-color);
             margin-bottom: 20px;
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 25px; /* Espacio entre los dos contadores */
-            flex-wrap: wrap; /* Para que se ajusten en pantallas pequeñas si es necesario */
+            gap: 25px;
+            flex-wrap: wrap;
         }
         #medal-counter-container .daily-medals .fa-medal {
             color: var(--medal-color);
@@ -429,40 +433,38 @@
         #medal-count {
             font-weight: bold;
         }
-
-        /* Estilos para el contador "Total Score" */
         #medal-counter-container .total-score-counter {
-            font-size: 0.9em; /* Un poco más pequeño que el diario */
+            font-size: 0.9em;
             display: flex;
             align-items: center;
         }
         #total-score-label {
             color: var(--total-score-label-color);
-            font-weight: 300; /* Fuente más fina para la etiqueta */
+            font-weight: 300;
             margin-right: 6px;
         }
         #total-score-value {
-            font-weight: 400; /* Peso normal para el valor */
+            font-weight: 400;
             color: var(--total-score-value-color);
-            min-width: 2.5ch; /* Para asegurar espacio para 3 dígitos */
+            min-width: 2.5ch;
             text-align: left;
         }
         #reset-total-score-button {
-            font-size: 0.7em; /* Muy pequeño */
+            font-size: 0.7em;
             color: var(--reset-button-text-color);
             background: none;
             border: none;
-            padding: 0 0 0 5px; /* Solo padding a la izquierda */
-            margin-left: 3px; /* Pequeño margen */
+            padding: 0 0 0 5px;
+            margin-left: 3px;
             cursor: pointer;
             line-height: 1;
-            vertical-align: middle; /* Alinear con el texto del score */
+            vertical-align: middle;
         }
         #reset-total-score-button:hover {
             color: var(--reset-button-hover-text-color);
         }
         #reset-total-score-button i {
-            font-size: 0.9em; /* Icono un poco más pequeño que el texto del botón */
+            font-size: 0.9em;
         }
 
 
@@ -1042,6 +1044,56 @@
             margin-right: 4px;
         }
 
+        /* MODIFIED: Section for Quick Calendar Event */
+        #quick-calendar-event-section {
+            margin-top: 30px;
+            margin-bottom: 25px; /* Ajustado */
+            padding: 12px 15px; /* Reducido */
+            background-color: var(--quick-calendar-section-bg); /* Nuevo color */
+            border: 1px solid var(--quick-calendar-border-color); /* Nuevo borde */
+            border-radius: 6px; /* Más sutil */
+            box-shadow: none; /* Sin sombra para diferenciarlo de las tareas */
+        }
+        #quick-calendar-event-section h4 {
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1.1rem; /* Un poco más pequeño */
+            color: var(--heading-color); /* Usar heading color para el título */
+            margin-top: 0;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+        #quick-calendar-event-section p {
+            font-size: 0.8rem; /* Más pequeño */
+            color: var(--legend-text-color);
+            text-align: center;
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+        #open-quick-schedule-modal-button {
+            display: block;
+            margin: 0 auto;
+            padding: 7px 12px !important; /* Más pequeño */
+            font-size: 0.85rem !important; /* Más pequeño */
+            min-width: auto; /* Permitir que se ajuste al contenido */
+            max-width: 280px; /* Limitar ancho */
+            /* Reutiliza estilos de data-action-button pero con ajustes */
+            background-color: var(--item-bg);
+            border: 1px solid var(--border-color) !important;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+            color: var(--button-color);
+            font-weight: 400;
+            border-radius: 6px;
+        }
+        #open-quick-schedule-modal-button:hover {
+            border-color: var(--button-hover-color) !important;
+            background-color: var(--fixed-button-bg);
+            color: var(--button-hover-color);
+        }
+        #open-quick-schedule-modal-button i {
+            margin-right: 6px;
+        }
+
+
         #data-management-section {
             margin-top: 30px;
             margin-bottom: 20px;
@@ -1366,6 +1418,7 @@
             visibility: hidden;
             transition: opacity 0.3s ease, visibility 0s linear 0.3s;
             padding-top: 60px;
+            padding-bottom: 20px;
             box-sizing: border-box;
             role="dialog"
             aria-modal="true"
@@ -1383,8 +1436,8 @@
             border-radius: 10px;
             box-shadow: 0 5px 20px rgba(0,0,0,0.3);
             width: 90%;
-            max-width: 380px;
-            max-height: 85vh;
+            max-width: 420px;
+            max-height: calc(100vh - 80px);
             overflow-y: auto;
             position: relative;
             transform: scale(0.95);
@@ -1404,18 +1457,75 @@
             color: var(--heading-color);
             text-align: center;
             font-family: 'Quicksand', sans-serif;
-            font-size: 1.8rem;
+            font-size: 1.6rem;
         }
 
-        #reminder-modal .modal-content h2 {
+        #quick-schedule-calendar-modal .modal-content h2 {
             color: var(--accent-color);
             font-size: 1.3rem;
-            margin-bottom: 15px;
-            text-align: center;
         }
+        #quick-schedule-calendar-modal p#quick-schedule-modal-intro {
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+        #quick-schedule-calendar-modal .modal-input-group {
+            margin-bottom: 12px;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 4px;
+        }
+        #quick-schedule-calendar-modal .modal-input-group label {
+            font-size: 0.8rem;
+            font-weight: normal;
+        }
+        #quick-schedule-calendar-modal .modal-input-group input[type="text"],
+        #quick-schedule-calendar-modal .modal-input-group input[type="date"],
+        #quick-schedule-calendar-modal .modal-input-group input[type="time"],
+        #quick-schedule-calendar-modal .modal-input-group select,
+        #quick-schedule-calendar-modal .modal-input-group textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid var(--modal-input-border-color);
+            border-radius: 4px;
+            background-color: var(--modal-input-background-color);
+            color: var(--input-text-color);
+            font-size: 0.9rem;
+            box-sizing: border-box;
+            outline: none;
+            font-family: 'Lexend', sans-serif;
+        }
+        #quick-schedule-calendar-modal .modal-input-group textarea {
+            resize: vertical;
+            min-height: 50px;
+        }
+        #quick-schedule-calendar-modal .modal-input-group input[type="checkbox"] {
+            margin-right: 5px;
+        }
+        #quick-schedule-calendar-modal #quick-gc-weekly-days-group div {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+        #quick-schedule-calendar-modal #quick-gc-weekly-days-group div label {
+            margin-right: 10px;
+            font-size: 0.85rem;
+        }
+        #quick-schedule-calendar-modal #create-quick-google-calendar-event-button {
+            display: block;
+            width: 100%;
+            margin-top: 20px;
+            padding: 10px;
+            background-color: var(--accent-color);
+            color: #fff;
+            font-weight: bold;
+        }
+        #quick-schedule-calendar-modal #create-quick-google-calendar-event-button:hover {
+            background-color: var(--schedule-link-hover-text-color);
+        }
+
+
         #reminder-modal .modal-content h2#reminder-modal-title { }
-
-
         #reminder-modal p#reminder-task-text {
             text-align: center;
             font-style: italic;
@@ -1426,39 +1536,24 @@
             font-weight: normal;
             max-width: 90%;
         }
-
-        .modal-input-group {
+        #reminder-modal .modal-input-group {
             margin: 15px auto;
             width: fit-content;
             display: flex;
             align-items: center;
             gap: 10px;
             justify-content: center;
+            flex-direction: row;
         }
-
-        .modal-input-group label {
-            display: block;
-            margin-bottom: 0;
+        #reminder-modal .modal-input-group label {
+            font-size: 0.85rem;
             font-weight: bold;
-            color: var(--text-color);
-            font-size: 0.85rem;
-            flex-shrink: 0;
+        }
+        #reminder-modal .modal-input-group input[type="date"],
+        #reminder-modal .modal-input-group input[type="time"] {
+            width: 130px;
         }
 
-        .modal-input-group input[type="date"],
-        .modal-input-group input[type="time"] {
-            width: 130px;
-            padding: 8px;
-            border: 1px solid var(--modal-input-border-color);
-            border-radius: 4px;
-            background-color: var(--modal-input-background-color);
-            color: var(--input-text-color);
-            font-size: 0.85rem;
-            box-sizing: border-box;
-            outline: none;
-            transition: border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease;
-            font-family: 'Lexend', sans-serif;
-        }
 
         .modal-input-group input[type="date"]:focus,
         .modal-input-group input[type="time"]:focus {
@@ -1469,7 +1564,6 @@
         body.dark-mode .modal-input-group input[type="time"]:focus {
              box-shadow: 0 0 0 0.2rem rgba(243, 156, 18, 0.2);
         }
-
         #schedule-reminder-button {
             display: block;
             width: 100%;
@@ -1566,6 +1660,7 @@
                 font-size: 1.5rem;
                 margin-bottom: 15px;
             }
+            #quick-schedule-calendar-modal .modal-content h2,
             #reminder-modal .modal-content h2 {
                  font-size: 1.1rem;
             }
@@ -1573,7 +1668,8 @@
                 font-size: 0.85rem;
                 margin-bottom: 15px;
             }
-            .modal-input-group {
+            #quick-schedule-calendar-modal .modal-input-group,
+            #reminder-modal .modal-input-group {
                 margin-bottom: 10px;
                 gap: 8px;
                 flex-direction: column;
@@ -1635,7 +1731,8 @@
                 <li><strong>Gestión Intuitiva de Tareas:</strong> Crea, edita y organiza tus tareas fácilmente.</li>
                 <li><strong>Subtareas Detalladas:</strong> Desglosa tareas complejas en pasos manejables.</li>
                 <li><strong>Prioridades Visuales:</strong> Asigna colores para enfocarte en lo importante.</li>
-                <li><strong>Agendar en Google Calendar:</strong> Genera un enlace para añadir recordatorios de tus tareas directamente a tu Google Calendar.</li>
+                <li><strong>Agendar Recordatorio de Tarea:</strong> El botón <i class="far fa-calendar-plus"></i> en cada tarea te permite enviar un recordatorio a tu Google Calendar.</li>
+                <li><strong>¡No Olvides lo Importante!:</strong> Usa la sección dedicada para crear eventos (únicos o recurrentes) directamente en tu Google Calendar.</li>
                 <li><strong>Enlaces Relevantes:</strong> Asocia URLs directamente a tus tareas.</li>
                 <li><strong>Modo Oscuro/Claro:</strong> Adapta la interfaz a tus preferencias visuales (oscuro por defecto).</li>
                 <li><strong>Progreso y Motivación:</strong> Visualiza el avance y gana medallas por completar tareas.</li>
@@ -1699,6 +1796,16 @@
                 </button>
             </div>
 
+            <!-- MODIFIED: Nueva sección para Programar Evento Rápido en Calendar -->
+            <div id="quick-calendar-event-section">
+                <h4>¡No Olvides Eso Tan Importante!</h4>
+                <p>Crea eventos (recurrentes o de un solo día) en tu Google Calendar.</p>
+                <button id="open-quick-schedule-modal-button" class="app-button" style="margin: 0 auto;"> <!-- Estilo de data-action-button eliminado para que sea más pequeño por defecto -->
+                    <i class="fas fa-calendar-alt"></i> Crear Evento en Calendar
+                </button>
+            </div>
+
+
             <div id="data-management-section">
                 <h4>Gestión de Datos</h4>
                 <p class="data-management-intro">
@@ -1728,6 +1835,7 @@
 
     </div>
 
+    <!-- Modal para Agendar Recordatorio (de una tarea existente) -->
     <div id="reminder-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="reminder-modal-title">
         <div class="modal-content">
             <button class="app-button close-modal" id="close-reminder-modal" aria-label="Cerrar ventana de recordatorio">×</button>
@@ -1745,6 +1853,57 @@
         </div>
     </div>
 
+    <!-- Modal para Programar Evento Rápido (único o recurrente) en Google Calendar -->
+    <div id="quick-schedule-calendar-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="quick-schedule-calendar-modal-title">
+        <div class="modal-content">
+            <button class="app-button close-modal" id="close-quick-schedule-modal" aria-label="Cerrar">×</button>
+            <h2 id="quick-schedule-calendar-modal-title">Programar Evento en Google Calendar</h2>
+            <p id="quick-schedule-modal-intro">Define los detalles de tu nuevo evento.</p>
+
+            <div class="modal-input-group">
+                <label for="quick-gc-event-title">Título del Evento:</label>
+                <input type="text" id="quick-gc-event-title" placeholder="Ej: Tomar pastillas, Reunión semanal..." required>
+            </div>
+            <div class="modal-input-group">
+                <label for="quick-gc-start-date">Fecha de inicio:</label>
+                <input type="date" id="quick-gc-start-date" required>
+            </div>
+            <div class="modal-input-group">
+                <label for="quick-gc-time">Hora:</label>
+                <input type="time" id="quick-gc-time" value="09:00" required>
+            </div>
+            <div class="modal-input-group">
+                <label for="quick-gc-type">Repetir:</label>
+                <select id="quick-gc-type">
+                    <option value="NONE">No repetir (evento único)</option>
+                    <option value="DAILY">Diariamente</option>
+                    <option value="WEEKLY">Semanalmente</option>
+                    <option value="MONTHLY">Mensualmente (mismo día del mes)</option>
+                    <option value="YEARLY">Anualmente (misma fecha)</option>
+                </select>
+            </div>
+            <div class="modal-input-group hidden" id="quick-gc-weekly-days-group">
+                <label>Días (si es semanal):</label>
+                <div id="quick-gc-weekly-checkboxes">
+                    <input type="checkbox" id="quick-gc-day-su" value="SU" data-day-index="0"><label for="quick-gc-day-su">Do</label>
+                    <input type="checkbox" id="quick-gc-day-mo" value="MO" data-day-index="1"><label for="quick-gc-day-mo">Lu</label>
+                    <input type="checkbox" id="quick-gc-day-tu" value="TU" data-day-index="2"><label for="quick-gc-day-tu">Ma</label>
+                    <input type="checkbox" id="quick-gc-day-we" value="WE" data-day-index="3"><label for="quick-gc-day-we">Mi</label>
+                    <input type="checkbox" id="quick-gc-day-th" value="TH" data-day-index="4"><label for="quick-gc-day-th">Ju</label>
+                    <input type="checkbox" id="quick-gc-day-fr" value="FR" data-day-index="5"><label for="quick-gc-day-fr">Vi</label>
+                    <input type="checkbox" id="quick-gc-day-sa" value="SA" data-day-index="6"><label for="quick-gc-day-sa">Sá</label>
+                </div>
+            </div>
+            <div class="modal-input-group">
+                <label for="quick-gc-description">Descripción (opcional):</label>
+                <textarea id="quick-gc-description" rows="2"></textarea>
+            </div>
+
+            <button id="create-quick-google-calendar-event-button" class="app-button">Crear Evento en Google Calendar</button>
+        </div>
+    </div>
+
+
     <div id="info-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="info-modal-title">
         <div class="modal-content">
             <button id="close-modal-button" class="app-button close-modal" aria-label="Cerrar ventana de información">×</button>
@@ -1753,7 +1912,8 @@
                 <li><strong>Añadir Tareas:</strong> Escribe tu tarea en el campo inferior y pulsa el botón <i class="fas fa-plus"></i> o la tecla "Enter".</li>
                 <li><strong>Marcar como Completada:</strong> Haz clic en el círculo a la izquierda de la tarea. ¡Ganas una medalla <i class="fas fa-medal"></i> por cada tarea completada en el día! El contador "Total Score" aumenta con cada tarea completada históricamente.</li>
                 <li><strong>Prioridad:</strong> Haz clic en el cuadrado de color junto al círculo para cambiar la prioridad de la tarea (Rojo: Urgente &gt; Naranja: Alta &gt; Amarillo: No Olvidar &gt; Verde: Puede Esperar &gt; Gris: Sin prioridad).</li>
-                <li><strong>Agendar en Google Calendar:</strong> Haz clic en el icono de calendario <i class="far fa-calendar-plus"></i> para que se abra Google Calendar con los detalles de la tarea. Introduce la fecha/hora deseada y guarda el evento en tu calendario.</li>
+                <li><strong>Agendar Recordatorio de Tarea:</strong> Haz clic en el icono de calendario <i class="far fa-calendar-plus"></i> en una tarea para enviar un recordatorio de esa tarea específica a tu Google Calendar.</li>
+                <li><strong>¡No Olvides lo Importante!:</strong> Usa la sección dedicada para crear eventos (únicos o recurrentes, como recordatorios de pastillas) directamente en tu Google Calendar.</li>
                 <li><strong>Enlaces:</strong> Haz clic en el icono de enlace <i class="fas fa-link"></i> para añadir o abrir un enlace web asociado a la tarea.</li>
                 <li><strong>Sub-Tareas:</strong>
                     <ul>
@@ -1806,9 +1966,32 @@
         let darkModeToggle;
         let body;
         let medalCountDisplay;
-        let totalScoreValueDisplay; // MODIFIED: Renamed for clarity
-        let resetTotalScoreButton; // MODIFIED: New button element
+        let totalScoreValueDisplay;
+        let resetTotalScoreButton;
         let infoButton, infoModal, closeModalButton;
+
+        // Modal de Recordatorio (existente)
+        let reminderModal;
+        let closeReminderModalButton;
+        let reminderTaskTextElement;
+        let reminderDateInput;
+        let reminderTimeInput;
+        let scheduleReminderButton;
+        let currentTaskIdForReminder = null;
+
+        // Modal de Programar Evento Rápido en Calendar (nuevo)
+        let quickScheduleCalendarModal;
+        let openQuickScheduleModalButton;
+        let closeQuickScheduleModalButton;
+        let quickGcEventTitleInput;
+        let quickGcStartDateInput;
+        let quickGcTimeInput;
+        let quickGcTypeSelect;
+        let quickGcWeeklyDaysGroup;
+        let quickGcWeeklyCheckboxesContainer;
+        let quickGcDescriptionTextarea;
+        let createQuickGoogleCalendarEventButton;
+
 
         let quickNotesArea;
         let clearNotesButton;
@@ -1844,14 +2027,6 @@
 
         const PRIORITY_COLORS = ['none', 'red', 'orange', 'yellow', 'green'];
         const PRIORITY_ORDER = { 'red': 1, 'orange': 2, 'yellow': 3, 'green': 4, 'none': 5 };
-
-        let reminderModal;
-        let closeReminderModalButton;
-        let reminderTaskTextElement;
-        let reminderDateInput;
-        let reminderTimeInput;
-        let scheduleReminderButton;
-        let currentTaskIdForReminder = null;
 
         window.googleApiCallbacks = {
             gisLoaded: function() {
@@ -2128,26 +2303,26 @@
             return `${yyyy}-${mm}-${dd}`;
         }
 
+        // --- Funciones para el modal de Recordatorio de Tarea (existente) ---
         function showReminderModal(taskId) {
             const task = findTaskById(taskId);
             if (!task || task.completed) {
                 return;
             }
-
             currentTaskIdForReminder = taskId;
-            reminderTaskTextElement.textContent = `Tarea: "${task.text}"`;
+            if(reminderTaskTextElement) reminderTaskTextElement.textContent = `Tarea: "${task.text}"`;
             const todayForInput = getTodayDateString('yyyy-mm-dd');
-            reminderDateInput.value = todayForInput;
-            reminderTimeInput.value = "09:00";
-            reminderModal.classList.add('visible');
-            requestAnimationFrame(() => reminderDateInput.focus());
+            if(reminderDateInput) reminderDateInput.value = todayForInput;
+            if(reminderTimeInput) reminderTimeInput.value = "09:00";
+            if(reminderModal) reminderModal.classList.add('visible');
+            if(reminderDateInput) requestAnimationFrame(() => reminderDateInput.focus());
         }
 
         function hideReminderModal() {
-            reminderModal.classList.remove('visible');
+            if(reminderModal) reminderModal.classList.remove('visible');
             currentTaskIdForReminder = null;
-            reminderTaskTextElement.textContent = '';
-             const lastFocusedButton = document.querySelector(`button[data-task-id="${currentTaskIdForReminder}"] .google-calendar-button`);
+            if(reminderTaskTextElement) reminderTaskTextElement.textContent = '';
+             const lastFocusedButton = document.querySelector(`.todo-item[data-task-id="${currentTaskIdForReminder}"] .google-calendar-button`);
              if (lastFocusedButton) {
                  lastFocusedButton.focus();
              }
@@ -2155,7 +2330,6 @@
 
         function handleScheduleReminderClick(event) {
             if (event) event.stopPropagation();
-
             if (!currentTaskIdForReminder) return;
 
             const dateStrInput = reminderDateInput.value;
@@ -2165,13 +2339,8 @@
                 alert("Por favor, selecciona una fecha y hora.");
                 return;
             }
-
-            if (!/^\d{4}-\d{2}-\d{2}$/.test(dateStrInput)) {
-                alert("Formato de fecha inválido. Usa el selector de calendario.");
-                return;
-            }
-            if (!/^\d{2}:\d{2}$/.test(timeStr)) {
-                alert("Formato de hora inválido. Usa el selector de hora.");
+            if (!/^\d{4}-\d{2}-\d{2}$/.test(dateStrInput) || !/^\d{2}:\d{2}$/.test(timeStr)) {
+                alert("Formato de fecha u hora inválido.");
                 return;
             }
 
@@ -2183,40 +2352,18 @@
             }
 
             const summary = task.text;
-            const dateParts = dateStrInput.split('-');
-            const year = parseInt(dateParts[0], 10);
-            const month = parseInt(dateParts[1], 10);
-            const day = parseInt(dateParts[2], 10);
-            const [hours, minutes] = timeStr.split(':').map(Number);
-
-             if (month < 1 || month > 12 || day < 1 || day > 31 || hours < 0 || hours > 23 || minutes < 0 || minutes > 59) {
-                 alert("Fecha u hora inválida. Verifica los valores.");
-                 return;
-             }
-
-            const startDate = new Date(year, month - 1, day, hours, minutes);
-            if (isNaN(startDate.getTime()) || startDate.getDate() !== day || startDate.getMonth() !== month - 1 || startDate.getFullYear() !== year) {
-                alert("La fecha ingresada no es válida (ej. 31 de Febrero).");
+            const localStartDate = new Date(`${dateStrInput}T${timeStr}`);
+            if (isNaN(localStartDate.getTime())) {
+                alert("Fecha u hora inválida.");
+                hideReminderModal();
                 return;
             }
+            const localEndDate = new Date(localStartDate.getTime() + 60 * 60000); // Evento de 1 hora
 
-            const endDate = new Date(startDate.getTime() + 60 * 60000);
+            const pad = (num) => String(num).padStart(2, '0');
+            const formatGCDate = (dateObj) => `${dateObj.getFullYear()}${pad(dateObj.getMonth() + 1)}${pad(dateObj.getDate())}T${pad(dateObj.getHours())}${pad(dateObj.getMinutes())}00`;
 
-            const formatDateForGoogle = (dateObj) => {
-                if (isNaN(dateObj.getTime())) {
-                     console.error("Fecha inválida proporcionada a formatDateForGoogle");
-                     return '';
-                }
-                 const year = dateObj.getFullYear();
-                 const month = String(dateObj.getMonth() + 1).padStart(2, '0');
-                 const day = String(dateObj.getDate()).padStart(2, '0');
-                 const hours = String(dateObj.getHours()).padStart(2, '0');
-                 const minutes = String(dateObj.getMinutes()).padStart(2, '0');
-                 const seconds = String(dateObj.getSeconds()).padStart(dateObj.getSeconds() === 0 ? 2 : 0, '0');
-                return `${year}${month}${day}T${hours}${minutes}${seconds}`;
-            };
-
-            const googleCalendarUrl = `https://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent('Recordatorio ToDayList: ' + summary)}&dates=${formatDateForGoogle(startDate)}/${formatDateForGoogle(endDate)}&details=${encodeURIComponent('Recordatorio para la tarea: "' + summary + '" de tu ToDayList.')}&sprop=name:ToDayList&sprop=website:${encodeURIComponent(window.location.href)}`;
+            const googleCalendarUrl = `https://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent('Recordatorio ToDayList: ' + summary)}&dates=${formatGCDate(localStartDate)}/${formatGCDate(localEndDate)}&details=${encodeURIComponent('Recordatorio para la tarea: "' + summary + '" de tu ToDayList.')}&sprop=name:ToDayList&sprop=website:${encodeURIComponent(window.location.href)}`;
             window.open(googleCalendarUrl, '_blank');
 
             const listItemElement = todoListContainer.querySelector(`li[data-task-id="${task.id}"]`);
@@ -2224,11 +2371,101 @@
                 const calButton = listItemElement.querySelector('.google-calendar-button i');
                 if (calButton) {
                     calButton.style.color = 'var(--accent-color)';
-                    const displayDate = `${String(day).padStart(2,'0')}-${String(month).padStart(2,'0')}-${year}`;
-                    calButton.parentElement.title = `Se intentó agendar un recordatorio: ${displayDate} ${timeStr}. Confirma en Google Calendar.`;
+                    calButton.parentElement.title = `Recordatorio enviado a Google Calendar. Confirma en tu calendario.`;
                 }
             }
             hideReminderModal();
+        }
+
+        // --- Funciones para el NUEVO modal de Programar Evento Rápido en Calendar ---
+        function showQuickScheduleCalendarModal() {
+            if(quickGcEventTitleInput) quickGcEventTitleInput.value = "";
+            if(quickGcStartDateInput) quickGcStartDateInput.value = getTodayDateString('yyyy-mm-dd');
+            if(quickGcTimeInput) quickGcTimeInput.value = "09:00";
+            if(quickGcTypeSelect) quickGcTypeSelect.value = "NONE";
+            if(quickGcDescriptionTextarea) quickGcDescriptionTextarea.value = "";
+            if(quickGcWeeklyDaysGroup) quickGcWeeklyDaysGroup.classList.add('hidden');
+            if(quickGcWeeklyCheckboxesContainer) {
+                quickGcWeeklyCheckboxesContainer.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+            }
+
+            if(quickScheduleCalendarModal) quickScheduleCalendarModal.classList.add('visible');
+            if(quickGcEventTitleInput) requestAnimationFrame(() => quickGcEventTitleInput.focus());
+        }
+
+        function hideQuickScheduleCalendarModal() {
+            if(quickScheduleCalendarModal) quickScheduleCalendarModal.classList.remove('visible');
+        }
+
+        function handleCreateQuickCalendarEvent() {
+            const eventTitle = quickGcEventTitleInput.value.trim();
+            if (!eventTitle) {
+                alert("Por favor, introduce un título para el evento.");
+                quickGcEventTitleInput.focus();
+                return;
+            }
+
+            const startDateStr = quickGcStartDateInput.value;
+            const timeStr = quickGcTimeInput.value;
+            const recurrenceType = quickGcTypeSelect.value;
+            const description = quickGcDescriptionTextarea.value.trim();
+
+            if (!startDateStr || !timeStr) {
+                alert("Por favor, selecciona una fecha y hora de inicio.");
+                return;
+            }
+             if (!/^\d{4}-\d{2}-\d{2}$/.test(startDateStr) || !/^\d{2}:\d{2}$/.test(timeStr)) {
+                alert("Formato de fecha u hora inválido.");
+                return;
+            }
+
+
+            const localStartDate = new Date(`${startDateStr}T${timeStr}`);
+            if (isNaN(localStartDate.getTime())) {
+                alert("Fecha u hora de inicio inválida.");
+                return;
+            }
+
+            const pad = (num) => String(num).padStart(2, '0');
+            const formatGCDate = (dateObj) => {
+                return `${dateObj.getFullYear()}${pad(dateObj.getMonth() + 1)}${pad(dateObj.getDate())}T${pad(dateObj.getHours())}${pad(dateObj.getMinutes())}00`;
+            };
+
+            const startDateGC = formatGCDate(localStartDate);
+            const localEndDate = new Date(localStartDate.getTime() + 60 * 60000);
+            const endDateGC = formatGCDate(localEndDate);
+            let datesParam = `${startDateGC}/${endDateGC}`;
+
+            let rruleString = "";
+            if (recurrenceType !== "NONE") {
+                rruleString = `RRULE:FREQ=${recurrenceType}`;
+                if (recurrenceType === "WEEKLY") {
+                    const checkedDays = [];
+                    if (quickGcWeeklyCheckboxesContainer) {
+                        quickGcWeeklyCheckboxesContainer.querySelectorAll('input[type="checkbox"]:checked').forEach(cb => {
+                            checkedDays.push(cb.value);
+                        });
+                    }
+                    if (checkedDays.length > 0) {
+                        rruleString += `;BYDAY=${checkedDays.join(',')}`;
+                    }
+                }
+            }
+
+            let googleCalendarUrl = `https://www.google.com/calendar/render?action=TEMPLATE`;
+            googleCalendarUrl += `&text=${encodeURIComponent(eventTitle)}`;
+            googleCalendarUrl += `&dates=${datesParam}`;
+            if (description) {
+                googleCalendarUrl += `&details=${encodeURIComponent(description)}`;
+            }
+            if (rruleString) {
+                googleCalendarUrl += `&recur=${encodeURIComponent(rruleString)}`;
+            }
+            googleCalendarUrl += `&sprop=name:${encodeURIComponent(document.title)}`;
+            googleCalendarUrl += `&sprop=website:${encodeURIComponent(window.location.href)}`;
+
+            window.open(googleCalendarUrl, '_blank');
+            hideQuickScheduleCalendarModal();
         }
 
 
@@ -2250,7 +2487,7 @@
             }
         }
 
-        function displayTotalScore(count) { // MODIFIED: Renamed function
+        function displayTotalScore(count) {
             if (totalScoreValueDisplay) {
                 totalScoreValueDisplay.textContent = String(count).padStart(3, '0');
             }
@@ -2435,17 +2672,11 @@
             const googleCalendarButton = document.createElement('button');
             googleCalendarButton.classList.add('app-button', 'google-calendar-button');
             googleCalendarButton.innerHTML = '<i class="far fa-calendar-plus"></i>';
-            googleCalendarButton.setAttribute('aria-label', 'Agendar recordatorio en Google Calendar');
-            googleCalendarButton.title = 'Agendar recordatorio en Google Calendar';
+            googleCalendarButton.setAttribute('aria-label', 'Agendar recordatorio de esta tarea en Google Calendar');
+            googleCalendarButton.title = 'Agendar recordatorio de esta tarea en Google Calendar';
             if (mainTask.completed) {
                 googleCalendarButton.disabled = true;
-                 googleCalendarButton.querySelector('i').style.color = '';
-                 googleCalendarButton.title = 'Tarea completada, no se pueden agendar recordatorios.';
-            } else {
-                 googleCalendarButton.disabled = false;
-                 googleCalendarButton.querySelector('i').style.color = '';
             }
-
             googleCalendarButton.addEventListener('click', () => {
                 if (!mainTask.completed) {
                     showReminderModal(mainTask.id);
@@ -3016,7 +3247,6 @@
             reader.readAsText(file);
         }
 
-        // MODIFIED: Function to reset only the total score
         function resetTotalScore() {
             if (confirm("¿Estás seguro de que quieres resetear el 'Total Score' a cero? Esta acción no se puede deshacer.")) {
                 totalMedalsEarned = 0;
@@ -3035,12 +3265,34 @@
             darkModeToggle = document.getElementById('dark-mode-toggle');
             body = document.body;
             medalCountDisplay = document.getElementById('medal-count');
-            totalScoreValueDisplay = document.getElementById('total-score-value'); // MODIFIED: Get new element
-            resetTotalScoreButton = document.getElementById('reset-total-score-button'); // MODIFIED: Get new button
+            totalScoreValueDisplay = document.getElementById('total-score-value');
+            resetTotalScoreButton = document.getElementById('reset-total-score-button');
 
             infoButton = document.getElementById('info-button');
             infoModal = document.getElementById('info-modal');
             closeModalButton = document.getElementById('close-modal-button');
+
+            // Modal de Recordatorio (existente)
+            reminderModal = document.getElementById('reminder-modal');
+            closeReminderModalButton = document.getElementById('close-reminder-modal');
+            reminderTaskTextElement = document.getElementById('reminder-task-text');
+            reminderDateInput = document.getElementById('reminder-date');
+            reminderTimeInput = document.getElementById('reminder-time');
+            scheduleReminderButton = document.getElementById('schedule-reminder-button');
+
+            // Modal de Programar Evento Rápido en Calendar (nuevo)
+            quickScheduleCalendarModal = document.getElementById('quick-schedule-calendar-modal');
+            openQuickScheduleModalButton = document.getElementById('open-quick-schedule-modal-button');
+            closeQuickScheduleModalButton = document.getElementById('close-quick-schedule-modal');
+            quickGcEventTitleInput = document.getElementById('quick-gc-event-title');
+            quickGcStartDateInput = document.getElementById('quick-gc-start-date');
+            quickGcTimeInput = document.getElementById('quick-gc-time');
+            quickGcTypeSelect = document.getElementById('quick-gc-type');
+            quickGcWeeklyDaysGroup = document.getElementById('quick-gc-weekly-days-group');
+            quickGcWeeklyCheckboxesContainer = document.getElementById('quick-gc-weekly-checkboxes');
+            quickGcDescriptionTextarea = document.getElementById('quick-gc-description');
+            createQuickGoogleCalendarEventButton = document.getElementById('create-quick-google-calendar-event-button');
+
 
             quickNotesArea = document.getElementById('quick-notes-area');
             clearNotesButton = document.getElementById('clear-notes-button');
@@ -3056,13 +3308,6 @@
             startAppButton = document.getElementById('start-app-button');
             appMainInterface = document.getElementById('app-main-interface');
             installInstructionsSection = document.getElementById('install-instructions-section');
-
-            reminderModal = document.getElementById('reminder-modal');
-            closeReminderModalButton = document.getElementById('close-reminder-modal');
-            reminderTaskTextElement = document.getElementById('reminder-task-text');
-            reminderDateInput = document.getElementById('reminder-date');
-            reminderTimeInput = document.getElementById('reminder-time');
-            scheduleReminderButton = document.getElementById('schedule-reminder-button');
 
 
             const storedTheme = localStorage.getItem(THEME_STORAGE_KEY);
@@ -3092,7 +3337,7 @@
             const storedTotalMedals = localStorage.getItem(TOTAL_MEDALS_STORAGE_KEY);
             totalMedalsEarned = storedTotalMedals ? parseInt(storedTotalMedals, 10) : 0;
             if (isNaN(totalMedalsEarned)) totalMedalsEarned = 0;
-            displayTotalScore(totalMedalsEarned); // MODIFIED: Call renamed function
+            displayTotalScore(totalMedalsEarned);
 
 
             if (addTodoButton && todoInput) {
@@ -3105,7 +3350,6 @@
             if (darkModeToggle) {
                  darkModeToggle.addEventListener('click', toggleDarkMode);
             }
-            // MODIFIED: Add event listener for the new reset button
             if (resetTotalScoreButton) {
                 resetTotalScoreButton.addEventListener('click', resetTotalScore);
             }
@@ -3138,19 +3382,58 @@
                 });
             }
 
-            if (reminderModal && closeReminderModalButton && scheduleReminderButton && reminderDateInput && reminderTimeInput && reminderTaskTextElement) {
+            // Event listeners para el modal de Recordatorio (existente)
+            if (reminderModal && closeReminderModalButton && scheduleReminderButton) {
                 closeReminderModalButton.addEventListener('click', hideReminderModal);
                 scheduleReminderButton.addEventListener('click', handleScheduleReminderClick);
                 reminderModal.addEventListener('click', (event) => {
-                    if (event.target === reminderModal) {
-                        hideReminderModal();
-                    }
+                    if (event.target === reminderModal) hideReminderModal();
                 });
                 document.addEventListener('keydown', (event) => {
-                    if (event.key === 'Escape' && reminderModal.classList.contains('visible')) {
-                        hideReminderModal();
+                    if (event.key === 'Escape' && reminderModal.classList.contains('visible')) hideReminderModal();
+                });
+            }
+
+            // Event listeners para el NUEVO modal de Programar Evento Rápido en Calendar
+            if (openQuickScheduleModalButton) {
+                openQuickScheduleModalButton.addEventListener('click', showQuickScheduleCalendarModal);
+            }
+            if (quickScheduleCalendarModal && closeQuickScheduleModalButton && createQuickGoogleCalendarEventButton && quickGcTypeSelect && quickGcWeeklyDaysGroup) {
+                closeQuickScheduleModalButton.addEventListener('click', hideQuickScheduleCalendarModal);
+                createQuickGoogleCalendarEventButton.addEventListener('click', handleCreateQuickCalendarEvent);
+                quickScheduleCalendarModal.addEventListener('click', (event) => {
+                    if (event.target === quickScheduleCalendarModal) hideQuickScheduleCalendarModal();
+                });
+                document.addEventListener('keydown', (event) => {
+                    if (event.key === 'Escape' && quickScheduleCalendarModal.classList.contains('visible')) hideQuickScheduleCalendarModal();
+                });
+                quickGcTypeSelect.addEventListener('change', (event) => {
+                    if (event.target.value === 'WEEKLY') {
+                        quickGcWeeklyDaysGroup.classList.remove('hidden');
+                        if (quickGcStartDateInput.value && quickGcWeeklyCheckboxesContainer) {
+                            quickGcWeeklyCheckboxesContainer.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+                            const startDate = new Date(quickGcStartDateInput.value + "T00:00:00"); // Asegurar que se interprete como local
+                            const dayIndex = startDate.getDay();
+                            const dayCheckbox = quickGcWeeklyCheckboxesContainer.querySelector(`input[data-day-index="${dayIndex}"]`);
+                            if (dayCheckbox) dayCheckbox.checked = true;
+                        }
+                    } else {
+                        quickGcWeeklyDaysGroup.classList.add('hidden');
                     }
                 });
+                if (quickGcStartDateInput && quickGcTypeSelect && quickGcWeeklyCheckboxesContainer) {
+                    quickGcStartDateInput.addEventListener('change', () => {
+                        if (quickGcTypeSelect.value === 'WEEKLY') {
+                            quickGcWeeklyCheckboxesContainer.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+                            if (quickGcStartDateInput.value) {
+                                const startDate = new Date(quickGcStartDateInput.value + "T00:00:00");
+                                const dayIndex = startDate.getDay();
+                                const dayCheckbox = quickGcWeeklyCheckboxesContainer.querySelector(`input[data-day-index="${dayIndex}"]`);
+                                if (dayCheckbox) dayCheckbox.checked = true;
+                            }
+                        }
+                    });
+                }
             }
 
 
