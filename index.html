@@ -84,10 +84,6 @@
     </script>
     <!-- Fin Código Schema.org -->
 
-    <!-- NUEVA FUNCIONALIDAD: Historial y Gráfica Semanal - Incluir Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
-
-
     <style>
         /* ADDED: Visually hidden class for accessibility labels */
          .sr-only {
@@ -412,6 +408,14 @@
             margin: 0 auto;
             max-width: 480px;
         }
+        #install-instructions-section ul li {
+            margin-bottom: 8px;
+            line-height: 1.5;
+            font-size: 0.92em;
+            padding-left: 25px;
+            position: relative;
+            text-align: left;
+        }
         #install-instructions-section ul li::before {
             font-family: "Font Awesome 6 Brands", "Font Awesome 6 Free";
             font-weight: 400; /* FontAwesome Free uses 900 for solid, 400 for regular/brands */
@@ -452,24 +456,10 @@
             font-size: 1.2rem;
             color: var(--medal-text-color);
             margin-bottom: 20px;
-            /* NUEVA FUNCIONALIDAD: Historial y Gráfica Semanal - Hacer clickeable */
-            cursor: pointer;
-            transition: color 0.2s ease;
         }
-        /* NUEVA FUNCIONALIDAD: Historial y Gráfica Semanal - Estilo hover */
-        #medal-counter-container:hover {
-             color: var(--button-hover-color);
-        }
-        #medal-counter-container:hover .fa-medal {
-             color: var(--button-hover-color); /* Cambiar color de la medalla también */
-        }
-
-
         #medal-counter-container .fa-medal {
             color: var(--medal-color);
             margin-right: 5px;
-             /* NUEVA FUNCIONALIDAD: Historial y Gráfica Semanal - Transición para hover */
-            transition: color 0.2s ease;
         }
         #medal-count {
             font-weight: bold;
@@ -641,6 +631,8 @@
              border-radius: 50%;
              appearance: none;
              -webkit-appearance: none;
+             width: 20px;
+             height: 20px;
              background-color: var(--item-bg);
              cursor: pointer;
              position: relative;
@@ -1389,21 +1381,6 @@
         #info-modal .modal-content {
             max-width: 580px;
         }
-         /* NUEVA FUNCIONALIDAD: Historial y Gráfica Semanal - Estilos para el modal de gráfica */
-        #graph-modal .modal-content {
-             max-width: 500px; /* Ajusta el ancho para la gráfica */
-             padding: 20px;
-        }
-         #graph-modal .modal-content h2 {
-             font-size: 1.5rem;
-             margin-bottom: 15px;
-         }
-         #graph-modal .modal-content canvas {
-             max-width: 100%;
-             height: 250px; /* Altura fija para la gráfica */
-         }
-
-
         .modal-overlay.visible .modal-content {
             transform: scale(1);
         }
@@ -1573,13 +1550,6 @@
                 max-width: 95%;
                 width: 95%;
             }
-            #graph-modal .modal-content {
-                 max-width: 95%; /* Ajusta el ancho para la gráfica en móvil */
-                 padding: 15px;
-            }
-            #graph-modal .modal-content canvas {
-                 height: 200px; /* Altura un poco menor en móvil */
-            }
             .modal-content h2 {
                 font-size: 1.5rem;
                 margin-bottom: 15px;
@@ -1680,8 +1650,7 @@
         </section>
 
         <div id="app-main-interface" class="hidden">
-            <!-- NUEVA FUNCIONALIDAD: Historial y Gráfica Semanal - Contenedor de la medalla clickeable -->
-            <div id="medal-counter-container" aria-label="Ver historial de tareas completadas">
+            <div id="medal-counter-container">
                 <i class="fas fa-medal"></i> <span id="medal-count">0</span>
             </div>
 
@@ -1792,15 +1761,6 @@
         </div>
     </div>
 
-    <!-- NUEVA FUNCIONALIDAD: Historial y Gráfica Semanal - Modal para la gráfica -->
-    <div id="graph-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="graph-modal-title">
-        <div class="modal-content">
-            <button class="app-button close-modal" id="close-graph-modal" aria-label="Cerrar ventana de gráfica">×</button>
-            <h2 id="graph-modal-title">Tareas Completadas (Últimos 7 Días)</h2>
-            <canvas id="weekly-completion-chart"></canvas>
-        </div>
-    </div>
-
 
     <footer>
         <img src="https://www.todaylist.es/ToDayList.png" alt="Logo ToDayList" class="footer-logo">
@@ -1867,10 +1827,6 @@
         const TODOS_STORAGE_KEY = 'todoListAppTasks';
         const MEDALS_STORAGE_KEY = 'todoListDailyMedalData';
         const THEME_STORAGE_KEY = 'todoListTheme';
-        // NUEVA FUNCIONALIDAD: Historial y Gráfica Semanal - Nueva clave para el historial de completado por día
-        const COMPLETION_HISTORY_STORAGE_KEY = 'todoListCompletionHistory';
-        let completionHistory = {}; // { "YYYY-MM-DD": count, ... }
-
 
         const PRIORITY_COLORS = ['none', 'red', 'orange', 'yellow', 'green'];
         const PRIORITY_ORDER = { 'red': 1, 'orange': 2, 'yellow': 3, 'green': 4, 'none': 5 };
@@ -1882,13 +1838,6 @@
         let reminderTimeInput;
         let scheduleReminderButton;
         let currentTaskIdForReminder = null;
-
-        // NUEVA FUNCIONALIDAD: Historial y Gráfica Semanal - Variables para el modal de gráfica
-        let graphModal;
-        let closeGraphModalButton;
-        let weeklyCompletionChartCanvas;
-        let weeklyCompletionChartInstance = null; // Para guardar la instancia de Chart.js
-
 
         window.googleApiCallbacks = {
             gisLoaded: function() {
@@ -2029,9 +1978,7 @@
                     theme: localStorage.getItem(THEME_STORAGE_KEY) || 'dark',
                     dailyMedalData: JSON.parse(localStorage.getItem(MEDALS_STORAGE_KEY) || '{}'),
                     quickNotesContent: localStorage.getItem(QUICK_NOTES_STORAGE_KEY) || '',
-                    tasks: todos,
-                    // NUEVA FUNCIONALIDAD: Historial y Gráfica Semanal - Exportar historial
-                    completionHistory: completionHistory
+                    tasks: todos
                 };
                 const jsonString = JSON.stringify(dataToExport, null, 2);
                 const dateStr = new Date().toISOString().slice(0,10).replace(/-/g,'');
@@ -2295,37 +2242,6 @@
             }
         }
 
-        // NUEVA FUNCIONALIDAD: Historial y Gráfica Semanal - Cargar historial
-        function loadCompletionHistory() {
-            const historyString = localStorage.getItem(COMPLETION_HISTORY_STORAGE_KEY);
-            try {
-                completionHistory = historyString ? JSON.parse(historyString) : {};
-                // Limpiar entradas antiguas si es necesario (opcional, para evitar que crezca indefinidamente)
-                // Por ahora, lo dejamos simple. Si localStorage se llena, habría que añadir lógica de limpieza.
-            } catch (e) {
-                console.error("Error loading completion history from localStorage", e);
-                completionHistory = {};
-            }
-        }
-
-        // NUEVA FUNCIONALIDAD: Historial y Gráfica Semanal - Guardar historial
-        function saveCompletionHistory() {
-            localStorage.setItem(COMPLETION_HISTORY_STORAGE_KEY, JSON.stringify(completionHistory));
-        }
-
-        // NUEVA FUNCIONALIDAD: Historial y Gráfica Semanal - Actualizar historial al completar/descompletar
-        function updateCompletionHistory(date, change) {
-            if (!completionHistory[date]) {
-                completionHistory[date] = 0;
-            }
-            completionHistory[date] += change;
-            if (completionHistory[date] < 0) { // Asegurarse de que el contador no sea negativo
-                 completionHistory[date] = 0;
-            }
-            saveCompletionHistory();
-        }
-
-
         function loadTodosFromLocalStorage() {
             const storedTodos = localStorage.getItem(TODOS_STORAGE_KEY);
             if (storedTodos) {
@@ -2341,7 +2257,7 @@
                     })) : [],
                     showSubtaskUI: typeof task.showSubtaskUI === 'boolean' ? task.showSubtaskUI : false,
                     priorityColor: PRIORITY_COLORS.includes(task.priorityColor) ? task.priorityColor : 'none',
-                    date: (typeof task.date === 'string' && task.date.match(/^\d{4}-\d{2}-\d{2}$/)) ? task.date : null, // Validate date format
+                    date: (typeof task.date === 'string' && task.date.match(/^\d{4}-\d{2}-\d{2}$/)) ? task.date : null,
                     linkUrl: typeof task.linkUrl === 'string' ? task.linkUrl : null,
                     order: typeof task.order === 'number' ? task.order : Date.now()
                 }));
@@ -2369,7 +2285,6 @@
 
             if (!medalData || medalData.date !== todayForMedal) {
                 let countForToday = 0;
-                // Recalcular el contador de medallas para hoy basándose en las tareas completadas hoy
                 if (todos && todos.length > 0) {
                     todos.forEach(task => {
                         if (task.completed && task.completedDate === todayForMedal) countForToday++;
@@ -2382,7 +2297,7 @@
         }
 
         function updateMedalCount(change) {
-            let medalData = loadAndRefreshMedalData(); // Asegura que los datos estén actualizados antes de modificar
+            let medalData = loadAndRefreshMedalData();
             medalData.count += change;
             if (medalData.count < 0) medalData.count = 0;
             localStorage.setItem(MEDALS_STORAGE_KEY, JSON.stringify(medalData));
@@ -2391,9 +2306,6 @@
 
         function syncAndRender() {
             renderTodosUI();
-            // Asegurarse de que el contador de medallas se muestre correctamente después de cualquier renderizado
-            const currentMedalData = loadAndRefreshMedalData();
-            displayMedalCount(currentMedalData.count);
         }
 
         function calculateSubtaskProgress(subtasks) {
@@ -2801,8 +2713,6 @@
                  // Only decrease medal count if the task was completed *today*
                 if (taskToDelete.completed && taskToDelete.completedDate === todayForMedal) {
                     updateMedalCount(-1);
-                    // NUEVA FUNCIONALIDAD: Historial y Gráfica Semanal - Decrementar historial si se descompleta una tarea de hoy
-                    updateCompletionHistory(todayForMedal, -1);
                 }
                 todos.splice(taskIndex, 1);
                 saveTodosToLocalStorage();
@@ -2876,12 +2786,9 @@
 
                     if (!wasCompletedTodayBefore) {
                         updateMedalCount(1);
-                        // NUEVA FUNCIONALIDAD: Historial y Gráfica Semanal - Incrementar historial si se completa una tarea de hoy
-                        updateCompletionHistory(todayForMedal, 1);
                     }
 
                     // Trigger confetti only if it just became completed today AND (it had incomplete subtasks BEFORE OR it had no subtasks)
-                    // La lógica aquí ya estaba bien, solo nos aseguramos de que la comprobación de subtasks incompletas se haga antes de marcarlas.
                     if (!wasCompletedTodayBefore && (hadIncompleteSubtasksBeforeCompletion || hasNoSubtasks) && typeof confetti === 'function') {
                          confetti({ particleCount: 150, spread: 90, origin: { y: 0.55 }});
                     }
@@ -2889,8 +2796,6 @@
                 } else { // Becoming incomplete
                     if (wasCompletedTodayBefore) {
                         updateMedalCount(-1);
-                         // NUEVA FUNCIONALIDAD: Historial y Gráfica Semanal - Decrementar historial si se descompleta una tarea de hoy
-                        updateCompletionHistory(todayForMedal, -1);
                     }
                     task.completedDate = null;
                      // Do NOT auto-uncomplete subtasks when main task is unchecked
@@ -2984,9 +2889,7 @@
                 theme: localStorage.getItem(THEME_STORAGE_KEY) || 'dark',
                 dailyMedalData: JSON.parse(localStorage.getItem(MEDALS_STORAGE_KEY) || '{}'),
                 quickNotesContent: localStorage.getItem(QUICK_NOTES_STORAGE_KEY) || '',
-                tasks: todos,
-                // NUEVA FUNCIONALIDAD: Historial y Gráfica Semanal - Exportar historial
-                completionHistory: completionHistory
+                tasks: todos
             };
 
             const jsonString = JSON.stringify(dataToExport, null, 2);
@@ -3076,16 +2979,6 @@
                      }
                  });
 
-                // NUEVA FUNCIONALIDAD: Historial y Gráfica Semanal - Importar historial
-                if (importedData.completionHistory && typeof importedData.completionHistory === 'object') {
-                     completionHistory = importedData.completionHistory;
-                     saveCompletionHistory(); // Guardar el historial importado
-                } else {
-                     console.warn("No completion history found in imported file or format is invalid.");
-                     completionHistory = {}; // Reset history if not found or invalid
-                     saveCompletionHistory();
-                }
-
 
                 saveTodosToLocalStorage();
 
@@ -3113,7 +3006,7 @@
             const file = event.target.files[0];
             if (!file) return;
 
-            if (!confirm("¡Atención! Importar datos reemplazará todos los datos actuales (tareas, notas, medallas, tema, historial). ¿Deseas continuar?")) {
+            if (!confirm("¡Atención! Importar datos reemplazará todos los datos actuales (tareas, notas, medallas, tema). ¿Deseas continuar?")) {
                 if (importFileInput) importFileInput.value = ''; // Reset file input
                 return;
             }
@@ -3137,112 +3030,6 @@
             reader.readAsText(file);
         }
 
-        // NUEVA FUNCIONALIDAD: Historial y Gráfica Semanal - Obtener datos para la gráfica semanal
-        function getWeeklyCompletionData() {
-            const labels = [];
-            const data = [];
-            const today = new Date();
-            const daysOfWeek = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb']; // Días de la semana en español
-
-            for (let i = 6; i >= 0; i--) {
-                const date = new Date(today);
-                date.setDate(today.getDate() - i);
-                const dateString = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
-                const dayName = daysOfWeek[date.getDay()];
-
-                labels.push(dayName);
-                data.push(completionHistory[dateString] || 0);
-            }
-            return { labels, data };
-        }
-
-        // NUEVA FUNCIONALIDAD: Historial y Gráfica Semanal - Mostrar modal de gráfica
-        function showGraphModal() {
-            if (!graphModal || !weeklyCompletionChartCanvas) return;
-
-            const { labels, data } = getWeeklyCompletionData();
-
-            // Destruir instancia de gráfico anterior si existe
-            if (weeklyCompletionChartInstance) {
-                weeklyCompletionChartInstance.destroy();
-            }
-
-            const ctx = weeklyCompletionChartCanvas.getContext('2d');
-
-            // Crear nueva instancia de Chart.js
-            weeklyCompletionChartInstance = new Chart(ctx, {
-                type: 'bar', // Gráfico de barras
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: 'Tareas Completadas',
-                        data: data,
-                        backgroundColor: body.classList.contains('dark-mode') ? 'rgba(139, 195, 74, 0.8)' : 'rgba(40, 167, 69, 0.8)', // Color de barra (verde)
-                        borderColor: body.classList.contains('dark-mode') ? 'rgba(139, 195, 74, 1)' : 'rgba(40, 167, 69, 1)',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false, // Permite controlar la altura con CSS
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            ticks: {
-                                precision: 0, // Mostrar solo números enteros
-                                color: body.classList.contains('dark-mode') ? 'rgba(236, 240, 241, 0.8)' : 'rgba(51, 51, 51, 0.8)' // Color de texto en eje Y
-                            },
-                            grid: {
-                                color: body.classList.contains('dark-mode') ? 'rgba(74, 98, 122, 0.5)' : 'rgba(224, 224, 224, 0.8)' // Color de líneas de grid Y
-                            }
-                        },
-                        x: {
-                             ticks: {
-                                color: body.classList.contains('dark-mode') ? 'rgba(236, 240, 241, 0.8)' : 'rgba(51, 51, 51, 0.8)' // Color de texto en eje X
-                            },
-                            grid: {
-                                color: body.classList.contains('dark-mode') ? 'rgba(74, 98, 122, 0.5)' : 'rgba(224, 224, 224, 0.8)' // Color de líneas de grid X
-                            }
-                        }
-                    },
-                    plugins: {
-                        legend: {
-                            display: false // Ocultar la leyenda "Tareas Completadas"
-                        },
-                        title: {
-                            display: false // El título ya está en el H2 del modal
-                        }
-                    }
-                }
-            });
-
-
-            graphModal.classList.add('visible');
-             // Set focus when modal opens
-            requestAnimationFrame(() => {
-                 const firstFocusableElement = graphModal.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
-                 if (firstFocusableElement) {
-                     firstFocusableElement.focus();
-                 } else {
-                     closeGraphModalButton.focus(); // Fallback focus on close button
-                 }
-            });
-        }
-
-        // NUEVA FUNCIONALIDAD: Historial y Gráfica Semanal - Ocultar modal de gráfica
-        function hideGraphModal() {
-            graphModal.classList.remove('visible');
-             // Opcional: Destruir el gráfico al cerrar el modal para liberar memoria
-             // if (weeklyCompletionChartInstance) {
-             //     weeklyCompletionChartInstance.destroy();
-             //     weeklyCompletionChartInstance = null;
-             // }
-             // ADDED: Return focus to the button that opened the modal (medal counter)
-             if (medalCounterContainer) {
-                 medalCounterContainer.focus();
-             }
-        }
-
 
         document.addEventListener('DOMContentLoaded', () => {
             todoInput = document.getElementById('new-todo-input');
@@ -3252,9 +3039,6 @@
             darkModeToggle = document.getElementById('dark-mode-toggle');
             body = document.body;
             medalCountDisplay = document.getElementById('medal-count');
-            // NUEVA FUNCIONALIDAD: Historial y Gráfica Semanal - Obtener referencia al contenedor de la medalla
-            const medalCounterContainer = document.getElementById('medal-counter-container');
-
 
             infoButton = document.getElementById('info-button');
             infoModal = document.getElementById('info-modal');
@@ -3282,11 +3066,6 @@
             reminderTimeInput = document.getElementById('reminder-time');
             scheduleReminderButton = document.getElementById('schedule-reminder-button');
 
-            // NUEVA FUNCIONALIDAD: Historial y Gráfica Semanal - Obtener referencias a elementos del modal de gráfica
-            graphModal = document.getElementById('graph-modal');
-            closeGraphModalButton = document.getElementById('close-graph-modal');
-            weeklyCompletionChartCanvas = document.getElementById('weekly-completion-chart');
-
 
             // Initialize theme first
             const storedTheme = localStorage.getItem(THEME_STORAGE_KEY);
@@ -3297,9 +3076,6 @@
             }
 
             loadTodosFromLocalStorage();
-            // NUEVA FUNCIONALIDAD: Historial y Gráfica Semanal - Cargar historial al inicio
-            loadCompletionHistory();
-
 
             // Determine which section to show based on stored tasks
             if (todos.length === 0) {
@@ -3329,11 +3105,6 @@
             }
             if (darkModeToggle) {
                  darkModeToggle.addEventListener('click', toggleDarkMode);
-            }
-
-            // NUEVA FUNCIONALIDAD: Historial y Gráfica Semanal - Listener para abrir la gráfica
-            if (medalCounterContainer) {
-                 medalCounterContainer.addEventListener('click', showGraphModal);
             }
 
 
@@ -3383,21 +3154,6 @@
                     }
                      // Basic focus trapping for modals (optional but good)
                 });
-            }
-
-            // NUEVA FUNCIONALIDAD: Historial y Gráfica Semanal - Listeners para el modal de gráfica
-            if (graphModal && closeGraphModalButton) {
-                 closeGraphModalButton.addEventListener('click', hideGraphModal);
-                 graphModal.addEventListener('click', (event) => {
-                     if (event.target === graphModal) {
-                         hideGraphModal();
-                     }
-                 });
-                 document.addEventListener('keydown', (event) => {
-                     if (event.key === 'Escape' && graphModal.classList.contains('visible')) {
-                         hideGraphModal();
-                     }
-                 });
             }
 
 
