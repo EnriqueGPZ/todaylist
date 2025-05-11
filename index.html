@@ -1122,6 +1122,7 @@
             width: 48px;
             height: 48px;
             margin-bottom: 10px;
+            border-radius: 12px; /* <-- AÑADIDO */
         }
         .footer-text {
             margin: 0 0 8px 0;
@@ -1270,6 +1271,7 @@
                 width: 40px;
                 height: 40px;
                 margin-bottom: 8px;
+                border-radius: 12px; /* <-- AÑADIDO */
             }
             .footer-text {
                 margin-bottom: 6px;
@@ -3037,10 +3039,3 @@
 
 </body>
 </html>
-```
-
-**Importante:**
-
-1.  Asegúrate de que el archivo `Logo.png` esté en la **misma carpeta** que este archivo HTML. La ruta `/Logo.png` asume que está en la raíz del servidor web, lo cual suele ser la misma carpeta si simplemente abres el archivo HTML localmente. Si no funciona, prueba cambiando `url('/Logo.png')` a `url('Logo.png')`.
-2.  He añadido un `aria-label` al `<h1>` y he usado técnicas CSS como `text-indent` para ocultar el texto visualmente. Esto es importante para la accesibilidad, ya que los lectores de pantalla aún leerán "ToDayList Logo", indicando a los usuarios con discapacidad visual qué es ese elemento.
-3.  Ajusta los valores de `max-width` y `height` en las reglas CSS para `#page-title` (y en la media query para `@media (max-width: 500px)`) si el tamaño del logo no es el deseado.
