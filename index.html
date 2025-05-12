@@ -1565,7 +1565,19 @@
         }
         #reminder-modal .modal-input-group input[type="date"],
         #reminder-modal .modal-input-group input[type="time"] {
-            width: 130px;
+            /* --- INICIO Cambios --- */
+            padding: 8px; /* Añadido padding */
+            border: 1px solid var(--modal-input-border-color); /* Añadido borde consistente */
+            border-radius: 4px; /* Añadido borde redondeado */
+            background-color: var(--modal-input-background-color); /* Añadido color de fondo consistente */
+            color: var(--input-text-color); /* Añadido color de texto consistente */
+            font-size: 0.9rem; /* Tamaño de fuente consistente */
+            box-sizing: border-box; /* Asegura que padding/border se incluyan en el width */
+            outline: none; /* Quita el outline por defecto */
+            font-family: 'Lexend', sans-serif; /* Fuente consistente */
+            /* --- FIN Cambios --- */
+
+            width: 130px; /* Mantenemos el ancho original, ajustar si se ve mal */
         }
 
 
