@@ -1,3 +1,130 @@
+
+¡Excelente punto! Tienes toda la razón. Si el usuario empieza a usar la aplicación, añade tareas y luego decide que quiere instalarla, el banner de instalación PWA ya no estaría visible si solo lo mostramos en la pantalla de bienvenida (cuando no hay tareas).
+
+Para solucionar esto y permitir la instalación en cualquier momento (si el navegador lo permite), necesitamos que el banner de instalación PWA (`#install-pwa-banner`) no se oculte junto con la sección de bienvenida.
+
+Aquí están los ajustes necesarios:
+
+**1. Ajustar la lógica de `showAppInterface()`**
+
+La función `showAppInterface()` actualmente podría ocultar el banner si no se maneja con cuidado. Vamos a asegurarnos de que **no** oculte el `#install-pwa-banner` si este ya está visible debido al evento `beforeinstallprompt`.
+
+```javascript
+        function showAppInterface() {
+            if (welcomeSection) welcomeSection.classList.add('hidden');
+            if (installInstructionsSection) installInstructionsSection.classList.add('hidden');
+
+            // NO OCULTAR EL BANNER PWA AQUÍ SI YA ESTÁ VISIBLE
+            // El banner PWA se gestiona por el evento 'beforeinstallprompt'
+            // y por la acción del usuario sobre el propio banner.
+
+            if (appMainInterface) {
+                appMainInterface.classList.remove('hidden');
+                if (!appMainInterface.classList.contains('hidden')) {
+                    if (todoInput) {
+                        requestAnimationFrame(() => todoInput.focus());
+                    }
+                    if (!window.timersInitializedOnShow) {
+                        renderTodosUI();
+                        initializeActiveTimersFromStorage();
+                        window.timersInitializedOnShow = true;
+                    }
+                }
+            }
+            requestNotificationPermission();
+        }
+```
+El cambio es sutil: he eliminado el bloque `if (installPwaBanner && ...)` que estaba comentado, para evitar cualquier confusión. El banner PWA ahora tiene su propia lógica de visibilidad separada de la bienvenida.
+
+**2. Revisar la lógica en `DOMContentLoaded`**
+
+La lógica que decide si mostrar la bienvenida o la interfaz principal no debe afectar la visibilidad del banner PWA. El banner se mostrará o no basándose únicamente en si el evento `beforeinstallprompt` se ha disparado.
+
+```javascript
+        document.addEventListener('DOMContentLoaded', () => {
+            // ... (inicialización de variables del DOM, incluyendo installPwaBanner y installPwaButton) ...
+
+            // === PWA Service Worker Registration START ===
+            // ...
+            // === PWA Service Worker Registration END ===
+
+            // === Listener para el botón de instalación PWA personalizado ===
+            if (installPwaButton) {
+                installPwaButton.addEventListener('click', async () => {
+                  console.log('Botón de instalación PWA clickeado');
+                  if (deferredPrompt) {
+                    if(installPwaBanner) {
+                        installPwaBanner.style.display = 'none'; // Ocultar el banner después de click
+                    }
+                    deferredPrompt.prompt();
+                    const { outcome } = await deferredPrompt.userChoice;
+                    console.log(`Respuesta del usuario al prompt de instalación: ${outcome}`);
+                    deferredPrompt = null;
+                  } else {
+                     console.log('deferredPrompt no disponible.');
+                      if(installPwaBanner) {
+                        installPwaBanner.style.display = 'none'; // Ocultar si no hay prompt
+                      }
+                  }
+                });
+            }
+            // === FIN Listener botón instalación PWA ===
+
+            if (localStorage.getItem(THEME_STORAGE_KEY) === 'light') disableDarkMode(); else enableDarkMode();
+            loadTodosFromLocalStorage();
+
+            // La visibilidad del banner PWA se maneja en el listener 'beforeinstallprompt'
+            // Esta lógica solo decide entre bienvenida/instrucciones o la app principal.
+            if (todos.length === 0 && (!appMainInterface || appMainInterface.classList.contains('hidden'))) {
+                if(welcomeSection) welcomeSection.classList.remove('hidden');
+                if(installInstructionsSection) installInstructionsSection.classList.remove('hidden');
+                if(appMainInterface) appMainInterface.classList.add('hidden');
+                window.timersInitializedOnShow = false;
+            } else {
+                if(welcomeSection) welcomeSection.classList.add('hidden');
+                if(installInstructionsSection) installInstructionsSection.classList.add('hidden');
+                if(appMainInterface) appMainInterface.classList.remove('hidden');
+
+                if (appMainInterface && !appMainInterface.classList.contains('hidden') && !window.timersInitializedOnShow) {
+                    renderTodosUI();
+                    initializeActiveTimersFromStorage();
+                    window.timersInitializedOnShow = true;
+                }
+            }
+
+            displayMedalCount(loadAndRefreshMedalData().count);
+            totalMedalsEarned = parseInt(localStorage.getItem(TOTAL_MEDALS_STORAGE_KEY) || '0', 10);
+            displayTotalScore(totalMedalsEarned);
+
+            // ... (resto de los listeners) ...
+            if(startAppButton) startAppButton.addEventListener('click', showAppInterface);
+            // ...
+        });
+```
+
+**El comportamiento ahora será:**
+
+1.  La aplicación carga.
+2.  El listener `window.addEventListener('beforeinstallprompt', ...)` está activo.
+3.  Si el navegador dispara `beforeinstallprompt` (porque se cumplen los criterios PWA y el usuario interactúa):
+    *   `deferredPrompt` se guarda.
+    *   `#install-pwa-banner` se hace visible (`display: flex`).
+4.  El usuario puede:
+    *   Estar en la pantalla de bienvenida (si no hay tareas): El banner PWA estará visible *encima* de la sección de bienvenida.
+    *   Hacer clic en "Empezar a Organizar": La bienvenida se oculta, la app principal se muestra. **El banner PWA seguirá visible** si `beforeinstallprompt` se disparó.
+    *   Cargar la página directamente a la app principal (si ya tenía tareas): El banner PWA se mostrará si `beforeinstallprompt` se dispara.
+5.  Cuando el usuario haga clic en el botón "Instalar App" del banner:
+    *   El banner se ocultará.
+    *   Se mostrará el diálogo de instalación nativo del navegador.
+    *   `deferredPrompt` se anulará para que no se pueda usar de nuevo.
+
+De esta forma, la opción de instalar estará disponible para el usuario siempre que el navegador lo permita, independientemente de si está en la pantalla de bienvenida o ya usando la aplicación.
+
+**HTML Completo (para copiar y pegar):**
+
+Dado que los cambios son principalmente en la lógica JavaScript, el HTML estructural no cambia mucho respecto al anterior. Aquí está el HTML completo con estos ajustes de lógica JS incorporados:
+
+```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -40,8 +167,7 @@
     <link rel="icon" href="/favicon-96x96.png" type="image/png" sizes="96x96">
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" sizes="any">
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png"> <!-- Asegúrate que este icono existe y tiene un tamaño adecuado (ej. 180x180) -->
-
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1969,26 +2095,25 @@
 
         /* === ESTILOS PARA BANNER DE INSTALACIÓN PWA === */
         #install-pwa-banner {
-            /* display: none; Por defecto JS lo mostrará */
+            /* display: none; Se gestiona por JS */
             background-color: var(--install-banner-bg);
             padding: 12px 20px;
             margin-bottom: 20px;
             border: 1px solid var(--border-color);
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            display: flex; /* Usar flex para alinear texto y botón */
+            display: flex;
             align-items: center;
-            justify-content: space-between; /* Espacio entre texto y botón */
-            gap: 15px; /* Espacio entre texto y botón */
+            justify-content: space-between;
+            gap: 15px;
         }
         #install-pwa-banner p {
             margin: 0;
             font-size: 0.9rem;
             color: var(--text-color);
-            flex-grow: 1; /* Permitir que el texto ocupe espacio */
+            flex-grow: 1;
         }
         #install-pwa-button {
-            /* Reutiliza app-button pero con colores propios */
             background-color: var(--install-button-bg);
             color: var(--install-button-text);
             border: none;
@@ -1996,17 +2121,17 @@
             font-size: 0.95rem;
             font-weight: bold;
             border-radius: 6px;
-            flex-shrink: 0; /* Evitar que el botón se encoja */
+            flex-shrink: 0;
             cursor: pointer;
             transition: background-color 0.2s ease;
-            outline: none; /* Quitar outline en clic */
+            outline: none;
         }
         #install-pwa-button:hover {
             background-color: var(--install-button-hover-bg);
-            color: var(--install-button-text); /* Mantener color texto en hover */
+            color: var(--install-button-text);
         }
         #install-pwa-button:focus-visible {
-             outline: 2px solid var(--install-button-hover-bg); /* Outline para teclado */
+             outline: 2px solid var(--install-button-hover-bg);
              outline-offset: 2px;
         }
         /* === FIN ESTILOS BANNER INSTALACIÓN === */
@@ -2148,7 +2273,7 @@
 
     </div>
 
-    <!-- Modales (sin cambios en su estructura interna) -->
+    <!-- Modales -->
     <div id="reminder-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="reminder-modal-title">
         <div class="modal-content">
             <button class="app-button close-modal" id="close-reminder-modal" aria-label="Cerrar ventana de recordatorio">×</button>
@@ -2383,12 +2508,12 @@
           console.log('Evento beforeinstallprompt capturado');
           e.preventDefault();
           deferredPrompt = e;
-          const banner = document.getElementById('install-pwa-banner'); // Intentar obtenerlo directamente
-          if (banner) {
+          const banner = document.getElementById('install-pwa-banner');
+          if (banner) { // Si el banner ya existe en el DOM, lo muestra
              banner.style.display = 'flex';
              console.log('Mostrando banner de instalación personalizado.');
           } else {
-             // Si el banner aún no está en el DOM, esperamos a DOMContentLoaded para mostrarlo
+             // Si no, espera a que el DOM cargue para intentar mostrarlo
              document.addEventListener('DOMContentLoaded', () => {
                 const bannerOnLoad = document.getElementById('install-pwa-banner');
                 if (bannerOnLoad) bannerOnLoad.style.display = 'flex';
@@ -2397,7 +2522,7 @@
         });
         // === FIN Captura beforeinstallprompt ===
 
-        // --- INICIO - Funciones (sin cambios estructurales) ---
+        // --- INICIO - Funciones ---
         window.googleApiCallbacks = { /* ... */ };
         function maybeEnableDriveButtons() { /* ... */ }
         function handleAuthClick(callbackFn, ...args) { /* ... */ }
@@ -2446,10 +2571,7 @@
         function showAppInterface() {
             if (welcomeSection) welcomeSection.classList.add('hidden');
             if (installInstructionsSection) installInstructionsSection.classList.add('hidden');
-            // Opcional: Ocultar el banner PWA si se muestra y el usuario empieza a usar la app
-            // if (installPwaBanner && installPwaBanner.style.display !== 'none') {
-            //    installPwaBanner.style.display = 'none';
-            // }
+            // No se toca el banner PWA aquí, su visibilidad es independiente
 
             if (appMainInterface) {
                 appMainInterface.classList.remove('hidden');
@@ -2602,51 +2724,51 @@
             totalMedalsEarned = parseInt(localStorage.getItem(TOTAL_MEDALS_STORAGE_KEY) || '0', 10);
             displayTotalScore(totalMedalsEarned);
 
-            addTodoButton.addEventListener('click', addTodo);
-            todoInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') { e.preventDefault(); addTodo(); } });
-            reorderButton.addEventListener('click', performManualSort);
-            darkModeToggle.addEventListener('click', toggleDarkMode);
-            resetTotalScoreButton.addEventListener('click', resetTotalScore);
-            if(startAppButton) startAppButton.addEventListener('click', showAppInterface); // Asegurar que el listener se añade
+            if(addTodoButton) addTodoButton.addEventListener('click', addTodo);
+            if(todoInput) todoInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') { e.preventDefault(); addTodo(); } });
+            if(reorderButton) reorderButton.addEventListener('click', performManualSort);
+            if(darkModeToggle) darkModeToggle.addEventListener('click', toggleDarkMode);
+            if(resetTotalScoreButton) resetTotalScoreButton.addEventListener('click', resetTotalScore);
+            if(startAppButton) startAppButton.addEventListener('click', showAppInterface);
 
-            infoButton.addEventListener('click', () => { infoModal.classList.add('visible'); infoModal.setAttribute('role','dialog'); infoModal.setAttribute('aria-modal','true'); requestAnimationFrame(() => (infoModal.querySelector('button') || closeModalButton).focus()); });
-            const closeInfo = () => { infoModal.classList.remove('visible'); infoModal.removeAttribute('role'); infoModal.removeAttribute('aria-modal'); infoButton.focus();};
-            closeModalButton.addEventListener('click', closeInfo); infoModal.addEventListener('click', e => {if(e.target===infoModal)closeInfo();}); document.addEventListener('keydown', e => {if(e.key==='Escape'&&infoModal.classList.contains('visible'))closeInfo();});
+            if(infoButton) infoButton.addEventListener('click', () => { infoModal.classList.add('visible'); infoModal.setAttribute('role','dialog'); infoModal.setAttribute('aria-modal','true'); requestAnimationFrame(() => (infoModal.querySelector('button') || closeModalButton).focus()); });
+            const closeInfo = () => { infoModal.classList.remove('visible'); infoModal.removeAttribute('role'); infoModal.removeAttribute('aria-modal'); if(infoButton) infoButton.focus();};
+            if(closeModalButton) closeModalButton.addEventListener('click', closeInfo);
+            if(infoModal) infoModal.addEventListener('click', e => {if(e.target===infoModal)closeInfo();});
+            document.addEventListener('keydown', e => {if(e.key==='Escape'&&infoModal && infoModal.classList.contains('visible'))closeInfo();});
 
-            closeReminderModalButton.addEventListener('click', hideReminderModal);
-            scheduleReminderButton.addEventListener('click', handleScheduleReminderClick);
-            reminderModal.addEventListener('click', e => { if (e.target === reminderModal) hideReminderModal(); });
-            document.addEventListener('keydown', e => { if (e.key === 'Escape' && reminderModal.classList.contains('visible')) hideReminderModal(); });
+            if(closeReminderModalButton) closeReminderModalButton.addEventListener('click', hideReminderModal);
+            if(scheduleReminderButton) scheduleReminderButton.addEventListener('click', handleScheduleReminderClick);
+            if(reminderModal) reminderModal.addEventListener('click', e => { if (e.target === reminderModal) hideReminderModal(); });
+            document.addEventListener('keydown', e => { if (e.key === 'Escape' && reminderModal && reminderModal.classList.contains('visible')) hideReminderModal(); });
 
-            openQuickScheduleModalButton.addEventListener('click', showQuickScheduleCalendarModal);
-            closeQuickScheduleModalButton.addEventListener('click', hideQuickScheduleCalendarModal);
-            createQuickGoogleCalendarEventButton.addEventListener('click', handleCreateQuickCalendarEvent);
-            quickScheduleCalendarModal.addEventListener('click', e => { if (e.target === quickScheduleCalendarModal) hideQuickScheduleCalendarModal(); });
-            document.addEventListener('keydown', e => { if (e.key === 'Escape' && quickScheduleCalendarModal.classList.contains('visible')) hideQuickScheduleCalendarModal(); });
-            quickGcTypeSelect.addEventListener('change', e => { if (e.target.value === 'WEEKLY') { quickGcWeeklyDaysGroup.classList.remove('hidden'); if (quickGcStartDateInput.value && quickGcWeeklyCheckboxesContainer) { quickGcWeeklyCheckboxesContainer.querySelectorAll('input').forEach(cb => cb.checked = false); try { const dayIdx = new Date(quickGcStartDateInput.value + "T00:00:00").getDay(); const dayCb = quickGcWeeklyCheckboxesContainer.querySelector(`input[data-day-index="${dayIdx}"]`); if(dayCb)dayCb.checked = true; } catch {} }} else quickGcWeeklyDaysGroup.classList.add('hidden'); });
+            if(openQuickScheduleModalButton) openQuickScheduleModalButton.addEventListener('click', showQuickScheduleCalendarModal);
+            if(closeQuickScheduleModalButton) closeQuickScheduleModalButton.addEventListener('click', hideQuickScheduleCalendarModal);
+            if(createQuickGoogleCalendarEventButton) createQuickGoogleCalendarEventButton.addEventListener('click', handleCreateQuickCalendarEvent);
+            if(quickScheduleCalendarModal) quickScheduleCalendarModal.addEventListener('click', e => { if (e.target === quickScheduleCalendarModal) hideQuickScheduleCalendarModal(); });
+            document.addEventListener('keydown', e => { if (e.key === 'Escape' && quickScheduleCalendarModal && quickScheduleCalendarModal.classList.contains('visible')) hideQuickScheduleCalendarModal(); });
+            if(quickGcTypeSelect) quickGcTypeSelect.addEventListener('change', e => { if (e.target.value === 'WEEKLY') { quickGcWeeklyDaysGroup.classList.remove('hidden'); if (quickGcStartDateInput.value && quickGcWeeklyCheckboxesContainer) { quickGcWeeklyCheckboxesContainer.querySelectorAll('input').forEach(cb => cb.checked = false); try { const dayIdx = new Date(quickGcStartDateInput.value + "T00:00:00").getDay(); const dayCb = quickGcWeeklyCheckboxesContainer.querySelector(`input[data-day-index="${dayIdx}"]`); if(dayCb)dayCb.checked = true; } catch {} }} else quickGcWeeklyDaysGroup.classList.add('hidden'); });
             if (quickGcStartDateInput) quickGcStartDateInput.addEventListener('change', () => { if (quickGcTypeSelect.value === 'WEEKLY' && quickGcStartDateInput.value && quickGcWeeklyCheckboxesContainer) { quickGcWeeklyCheckboxesContainer.querySelectorAll('input').forEach(cb => cb.checked = false); try { const dayIdx = new Date(quickGcStartDateInput.value + "T00:00:00").getDay(); const dayCb = quickGcWeeklyCheckboxesContainer.querySelector(`input[data-day-index="${dayIdx}"]`); if(dayCb)dayCb.checked = true; } catch {}}});
 
-            // Listeners para el modal de duración del temporizador
             if (closeTimerDurationModalButton) closeTimerDurationModalButton.addEventListener('click', hideTimerDurationModal);
             if (timerDurationModal) { timerDurationModal.addEventListener('click', (e) => { if (e.target === timerDurationModal) hideTimerDurationModal(); }); document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && timerDurationModal.classList.contains('visible')) hideTimerDurationModal(); });}
             if (timerQuickOptionsContainer) { timerQuickOptionsContainer.addEventListener('click', (e) => { if (e.target.classList.contains('timer-duration-option')) { const mins = parseInt(e.target.dataset.minutes, 10); if (currentTimerCallback && !isNaN(mins)) currentTimerCallback(mins); hideTimerDurationModal(); }});}
             if (setCustomTimerButton && timerCustomMinutesInput) { setCustomTimerButton.addEventListener('click', () => { const mins = parseInt(timerCustomMinutesInput.value, 10); if (isNaN(mins) || mins < 1 || mins > 180) { alert("Minutos inválidos (1-180)."); timerCustomMinutesInput.focus(); return; } if (currentTimerCallback) currentTimerCallback(mins); hideTimerDurationModal(); }); timerCustomMinutesInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') { e.preventDefault(); setCustomTimerButton.click(); }});}
 
-            quickNotesArea.value = localStorage.getItem(QUICK_NOTES_STORAGE_KEY) || '';
-            quickNotesArea.addEventListener('input', () => localStorage.setItem(QUICK_NOTES_STORAGE_KEY, quickNotesArea.value));
-            clearNotesButton.addEventListener('click', () => { quickNotesArea.value = ''; localStorage.removeItem(QUICK_NOTES_STORAGE_KEY); quickNotesArea.focus(); });
+            if(quickNotesArea) quickNotesArea.value = localStorage.getItem(QUICK_NOTES_STORAGE_KEY) || '';
+            if(quickNotesArea) quickNotesArea.addEventListener('input', () => localStorage.setItem(QUICK_NOTES_STORAGE_KEY, quickNotesArea.value));
+            if(clearNotesButton) clearNotesButton.addEventListener('click', () => { quickNotesArea.value = ''; localStorage.removeItem(QUICK_NOTES_STORAGE_KEY); quickNotesArea.focus(); });
 
-            exportDataButton.addEventListener('click', exportAllDataLocal);
-            importDataButton.addEventListener('click', () => importFileInput.click());
-            importFileInput.addEventListener('change', importAllDataLocal);
-            exportDriveButton.addEventListener('click', () => handleAuthClick(exportToGoogleDrive));
-            importDriveButton.addEventListener('click', () => handleAuthClick(importFromGoogleDrive));
+            if(exportDataButton) exportDataButton.addEventListener('click', exportAllDataLocal);
+            if(importDataButton) importDataButton.addEventListener('click', () => importFileInput.click());
+            if(importFileInput) importFileInput.addEventListener('change', importAllDataLocal);
+            if(exportDriveButton) exportDriveButton.addEventListener('click', () => handleAuthClick(exportToGoogleDrive));
+            if(importDriveButton) importDriveButton.addEventListener('click', () => handleAuthClick(importFromGoogleDrive));
 
             if (window.isGoogleGisScriptReady) window.googleApiCallbacks.gisLoaded();
             if (window.isGoogleGapiScriptReady) window.googleApiCallbacks.gapiLoaded();
             maybeEnableDriveButtons();
 
-            // Observer para inicializar timers si la app se muestra después
              const observer = new MutationObserver((mutations) => {
                  mutations.forEach(m => {
                      if (m.type === 'attributes' && m.attributeName === 'class') {
