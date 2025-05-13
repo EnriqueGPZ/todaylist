@@ -140,6 +140,8 @@
             --reset-button-hover-text-color: #e74c3c;
             --quick-calendar-section-bg: #e9e4d9;
             --quick-calendar-border-color: #d1c8b8;
+            /* Color para el outline de focus-visible (puedes ajustarlo) */
+            --focus-visible-outline-color: #3498db;
         }
 
         body.dark-mode {
@@ -187,6 +189,8 @@
             --reset-button-hover-text-color: #f39c12;
             --quick-calendar-section-bg: #2f4254;
             --quick-calendar-border-color: #3e5265;
+             /* Color para el outline de focus-visible en dark mode (puedes ajustarlo) */
+            --focus-visible-outline-color: #5dade2;
         }
 
         body {
@@ -331,12 +335,14 @@
             transition: background-color 0.2s ease, transform 0.2s ease;
             margin-top: 20px;
             display: inline-block;
+            /* Añadido para quitar outline en clic, manteniendo focus-visible */
+            outline: none;
         }
         #start-app-button:hover {
             background-color: var(--welcome-button-hover-bg);
             transform: translateY(-2px);
         }
-        #start-app-button:focus, #start-app-button:focus-visible {
+        #start-app-button:focus-visible {
              outline: 3px solid var(--button-hover-color);
              outline-offset: 2px;
         }
@@ -459,12 +465,19 @@
             cursor: pointer;
             line-height: 1;
             vertical-align: middle;
+            /* Añadido para quitar outline en clic, manteniendo focus-visible */
+            outline: none;
         }
         #reset-total-score-button:hover {
             color: var(--reset-button-hover-text-color);
         }
         #reset-total-score-button i {
             font-size: 0.9em;
+        }
+        /* Estilo para focus-visible en reset button */
+        #reset-total-score-button:focus-visible {
+             outline: 1px dotted var(--reset-button-hover-text-color);
+             outline-offset: 1px;
         }
 
 
@@ -539,12 +552,15 @@
              justify-content: center;
              text-decoration: none;
              color: var(--button-color);
+             /* --- CAMBIO --- Quitar outline por defecto en focus (clic) */
+             outline: none;
          }
          .app-button:hover {
              color: var(--button-hover-color);
          }
-         .app-button:focus, .app-button:focus-visible {
-              outline: 2px solid var(--button-hover-color);
+         /* --- CAMBIO --- Añadir outline solo en focus visible (teclado) */
+         .app-button:focus-visible {
+              outline: 2px solid var(--focus-visible-outline-color); /* Usar variable */
               outline-offset: 2px;
          }
          .app-button:disabled {
@@ -553,6 +569,10 @@
          }
          .app-button:disabled:hover {
             color: var(--button-color);
+         }
+         /* --- CAMBIO --- Asegurar que el focus-visible no se aplique a deshabilitados */
+         .app-button:disabled:focus-visible {
+             outline: none;
          }
 
          .add-button {
@@ -620,8 +640,14 @@
         #new-todo-input:focus,
         .todo-item .subtask-input-container input[type="text"]:focus {
             border-color: var(--button-hover-color);
+            /* Mantenemos el shadow para el input en focus */
             box-shadow: 0 0 0 0.2rem rgba(231, 76, 60, 0.25);
         }
+        body.dark-mode #new-todo-input:focus,
+        body.dark-mode .todo-item .subtask-input-container input[type="text"]:focus {
+            box-shadow: 0 0 0 0.2rem rgba(243, 156, 18, 0.2); /* Sombra Dark Mode */
+        }
+
         #new-todo-input::placeholder,
         .todo-item .subtask-input-container input[type="text"]::placeholder {
              color: var(--placeholder-color);
@@ -642,10 +668,17 @@
              flex-shrink: 0;
              box-sizing: border-box;
              transition: background-color 0.2s ease, border-color 0.2s ease;
+             /* Quitar outline en clic */
+             outline: none;
          }
          .custom-checkbox:checked {
               background-color: var(--text-color);
               border-color: var(--text-color);
+         }
+         .custom-checkbox:focus-visible {
+             /* Añadir outline para teclado */
+             outline: 2px solid var(--focus-visible-outline-color);
+             outline-offset: 1px;
          }
 
          .custom-checkbox:checked::after {
@@ -686,10 +719,18 @@
              flex-shrink: 0;
              transition: border-color 0.2s ease, transform 0.1s ease, background-color 0.2s ease;
              box-sizing: border-box;
+             /* Quitar outline en clic */
+             outline: none;
         }
          .todo-item .priority-color-label:hover {
              transform: scale(1.1);
          }
+         .todo-item .priority-color-label:focus-visible {
+             /* Añadir outline para teclado */
+             outline: 2px solid var(--focus-visible-outline-color);
+             outline-offset: 1px;
+         }
+
         .priority-color-label[data-color="red"] { background-color: var(--priority-red-color); border-color: var(--priority-red-color); }
         .priority-color-label[data-color="orange"] { background-color: var(--priority-orange-color); border-color: var(--priority-orange-color); }
         .priority-color-label[data-color="yellow"] { background-color: var(--priority-yellow-color); border-color: var(--priority-yellow-color); }
@@ -724,6 +765,8 @@
             flex-shrink: 0;
         }
 
+        /* No es necesario estilo específico para focus en estos botones hijos,
+           heredarán el comportamiento de .app-button */
         .todo-item .main-task-header .task-body .task-actions-group .link-button,
         .todo-item .main-task-header .task-body .task-actions-group .google-calendar-button,
         .todo-item .main-task-header .task-body .task-actions-group .task-timer-button {
@@ -814,10 +857,17 @@
              flex-shrink: 0;
              box-sizing: border-box;
              transition: background-color 0.2s ease, border-color 0.2s ease;
+             /* Quitar outline en clic */
+             outline: none;
         }
          .todo-item .subtasks-list li input[type="checkbox"]:checked {
               background-color: var(--text-color);
               border-color: var(--text-color);
+         }
+         .todo-item .subtasks-list li input[type="checkbox"]:focus-visible {
+             /* Añadir outline para teclado */
+             outline: 2px solid var(--focus-visible-outline-color);
+             outline-offset: 1px;
          }
 
         .todo-item .subtasks-list li input[type="checkbox"]:checked::after {
@@ -957,6 +1007,12 @@
             color: inherit;
             text-decoration: none;
             transform: none;
+        }
+        /* Asegurar que los focus-visible no aparezcan en elementos completados */
+        .todo-item.completed .priority-color-label:focus-visible,
+        .todo-item.completed .app-button:focus-visible,
+        .todo-item.completed .custom-checkbox:focus-visible {
+            outline: none;
         }
 
 
@@ -1242,6 +1298,13 @@
             color: var(--legend-text-color);
             text-decoration: none;
             transition: color 0.2s ease;
+            /* Quitar outline en clic */
+            outline: none;
+        }
+        .paypal-link-footer:focus-visible {
+             /* Añadir outline para teclado */
+             outline: 1px dashed var(--button-hover-color);
+             outline-offset: 1px;
         }
 
         .paypal-link-footer:hover {
@@ -1261,7 +1324,15 @@
             margin: 0 5px;
             color: var(--legend-text-color);
             text-decoration: none;
+            /* Quitar outline en clic */
+            outline: none;
         }
+         .footer-legal-links a:focus-visible {
+             /* Añadir outline para teclado */
+             outline: 1px dashed var(--button-hover-color);
+             outline-offset: 1px;
+             text-decoration: underline;
+         }
         .footer-legal-links a:hover {
             text-decoration: underline;
             color: var(--button-hover-color);
@@ -1418,6 +1489,8 @@
             }
         }
 
+        /* --- MODALES --- */
+
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -1473,6 +1546,42 @@
             font-size: 1.6rem;
         }
 
+        /* Estilos generales para inputs y selects dentro de modales */
+        .modal-input-group input[type="text"],
+        .modal-input-group input[type="date"],
+        .modal-input-group input[type="time"],
+        .modal-input-group input[type="number"], /* Añadido number */
+        .modal-input-group select,
+        .modal-input-group textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid var(--modal-input-border-color);
+            border-radius: 4px;
+            background-color: var(--modal-input-background-color);
+            color: var(--input-text-color);
+            font-size: 0.9rem;
+            box-sizing: border-box;
+            outline: none;
+            font-family: 'Lexend', sans-serif;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        .modal-input-group textarea {
+            resize: vertical;
+            min-height: 50px;
+        }
+         .modal-input-group input:focus,
+         .modal-input-group select:focus,
+         .modal-input-group textarea:focus {
+             border-color: var(--button-hover-color);
+             box-shadow: 0 0 0 0.2rem rgba(231, 76, 60, 0.25); /* Sombra light */
+         }
+         body.dark-mode .modal-input-group input:focus,
+         body.dark-mode .modal-input-group select:focus,
+         body.dark-mode .modal-input-group textarea:focus {
+              box-shadow: 0 0 0 0.2rem rgba(243, 156, 18, 0.2); /* Sombra dark */
+         }
+
+
         #quick-schedule-calendar-modal .modal-content h2 {
             color: var(--accent-color);
             font-size: 1.3rem;
@@ -1493,29 +1602,17 @@
             font-size: 0.8rem;
             font-weight: normal;
         }
-        #quick-schedule-calendar-modal .modal-input-group input[type="text"],
-        #quick-schedule-calendar-modal .modal-input-group input[type="date"],
-        #quick-schedule-calendar-modal .modal-input-group input[type="time"],
-        #quick-schedule-calendar-modal .modal-input-group select,
-        #quick-schedule-calendar-modal .modal-input-group textarea {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid var(--modal-input-border-color);
-            border-radius: 4px;
-            background-color: var(--modal-input-background-color);
-            color: var(--input-text-color);
-            font-size: 0.9rem;
-            box-sizing: border-box;
-            outline: none;
-            font-family: 'Lexend', sans-serif;
-        }
-        #quick-schedule-calendar-modal .modal-input-group textarea {
-            resize: vertical;
-            min-height: 50px;
-        }
+         /* Los inputs ya tienen estilo general arriba */
         #quick-schedule-calendar-modal .modal-input-group input[type="checkbox"] {
             margin-right: 5px;
+             /* Quitar outline en clic */
+            outline: none;
         }
+         #quick-schedule-calendar-modal .modal-input-group input[type="checkbox"]:focus-visible {
+            /* Añadir outline para teclado */
+            outline: 2px solid var(--focus-visible-outline-color);
+            outline-offset: 1px;
+         }
         #quick-schedule-calendar-modal #quick-gc-weekly-days-group div {
             display: flex;
             flex-wrap: wrap;
@@ -1553,43 +1650,27 @@
         #reminder-modal .modal-input-group {
             margin: 15px auto;
             width: fit-content;
+            max-width: 100%; /* Asegurar que no desborde */
             display: flex;
             align-items: center;
             gap: 10px;
             justify-content: center;
             flex-direction: row;
+            flex-wrap: wrap; /* Permitir que se envuelva en pantallas pequeñas */
         }
         #reminder-modal .modal-input-group label {
             font-size: 0.85rem;
             font-weight: bold;
+            flex-shrink: 0; /* Evitar que la etiqueta se encoja */
         }
         #reminder-modal .modal-input-group input[type="date"],
         #reminder-modal .modal-input-group input[type="time"] {
-            /* --- INICIO Cambios --- */
-            padding: 8px; /* Añadido padding */
-            border: 1px solid var(--modal-input-border-color); /* Añadido borde consistente */
-            border-radius: 4px; /* Añadido borde redondeado */
-            background-color: var(--modal-input-background-color); /* Añadido color de fondo consistente */
-            color: var(--input-text-color); /* Añadido color de texto consistente */
-            font-size: 0.9rem; /* Tamaño de fuente consistente */
-            box-sizing: border-box; /* Asegura que padding/border se incluyan en el width */
-            outline: none; /* Quita el outline por defecto */
-            font-family: 'Lexend', sans-serif; /* Fuente consistente */
-            /* --- FIN Cambios --- */
-
-            width: 130px; /* Mantenemos el ancho original, ajustar si se ve mal */
+             /* Estilo heredado de .modal-input-group input */
+             width: 130px; /* Ancho específico */
+             flex-grow: 1; /* Permitir crecer si hay espacio */
+             min-width: 100px; /* Ancho mínimo */
         }
 
-
-        .modal-input-group input[type="date"]:focus,
-        .modal-input-group input[type="time"]:focus {
-            border-color: var(--button-hover-color);
-            box-shadow: 0 0 0 0.2rem rgba(231, 76, 60, 0.25);
-        }
-        body.dark-mode .modal-input-group input[type="date"]:focus,
-        body.dark-mode .modal-input-group input[type="time"]:focus {
-             box-shadow: 0 0 0 0.2rem rgba(243, 156, 18, 0.2);
-        }
         #schedule-reminder-button {
             display: block;
             width: 100%;
@@ -1606,7 +1687,15 @@
             text-align: center;
             transition: color 0.2s ease;
             box-shadow: none !important;
+            /* Quitar outline en clic */
+            outline: none;
         }
+         #schedule-reminder-button:focus-visible {
+             /* Añadir outline para teclado */
+             color: var(--schedule-link-hover-text-color) !important;
+             outline: 2px solid var(--schedule-link-hover-text-color) !important;
+             outline-offset: 2px;
+         }
         #schedule-reminder-button:hover {
             color: var(--schedule-link-hover-text-color) !important;
             background: none !important;
@@ -1617,6 +1706,9 @@
             cursor: not-allowed;
             opacity: 0.7 !important;
         }
+         #schedule-reminder-button:disabled:focus-visible {
+             outline: none !important;
+         }
 
         .modal-content ol {
             padding-left: 20px;
@@ -1664,6 +1756,7 @@
             transition: color 0.2s ease;
             z-index: 10 !important;
             box-shadow: none !important;
+            /* Heredará app-button focus, que ya está corregido */
         }
         div.modal-overlay div.modal-content > button.close-modal:hover {
             color: var(--button-hover-color) !important;
@@ -1798,6 +1891,7 @@
             background-color: var(--input-bg);
             border: 1px solid var(--border-color);
             min-width: 80px;
+            /* Hereda comportamiento focus de .app-button */
         }
         #timer-quick-options-container .timer-duration-option:hover {
             background-color: var(--fixed-button-bg);
@@ -1807,31 +1901,35 @@
 
         #timer-custom-duration-group {
             margin-top: 20px;
-            display: flex; /* Añadido para consistencia con otros modales */
+            display: flex;
             flex-direction: column;
             align-items: stretch;
-            gap: 5px; /* Espacio entre label e input */
+            gap: 5px;
         }
         #timer-custom-duration-group label {
             font-size: 0.85rem;
-            /* margin-bottom: 5px; */ /* Controlado por gap */
         }
         #timer-custom-duration-group input[type="number"] {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid var(--modal-input-border-color);
-            border-radius: 4px;
-            background-color: var(--modal-input-background-color);
-            color: var(--input-text-color);
-            font-size: 0.9rem;
-            box-sizing: border-box;
-            outline: none;
-            font-family: 'Lexend', sans-serif;
+             /* Estilo heredado de .modal-input-group input */
             text-align: center;
         }
 
+        #set-custom-timer-button {
+             /* Estilo base de .app-button, pero con colores específicos */
+             display: block;
+             width: 100%;
+             margin-top: 15px;
+             background-color: var(--accent-color);
+             color: #fff;
+             padding: 10px; /* Ajuste de padding si es necesario */
+        }
         #set-custom-timer-button:hover {
-            background-color: var(--schedule-link-hover-text-color) !important;
+            background-color: var(--schedule-link-hover-text-color) !important; /* !important para sobreescribir .app-button:hover */
+            color: #fff !important; /* Mantener color de texto */
+        }
+        #set-custom-timer-button:focus-visible {
+             /* Estilo focus-visible específico si se desea diferente a .app-button */
+             outline-color: var(--schedule-link-hover-text-color);
         }
     </style>
 </head>
@@ -2065,7 +2163,7 @@
             <button class="app-button close-modal" id="close-timer-duration-modal" aria-label="Cerrar selección de duración">×</button>
             <h2 id="timer-duration-modal-title">Asignar Tiempo</h2>
             <p id="timer-duration-task-text" style="text-align: center; font-style: italic; margin-bottom: 20px;"></p>
-            
+
             <div id="timer-quick-options-container" style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 20px;">
                 <button class="app-button timer-duration-option" data-minutes="15">15 min</button>
                 <button class="app-button timer-duration-option" data-minutes="30">30 min</button>
@@ -2077,7 +2175,7 @@
                 <label for="timer-custom-minutes">Personalizado (minutos):</label>
                 <input type="number" id="timer-custom-minutes" min="1" max="180" placeholder="Ej: 25">
             </div>
-            <button id="set-custom-timer-button" class="app-button" style="display: block; width: 100%; margin-top: 15px; background-color: var(--accent-color); color: #fff;">
+            <button id="set-custom-timer-button" class="app-button">
                 Iniciar Temporizador Personalizado
             </button>
              <p style="text-align: center; font-size: 0.8em; color: var(--legend-text-color); margin-top:10px;">
