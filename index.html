@@ -78,11 +78,11 @@
            "https://www.todaylist.es/ToDayList.png",
            "https://www.todaylist.es/favicon-96x96.png",
            "https://www.todaylist.es/favicon.svg",
-           "https://www.todaylist.es/ToDayList_192.png", // Añadir iconos PWA
-           "https://www.todaylist.es/ToDayList_512.png"  // Añadir iconos PWA
+           "https://www.todaylist.es/ToDayList_192.png",
+           "https://www.todaylist.es/ToDayList_512.png"
         ],
-        "softwareVersion": "1.1.5", // Actualizar versión si corresponde
-        "datePublished": "2024-03-15", // Fecha de publicación original
+        "softwareVersion": "1.1.5",
+        "datePublished": "2024-03-15",
         "keywords": "lista de tareas, to-do list, gestor de tareas diarias, organizador personal, productividad, planificación diaria, tareas pendientes, subtareas, prioridades, web app, task management, daily planner, online organizer, google drive sync, google calendar integration, free app, español, en español, tareas recurrentes, programar eventos, recurring events, temporizador tareas, task timer, pwa, progressive web app, offline, instalar app"
       }
     }
@@ -211,7 +211,6 @@
             --install-button-hover-bg: var(--schedule-link-hover-text-color);
         }
 
-        /* ... (Resto de tu CSS sin cambios estructurales, solo se añade el banner de instalación abajo) ... */
         body {
             font-family: 'Lexend', sans-serif;
             margin: 0;
@@ -1970,7 +1969,7 @@
 
         /* === ESTILOS PARA BANNER DE INSTALACIÓN PWA === */
         #install-pwa-banner {
-            display: none; /* Oculto por defecto */
+            /* display: none; Por defecto JS lo mostrará */
             background-color: var(--install-banner-bg);
             padding: 12px 20px;
             margin-bottom: 20px;
@@ -2149,7 +2148,7 @@
 
     </div>
 
-    <!-- Modal para Agendar Recordatorio (de una tarea existente) -->
+    <!-- Modales (sin cambios en su estructura interna) -->
     <div id="reminder-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="reminder-modal-title">
         <div class="modal-content">
             <button class="app-button close-modal" id="close-reminder-modal" aria-label="Cerrar ventana de recordatorio">×</button>
@@ -2167,13 +2166,11 @@
         </div>
     </div>
 
-    <!-- Modal para Programar Evento Rápido (único o recurrente) en Google Calendar -->
     <div id="quick-schedule-calendar-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="quick-schedule-calendar-modal-title">
         <div class="modal-content">
             <button class="app-button close-modal" id="close-quick-schedule-modal" aria-label="Cerrar">×</button>
             <h2 id="quick-schedule-calendar-modal-title">Programar Evento en Google Calendar</h2>
             <p id="quick-schedule-modal-intro">Define los detalles de tu nuevo evento.</p>
-
             <div class="modal-input-group">
                 <label for="quick-gc-event-title">Título del Evento:</label>
                 <input type="text" id="quick-gc-event-title" placeholder="Ej: Tomar pastillas, Reunión semanal..." required>
@@ -2212,11 +2209,9 @@
                 <label for="quick-gc-description">Descripción (opcional):</label>
                 <textarea id="quick-gc-description" rows="2"></textarea>
             </div>
-
             <button id="create-quick-google-calendar-event-button" class="app-button">Crear Evento en Google Calendar</button>
         </div>
     </div>
-
 
     <div id="info-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="info-modal-title">
         <div class="modal-content">
@@ -2248,20 +2243,17 @@
         </div>
     </div>
 
-    <!-- Modal para Selección de Duración del Temporizador -->
     <div id="timer-duration-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="timer-duration-modal-title">
         <div class="modal-content">
             <button class="app-button close-modal" id="close-timer-duration-modal" aria-label="Cerrar selección de duración">×</button>
             <h2 id="timer-duration-modal-title">Asignar Tiempo</h2>
             <p id="timer-duration-task-text" style="text-align: center; font-style: italic; margin-bottom: 20px;"></p>
-
             <div id="timer-quick-options-container" style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 20px;">
                 <button class="app-button timer-duration-option" data-minutes="15">15 min</button>
                 <button class="app-button timer-duration-option" data-minutes="30">30 min</button>
                 <button class="app-button timer-duration-option" data-minutes="45">45 min</button>
                 <button class="app-button timer-duration-option" data-minutes="60">60 min</button>
             </div>
-
             <div class="modal-input-group" id="timer-custom-duration-group">
                 <label for="timer-custom-minutes">Personalizado (minutos):</label>
                 <input type="number" id="timer-custom-minutes" min="1" max="180" placeholder="Ej: 25">
@@ -2279,7 +2271,6 @@
     <footer>
         <img src="/ToDayList.png" alt="Logo ToDayList" class="footer-logo">
         <p class="footer-text">WebApp creada por Henry Gil</p>
-
         <div id="support-section-footer">
             <p class="support-intro-text">¿Te gusta ToDayList? Si te ha sido útil...</p>
             <a href="https://paypal.me/todaylistHenry" target="_blank" rel="noopener noreferrer" class="paypal-link-footer">
@@ -2303,8 +2294,8 @@
     <script async defer src="https://accounts.google.com/gsi/client" onload="if(window.googleApiCallbacks && typeof window.googleApiCallbacks.gisLoaded === 'function') { window.isGoogleGisScriptReady = true; window.googleApiCallbacks.gisLoaded(); } else { console.error('googleApiCallbacks.gisLoaded no definido'); }"></script>
 
     <script type="module">
-        // --- INICIO - Variables (se añade deferredPrompt) ---
-        let deferredPrompt; // Variable para guardar el evento beforeinstallprompt
+        // --- INICIO - Variables ---
+        let deferredPrompt;
 
         let todoInput;
         let addTodoButton;
@@ -2337,7 +2328,6 @@
         let quickGcDescriptionTextarea;
         let createQuickGoogleCalendarEventButton;
 
-
         let quickNotesArea;
         let clearNotesButton;
         const QUICK_NOTES_STORAGE_KEY = 'todoListQuickNotes';
@@ -2361,8 +2351,8 @@
         let startAppButton;
         let appMainInterface;
         let installInstructionsSection;
-        let installPwaBanner; // Elemento del banner PWA
-        let installPwaButton; // Botón de instalación PWA
+        let installPwaBanner;
+        let installPwaButton;
 
         let todos = [];
         let totalMedalsEarned = 0;
@@ -2379,7 +2369,6 @@
         const ACTIVE_TIMERS_STORAGE_KEY = 'todoListActiveTimers';
         let alarmAudio;
 
-        // Variables para el Modal de Duración del Temporizador
         let timerDurationModal;
         let closeTimerDurationModalButton;
         let timerDurationTaskTextElement;
@@ -2392,21 +2381,21 @@
         // === Captura del evento beforeinstallprompt (fuera de DOMContentLoaded) ===
         window.addEventListener('beforeinstallprompt', (e) => {
           console.log('Evento beforeinstallprompt capturado');
-          // Evita que Chrome muestre el mini-infobar
           e.preventDefault();
-          // Guarda el evento para que pueda ser disparado más tarde.
           deferredPrompt = e;
-          // Muestra el botón/banner personalizado (asegúrate que el elemento exista en el DOM para este punto o espera a DOMContentLoaded si es necesario)
-          const banner = document.getElementById('install-pwa-banner');
+          const banner = document.getElementById('install-pwa-banner'); // Intentar obtenerlo directamente
           if (banner) {
-             banner.style.display = 'flex'; // O 'block', según tu CSS
+             banner.style.display = 'flex';
              console.log('Mostrando banner de instalación personalizado.');
           } else {
-             console.warn('Elemento #install-pwa-banner no encontrado al capturar beforeinstallprompt.');
+             // Si el banner aún no está en el DOM, esperamos a DOMContentLoaded para mostrarlo
+             document.addEventListener('DOMContentLoaded', () => {
+                const bannerOnLoad = document.getElementById('install-pwa-banner');
+                if (bannerOnLoad) bannerOnLoad.style.display = 'flex';
+             });
           }
         });
         // === FIN Captura beforeinstallprompt ===
-
 
         // --- INICIO - Funciones (sin cambios estructurales) ---
         window.googleApiCallbacks = { /* ... */ };
@@ -2453,7 +2442,31 @@
         function createSubtaskInputContainer(id) { /* ... */ }
         function renderTodosUI() { /* ... */ }
         function cyclePriorityColor(id) { /* ... */ }
-        function showAppInterface() { /* ... */ }
+
+        function showAppInterface() {
+            if (welcomeSection) welcomeSection.classList.add('hidden');
+            if (installInstructionsSection) installInstructionsSection.classList.add('hidden');
+            // Opcional: Ocultar el banner PWA si se muestra y el usuario empieza a usar la app
+            // if (installPwaBanner && installPwaBanner.style.display !== 'none') {
+            //    installPwaBanner.style.display = 'none';
+            // }
+
+            if (appMainInterface) {
+                appMainInterface.classList.remove('hidden');
+                if (!appMainInterface.classList.contains('hidden')) {
+                    if (todoInput) {
+                        requestAnimationFrame(() => todoInput.focus());
+                    }
+                    if (!window.timersInitializedOnShow) {
+                        renderTodosUI();
+                        initializeActiveTimersFromStorage();
+                        window.timersInitializedOnShow = true;
+                    }
+                }
+            }
+            requestNotificationPermission();
+        }
+
         function addTodo() { /* ... */ }
         function addSubtask(id,input) { /* ... */ }
         function deleteTodo(id) { /* ... */ }
@@ -2475,9 +2488,9 @@
 
         // --- INICIO - Event Listener DOMContentLoaded ---
         document.addEventListener('DOMContentLoaded', () => {
-            // --- INICIO - Inicialización de variables del DOM (se añaden las del banner PWA) ---
-            installPwaBanner = document.getElementById('install-pwa-banner'); // Referencia al banner
-            installPwaButton = document.getElementById('install-pwa-button'); // Referencia al botón
+            // --- INICIO - Inicialización de variables del DOM ---
+            installPwaBanner = document.getElementById('install-pwa-banner');
+            installPwaButton = document.getElementById('install-pwa-button');
 
             todoInput = document.getElementById('new-todo-input');
             addTodoButton = document.getElementById('add-todo-button');
@@ -2530,7 +2543,7 @@
 
             // === PWA Service Worker Registration START ===
             if ('serviceWorker' in navigator) {
-              navigator.serviceWorker.register('/service-worker.js') // Asegúrate que la ruta es correcta
+              navigator.serviceWorker.register('/service-worker.js')
                 .then((registration) => {
                   console.log('Service Worker registrado con éxito:', registration.scope);
                 })
@@ -2546,25 +2559,16 @@
             if (installPwaButton) {
                 installPwaButton.addEventListener('click', async () => {
                   console.log('Botón de instalación PWA clickeado');
-                  // deferredPrompt es una variable global capturada por el listener beforeinstallprompt
                   if (deferredPrompt) {
-                    // Ocultar nuestro banner/botón
                     if(installPwaBanner) {
                         installPwaBanner.style.display = 'none';
                     }
-
-                    // Mostrar el prompt de instalación nativo
                     deferredPrompt.prompt();
-
-                    // Esperar a que el usuario responda al prompt
                     const { outcome } = await deferredPrompt.userChoice;
                     console.log(`Respuesta del usuario al prompt de instalación: ${outcome}`);
-
-                    // Ya no podemos usar el mismo evento, así que lo limpiamos
                     deferredPrompt = null;
                   } else {
-                     console.log('deferredPrompt no disponible. El evento beforeinstallprompt no se ha disparado o ya se ha usado.');
-                     // Opcionalmente, ocultar el botón si no hay prompt disponible
+                     console.log('deferredPrompt no disponible.');
                       if(installPwaBanner) {
                         installPwaBanner.style.display = 'none';
                       }
@@ -2573,23 +2577,27 @@
             }
             // === FIN Listener botón instalación PWA ===
 
-
-            // --- INICIO - Lógica de carga inicial y listeners (resto sin cambios estructurales) ---
+            // --- INICIO - Lógica de carga inicial y listeners ---
             if (localStorage.getItem(THEME_STORAGE_KEY) === 'light') disableDarkMode(); else enableDarkMode();
             loadTodosFromLocalStorage();
-            if (todos.length === 0) {
-                welcomeSection.classList.remove('hidden');
-                installInstructionsSection.classList.remove('hidden');
-                appMainInterface.classList.add('hidden');
+
+            if (todos.length === 0 && (!appMainInterface || appMainInterface.classList.contains('hidden'))) {
+                if(welcomeSection) welcomeSection.classList.remove('hidden');
+                if(installInstructionsSection) installInstructionsSection.classList.remove('hidden');
+                if(appMainInterface) appMainInterface.classList.add('hidden');
+                window.timersInitializedOnShow = false;
             } else {
-                appMainInterface.classList.remove('hidden');
-                // La inicialización de timers y render se hará si es visible
+                if(welcomeSection) welcomeSection.classList.add('hidden');
+                if(installInstructionsSection) installInstructionsSection.classList.add('hidden');
+                if(appMainInterface) appMainInterface.classList.remove('hidden');
+
+                if (appMainInterface && !appMainInterface.classList.contains('hidden') && !window.timersInitializedOnShow) {
+                    renderTodosUI();
+                    initializeActiveTimersFromStorage();
+                    window.timersInitializedOnShow = true;
+                }
             }
-            if (!appMainInterface.classList.contains('hidden')) {
-                renderTodosUI();
-                initializeActiveTimersFromStorage();
-                window.timersInitializedOnShow = true;
-            }
+
             displayMedalCount(loadAndRefreshMedalData().count);
             totalMedalsEarned = parseInt(localStorage.getItem(TOTAL_MEDALS_STORAGE_KEY) || '0', 10);
             displayTotalScore(totalMedalsEarned);
@@ -2599,7 +2607,7 @@
             reorderButton.addEventListener('click', performManualSort);
             darkModeToggle.addEventListener('click', toggleDarkMode);
             resetTotalScoreButton.addEventListener('click', resetTotalScore);
-            startAppButton.addEventListener('click', showAppInterface);
+            if(startAppButton) startAppButton.addEventListener('click', showAppInterface); // Asegurar que el listener se añade
 
             infoButton.addEventListener('click', () => { infoModal.classList.add('visible'); infoModal.setAttribute('role','dialog'); infoModal.setAttribute('aria-modal','true'); requestAnimationFrame(() => (infoModal.querySelector('button') || closeModalButton).focus()); });
             const closeInfo = () => { infoModal.classList.remove('visible'); infoModal.removeAttribute('role'); infoModal.removeAttribute('aria-modal'); infoButton.focus();};
@@ -2645,9 +2653,9 @@
                          if (appMainInterface && !appMainInterface.classList.contains('hidden') && !window.timersInitializedOnShow) {
                              renderTodosUI();
                              initializeActiveTimersFromStorage();
-                             window.timersInitializedOnShow = true; // Marcar inicialización
+                             window.timersInitializedOnShow = true;
                          } else if (appMainInterface && appMainInterface.classList.contains('hidden')) {
-                             window.timersInitializedOnShow = false; // Resetear si se oculta
+                             window.timersInitializedOnShow = false;
                          }
                      }
                  });
