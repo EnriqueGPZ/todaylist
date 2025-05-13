@@ -1,0 +1,33 @@
+{
+  "name": "ToDayList - Gestor de Tareas",
+  "short_name": "ToDayList",
+  "description": "Tu gestor de tareas diarias en español.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#d4ccbc",
+  "theme_color": "#34495e",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon-96x96.png", // Asegúrate que esta ruta es correcta
+      "sizes": "96x96",
+      "type": "image/png"
+    },
+    {
+      "src": "/apple-touch-icon.png", // Asegúrate que esta ruta es correcta
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-192x192.png", // Necesitas crear este icono
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable" // maskable es bueno para iconos adaptativos
+    },
+    {
+      "src": "/icon-512x512.png", // Necesitas crear este icono
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
