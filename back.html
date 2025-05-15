@@ -521,7 +521,7 @@
             padding: 15px;
             margin-bottom: 15px;
             box-sizing: border-box;
-            transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, padding 0.3s ease;
+            transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, padding 0.3s ease, border-left-color 0.3s ease;
             box-shadow: 0 1px 3px rgba(0,0,0,0.08);
             border-left: 5px solid var(--border-color);
             padding-left: 10px;
@@ -959,11 +959,19 @@
             background-color: var(--progress-bar-completed-color);
         }
 
-        .todo-item.completed .priority-color-label,
+        /* --- MODIFICACIÓN SOLICITADA --- */
+        .todo-item.completed .priority-color-label {
+            background-color: transparent !important;
+            border-color: var(--border-color) !important; /* Para que el borde sea el genérico, como el 'none' */
+            cursor: default; /* Para indicar que no es interactivo */
+        }
+
         .todo-item.completed .subtasks-list li .app-button {
-            opacity: 0.7;
+            opacity: 0.7; /* Mantener opacidad para estos botones de subtarea */
             cursor: default;
         }
+        /* --- FIN MODIFICACIÓN SOLICITADA --- */
+
 
         .todo-item.completed .main-task-header .task-body .task-actions-group .google-calendar-button,
         .todo-item.completed .main-task-header .task-body .task-actions-group .task-timer-button {
@@ -1002,8 +1010,8 @@
             opacity: 0.4;
         }
 
-        .todo-item.completed .priority-color-label:hover,
-        .todo-item.completed .subtasks-list li .app-button:hover {
+        .todo-item.completed .priority-color-label:hover, /* :hover ya no tiene efecto visual de transform */
+        .todo-item.completed .subtasks-list li .app-button:hover { /* :hover ya no tiene efecto visual de transform */
             color: inherit;
             text-decoration: none;
             transform: none;
@@ -1344,6 +1352,7 @@
         .todo-item.completed {
             padding-top: 8px;
             padding-bottom: 8px;
+            border-left-color: transparent !important; /* --- MODIFICACIÓN SOLICITADA --- */
         }
 
         .todo-item.completed .main-task-header {
