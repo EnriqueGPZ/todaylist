@@ -69,9 +69,9 @@
            "https://www.todaylist.es/favicon-96x96.png",
            "https://www.todaylist.es/favicon.svg"
         ],
-        "softwareVersion": "1.1.4", // Actualizar si es necesario
-        "datePublished": "2024-03-15", // Podrías actualizar la fecha de la última modificación mayor
-        "keywords": "lista de tareas, to-do list, gestor de tareas diarias, organizador personal, productividad, planificación diaria, tareas pendientes, subtareas, prioridades, web app, task management, daily planner, online organizer, google drive sync, google calendar integration, free app, español, en español, tareas recurrentes, programar eventos, recurring events, temporizador tareas, task timer, contador dias tarea"
+        "softwareVersion": "1.1.5", // Actualizar si es necesario (ej. nueva versión con IndexedDB)
+        "datePublished": "2024-03-15", 
+        "keywords": "lista de tareas, to-do list, gestor de tareas diarias, organizador personal, productividad, planificación diaria, tareas pendientes, subtareas, prioridades, web app, task management, daily planner, online organizer, google drive sync, google calendar integration, free app, español, en español, tareas recurrentes, programar eventos, recurring events, temporizador tareas, task timer, contador dias tarea, indexeddb"
       }
     }
     </script>
@@ -2212,6 +2212,216 @@
     <script async defer src="https://accounts.google.com/gsi/client" onload="if(window.googleApiCallbacks && typeof window.googleApiCallbacks.gisLoaded === 'function') { window.isGoogleGisScriptReady = true; window.googleApiCallbacks.gisLoaded(); } else { console.error('googleApiCallbacks.gisLoaded no definido'); }"></script>
 
     <script type="module">
+        // --- IndexedDB Setup ---
+        const DB_NAME = 'ToDayListDB';
+        const DB_VERSION = 1; // Si cambias la estructura de la BD, incrementa esto
+        const TASKS_STORE_NAME = 'tasks';
+        const SETTINGS_STORE_NAME = 'settings';
+        const DAILY_MEDALS_STORE_NAME = 'dailyMedals';
+        const ACTIVE_TIMERS_STORE_NAME = 'activeTimers';
+        const MIGRATION_FLAG_KEY = 'migrationV1toIndexedDBDone'; // Clave para la bandera de migración
+        let db;
+
+        function openDB() {
+            return new Promise((resolve, reject) => {
+                const request = indexedDB.open(DB_NAME, DB_VERSION);
+
+                request.onupgradeneeded = (event) => {
+                    const dbInstance = event.target.result;
+                    if (!dbInstance.objectStoreNames.contains(TASKS_STORE_NAME)) {
+                        const taskStore = dbInstance.createObjectStore(TASKS_STORE_NAME, { keyPath: 'id' });
+                        taskStore.createIndex('completed', 'completed', { unique: false });
+                        taskStore.createIndex('priorityColor', 'priorityColor', { unique: false });
+                        taskStore.createIndex('createdAt', 'createdAt', { unique: false });
+                        taskStore.createIndex('order', 'order', { unique: false });
+                    }
+                    if (!dbInstance.objectStoreNames.contains(SETTINGS_STORE_NAME)) {
+                        dbInstance.createObjectStore(SETTINGS_STORE_NAME, { keyPath: 'key' });
+                    }
+                    if (!dbInstance.objectStoreNames.contains(DAILY_MEDALS_STORE_NAME)) {
+                        dbInstance.createObjectStore(DAILY_MEDALS_STORE_NAME, { keyPath: 'date' });
+                    }
+                    if (!dbInstance.objectStoreNames.contains(ACTIVE_TIMERS_STORE_NAME)) {
+                        dbInstance.createObjectStore(ACTIVE_TIMERS_STORE_NAME, { keyPath: 'id' });
+                    }
+                };
+
+                request.onsuccess = (event) => {
+                    db = event.target.result;
+                    resolve(db);
+                };
+
+                request.onerror = (event) => {
+                    console.error('IndexedDB error:', event.target.errorCode);
+                    reject(event.target.errorCode);
+                };
+            });
+        }
+
+        function dbOperation(storeName, mode, operation) {
+            return new Promise((resolve, reject) => {
+                if (!db) {
+                    console.error("DB not initialized for operation");
+                    return reject("DB not initialized");
+                }
+                const transaction = db.transaction(storeName, mode);
+                const store = transaction.objectStore(storeName);
+                operation(store, resolve, reject);
+                transaction.oncomplete = () => {
+                    // Resolve se llama dentro de la operación si es exitosa
+                };
+                transaction.onerror = (event) => {
+                    console.error(`Transaction error on ${storeName}:`, event.target.error);
+                    reject(event.target.error);
+                };
+            });
+        }
+
+        function dbPut(storeName, data) {
+            return dbOperation(storeName, 'readwrite', (store, resolve, reject) => {
+                const request = store.put(data);
+                request.onsuccess = () => resolve(request.result);
+                request.onerror = (event) => reject(event.target.error);
+            });
+        }
+
+        function dbGet(storeName, key) {
+            return dbOperation(storeName, 'readonly', (store, resolve, reject) => {
+                const request = store.get(key);
+                request.onsuccess = () => resolve(request.result);
+                request.onerror = (event) => reject(event.target.error);
+            });
+        }
+
+        function dbGetAll(storeName) {
+            return dbOperation(storeName, 'readonly', (store, resolve, reject) => {
+                const request = store.getAll();
+                request.onsuccess = () => resolve(request.result);
+                request.onerror = (event) => reject(event.target.error);
+            });
+        }
+
+        function dbDelete(storeName, key) {
+            return dbOperation(storeName, 'readwrite', (store, resolve, reject) => {
+                const request = store.delete(key);
+                request.onsuccess = () => resolve();
+                request.onerror = (event) => reject(event.target.error);
+            });
+        }
+        
+        function dbClear(storeName) {
+            return dbOperation(storeName, 'readwrite', (store, resolve, reject) => {
+                const request = store.clear();
+                request.onsuccess = () => resolve();
+                request.onerror = (event) => reject(event.target.error);
+            });
+        }
+        // --- End IndexedDB Setup ---
+
+        // --- Migration Logic ---
+        async function performMigrationFromLocalStorage() {
+            console.log("Iniciando migración desde localStorage a IndexedDB...");
+            try {
+                // 1. Migrar Tareas
+                const storedTodos = localStorage.getItem('todoListAppTasks');
+                if (storedTodos) {
+                    const oldTodos = JSON.parse(storedTodos);
+                    if (Array.isArray(oldTodos)) {
+                        let taskPromises = [];
+                        const migratedTodos = oldTodos.map((t, index) => {
+                            const newTask = {
+                                id: t.id || generateLocalId(),
+                                text: t.text || '?',
+                                completed: !!t.completed,
+                                completedDate: t.completedDate || null,
+                                createdAt: t.createdAt || new Date().toISOString(),
+                                subtasks: Array.isArray(t.subtasks) ? t.subtasks.map(s => ({ id: s.id || generateLocalId(), text: s.text || '?', completed: !!s.completed })) : [],
+                                showSubtaskUI: !!t.showSubtaskUI,
+                                priorityColor: PRIORITY_COLORS.includes(t.priorityColor) ? t.priorityColor : 'none',
+                                date: (typeof t.date === 'string' && t.date.match(/^\d{4}-\d{2}-\d{2}$/)) ? t.date : null,
+                                linkUrl: typeof t.linkUrl === 'string' ? t.linkUrl : null,
+                                order: typeof t.order === 'number' ? t.order : (t.createdAt ? new Date(t.createdAt).getTime() : index)
+                            };
+                            taskPromises.push(dbPut(TASKS_STORE_NAME, newTask));
+                            return newTask;
+                        });
+                        await Promise.all(taskPromises);
+                        console.log(`${migratedTodos.length} tareas migradas.`);
+                        // localStorage.removeItem('todoListAppTasks'); // Descomentar para limpiar localStorage
+                    }
+                }
+
+                // 2. Migrar Tema
+                const storedTheme = localStorage.getItem('todoListTheme');
+                if (storedTheme) {
+                    await dbPut(SETTINGS_STORE_NAME, { key: 'theme', value: storedTheme });
+                    console.log(`Tema '${storedTheme}' migrado.`);
+                    // localStorage.removeItem('todoListTheme');
+                }
+
+                // 3. Migrar Medallas Diarias
+                const storedMedalData = localStorage.getItem('todoListDailyMedalData');
+                if (storedMedalData) {
+                    try {
+                        const medalData = JSON.parse(storedMedalData);
+                        if (medalData && typeof medalData.date === 'string' && typeof medalData.count === 'number') {
+                            await dbPut(DAILY_MEDALS_STORE_NAME, medalData);
+                            console.log(`Datos de medallas para '${medalData.date}' migrados.`);
+                        }
+                    } catch (e) { console.error("Error migrando datos de medallas:", e); }
+                    // localStorage.removeItem('todoListDailyMedalData');
+                }
+
+                // 4. Migrar Total de Medallas
+                const storedTotalMedals = localStorage.getItem('todoListTotalMedals');
+                if (storedTotalMedals) {
+                    const total = parseInt(storedTotalMedals, 10);
+                    if (!isNaN(total)) {
+                        await dbPut(SETTINGS_STORE_NAME, { key: 'totalMedals', value: total });
+                        console.log(`Total de medallas '${total}' migrado.`);
+                    }
+                    // localStorage.removeItem('todoListTotalMedals');
+                }
+
+                // 5. Migrar Notas Rápidas
+                const storedQuickNotes = localStorage.getItem('todoListQuickNotes');
+                if (storedQuickNotes) {
+                    await dbPut(SETTINGS_STORE_NAME, { key: 'quickNotes', value: storedQuickNotes });
+                    console.log("Notas rápidas migradas.");
+                    // localStorage.removeItem('todoListQuickNotes');
+                }
+
+                // 6. Migrar Temporizadores Activos
+                const storedActiveTimers = localStorage.getItem('todoListActiveTimers');
+                if (storedActiveTimers) {
+                    try {
+                        const activeTimers = JSON.parse(storedActiveTimers);
+                        if (typeof activeTimers === 'object' && activeTimers !== null) {
+                            let timerPromises = [];
+                            for (const id in activeTimers) {
+                                if (Object.hasOwnProperty.call(activeTimers, id)) {
+                                    const timerData = { ...activeTimers[id], id: id }; // Asegurar que 'id' está en el objeto
+                                    timerPromises.push(dbPut(ACTIVE_TIMERS_STORE_NAME, timerData));
+                                }
+                            }
+                            await Promise.all(timerPromises);
+                            console.log(`${Object.keys(activeTimers).length} temporizadores activos migrados.`);
+                        }
+                    } catch (e) { console.error("Error migrando temporizadores activos:", e); }
+                    // localStorage.removeItem('todoListActiveTimers');
+                }
+
+                // 7. Marcar la migración como completada
+                await dbPut(SETTINGS_STORE_NAME, { key: MIGRATION_FLAG_KEY, value: true });
+                console.log("Migración completada y bandera establecida.");
+
+            } catch (error) {
+                console.error("Error durante la migración de localStorage a IndexedDB:", error);
+            }
+        }
+        // --- End Migration Logic ---
+
+
         let todoInput;
         let addTodoButton;
         let todoListContainer;
@@ -2246,7 +2456,6 @@
 
         let quickNotesArea;
         let clearNotesButton;
-        const QUICK_NOTES_STORAGE_KEY = 'todoListQuickNotes';
 
         let exportDataButton;
         let importDataButton;
@@ -2256,7 +2465,7 @@
         let importDriveButton;
 
         const CLIENT_ID = '25607067695-mgv7jfvio4vr1goi5ci6o952mgpii8nf.apps.googleusercontent.com';
-        const API_KEY = 'AIzaSyAhr2kqUcRf5qZi0yMHsFDsyp_x8Ekfj7k';
+        const API_KEY = 'AIzaSyAhr2kqUcRf5qZi0yMHsFDsyp_x8Ekfj7k'; // Reemplaza con tu API Key real
 
         const SCOPES = 'https://www.googleapis.com/auth/drive.file';
         let tokenClient;
@@ -2271,16 +2480,10 @@
         let todos = [];
         let totalMedalsEarned = 0;
 
-        const TODOS_STORAGE_KEY = 'todoListAppTasks';
-        const MEDALS_STORAGE_KEY = 'todoListDailyMedalData';
-        const TOTAL_MEDALS_STORAGE_KEY = 'todoListTotalMedals';
-        const THEME_STORAGE_KEY = 'todoListTheme';
-
         const PRIORITY_COLORS = ['none', 'red', 'orange', 'yellow', 'green'];
         const PRIORITY_ORDER = { 'red': 1, 'orange': 2, 'yellow': 3, 'green': 4, 'none': 5 };
 
         let globalTimerInterval = null;
-        const ACTIVE_TIMERS_STORAGE_KEY = 'todoListActiveTimers';
         let alarmAudio;
 
         let timerDurationModal;
@@ -2332,7 +2535,22 @@
             if (!gisInited || !gapiInited || !gapi.client.getToken || !gapi.client.getToken()) { handleAuthClick(exportToGoogleDrive); return; }
             try {
                 await ensureDriveClientLoaded();
-                const dataToExport = { theme: localStorage.getItem(THEME_STORAGE_KEY) || 'dark', dailyMedalData: JSON.parse(localStorage.getItem(MEDALS_STORAGE_KEY) || '{}'), totalMedals: totalMedalsEarned, quickNotesContent: localStorage.getItem(QUICK_NOTES_STORAGE_KEY) || '', tasks: todos };
+                const themeSetting = await dbGet(SETTINGS_STORE_NAME, 'theme');
+                const dailyMedalDataArray = await dbGetAll(DAILY_MEDALS_STORE_NAME);
+                const totalMedalsSetting = await dbGet(SETTINGS_STORE_NAME, 'totalMedals');
+                const quickNotesSetting = await dbGet(SETTINGS_STORE_NAME, 'quickNotes');
+                const tasksFromDB = await dbGetAll(TASKS_STORE_NAME);
+                const activeTimersFromDB = await dbGetAll(ACTIVE_TIMERS_STORE_NAME);
+
+                const dataToExport = { 
+                    theme: themeSetting ? themeSetting.value : 'dark', 
+                    dailyMedalData: dailyMedalDataArray || [], 
+                    totalMedals: totalMedalsSetting ? totalMedalsSetting.value : 0, 
+                    quickNotesContent: quickNotesSetting ? quickNotesSetting.value : '', 
+                    tasks: tasksFromDB || [],
+                    activeTimers: activeTimersFromDB || []
+                };
+
                 const jsonString = JSON.stringify(dataToExport, null, 2); const dateStr = new Date().toISOString().slice(0,10).replace(/-/g,''); const fileName = `todaylist_backup_${dateStr}.json`;
                 const boundary = '-------314159265358979323846'; const delimiter = `\r\n--${boundary}\r\n`; const close_delim = `\r\n--${boundary}--`;
                 const metadata = { 'name': fileName, 'mimeType': 'application/json; charset=UTF-8' };
@@ -2368,7 +2586,7 @@
                     if (typeof response.body !== 'string') { alert("Error: Formato de archivo de Drive incorrecto."); return; }
                     const importedData = JSON.parse(response.body);
                     if (!confirm(`¡Atención! Importar "${fileName}" de Drive reemplazará datos. ¿Continuar?`)) return;
-                    applyImportedData(importedData, `Google Drive (${fileName})`);
+                    await applyImportedData(importedData, `Google Drive (${fileName})`);
                 } catch (error) { console.error('Error importando de Drive:', error); alert('Error al importar de Drive: ' + (error.message || "Desconocido."));}
             } else if (data.action === google.picker.Action.CANCEL) console.log("Selección cancelada."); else if (data.action === google.picker.Action.ERROR ) { console.error("Error Picker:", data); alert("Error con selector de Drive."); }
         }
@@ -2434,14 +2652,38 @@
             if(timerBtn) timerBtn.disabled = false;
         }
 
-        function checkActiveTimers() {
-            let timers = JSON.parse(localStorage.getItem(ACTIVE_TIMERS_STORAGE_KEY) || '{}'); let running = false; const now = Date.now();
-            for (const id in timers) { const t = timers[id], left = t.endTime - now; const el = t.isSubtask && t.parentTaskIdIfSubtask ? document.querySelector(`.todo-item[data-task-id="${t.parentTaskIdIfSubtask}"] .subtasks-list li[data-subtask-id="${id}"]`) : document.querySelector(`.todo-item[data-task-id="${id}"]`);
-                if (!el || el.classList.contains('completed')) { delete timers[id]; updateTimerUI(id, t.isSubtask, t.parentTaskIdIfSubtask, null); continue; }
-                if (left <= 0) { playAlarmSound(); showBrowserNotification(`¡Tiempo finalizado!`, `Tarea "${t.text}" terminada.`); vibrateDevice(); delete timers[id]; updateTimerUI(id, t.isSubtask, t.parentTaskIdIfSubtask, 0, true); }
-                else { running = true; updateTimerUI(id, t.isSubtask, t.parentTaskIdIfSubtask, left); }}
-            localStorage.setItem(ACTIVE_TIMERS_STORAGE_KEY, JSON.stringify(timers)); if (!running && globalTimerInterval) { clearInterval(globalTimerInterval); globalTimerInterval = null; }
+        async function checkActiveTimers() {
+            let timersArray = await dbGetAll(ACTIVE_TIMERS_STORE_NAME);
+            let timers = {};
+            timersArray.forEach(t => timers[t.id] = t);
+
+            let running = false; const now = Date.now();
+            let operations = [];
+
+            for (const id in timers) { 
+                const t = timers[id], left = t.endTime - now; 
+                const el = t.isSubtask && t.parentTaskIdIfSubtask ? document.querySelector(`.todo-item[data-task-id="${t.parentTaskIdIfSubtask}"] .subtasks-list li[data-subtask-id="${id}"]`) : document.querySelector(`.todo-item[data-task-id="${id}"]`);
+                
+                if (!el || el.classList.contains('completed')) { 
+                    operations.push(dbDelete(ACTIVE_TIMERS_STORE_NAME, id));
+                    updateTimerUI(id, t.isSubtask, t.parentTaskIdIfSubtask, null); 
+                    continue; 
+                }
+                if (left <= 0) { 
+                    playAlarmSound(); 
+                    showBrowserNotification(`¡Tiempo finalizado!`, `Tarea "${t.text}" terminada.`); 
+                    vibrateDevice(); 
+                    operations.push(dbDelete(ACTIVE_TIMERS_STORE_NAME, id));
+                    updateTimerUI(id, t.isSubtask, t.parentTaskIdIfSubtask, 0, true); 
+                } else { 
+                    running = true; 
+                    updateTimerUI(id, t.isSubtask, t.parentTaskIdIfSubtask, left); 
+                }
+            }
+            await Promise.all(operations);
+            if (!running && globalTimerInterval) { clearInterval(globalTimerInterval); globalTimerInterval = null; }
         }
+
         function startGlobalTimerInterval() { if (!globalTimerInterval) { globalTimerInterval = setInterval(checkActiveTimers, 1000); checkActiveTimers(); }}
 
         function showTimerDurationModal(taskText, callback) {
@@ -2464,48 +2706,73 @@
                 timerDurationModal.removeAttribute('role');
                 timerDurationModal.removeAttribute('aria-modal');
             }
-            // Considerar devolver foco al botón que abrió el modal
-            // const lastOpenedTimerButton = document.querySelector('[data-last-opened-timer]');
-            // if (lastOpenedTimerButton) {
-            //    lastOpenedTimerButton.focus();
-            //    lastOpenedTimerButton.removeAttribute('data-last-opened-timer');
-            // }
             currentTimerCallback = null;
         }
 
-        function handleTimerButtonClick(event, id, taskText, isSubtask = false, parentTaskIdIfSubtask = null) {
-            if(event) event.currentTarget.setAttribute('data-last-opened-timer', 'true'); // Marcar para posible devolución de foco
+        async function handleTimerButtonClick(event, id, taskText, isSubtask = false, parentTaskIdIfSubtask = null) {
+            if(event) event.currentTarget.setAttribute('data-last-opened-timer', 'true'); 
 
-            let activeTimers = JSON.parse(localStorage.getItem(ACTIVE_TIMERS_STORAGE_KEY) || '{}');
+            let activeTimer = await dbGet(ACTIVE_TIMERS_STORE_NAME, id);
             const taskEl = isSubtask && parentTaskIdIfSubtask ? document.querySelector(`.todo-item[data-task-id="${parentTaskIdIfSubtask}"] .subtasks-list li[data-subtask-id="${id}"]`) : document.querySelector(`.todo-item[data-task-id="${id}"]`);
             if (taskEl && taskEl.classList.contains('completed')) { alert("No se puede iniciar timer para tarea completada."); return; }
-            if (activeTimers[id]) {
-                if (confirm(`¿Cancelar temporizador para "${activeTimers[id].text}"?`)) {
-                    delete activeTimers[id]; localStorage.setItem(ACTIVE_TIMERS_STORAGE_KEY, JSON.stringify(activeTimers)); updateTimerUI(id, isSubtask, parentTaskIdIfSubtask, null);
-                    if (Object.keys(activeTimers).length === 0 && globalTimerInterval) { clearInterval(globalTimerInterval); globalTimerInterval = null; }
+
+            if (activeTimer) {
+                if (confirm(`¿Cancelar temporizador para "${activeTimer.text}"?`)) {
+                    await dbDelete(ACTIVE_TIMERS_STORE_NAME, id);
+                    updateTimerUI(id, isSubtask, parentTaskIdIfSubtask, null);
+                    const allTimers = await dbGetAll(ACTIVE_TIMERS_STORE_NAME);
+                    if (allTimers.length === 0 && globalTimerInterval) { clearInterval(globalTimerInterval); globalTimerInterval = null; }
                 }
             } else {
-                showTimerDurationModal(taskText, (durationMinutes) => {
-                    activeTimers[id] = { endTime: Date.now() + durationMinutes * 60000, duration: durationMinutes, text: taskText, isSubtask: isSubtask, parentTaskIdIfSubtask: parentTaskIdIfSubtask };
-                    localStorage.setItem(ACTIVE_TIMERS_STORAGE_KEY, JSON.stringify(activeTimers)); startGlobalTimerInterval();
+                showTimerDurationModal(taskText, async (durationMinutes) => {
+                    const newTimer = { id: id, endTime: Date.now() + durationMinutes * 60000, duration: durationMinutes, text: taskText, isSubtask: isSubtask, parentTaskIdIfSubtask: parentTaskIdIfSubtask };
+                    await dbPut(ACTIVE_TIMERS_STORE_NAME, newTimer);
+                    startGlobalTimerInterval();
                 });
             }
         }
 
-        function initializeActiveTimersFromStorage() {
-            let timers = JSON.parse(localStorage.getItem(ACTIVE_TIMERS_STORAGE_KEY) || '{}'); let needsInterval = false; const now = Date.now();
-            for (const id in timers) { const t = timers[id]; const el = t.isSubtask && t.parentTaskIdIfSubtask ? document.querySelector(`.todo-item[data-task-id="${t.parentTaskIdIfSubtask}"] .subtasks-list li[data-subtask-id="${id}"]`) : document.querySelector(`.todo-item[data-task-id="${id}"]`);
-                if (!el || el.classList.contains('completed')) { delete timers[id]; updateTimerUI(id, t.isSubtask, t.parentTaskIdIfSubtask, null); continue; }
-                if (t.endTime > now) needsInterval = true; else { delete timers[id]; updateTimerUI(id, t.isSubtask, t.parentTaskIdIfSubtask, null); }}
-            localStorage.setItem(ACTIVE_TIMERS_STORAGE_KEY, JSON.stringify(timers));
-            if (needsInterval) startGlobalTimerInterval(); else if (globalTimerInterval) { clearInterval(globalTimerInterval); globalTimerInterval = null; }
-            if (todoListContainer) {
+        async function initializeActiveTimersFromStorage() {
+            let timersArray = await dbGetAll(ACTIVE_TIMERS_STORE_NAME);
+            let needsInterval = false; const now = Date.now();
+            let operations = [];
+
+            for (const t of timersArray) {
+                const el = t.isSubtask && t.parentTaskIdIfSubtask ? document.querySelector(`.todo-item[data-task-id="${t.parentTaskIdIfSubtask}"] .subtasks-list li[data-subtask-id="${t.id}"]`) : document.querySelector(`.todo-item[data-task-id="${t.id}"]`);
+                if (!el || el.classList.contains('completed')) { 
+                    operations.push(dbDelete(ACTIVE_TIMERS_STORE_NAME, t.id));
+                    updateTimerUI(t.id, t.isSubtask, t.parentTaskIdIfSubtask, null); 
+                    continue; 
+                }
+                if (t.endTime > now) needsInterval = true; 
+                else { 
+                    operations.push(dbDelete(ACTIVE_TIMERS_STORE_NAME, t.id));
+                    updateTimerUI(t.id, t.isSubtask, t.parentTaskIdIfSubtask, null); 
+                }
+            }
+            await Promise.all(operations);
+
+            if (needsInterval) startGlobalTimerInterval(); 
+            else if (globalTimerInterval) { clearInterval(globalTimerInterval); globalTimerInterval = null; }
+            
+            if (todoListContainer) { 
+                const currentTimers = await dbGetAll(ACTIVE_TIMERS_STORE_NAME);
+                const currentTimersMap = currentTimers.reduce((acc, t) => { acc[t.id] = t; return acc; }, {});
+
                 todoListContainer.querySelectorAll('.todo-item:not(.completed)').forEach(taskItem => {
-                    const mainId = taskItem.dataset.taskId; if (timers[mainId]) updateTimerUI(mainId, false, null, timers[mainId].endTime - now); else updateTimerUI(mainId, false, null, null);
-                    taskItem.querySelectorAll('.subtasks-list li').forEach(subItem => { const subId = subItem.dataset.subtaskId; if (timers[subId]) updateTimerUI(subId, true, mainId, timers[subId].endTime - now); else updateTimerUI(subId, true, mainId, null); });
+                    const mainId = taskItem.dataset.taskId; 
+                    if (currentTimersMap[mainId]) updateTimerUI(mainId, false, null, currentTimersMap[mainId].endTime - now); 
+                    else updateTimerUI(mainId, false, null, null);
+                    
+                    taskItem.querySelectorAll('.subtasks-list li').forEach(subItem => { 
+                        const subId = subItem.dataset.subtaskId; 
+                        if (currentTimersMap[subId]) updateTimerUI(subId, true, mainId, currentTimersMap[subId].endTime - now); 
+                        else updateTimerUI(subId, true, mainId, null); 
+                    });
                 });
             }
         }
+
 
         function generateLocalId() { return '_' + Math.random().toString(36).substring(2, 15); }
         function findTaskById(id) { return todos.find(t => t.id === id); }
@@ -2513,59 +2780,80 @@
         function displayMedalCount(c) { if (medalCountDisplay) medalCountDisplay.textContent = c; }
         function displayTotalScore(c) { if (totalScoreValueDisplay) totalScoreValueDisplay.textContent = String(c).padStart(3, '0'); }
 
-        // --- NUEVA FUNCIÓN PARA CALCULAR DÍAS ---
         function calculateDaysAgo(isoDateString) {
             if (!isoDateString) return '';
             const taskDate = new Date(isoDateString);
             const today = new Date();
-
-            // Normalizar a medianoche para contar días naturales
             const taskDayStart = new Date(taskDate.getFullYear(), taskDate.getMonth(), taskDate.getDate());
             const todayStart = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-
             const diffTime = todayStart.getTime() - taskDayStart.getTime();
             const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-
-            if (diffDays < 0) return ''; // Fecha futura, no mostrar nada.
-            if (diffDays === 0) {
-                return 'Hoy';
-            } else if (diffDays === 1) {
-                return 'Ayer';
-            } else {
-                return `Hace ${diffDays} días`;
-            }
+            if (diffDays < 0) return ''; 
+            if (diffDays === 0) return 'Hoy';
+            else if (diffDays === 1) return 'Ayer';
+            else return `Hace ${diffDays} días`;
         }
-        // --- FIN NUEVA FUNCIÓN ---
 
+        async function loadInitialDataFromDB() {
+            const migrationFlag = await dbGet(SETTINGS_STORE_NAME, MIGRATION_FLAG_KEY);
+            if (!migrationFlag || !migrationFlag.value) {
+                await performMigrationFromLocalStorage();
+            }
 
-        function loadTodosFromLocalStorage() {
-            const stored = localStorage.getItem(TODOS_STORAGE_KEY);
-            if (stored) {
-                todos = JSON.parse(stored).map(t => ({
+            const tasksFromDB = await dbGetAll(TASKS_STORE_NAME);
+            if (tasksFromDB) {
+                todos = tasksFromDB.map(t => ({
                     id: t.id || generateLocalId(),
                     text: t.text || '?',
                     completed: !!t.completed,
                     completedDate: t.completedDate || null,
-                    createdAt: t.createdAt || new Date().toISOString(), // Asegurar que 'createdAt' exista
+                    createdAt: t.createdAt || new Date().toISOString(),
                     subtasks: Array.isArray(t.subtasks) ? t.subtasks.map(s => ({ id: s.id || generateLocalId(), text: s.text || '?', completed: !!s.completed })) : [],
                     showSubtaskUI: !!t.showSubtaskUI,
                     priorityColor: PRIORITY_COLORS.includes(t.priorityColor) ? t.priorityColor : 'none',
                     date: (typeof t.date === 'string' && t.date.match(/^\d{4}-\d{2}-\d{2}$/)) ? t.date : null,
                     linkUrl: typeof t.linkUrl === 'string' ? t.linkUrl : null,
-                    order: typeof t.order === 'number' ? t.order : Date.now()
-                }));
+                    order: typeof t.order === 'number' ? t.order : (t.createdAt ? new Date(t.createdAt).getTime() : 0)
+                })).sort((a,b) => (a.order || 0) - (b.order || 0));
             } else {
                 todos = [];
             }
+
+            const themeSetting = await dbGet(SETTINGS_STORE_NAME, 'theme');
+            if (themeSetting && themeSetting.value === 'light') {
+                await disableDarkMode(); 
+            } else {
+                await enableDarkMode(); 
+            }
+            
+            const totalMedalsSetting = await dbGet(SETTINGS_STORE_NAME, 'totalMedals');
+            totalMedalsEarned = totalMedalsSetting ? (totalMedalsSetting.value || 0) : 0;
+            displayTotalScore(totalMedalsEarned);
+
+            const quickNotesSetting = await dbGet(SETTINGS_STORE_NAME, 'quickNotes');
+            if (quickNotesArea) quickNotesArea.value = quickNotesSetting ? (quickNotesSetting.value || '') : '';
+
+            displayMedalCount((await loadAndRefreshMedalData()).count);
         }
-        function saveTodosToLocalStorage() { localStorage.setItem(TODOS_STORAGE_KEY, JSON.stringify(todos)); }
-        function loadAndRefreshMedalData() {
-            let data = JSON.parse(localStorage.getItem(MEDALS_STORAGE_KEY)||null); const today = getTodayDateString(); if(!data||data.date!==today){data={date:today, count:todos.filter(t=>t.completed&&t.completedDate===today).length}; localStorage.setItem(MEDALS_STORAGE_KEY,JSON.stringify(data));} return data;
+        
+        async function loadAndRefreshMedalData() {
+            const today = getTodayDateString();
+            let data = await dbGet(DAILY_MEDALS_STORE_NAME, today);
+            if(!data || data.date !== today){
+                data = {date: today, count: todos.filter(t => t.completed && t.completedDate === today).length};
+                await dbPut(DAILY_MEDALS_STORE_NAME, data);
+            } 
+            return data;
         }
-        function updateMedalCount(change) {
-            let data = loadAndRefreshMedalData(); data.count = Math.max(0, data.count + change); localStorage.setItem(MEDALS_STORAGE_KEY, JSON.stringify(data)); displayMedalCount(data.count);
+        async function updateMedalCount(change) {
+            let data = await loadAndRefreshMedalData(); 
+            data.count = Math.max(0, data.count + change); 
+            await dbPut(DAILY_MEDALS_STORE_NAME, data);
+            displayMedalCount(data.count);
         }
+
         function syncAndRender() { renderTodosUI(); initializeActiveTimersFromStorage(); }
+        
         function calculateSubtaskProgress(subtasks) {
             if (!subtasks || subtasks.length === 0) return 0; return (subtasks.filter(s => s.completed).length / subtasks.length) * 100;
         }
@@ -2581,12 +2869,9 @@
             prefixGrp.append(chkLbl, checkbox, priorityLbl);
 
             const bodyDiv = document.createElement('div'); bodyDiv.classList.add('task-body');
-
-            // --- MODIFICACIÓN PARA CONTADOR DE DÍAS ---
             const taskTextAndInfoContainer = document.createElement('div');
             taskTextAndInfoContainer.classList.add('task-text-and-info');
-
-            const span = document.createElement('span'); // Span para el texto de la tarea
+            const span = document.createElement('span'); 
             span.textContent = mainTask.text;
             span.title = mainTask.text;
             taskTextAndInfoContainer.appendChild(span);
@@ -2600,11 +2885,29 @@
                     taskTextAndInfoContainer.appendChild(daysAgoSpan);
                 }
             }
-            // --- FIN MODIFICACIÓN ---
 
             const actionsGrp = document.createElement('div'); actionsGrp.classList.add('task-actions-group');
             const linkBtn = document.createElement('button'); linkBtn.classList.add('app-button', 'link-button', mainTask.linkUrl ? 'link-on' : 'link-off'); linkBtn.innerHTML = '<i class="fas fa-link"></i>'; linkBtn.setAttribute('aria-label','Enlace'); linkBtn.title = mainTask.linkUrl ? `Abrir: ${mainTask.linkUrl}` : 'Añadir enlace';
-            linkBtn.onclick = () => { const task = findTaskById(mainTask.id); if (!task || (task.completed && !task.linkUrl)) return; if (task.linkUrl) window.open(new URL(task.linkUrl).href, '_blank'); else if (!task.completed) { let newUrl = prompt("URL:", task.linkUrl || ""); if (newUrl === null) return; newUrl = newUrl.trim(); let finalUrl = null; if (newUrl) { finalUrl = (newUrl.startsWith('http') ? '' : 'https://') + newUrl; try {new URL(finalUrl);} catch { finalUrl = task.linkUrl; alert("URL inválida.");}} if (task.linkUrl !== finalUrl) { task.linkUrl = finalUrl; saveTodosToLocalStorage(); syncAndRender(); }}};
+            linkBtn.onclick = async () => { 
+                const task = findTaskById(mainTask.id); 
+                if (!task || (task.completed && !task.linkUrl)) return; 
+                if (task.linkUrl) window.open(new URL(task.linkUrl).href, '_blank'); 
+                else if (!task.completed) { 
+                    let newUrl = prompt("URL:", task.linkUrl || ""); 
+                    if (newUrl === null) return; 
+                    newUrl = newUrl.trim(); 
+                    let finalUrl = null; 
+                    if (newUrl) { 
+                        finalUrl = (newUrl.startsWith('http') ? '' : 'https://') + newUrl; 
+                        try {new URL(finalUrl);} catch { finalUrl = task.linkUrl; alert("URL inválida.");}
+                    } 
+                    if (task.linkUrl !== finalUrl) { 
+                        task.linkUrl = finalUrl; 
+                        await dbPut(TASKS_STORE_NAME, task); 
+                        syncAndRender(); 
+                    }
+                }
+            };
             const calBtn = document.createElement('button'); calBtn.classList.add('app-button', 'google-calendar-button'); calBtn.innerHTML = '<i class="far fa-calendar-plus"></i>'; calBtn.setAttribute('aria-label','Agendar'); calBtn.title = 'Agendar en Calendar'; if(mainTask.completed) calBtn.disabled = true;
             calBtn.onclick = () => { if (!mainTask.completed) showReminderModal(mainTask.id); };
             const timerBtn = document.createElement('button'); timerBtn.classList.add('app-button', 'task-timer-button'); timerBtn.innerHTML = '<i class="fas fa-clock"></i>'; timerBtn.setAttribute('aria-label','Temporizador'); timerBtn.title = 'Iniciar temporizador';
@@ -2613,7 +2916,7 @@
             delBtn.onclick = () => { if (confirm(`¿Borrar "${mainTask.text}"?`)) deleteTodo(mainTask.id); };
             actionsGrp.append(linkBtn, calBtn, timerBtn, delBtn);
 
-            bodyDiv.append(taskTextAndInfoContainer, actionsGrp); // Añadir el contenedor de texto/info y las acciones
+            bodyDiv.append(taskTextAndInfoContainer, actionsGrp); 
             header.append(prefixGrp, bodyDiv);
             return header;
         }
@@ -2625,7 +2928,21 @@
         }
         function createAddSubtasksToggle(id) {
             const btn = document.createElement('button'); btn.classList.add('app-button','add-button','add-subtasks-toggle'); btn.innerHTML='<i class="fas fa-plus"></i>'; btn.setAttribute('aria-label','Sub-tarea');
-            btn.onclick=()=>{const t=findTaskById(id);if(t){if(t.completed)return; t.showSubtaskUI=!t.showSubtaskUI; if(t.showSubtaskUI&&(!t.subtasks||t.subtasks.length===0))t.subtasks=[]; saveTodosToLocalStorage();syncAndRender(); if(t.showSubtaskUI){const liEl=todoListContainer.querySelector(`li[data-task-id="${id}"] .subtask-input-container input[type="text"]`); if(liEl)setTimeout(()=>liEl.focus(),0);}}}; return btn;
+            btn.onclick= async ()=>{
+                const t=findTaskById(id);
+                if(t){
+                    if(t.completed)return; 
+                    t.showSubtaskUI=!t.showSubtaskUI; 
+                    if(t.showSubtaskUI&&(!t.subtasks||t.subtasks.length===0)) t.subtasks=[]; 
+                    await dbPut(TASKS_STORE_NAME, t);
+                    syncAndRender(); 
+                    if(t.showSubtaskUI){
+                        const liEl=todoListContainer.querySelector(`li[data-task-id="${id}"] .subtask-input-container input[type="text"]`); 
+                        if(liEl)setTimeout(()=>liEl.focus(),0);
+                    }
+                }
+            }; 
+            return btn;
         }
         function createSubtasksList(mainTask) {
             const ul=document.createElement('ul');ul.classList.add('subtasks-list');if(mainTask.subtasks&&mainTask.subtasks.length>0){mainTask.subtasks.forEach((s,i)=>{const li=document.createElement('li');li.dataset.subtaskId=s.id;const chk=document.createElement('input');chk.type='checkbox';chk.classList.add('custom-checkbox');chk.checked=s.completed;chk.id=`sub-chk-${s.id}`;if(mainTask.completed)chk.disabled=true;const lbl=document.createElement('label');lbl.htmlFor=chk.id;lbl.classList.add('sr-only');lbl.textContent=`Marcar ${s.text}`;chk.onchange=()=>{if(!mainTask.completed)toggleSubtaskCompletion(mainTask.id,s.id);};const span=document.createElement('span');span.textContent=s.text;span.title=s.text;const tBtn=document.createElement('button');tBtn.classList.add('app-button','task-timer-button');tBtn.innerHTML='<i class="fas fa-clock"></i>';tBtn.title='Temporizador';tBtn.onclick=(e)=>{e.stopPropagation();handleTimerButtonClick(e, s.id,s.text,true,mainTask.id);};const up=document.createElement('button');up.classList.add('app-button','subtask-move-button');up.innerHTML='<i class="fas fa-arrow-up"></i>';up.title='Arriba';if(mainTask.completed||i===0)up.disabled=true;up.onclick=()=>{if(!mainTask.completed)moveSubtaskUp(mainTask.id,s.id);};const down=document.createElement('button');down.classList.add('app-button','subtask-move-button');down.innerHTML='<i class="fas fa-arrow-down"></i>';down.title='Abajo';if(mainTask.completed||i===mainTask.subtasks.length-1)down.disabled=true;down.onclick=()=>{if(!mainTask.completed)moveSubtaskDown(mainTask.id,s.id);};const del=document.createElement('button');del.classList.add('app-button','delete-button');del.innerHTML='<i class="fas fa-trash-alt"></i>';del.title='Eliminar';if(mainTask.completed)del.disabled=true;del.onclick=()=>{if(!mainTask.completed)deleteSubtask(mainTask.id,s.id);};li.append(lbl,chk,span,tBtn,up,down,del);ul.appendChild(li);});}return ul;
@@ -2637,53 +2954,325 @@
             if(!todoListContainer)return;todoListContainer.innerHTML='';todos.forEach(t=>{const li=document.createElement('li');li.classList.add('todo-item');li.dataset.taskId=t.id;li.dataset.priorityColor=t.priorityColor||'none';if(t.completed)li.classList.add('completed');if(t.showSubtaskUI)li.classList.add('show-subtask-ui');li.appendChild(createMainTaskHeader(t));li.appendChild(createProgressBar(t));li.appendChild(createAddSubtasksToggle(t.id));if(t.subtasks&&t.subtasks.length>0)li.appendChild(createSubtasksList(t));if(t.showSubtaskUI&&!t.completed)li.appendChild(createSubtaskInputContainer(t.id));todoListContainer.appendChild(li);});if(todoInput)todoInput.value='';
         }
 
-        function cyclePriorityColor(id) {
-            const t=findTaskById(id);if(t&&!t.completed){const i=PRIORITY_COLORS.indexOf(t.priorityColor||'none');t.priorityColor=PRIORITY_COLORS[(i+1)%PRIORITY_COLORS.length];saveTodosToLocalStorage();const li=todoListContainer.querySelector(`li[data-task-id="${t.id}"]`);if(li){li.dataset.priorityColor=t.priorityColor;const pl=li.querySelector('.priority-color-label');if(pl){pl.dataset.color=t.priorityColor;pl.title=`Prioridad: ${t.priorityColor.charAt(0).toUpperCase()+t.priorityColor.slice(1)}`;}}}
+        async function cyclePriorityColor(id) {
+            const t=findTaskById(id);
+            if(t&&!t.completed){
+                const i=PRIORITY_COLORS.indexOf(t.priorityColor||'none');
+                t.priorityColor=PRIORITY_COLORS[(i+1)%PRIORITY_COLORS.length];
+                await dbPut(TASKS_STORE_NAME, t);
+                const li=todoListContainer.querySelector(`li[data-task-id="${t.id}"]`);
+                if(li){
+                    li.dataset.priorityColor=t.priorityColor;
+                    const pl=li.querySelector('.priority-color-label');
+                    if(pl){pl.dataset.color=t.priorityColor;pl.title=`Prioridad: ${t.priorityColor.charAt(0).toUpperCase()+t.priorityColor.slice(1)}`;}
+                }
+            }
         }
-        function showAppInterface() {
-            if(welcomeSection)welcomeSection.classList.add('hidden');if(installInstructionsSection)installInstructionsSection.classList.add('hidden');if(appMainInterface)appMainInterface.classList.remove('hidden');if(todoInput)todoInput.focus();requestNotificationPermission();if(!window.timersInitializedOnShow){renderTodosUI();initializeActiveTimersFromStorage();window.timersInitializedOnShow=true;}}
-        function addTodo() {
-            const txt=todoInput.value.trim();if(txt==='')return alert('Tarea vacía.');const order=todos.length>0?Math.max(...todos.map(t=>t.order||0)):-1;const nt={id:generateLocalId(),text:txt,completed:false,completedDate:null,createdAt:new Date().toISOString(),subtasks:[],showSubtaskUI:false,priorityColor:'none',date:null,linkUrl:null,order:order+1};todos.push(nt);saveTodosToLocalStorage();syncAndRender();if(todoInput)todoInput.value='';if(todos.length===1&&welcomeSection&&!welcomeSection.classList.contains('hidden'))showAppInterface();
+        async function showAppInterface() {
+            if(welcomeSection)welcomeSection.classList.add('hidden');
+            if(installInstructionsSection)installInstructionsSection.classList.add('hidden');
+            if(appMainInterface)appMainInterface.classList.remove('hidden');
+            if(todoInput)todoInput.focus();
+            requestNotificationPermission();
+            if(!window.timersInitializedOnShow){
+                renderTodosUI(); 
+                await initializeActiveTimersFromStorage();
+                window.timersInitializedOnShow=true;
+            }
         }
-        function addSubtask(id,input) {
-            const txt=input.value.trim();if(txt==='')return alert('Sub-tarea vacía.');const mt=findTaskById(id);if(mt&&!mt.completed){if(!mt.subtasks)mt.subtasks=[];mt.subtasks.push({id:generateLocalId(),text:txt,completed:false});mt.showSubtaskUI=false;saveTodosToLocalStorage();syncAndRender();}}
-        function deleteTodo(id) {
-            const idx=findTaskIndexById(id);if(idx>-1){const tDel=todos[idx];if(tDel.completed&&tDel.completedDate===getTodayDateString())updateMedalCount(-1);let timers=JSON.parse(localStorage.getItem(ACTIVE_TIMERS_STORAGE_KEY)||'{}');if(timers[tDel.id])delete timers[tDel.id];if(tDel.subtasks)tDel.subtasks.forEach(s=>{if(timers[s.id])delete timers[s.id];});localStorage.setItem(ACTIVE_TIMERS_STORAGE_KEY,JSON.stringify(timers));todos.splice(idx,1);saveTodosToLocalStorage();syncAndRender();if(todos.length===0&&welcomeSection&&appMainInterface&&installInstructionsSection){welcomeSection.classList.remove('hidden');installInstructionsSection.classList.remove('hidden');appMainInterface.classList.add('hidden');}}}
-        function deleteSubtask(mainId,subId) {
-            const mt=findTaskById(mainId);if(mt&&mt.subtasks&&!mt.completed){const idx=mt.subtasks.findIndex(s=>s.id===subId);if(idx>-1){let timers=JSON.parse(localStorage.getItem(ACTIVE_TIMERS_STORAGE_KEY)||'{}');if(timers[subId])delete timers[subId];localStorage.setItem(ACTIVE_TIMERS_STORAGE_KEY,JSON.stringify(timers));mt.subtasks.splice(idx,1);saveTodosToLocalStorage();syncAndRender();}}}
-        function toggleSubtaskCompletion(mainId,subId) {
-            const mt=findTaskById(mainId);if(mt&&mt.subtasks&&!mt.completed){const s=mt.subtasks.find(st=>st.id===subId);if(s){s.completed=!s.completed;if(s.completed){let timers=JSON.parse(localStorage.getItem(ACTIVE_TIMERS_STORAGE_KEY)||'{}');if(timers[s.id])delete timers[s.id];localStorage.setItem(ACTIVE_TIMERS_STORAGE_KEY,JSON.stringify(timers));}saveTodosToLocalStorage();syncAndRender();}}}
-        function toggleMainCompletion(id,isChecked) {
-            const t=findTaskById(id);if(t){if(!isChecked&&t.subtasks&&t.subtasks.some(s=>!s.completed)){const chk=todoListContainer.querySelector(`li[data-task-id="${t.id}"] .main-task-header .custom-checkbox`);if(chk)chk.checked=true;alert("Desmarca subtareas incompletas.");return;}t.completed=isChecked;const today=getTodayDateString();if(isChecked){if(!t.completedDate||t.completedDate!==today)updateMedalCount(1);if(!t.completedDate){totalMedalsEarned++;localStorage.setItem(TOTAL_MEDALS_STORAGE_KEY,String(totalMedalsEarned));displayTotalScore(totalMedalsEarned);}t.completedDate=today;t.showSubtaskUI=false;if(t.subtasks)t.subtasks.forEach(s=>s.completed=true);if(typeof confetti==='function')confetti({particleCount:150,spread:90,origin:{y:0.55}});let timers=JSON.parse(localStorage.getItem(ACTIVE_TIMERS_STORAGE_KEY)||'{}');if(timers[t.id])delete timers[t.id];if(t.subtasks)t.subtasks.forEach(s=>{if(timers[s.id])delete timers[s.id];});localStorage.setItem(ACTIVE_TIMERS_STORAGE_KEY,JSON.stringify(timers));}else{if(t.completedDate===today)updateMedalCount(-1);t.completedDate=null;}saveTodosToLocalStorage();syncAndRender();}}
+        async function addTodo() {
+            const txt=todoInput.value.trim();if(txt==='')return alert('Tarea vacía.');
+            const order=todos.length > 0 ? Math.max(...todos.map(t => t.order || 0)) + 1 : 0;
+            const nt={id:generateLocalId(),text:txt,completed:false,completedDate:null,createdAt:new Date().toISOString(),subtasks:[],showSubtaskUI:false,priorityColor:'none',date:null,linkUrl:null,order:order};
+            await dbPut(TASKS_STORE_NAME, nt);
+            todos.push(nt); 
+            todos.sort((a,b) => (a.order || 0) - (b.order || 0)); 
+            syncAndRender();
+            if(todoInput)todoInput.value='';
+            if(todos.length===1&&welcomeSection&&!welcomeSection.classList.contains('hidden'))showAppInterface();
+        }
+        async function addSubtask(id,input) {
+            const txt=input.value.trim();if(txt==='')return alert('Sub-tarea vacía.');
+            const mt=findTaskById(id);
+            if(mt&&!mt.completed){
+                if(!mt.subtasks)mt.subtasks=[];
+                mt.subtasks.push({id:generateLocalId(),text:txt,completed:false});
+                mt.showSubtaskUI=false;
+                await dbPut(TASKS_STORE_NAME, mt);
+                syncAndRender();
+            }
+        }
+        async function deleteTodo(id) {
+            const idx=findTaskIndexById(id);
+            if(idx>-1){
+                const tDel=todos[idx];
+                if(tDel.completed&&tDel.completedDate===getTodayDateString()) await updateMedalCount(-1);
+                
+                let activeTimers = await dbGetAll(ACTIVE_TIMERS_STORE_NAME);
+                let timerOperations = [];
+                if (activeTimers.find(timer => timer.id === tDel.id)) {
+                    timerOperations.push(dbDelete(ACTIVE_TIMERS_STORE_NAME, tDel.id));
+                }
+                if(tDel.subtasks) {
+                    for (const s of tDel.subtasks) { // Usar for...of para await dentro del loop si es necesario
+                        if (activeTimers.find(timer => timer.id === s.id)) {
+                           timerOperations.push(dbDelete(ACTIVE_TIMERS_STORE_NAME, s.id));
+                        }
+                    }
+                }
+                await Promise.all(timerOperations);
 
-        function moveSubtask(mainId,subId,dir) {
-            const mt=findTaskById(mainId);if(mt&&mt.subtasks&&!mt.completed){const i=mt.subtasks.findIndex(s=>s.id===subId);if(i===-1)return;const ni=i+dir;if(ni>=0&&ni<mt.subtasks.length){[mt.subtasks[i],mt.subtasks[ni]]=[mt.subtasks[ni],mt.subtasks[i]];saveTodosToLocalStorage();syncAndRender();}}}
+                await dbDelete(TASKS_STORE_NAME, id);
+                todos.splice(idx,1);
+                syncAndRender();
+                if(todos.length===0&&welcomeSection&&appMainInterface&&installInstructionsSection){
+                    welcomeSection.classList.remove('hidden');
+                    installInstructionsSection.classList.remove('hidden');
+                    appMainInterface.classList.add('hidden');
+                }
+            }
+        }
+        async function deleteSubtask(mainId,subId) {
+            const mt=findTaskById(mainId);
+            if(mt&&mt.subtasks&&!mt.completed){
+                const idx=mt.subtasks.findIndex(s=>s.id===subId);
+                if(idx>-1){
+                    const activeTimer = await dbGet(ACTIVE_TIMERS_STORE_NAME, subId);
+                    if (activeTimer) await dbDelete(ACTIVE_TIMERS_STORE_NAME, subId);
+                    
+                    mt.subtasks.splice(idx,1);
+                    await dbPut(TASKS_STORE_NAME, mt);
+                    syncAndRender();
+                }
+            }
+        }
+        async function toggleSubtaskCompletion(mainId,subId) {
+            const mt=findTaskById(mainId);
+            if(mt&&mt.subtasks&&!mt.completed){
+                const s=mt.subtasks.find(st=>st.id===subId);
+                if(s){
+                    s.completed=!s.completed;
+                    if(s.completed){
+                        const activeTimer = await dbGet(ACTIVE_TIMERS_STORE_NAME, s.id);
+                        if (activeTimer) await dbDelete(ACTIVE_TIMERS_STORE_NAME, s.id);
+                    }
+                    await dbPut(TASKS_STORE_NAME, mt);
+                    syncAndRender();
+                }
+            }
+        }
+        async function toggleMainCompletion(id,isChecked) {
+            const t=findTaskById(id);
+            if(t){
+                if(!isChecked&&t.subtasks&&t.subtasks.some(s=>!s.completed)){
+                    const chk=todoListContainer.querySelector(`li[data-task-id="${t.id}"] .main-task-header .custom-checkbox`);
+                    if(chk)chk.checked=true;
+                    alert("Desmarca subtareas incompletas.");
+                    return;
+                }
+                t.completed=isChecked;
+                const today=getTodayDateString();
+                if(isChecked){
+                    if(!t.completedDate||t.completedDate!==today) await updateMedalCount(1);
+                    if(!t.completedDate){
+                        totalMedalsEarned++;
+                        await dbPut(SETTINGS_STORE_NAME, {key: 'totalMedals', value: totalMedalsEarned});
+                        displayTotalScore(totalMedalsEarned);
+                    }
+                    t.completedDate=today;
+                    t.showSubtaskUI=false;
+                    if(t.subtasks)t.subtasks.forEach(s=>s.completed=true);
+                    if(typeof confetti==='function')confetti({particleCount:150,spread:90,origin:{y:0.55}});
+                    
+                    let timerOperations = [];
+                    const activeTimerMain = await dbGet(ACTIVE_TIMERS_STORE_NAME, t.id);
+                    if (activeTimerMain) timerOperations.push(dbDelete(ACTIVE_TIMERS_STORE_NAME, t.id));
+                    if(t.subtasks) {
+                        for (const s of t.subtasks) {
+                            const activeTimerSub = await dbGet(ACTIVE_TIMERS_STORE_NAME, s.id);
+                            if (activeTimerSub) timerOperations.push(dbDelete(ACTIVE_TIMERS_STORE_NAME, s.id));
+                        }
+                    }
+                    await Promise.all(timerOperations);
+
+                }else{
+                    if(t.completedDate===today) await updateMedalCount(-1);
+                    t.completedDate=null;
+                }
+                await dbPut(TASKS_STORE_NAME, t);
+                syncAndRender();
+            }
+        }
+
+        async function moveSubtask(mainId,subId,dir) {
+            const mt=findTaskById(mainId);
+            if(mt&&mt.subtasks&&!mt.completed){
+                const i=mt.subtasks.findIndex(s=>s.id===subId);
+                if(i===-1)return;
+                const ni=i+dir;
+                if(ni>=0&&ni<mt.subtasks.length){
+                    [mt.subtasks[i],mt.subtasks[ni]]=[mt.subtasks[ni],mt.subtasks[i]];
+                    await dbPut(TASKS_STORE_NAME, mt);
+                    syncAndRender();
+                }
+            }
+        }
         function moveSubtaskUp(mainId,subId){moveSubtask(mainId,subId,-1);}
         function moveSubtaskDown(mainId,subId){moveSubtask(mainId,subId,1);}
-        function performManualSort() {
-            todos.sort((a,b)=>{if(a.completed!==b.completed)return a.completed?1:-1;const rA=PRIORITY_ORDER[a.priorityColor]||PRIORITY_ORDER['none'],rB=PRIORITY_ORDER[b.priorityColor]||PRIORITY_ORDER['none'];if(rA!==rB)return rA-rB;const dA=a.date?new Date(a.date).getTime():Infinity,dB=b.date?new Date(b.date).getTime():Infinity;if(dA!==dB)return dA-dB;return(a.order||0)-(b.order||0);});todos.forEach((t,i)=>t.order=i);saveTodosToLocalStorage();syncAndRender();
+        
+        async function performManualSort() {
+            todos.sort((a,b)=>{
+                if(a.completed!==b.completed)return a.completed?1:-1;
+                const rA=PRIORITY_ORDER[a.priorityColor]||PRIORITY_ORDER['none'],rB=PRIORITY_ORDER[b.priorityColor]||PRIORITY_ORDER['none'];
+                if(rA!==rB)return rA-rB;
+                const dA=a.date?new Date(a.date).getTime():Infinity,dB=b.date?new Date(b.date).getTime():Infinity;
+                if(dA!==dB)return dA-dB;
+                // Fallback to creation if order is same or not present, older first
+                const createdAtA = a.createdAt ? new Date(a.createdAt).getTime() : Infinity;
+                const createdAtB = b.createdAt ? new Date(b.createdAt).getTime() : Infinity;
+                return createdAtA - createdAtB;
+            });
+            
+            let updatePromises = [];
+            todos.forEach((t,i)=>{
+                t.order=i; // Re-assign order based on new sort
+                updatePromises.push(dbPut(TASKS_STORE_NAME, t));
+            });
+            await Promise.all(updatePromises);
+            syncAndRender();
         }
-        function enableDarkMode() {
-            body.classList.add('dark-mode');localStorage.setItem(THEME_STORAGE_KEY,'dark');if(darkModeToggle){darkModeToggle.querySelector('i').className='fas fa-sun';darkModeToggle.setAttribute('aria-label','Modo claro');darkModeToggle.title='Modo claro';}
-        }
-        function disableDarkMode() {
-            body.classList.remove('dark-mode');localStorage.setItem(THEME_STORAGE_KEY,'light');if(darkModeToggle){darkModeToggle.querySelector('i').className='fas fa-moon';darkModeToggle.setAttribute('aria-label','Modo oscuro');darkModeToggle.title='Modo oscuro';}}
-        function toggleDarkMode() { body.classList.contains('dark-mode')?disableDarkMode():enableDarkMode();syncAndRender();}
 
-        function exportAllDataLocal() {
-            const data={theme:localStorage.getItem(THEME_STORAGE_KEY)||'dark',dailyMedalData:JSON.parse(localStorage.getItem(MEDALS_STORAGE_KEY)||'{}'),totalMedals:totalMedalsEarned,quickNotesContent:localStorage.getItem(QUICK_NOTES_STORAGE_KEY)||'',tasks:todos};const json=JSON.stringify(data,null,2);const blob=new Blob([json],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=`todolist-backup-${new Date().toISOString().slice(0,10).replace(/-/g,'')}.json`;document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);alert('Datos exportados: '+a.download);
+        async function enableDarkMode() {
+            body.classList.add('dark-mode');
+            await dbPut(SETTINGS_STORE_NAME, {key: 'theme', value: 'dark'});
+            if(darkModeToggle){darkModeToggle.querySelector('i').className='fas fa-sun';darkModeToggle.setAttribute('aria-label','Modo claro');darkModeToggle.title='Modo claro';}
         }
-        function applyImportedData(data,src="local"){
-            try{if(typeof data!=='object'||!data||!Array.isArray(data.tasks))throw new Error('Formato inválido.');localStorage.setItem(THEME_STORAGE_KEY,data.theme==='light'?'light':'dark');if(data.theme==='light')disableDarkMode();else enableDarkMode();if(data.dailyMedalData&&typeof data.dailyMedalData.date==='string'&&typeof data.dailyMedalData.count==='number')localStorage.setItem(MEDALS_STORAGE_KEY,JSON.stringify(data.dailyMedalData));else localStorage.removeItem(MEDALS_STORAGE_KEY);totalMedalsEarned=(typeof data.totalMedals==='number'&&!isNaN(data.totalMedals))?data.totalMedals:0;localStorage.setItem(TOTAL_MEDALS_STORAGE_KEY,String(totalMedalsEarned));displayTotalScore(totalMedalsEarned);quickNotesArea.value=typeof data.quickNotesContent==='string'?data.quickNotesContent:'';localStorage.setItem(QUICK_NOTES_STORAGE_KEY,quickNotesArea.value);todos=data.tasks.map(t=>({id:t.id||generateLocalId(),text:t.text||'?',completed:!!t.completed,completedDate:t.completedDate||null,createdAt:t.createdAt||new Date().toISOString(),subtasks:Array.isArray(t.subtasks)?t.subtasks.map(s=>({id:s.id||generateLocalId(),text:s.text||'?',completed:!!s.completed})):[],showSubtaskUI:!!t.showSubtaskUI,priorityColor:PRIORITY_COLORS.includes(t.priorityColor)?t.priorityColor:'none',date:(typeof t.date==='string'&&t.date.match(/^\d{4}-\d{2}-\d{2}$/))?t.date:null,linkUrl:typeof t.linkUrl==='string'?t.linkUrl:null,order:typeof t.order==='number'?t.order:Date.now()}));const idMap=new Set();todos.forEach(t=>{if(idMap.has(t.id))t.id=generateLocalId();idMap.add(t.id);if(t.subtasks){const sIdMap=new Set();t.subtasks.forEach(s=>{if(sIdMap.has(s.id))s.id=generateLocalId();sIdMap.add(s.id);});}});saveTodosToLocalStorage();localStorage.removeItem(ACTIVE_TIMERS_STORAGE_KEY);if(globalTimerInterval)clearInterval(globalTimerInterval);globalTimerInterval=null;alert(`Datos importados desde ${src}. Recargando...`);window.location.reload();}catch(e){console.error(`Error importando ${src}:`,e);alert(`Error: ${e.message}`);}
-        }
-        function importAllDataLocal(event) {
-            const file=event.target.files[0];if(!file)return;if(!confirm("¡Atención! Importar reemplazará datos. ¿Continuar?")){if(importFileInput)importFileInput.value='';return;}const reader=new FileReader();reader.onload=e=>{try{applyImportedData(JSON.parse(e.target.result),"archivo local");}catch(err){alert(`Error: ${err.message}`);}finally{if(importFileInput)importFileInput.value='';}};reader.onerror=()=>{alert('Error al leer archivo.');if(importFileInput)importFileInput.value='';};reader.readAsText(file);
-        }
-        function resetTotalScore() {
-            if(confirm("¿Resetear 'Total Score' a cero?")){totalMedalsEarned=0;localStorage.setItem(TOTAL_MEDALS_STORAGE_KEY,String(totalMedalsEarned));displayTotalScore(totalMedalsEarned);alert("Total Score reseteado.");}
+        async function disableDarkMode() {
+            body.classList.remove('dark-mode');
+            await dbPut(SETTINGS_STORE_NAME, {key: 'theme', value: 'light'});
+            if(darkModeToggle){darkModeToggle.querySelector('i').className='fas fa-moon';darkModeToggle.setAttribute('aria-label','Modo oscuro');darkModeToggle.title='Modo oscuro';}}
+        
+        async function toggleDarkMode() { 
+            if (body.classList.contains('dark-mode')) {
+                await disableDarkMode();
+            } else {
+                await enableDarkMode();
+            }
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
+        async function exportAllDataLocal() {
+            const themeSetting = await dbGet(SETTINGS_STORE_NAME, 'theme');
+            const dailyMedalDataArray = await dbGetAll(DAILY_MEDALS_STORE_NAME); 
+            const totalMedalsSetting = await dbGet(SETTINGS_STORE_NAME, 'totalMedals');
+            const quickNotesSetting = await dbGet(SETTINGS_STORE_NAME, 'quickNotes');
+            const tasksFromDB = await dbGetAll(TASKS_STORE_NAME);
+            const activeTimersFromDB = await dbGetAll(ACTIVE_TIMERS_STORE_NAME);
+
+
+            const data={
+                theme: themeSetting ? themeSetting.value : 'dark', 
+                dailyMedalData: dailyMedalDataArray || [], 
+                totalMedals: totalMedalsSetting ? totalMedalsSetting.value : 0, 
+                quickNotesContent: quickNotesSetting ? quickNotesSetting.value : '', 
+                tasks: tasksFromDB || [],
+                activeTimers: activeTimersFromDB || []
+            };
+            const json=JSON.stringify(data,null,2);const blob=new Blob([json],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=`todolist-backup-${new Date().toISOString().slice(0,10).replace(/-/g,'')}.json`;document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);alert('Datos exportados: '+a.download);
+        }
+        
+        async function applyImportedData(data,src="local"){
+            try{
+                if(typeof data!=='object'||!data||!Array.isArray(data.tasks))throw new Error('Formato inválido.');
+                
+                await dbClear(TASKS_STORE_NAME);
+                await dbClear(SETTINGS_STORE_NAME);
+                await dbClear(DAILY_MEDALS_STORE_NAME);
+                await dbClear(ACTIVE_TIMERS_STORE_NAME);
+
+                await dbPut(SETTINGS_STORE_NAME, {key: 'theme', value: data.theme==='light'?'light':'dark'});
+                if(data.theme==='light') await disableDarkMode(); else await enableDarkMode();
+                
+                totalMedalsEarned=(typeof data.totalMedals==='number'&&!isNaN(data.totalMedals))?data.totalMedals:0;
+                await dbPut(SETTINGS_STORE_NAME, {key: 'totalMedals', value: totalMedalsEarned});
+                displayTotalScore(totalMedalsEarned);
+                
+                const quickNotesVal = typeof data.quickNotesContent==='string'?data.quickNotesContent:'';
+                if (quickNotesArea) quickNotesArea.value = quickNotesVal;
+                await dbPut(SETTINGS_STORE_NAME, {key: 'quickNotes', value: quickNotesVal});
+
+                if (Array.isArray(data.dailyMedalData)) {
+                    for (const medalEntry of data.dailyMedalData) {
+                        if (medalEntry && typeof medalEntry.date === 'string' && typeof medalEntry.count === 'number') {
+                           await dbPut(DAILY_MEDALS_STORE_NAME, medalEntry);
+                        }
+                    }
+                }
+
+                todos = data.tasks.map(t=>({id:t.id||generateLocalId(),text:t.text||'?',completed:!!t.completed,completedDate:t.completedDate||null,createdAt:t.createdAt||new Date().toISOString(),subtasks:Array.isArray(t.subtasks)?t.subtasks.map(s=>({id:s.id||generateLocalId(),text:s.text||'?',completed:!!s.completed})):[],showSubtaskUI:!!t.showSubtaskUI,priorityColor:PRIORITY_COLORS.includes(t.priorityColor)?t.priorityColor:'none',date:(typeof t.date==='string'&&t.date.match(/^\d{4}-\d{2}-\d{2}$/))?t.date:null,linkUrl:typeof t.linkUrl==='string'?t.linkUrl:null,order:typeof t.order==='number'?t.order: (t.createdAt ? new Date(t.createdAt).getTime() : 0)}));
+                const idMap=new Set();
+                let taskPromises = [];
+                todos.forEach(t=>{
+                    if(idMap.has(t.id))t.id=generateLocalId();
+                    idMap.add(t.id);
+                    if(t.subtasks){
+                        const sIdMap=new Set();
+                        t.subtasks.forEach(s=>{if(sIdMap.has(s.id))s.id=generateLocalId();sIdMap.add(s.id);});
+                    }
+                    taskPromises.push(dbPut(TASKS_STORE_NAME, t));
+                });
+                await Promise.all(taskPromises);
+
+                if (Array.isArray(data.activeTimers)) {
+                    let timerPromises = [];
+                    data.activeTimers.forEach(timer => {
+                        timerPromises.push(dbPut(ACTIVE_TIMERS_STORE_NAME, timer));
+                    });
+                    await Promise.all(timerPromises);
+                }
+                // Marcar la migración como completada también al importar, para evitar que se ejecute la migración de localStorage
+                await dbPut(SETTINGS_STORE_NAME, { key: MIGRATION_FLAG_KEY, value: true });
+
+                if(globalTimerInterval)clearInterval(globalTimerInterval);globalTimerInterval=null;
+                alert(`Datos importados desde ${src}. Recargando...`);
+                window.location.reload();
+            }catch(e){console.error(`Error importando ${src}:`,e);alert(`Error: ${e.message}`);}
+        }
+
+        async function importAllDataLocal(event) {
+            const file=event.target.files[0];if(!file)return;
+            if(!confirm("¡Atención! Importar reemplazará datos. ¿Continuar?")){if(importFileInput)importFileInput.value='';return;}
+            const reader=new FileReader();
+            reader.onload=async e=>{
+                try{
+                    await applyImportedData(JSON.parse(e.target.result),"archivo local");
+                }catch(err){
+                    alert(`Error: ${err.message}`);
+                }finally{
+                    if(importFileInput)importFileInput.value='';
+                }
+            };
+            reader.onerror=()=>{alert('Error al leer archivo.');if(importFileInput)importFileInput.value='';};
+            reader.readAsText(file);
+        }
+        async function resetTotalScore() {
+            if(confirm("¿Resetear 'Total Score' a cero?")){
+                totalMedalsEarned=0;
+                await dbPut(SETTINGS_STORE_NAME, {key: 'totalMedals', value: 0});
+                displayTotalScore(totalMedalsEarned);
+                alert("Total Score reseteado.");
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                await openDB(); 
+            } catch (error) {
+                console.error("Fallo crítico al abrir IndexedDB:", error);
+                alert("Error: No se pudo inicializar la base de datos. La aplicación podría no funcionar correctamente o perder datos.");
+                return; 
+            }
+
+            // Asignación de elementos del DOM
             todoInput = document.getElementById('new-todo-input');
             addTodoButton = document.getElementById('add-todo-button');
             todoListContainer = document.getElementById('todo-list');
@@ -2725,7 +3314,6 @@
             appMainInterface = document.getElementById('app-main-interface');
             installInstructionsSection = document.getElementById('install-instructions-section');
             alarmAudio = document.getElementById('alarm-sound');
-
             timerDurationModal = document.getElementById('timer-duration-modal');
             closeTimerDurationModalButton = document.getElementById('close-timer-duration-modal');
             timerDurationTaskTextElement = document.getElementById('timer-duration-task-text');
@@ -2733,36 +3321,46 @@
             timerCustomMinutesInput = document.getElementById('timer-custom-minutes');
             setCustomTimerButton = document.getElementById('set-custom-timer-button');
 
-            if (localStorage.getItem(THEME_STORAGE_KEY) === 'light') disableDarkMode(); else enableDarkMode();
-            loadTodosFromLocalStorage();
-            if (todos.length === 0) { welcomeSection.classList.remove('hidden'); installInstructionsSection.classList.remove('hidden'); appMainInterface.classList.add('hidden');
-            } else { appMainInterface.classList.remove('hidden'); if (!appMainInterface.classList.contains('hidden')) { renderTodosUI(); initializeActiveTimersFromStorage(); window.timersInitializedOnShow = true; }}
-            displayMedalCount(loadAndRefreshMedalData().count);
-            totalMedalsEarned = parseInt(localStorage.getItem(TOTAL_MEDALS_STORAGE_KEY) || '0', 10);
-            displayTotalScore(totalMedalsEarned);
+            await loadInitialDataFromDB(); 
 
-            addTodoButton.addEventListener('click', addTodo);
-            todoInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') { e.preventDefault(); addTodo(); } });
-            reorderButton.addEventListener('click', performManualSort);
-            darkModeToggle.addEventListener('click', toggleDarkMode);
-            resetTotalScoreButton.addEventListener('click', resetTotalScore);
-            startAppButton.addEventListener('click', showAppInterface);
+            if (todos.length === 0) { 
+                if (welcomeSection) welcomeSection.classList.remove('hidden'); 
+                if (installInstructionsSection) installInstructionsSection.classList.remove('hidden'); 
+                if (appMainInterface) appMainInterface.classList.add('hidden');
+            } else { 
+                if (appMainInterface) appMainInterface.classList.remove('hidden'); 
+                if (appMainInterface && !appMainInterface.classList.contains('hidden')) { 
+                    renderTodosUI(); 
+                    await initializeActiveTimersFromStorage(); 
+                    window.timersInitializedOnShow = true; 
+                }
+            }
+            
+            // Event Listeners
+            if (addTodoButton) addTodoButton.addEventListener('click', addTodo);
+            if (todoInput) todoInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') { e.preventDefault(); addTodo(); } });
+            if (reorderButton) reorderButton.addEventListener('click', performManualSort);
+            if (darkModeToggle) darkModeToggle.addEventListener('click', toggleDarkMode);
+            if (resetTotalScoreButton) resetTotalScoreButton.addEventListener('click', resetTotalScore);
+            if (startAppButton) startAppButton.addEventListener('click', showAppInterface);
 
-            infoButton.addEventListener('click', () => { infoModal.classList.add('visible'); infoModal.setAttribute('role','dialog'); infoModal.setAttribute('aria-modal','true'); requestAnimationFrame(() => (infoModal.querySelector('button') || closeModalButton).focus()); });
-            const closeInfo = () => { infoModal.classList.remove('visible'); infoModal.removeAttribute('role'); infoModal.removeAttribute('aria-modal'); infoButton.focus();};
-            closeModalButton.addEventListener('click', closeInfo); infoModal.addEventListener('click', e => {if(e.target===infoModal)closeInfo();}); document.addEventListener('keydown', e => {if(e.key==='Escape'&&infoModal.classList.contains('visible'))closeInfo();});
+            if (infoButton) infoButton.addEventListener('click', () => { infoModal.classList.add('visible'); infoModal.setAttribute('role','dialog'); infoModal.setAttribute('aria-modal','true'); requestAnimationFrame(() => (infoModal.querySelector('button') || closeModalButton).focus()); });
+            const closeInfo = () => { if(infoModal) {infoModal.classList.remove('visible'); infoModal.removeAttribute('role'); infoModal.removeAttribute('aria-modal');} if(infoButton) infoButton.focus();};
+            if (closeModalButton) closeModalButton.addEventListener('click', closeInfo); 
+            if (infoModal) infoModal.addEventListener('click', e => {if(e.target===infoModal)closeInfo();}); 
+            document.addEventListener('keydown', e => {if(e.key==='Escape'&&infoModal && infoModal.classList.contains('visible'))closeInfo();});
 
-            closeReminderModalButton.addEventListener('click', hideReminderModal);
-            scheduleReminderButton.addEventListener('click', handleScheduleReminderClick);
-            reminderModal.addEventListener('click', e => { if (e.target === reminderModal) hideReminderModal(); });
-            document.addEventListener('keydown', e => { if (e.key === 'Escape' && reminderModal.classList.contains('visible')) hideReminderModal(); });
+            if (closeReminderModalButton) closeReminderModalButton.addEventListener('click', hideReminderModal);
+            if (scheduleReminderButton) scheduleReminderButton.addEventListener('click', handleScheduleReminderClick);
+            if (reminderModal) reminderModal.addEventListener('click', e => { if (e.target === reminderModal) hideReminderModal(); });
+            document.addEventListener('keydown', e => { if (e.key === 'Escape' && reminderModal && reminderModal.classList.contains('visible')) hideReminderModal(); });
 
-            openQuickScheduleModalButton.addEventListener('click', showQuickScheduleCalendarModal);
-            closeQuickScheduleModalButton.addEventListener('click', hideQuickScheduleCalendarModal);
-            createQuickGoogleCalendarEventButton.addEventListener('click', handleCreateQuickCalendarEvent);
-            quickScheduleCalendarModal.addEventListener('click', e => { if (e.target === quickScheduleCalendarModal) hideQuickScheduleCalendarModal(); });
-            document.addEventListener('keydown', e => { if (e.key === 'Escape' && quickScheduleCalendarModal.classList.contains('visible')) hideQuickScheduleCalendarModal(); });
-            quickGcTypeSelect.addEventListener('change', e => { if (e.target.value === 'WEEKLY') { quickGcWeeklyDaysGroup.classList.remove('hidden'); if (quickGcStartDateInput.value && quickGcWeeklyCheckboxesContainer) { quickGcWeeklyCheckboxesContainer.querySelectorAll('input').forEach(cb => cb.checked = false); try { const dayIdx = new Date(quickGcStartDateInput.value + "T00:00:00").getDay(); const dayCb = quickGcWeeklyCheckboxesContainer.querySelector(`input[data-day-index="${dayIdx}"]`); if(dayCb)dayCb.checked = true; } catch {} }} else quickGcWeeklyDaysGroup.classList.add('hidden'); });
+            if (openQuickScheduleModalButton) openQuickScheduleModalButton.addEventListener('click', showQuickScheduleCalendarModal);
+            if (closeQuickScheduleModalButton) closeQuickScheduleModalButton.addEventListener('click', hideQuickScheduleCalendarModal);
+            if (createQuickGoogleCalendarEventButton) createQuickGoogleCalendarEventButton.addEventListener('click', handleCreateQuickCalendarEvent);
+            if (quickScheduleCalendarModal) quickScheduleCalendarModal.addEventListener('click', e => { if (e.target === quickScheduleCalendarModal) hideQuickScheduleCalendarModal(); });
+            document.addEventListener('keydown', e => { if (e.key === 'Escape' && quickScheduleCalendarModal && quickScheduleCalendarModal.classList.contains('visible')) hideQuickScheduleCalendarModal(); });
+            if (quickGcTypeSelect) quickGcTypeSelect.addEventListener('change', e => { if (e.target.value === 'WEEKLY') { quickGcWeeklyDaysGroup.classList.remove('hidden'); if (quickGcStartDateInput.value && quickGcWeeklyCheckboxesContainer) { quickGcWeeklyCheckboxesContainer.querySelectorAll('input').forEach(cb => cb.checked = false); try { const dayIdx = new Date(quickGcStartDateInput.value + "T00:00:00").getDay(); const dayCb = quickGcWeeklyCheckboxesContainer.querySelector(`input[data-day-index="${dayIdx}"]`); if(dayCb)dayCb.checked = true; } catch {} }} else quickGcWeeklyDaysGroup.classList.add('hidden'); });
             if (quickGcStartDateInput) quickGcStartDateInput.addEventListener('change', () => { if (quickGcTypeSelect.value === 'WEEKLY' && quickGcStartDateInput.value && quickGcWeeklyCheckboxesContainer) { quickGcWeeklyCheckboxesContainer.querySelectorAll('input').forEach(cb => cb.checked = false); try { const dayIdx = new Date(quickGcStartDateInput.value + "T00:00:00").getDay(); const dayCb = quickGcWeeklyCheckboxesContainer.querySelector(`input[data-day-index="${dayIdx}"]`); if(dayCb)dayCb.checked = true; } catch {}}});
 
             if (closeTimerDurationModalButton) closeTimerDurationModalButton.addEventListener('click', hideTimerDurationModal);
@@ -2770,21 +3368,36 @@
             if (timerQuickOptionsContainer) { timerQuickOptionsContainer.addEventListener('click', (e) => { if (e.target.classList.contains('timer-duration-option')) { const mins = parseInt(e.target.dataset.minutes, 10); if (currentTimerCallback && !isNaN(mins)) { const btn = e.target; currentTimerCallback(mins); hideTimerDurationModal(); const lastOpenedTimerButton = document.querySelector('[data-last-opened-timer="true"]'); if(lastOpenedTimerButton) { lastOpenedTimerButton.focus(); lastOpenedTimerButton.removeAttribute('data-last-opened-timer');}} }});}
             if (setCustomTimerButton && timerCustomMinutesInput) { setCustomTimerButton.addEventListener('click', () => { const mins = parseInt(timerCustomMinutesInput.value, 10); if (isNaN(mins) || mins < 1 || mins > 180) { alert("Minutos inválidos (1-180)."); timerCustomMinutesInput.focus(); return; } if (currentTimerCallback) { currentTimerCallback(mins); hideTimerDurationModal(); const lastOpenedTimerButton = document.querySelector('[data-last-opened-timer="true"]'); if(lastOpenedTimerButton) { lastOpenedTimerButton.focus(); lastOpenedTimerButton.removeAttribute('data-last-opened-timer');} } }); timerCustomMinutesInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') { e.preventDefault(); setCustomTimerButton.click(); }});}
 
-            quickNotesArea.value = localStorage.getItem(QUICK_NOTES_STORAGE_KEY) || '';
-            quickNotesArea.addEventListener('input', () => localStorage.setItem(QUICK_NOTES_STORAGE_KEY, quickNotesArea.value));
-            clearNotesButton.addEventListener('click', () => { quickNotesArea.value = ''; localStorage.removeItem(QUICK_NOTES_STORAGE_KEY); quickNotesArea.focus(); });
+            if (quickNotesArea) quickNotesArea.addEventListener('input', async () => await dbPut(SETTINGS_STORE_NAME, {key: 'quickNotes', value: quickNotesArea.value}));
+            if (clearNotesButton) clearNotesButton.addEventListener('click', async () => { 
+                if(quickNotesArea) quickNotesArea.value = ''; 
+                await dbPut(SETTINGS_STORE_NAME, {key: 'quickNotes', value: ''}); 
+                if(quickNotesArea) quickNotesArea.focus(); 
+            });
 
-            exportDataButton.addEventListener('click', exportAllDataLocal);
-            importDataButton.addEventListener('click', () => importFileInput.click());
-            importFileInput.addEventListener('change', importAllDataLocal);
-            exportDriveButton.addEventListener('click', () => handleAuthClick(exportToGoogleDrive));
-            importDriveButton.addEventListener('click', () => handleAuthClick(importFromGoogleDrive));
+            if (exportDataButton) exportDataButton.addEventListener('click', exportAllDataLocal);
+            if (importDataButton) importDataButton.addEventListener('click', () => importFileInput.click());
+            if (importFileInput) importFileInput.addEventListener('change', importAllDataLocal);
+            if (exportDriveButton) exportDriveButton.addEventListener('click', () => handleAuthClick(exportToGoogleDrive));
+            if (importDriveButton) importDriveButton.addEventListener('click', () => handleAuthClick(importFromGoogleDrive));
 
             if (window.isGoogleGisScriptReady) window.googleApiCallbacks.gisLoaded();
             if (window.isGoogleGapiScriptReady) window.googleApiCallbacks.gapiLoaded();
             maybeEnableDriveButtons();
 
-            const observer = new MutationObserver((mutations) => { mutations.forEach(m => { if (m.type === 'attributes' && m.attributeName === 'class') { if (appMainInterface && !appMainInterface.classList.contains('hidden') && !window.timersInitializedOnShow) { renderTodosUI(); initializeActiveTimersFromStorage(); window.timersInitializedOnShow = true; } else if (appMainInterface && appMainInterface.classList.contains('hidden')) window.timersInitializedOnShow = false; }}); });
+            const observer = new MutationObserver(async (mutations) => { 
+                for (const m of mutations) {
+                    if (m.type === 'attributes' && m.attributeName === 'class') { 
+                        if (appMainInterface && !appMainInterface.classList.contains('hidden') && !window.timersInitializedOnShow) { 
+                            renderTodosUI(); 
+                            await initializeActiveTimersFromStorage(); 
+                            window.timersInitializedOnShow = true; 
+                        } else if (appMainInterface && appMainInterface.classList.contains('hidden')) {
+                            window.timersInitializedOnShow = false; 
+                        }
+                    }
+                }
+            });
             if (appMainInterface) observer.observe(appMainInterface, { attributes: true });
         });
     </script>
