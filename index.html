@@ -69,7 +69,7 @@
            "https://www.todaylist.es/favicon-96x96.png",
            "https://www.todaylist.es/favicon.svg"
         ],
-        "softwareVersion": "1.1.5", // Actualizar si es necesario (ej. nueva versión con IndexedDB)
+        "softwareVersion": "2.1.1", // Actualizar si es necesario (ej. nueva versión con IndexedDB)
         "datePublished": "2024-03-15", 
         "keywords": "lista de tareas, to-do list, gestor de tareas diarias, organizador personal, productividad, planificación diaria, tareas pendientes, subtareas, prioridades, web app, task management, daily planner, online organizer, google drive sync, google calendar integration, free app, español, en español, tareas recurrentes, programar eventos, recurring events, temporizador tareas, task timer, contador dias tarea, indexeddb"
       }
@@ -1057,9 +1057,13 @@
                padding: 10px 15px;
                font-size: 1.1rem;
           }
-          #todo-input-container #reorder-button {
-               margin-left: auto;
+          
+          #reorder-buttons-group {
+            display: flex;
+            gap: 5px; /* Espacio entre botones de ordenamiento */
+            margin-left: auto; /* Empuja el grupo a la derecha */
           }
+
 
         #quick-notes-container {
             margin-top: 25px;
@@ -1292,6 +1296,12 @@
             color: var(--footer-text-color);
             font-size: 0.85em;
         }
+        .footer-version {
+            font-size: 0.75em;
+            color: var(--legend-text-color);
+            margin-top: -6px;
+            margin-bottom: 10px;
+        }
 
         #support-section-footer {
             margin-top: 5px;
@@ -1417,8 +1427,10 @@
             }
 
 
-             #todo-input-container #reorder-button {
+             #todo-input-container #reorder-buttons-group {
                   margin-left: 0;
+                  width: 100%;
+                  justify-content: flex-start; /* Opcional: center, space-between */
              }
              #data-management-section {
                 padding: 15px 10px;
@@ -1489,6 +1501,9 @@
             .footer-text {
                 margin-bottom: 6px;
                 font-size: 0.9em;
+            }
+            .footer-version {
+                font-size: 0.7em;
             }
             .support-intro-text,
             .paypal-link-footer {
@@ -2000,7 +2015,10 @@
                 <label for="new-todo-input" class="sr-only">Agregar nueva tarea</label>
                 <input type="text" id="new-todo-input" placeholder="Agregar nueva tarea...">
                 <button id="add-todo-button" class="app-button add-button" aria-label="Agregar Tarea"><i class="fas fa-plus"></i></button>
-                <button id="reorder-button" class="app-button sort-button" aria-label="Reordenar Tareas"><i class="fas fa-sort-amount-down-alt"></i></button>
+                <div id="reorder-buttons-group">
+                    <button id="reorder-by-priority-button" class="app-button sort-button" aria-label="Reordenar por Prioridad y Antigüedad" title="Reordenar por Prioridad y Antigüedad"><i class="fas fa-sort-amount-down-alt"></i></button>
+                    <button id="reorder-by-creation-button" class="app-button sort-button" aria-label="Reordenar por Antigüedad" title="Reordenar por Antigüedad (más antiguas primero)"><i class="fas fa-history"></i></button>
+                </div>
             </div>
             <div id="priority-legend">
                 Prioridad:
@@ -2148,7 +2166,12 @@
                     </ul>
                 </li>
                 <li><strong>Barra de Progreso:</strong> Indica el porcentaje de sub-tareas completadas. Se llena al 100% cuando la tarea principal se marca como completada.</li>
-                <li><strong>Reordenar Tareas:</strong> Pulsa el botón de reordenar <i class="fas fa-sort-amount-down-alt"></i> para organizar automáticamente todas las tareas por prioridad (de más a menos urgente) y luego por fecha (las más antiguas primero, si tienen).</li>
+                <li><strong>Reordenar Tareas:</strong>
+                    <ul>
+                        <li>Pulsa <i class="fas fa-sort-amount-down-alt"></i> para organizar por prioridad (de más a menos urgente) y luego por antigüedad (más antiguas primero).</li>
+                        <li>Pulsa <i class="fas fa-history"></i> para organizar solo por antigüedad (más antiguas primero).</li>
+                    </ul>
+                </li>
                 <li><strong>Modo Oscuro/Claro:</strong> Utiliza el botón <i class="fas fa-moon"></i> / <i class="fas fa-sun"></i> situado abajo a la derecha para cambiar el tema visual de la aplicación (oscuro por defecto).</li>
                 <li><strong>Eliminar Tareas:</strong> Haz clic en el icono de papelera <i class="fas fa-trash-alt"></i> para eliminar tareas principales o sub-tareas.</li>
                 <li><strong>Anotaciones Rápidas:</strong> Utiliza el área para notas temporales.</li>
@@ -2188,6 +2211,7 @@
     <footer>
         <img src="https://www.todaylist.es/ToDayList.png" alt="Logo ToDayList" class="footer-logo">
         <p class="footer-text">WebApp creada por Henry Gil</p>
+        <p class="footer-version">Versión 2.1.1</p>
 
         <div id="support-section-footer">
             <p class="support-intro-text">¿Te gusta ToDayList? Si te ha sido útil...</p>
@@ -2425,7 +2449,8 @@
         let todoInput;
         let addTodoButton;
         let todoListContainer;
-        let reorderButton;
+        let reorderByPriorityButton; // Renombrado
+        let reorderByCreationButton; // Nuevo
         let darkModeToggle;
         let body;
         let medalCountDisplay;
@@ -3120,17 +3145,35 @@
         function moveSubtaskUp(mainId,subId){moveSubtask(mainId,subId,-1);}
         function moveSubtaskDown(mainId,subId){moveSubtask(mainId,subId,1);}
         
-        async function performManualSort() {
+        async function performSortByPriority() {
             todos.sort((a,b)=>{
-                if(a.completed!==b.completed)return a.completed?1:-1;
-                const rA=PRIORITY_ORDER[a.priorityColor]||PRIORITY_ORDER['none'],rB=PRIORITY_ORDER[b.priorityColor]||PRIORITY_ORDER['none'];
-                if(rA!==rB)return rA-rB;
-                const dA=a.date?new Date(a.date).getTime():Infinity,dB=b.date?new Date(b.date).getTime():Infinity;
-                if(dA!==dB)return dA-dB;
-                // Fallback to creation if order is same or not present, older first
+                if(a.completed!==b.completed)return a.completed?1:-1; // No completadas primero
+                
+                const priorityA = PRIORITY_ORDER[a.priorityColor]||PRIORITY_ORDER['none'];
+                const priorityB = PRIORITY_ORDER[b.priorityColor]||PRIORITY_ORDER['none'];
+                if(priorityA!==priorityB)return priorityA-priorityB; // Por prioridad
+                
                 const createdAtA = a.createdAt ? new Date(a.createdAt).getTime() : Infinity;
                 const createdAtB = b.createdAt ? new Date(b.createdAt).getTime() : Infinity;
-                return createdAtA - createdAtB;
+                return createdAtA - createdAtB; // Luego, por fecha de creación (más antiguas primero)
+            });
+            
+            let updatePromises = [];
+            todos.forEach((t,i)=>{
+                t.order=i; // Re-assign order based on new sort
+                updatePromises.push(dbPut(TASKS_STORE_NAME, t));
+            });
+            await Promise.all(updatePromises);
+            syncAndRender();
+        }
+
+        async function performSortByCreation() {
+            todos.sort((a,b)=>{
+                if(a.completed!==b.completed)return a.completed?1:-1; // No completadas primero
+                
+                const createdAtA = a.createdAt ? new Date(a.createdAt).getTime() : Infinity;
+                const createdAtB = b.createdAt ? new Date(b.createdAt).getTime() : Infinity;
+                return createdAtA - createdAtB; // Luego, por fecha de creación (más antiguas primero)
             });
             
             let updatePromises = [];
@@ -3276,7 +3319,8 @@
             todoInput = document.getElementById('new-todo-input');
             addTodoButton = document.getElementById('add-todo-button');
             todoListContainer = document.getElementById('todo-list');
-            reorderButton = document.getElementById('reorder-button');
+            reorderByPriorityButton = document.getElementById('reorder-by-priority-button');
+            reorderByCreationButton = document.getElementById('reorder-by-creation-button');
             darkModeToggle = document.getElementById('dark-mode-toggle');
             body = document.body;
             medalCountDisplay = document.getElementById('medal-count');
@@ -3339,7 +3383,8 @@
             // Event Listeners
             if (addTodoButton) addTodoButton.addEventListener('click', addTodo);
             if (todoInput) todoInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') { e.preventDefault(); addTodo(); } });
-            if (reorderButton) reorderButton.addEventListener('click', performManualSort);
+            if (reorderByPriorityButton) reorderByPriorityButton.addEventListener('click', performSortByPriority);
+            if (reorderByCreationButton) reorderByCreationButton.addEventListener('click', performSortByCreation);
             if (darkModeToggle) darkModeToggle.addEventListener('click', toggleDarkMode);
             if (resetTotalScoreButton) resetTotalScoreButton.addEventListener('click', resetTotalScore);
             if (startAppButton) startAppButton.addEventListener('click', showAppInterface);
