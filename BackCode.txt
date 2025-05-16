@@ -69,9 +69,9 @@
            "https://www.todaylist.es/favicon-96x96.png",
            "https://www.todaylist.es/favicon.svg"
         ],
-        "softwareVersion": "1.1.3", // Actualizar si es necesario
-        "datePublished": "2024-03-15",
-        "keywords": "lista de tareas, to-do list, gestor de tareas diarias, organizador personal, productividad, planificación diaria, tareas pendientes, subtareas, prioridades, web app, task management, daily planner, online organizer, google drive sync, google calendar integration, free app, español, en español, tareas recurrentes, programar eventos, recurring events, temporizador tareas, task timer"
+        "softwareVersion": "1.1.4", // Actualizar si es necesario
+        "datePublished": "2024-03-15", // Podrías actualizar la fecha de la última modificación mayor
+        "keywords": "lista de tareas, to-do list, gestor de tareas diarias, organizador personal, productividad, planificación diaria, tareas pendientes, subtareas, prioridades, web app, task management, daily planner, online organizer, google drive sync, google calendar integration, free app, español, en español, tareas recurrentes, programar eventos, recurring events, temporizador tareas, task timer, contador dias tarea"
       }
     }
     </script>
@@ -140,7 +140,6 @@
             --reset-button-hover-text-color: #e74c3c;
             --quick-calendar-section-bg: #e9e4d9;
             --quick-calendar-border-color: #d1c8b8;
-            /* Color para el outline de focus-visible (puedes ajustarlo) */
             --focus-visible-outline-color: #3498db;
         }
 
@@ -189,7 +188,6 @@
             --reset-button-hover-text-color: #f39c12;
             --quick-calendar-section-bg: #2f4254;
             --quick-calendar-border-color: #3e5265;
-             /* Color para el outline de focus-visible en dark mode (puedes ajustarlo) */
             --focus-visible-outline-color: #5dade2;
         }
 
@@ -335,7 +333,6 @@
             transition: background-color 0.2s ease, transform 0.2s ease;
             margin-top: 20px;
             display: inline-block;
-            /* Añadido para quitar outline en clic, manteniendo focus-visible */
             outline: none;
         }
         #start-app-button:hover {
@@ -465,7 +462,6 @@
             cursor: pointer;
             line-height: 1;
             vertical-align: middle;
-            /* Añadido para quitar outline en clic, manteniendo focus-visible */
             outline: none;
         }
         #reset-total-score-button:hover {
@@ -474,7 +470,6 @@
         #reset-total-score-button i {
             font-size: 0.9em;
         }
-        /* Estilo para focus-visible en reset button */
         #reset-total-score-button:focus-visible {
              outline: 1px dotted var(--reset-button-hover-text-color);
              outline-offset: 1px;
@@ -521,7 +516,7 @@
             padding: 15px;
             margin-bottom: 15px;
             box-sizing: border-box;
-            transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, padding 0.3s ease;
+            transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, padding 0.3s ease, border-left-color 0.3s ease;
             box-shadow: 0 1px 3px rgba(0,0,0,0.08);
             border-left: 5px solid var(--border-color);
             padding-left: 10px;
@@ -552,15 +547,13 @@
              justify-content: center;
              text-decoration: none;
              color: var(--button-color);
-             /* --- CAMBIO --- Quitar outline por defecto en focus (clic) */
              outline: none;
          }
          .app-button:hover {
              color: var(--button-hover-color);
          }
-         /* --- CAMBIO --- Añadir outline solo en focus visible (teclado) */
          .app-button:focus-visible {
-              outline: 2px solid var(--focus-visible-outline-color); /* Usar variable */
+              outline: 2px solid var(--focus-visible-outline-color);
               outline-offset: 2px;
          }
          .app-button:disabled {
@@ -570,7 +563,6 @@
          .app-button:disabled:hover {
             color: var(--button-color);
          }
-         /* --- CAMBIO --- Asegurar que el focus-visible no se aplique a deshabilitados */
          .app-button:disabled:focus-visible {
              outline: none;
          }
@@ -640,12 +632,11 @@
         #new-todo-input:focus,
         .todo-item .subtask-input-container input[type="text"]:focus {
             border-color: var(--button-hover-color);
-            /* Mantenemos el shadow para el input en focus */
             box-shadow: 0 0 0 0.2rem rgba(231, 76, 60, 0.25);
         }
         body.dark-mode #new-todo-input:focus,
         body.dark-mode .todo-item .subtask-input-container input[type="text"]:focus {
-            box-shadow: 0 0 0 0.2rem rgba(243, 156, 18, 0.2); /* Sombra Dark Mode */
+            box-shadow: 0 0 0 0.2rem rgba(243, 156, 18, 0.2);
         }
 
         #new-todo-input::placeholder,
@@ -668,7 +659,6 @@
              flex-shrink: 0;
              box-sizing: border-box;
              transition: background-color 0.2s ease, border-color 0.2s ease;
-             /* Quitar outline en clic */
              outline: none;
          }
          .custom-checkbox:checked {
@@ -676,7 +666,6 @@
               border-color: var(--text-color);
          }
          .custom-checkbox:focus-visible {
-             /* Añadir outline para teclado */
              outline: 2px solid var(--focus-visible-outline-color);
              outline-offset: 1px;
          }
@@ -696,7 +685,7 @@
 
         .todo-item .main-task-header {
             display: flex;
-            align-items: flex-start;
+            align-items: flex-start; /* Alinea checkbox y texto/acciones */
             margin-bottom: 15px;
             padding: 0;
             gap: 8px;
@@ -707,6 +696,7 @@
             align-items: center;
             gap: 4px;
             flex-shrink: 0;
+            padding-top: 2px; /* Ajuste fino para alinear mejor con el texto si este es multilínea */
         }
 
         .todo-item .priority-color-label {
@@ -719,14 +709,12 @@
              flex-shrink: 0;
              transition: border-color 0.2s ease, transform 0.1s ease, background-color 0.2s ease;
              box-sizing: border-box;
-             /* Quitar outline en clic */
              outline: none;
         }
          .todo-item .priority-color-label:hover {
              transform: scale(1.1);
          }
          .todo-item .priority-color-label:focus-visible {
-             /* Añadir outline para teclado */
              outline: 2px solid var(--focus-visible-outline-color);
              outline-offset: 1px;
          }
@@ -738,35 +726,53 @@
         .priority-color-label[data-color="none"] { background-color: transparent; border-color: var(--border-color); }
 
         .todo-item .main-task-header .task-body {
-            display: flex;
+            display: flex; /* Contenedor de (texto+info) y (acciones) */
             flex-grow: 1;
-            align-items: center; /* ALINEACIÓN VERTICAL CENTRAL */
-            gap: 8px;
-            min-width: 0;
-            flex-wrap: wrap;
+            align-items: flex-start; /* Alinea el grupo de texto/info y el grupo de acciones */
+            gap: 8px; /* Espacio entre texto/info y acciones */
+            min-width: 0; /* Para que el contenido interno se ajuste */
         }
 
-        .todo-item .main-task-header .task-body span:not(.task-timer-countdown) {
+        /* --- NUEVO CONTENEDOR PARA TEXTO Y CONTADOR DE DÍAS --- */
+        .todo-item .main-task-header .task-body .task-text-and-info {
+            display: flex;
+            flex-direction: column; /* Texto arriba, contador de días abajo */
+            flex-grow: 1; /* Ocupa el espacio disponible antes de las acciones */
+            min-width: 0; /* Permite que el texto de la tarea se ajuste (word-break) */
+        }
+
+        /* Estilo para el span del texto de la tarea principal (modificado) */
+        .todo-item .main-task-header .task-body .task-text-and-info > span:first-child:not(.task-timer-countdown):not(.task-days-ago) {
             font-weight: 700;
             font-size: 1.1rem;
-            flex-grow: 1;
             color: var(--text-color);
             transition: color 0.3s ease, text-decoration 0.3s ease, font-size 0.3s ease;
-            min-width: 0;
             word-break: break-word;
             line-height: 1.45;
         }
 
+        /* --- NUEVO ESTILO PARA EL CONTADOR DE DÍAS --- */
+        .task-days-ago {
+            font-size: 0.75rem;
+            color: var(--legend-text-color);
+            margin-top: 2px; /* Pequeño espacio debajo del texto de la tarea */
+            line-height: 1.2;
+        }
+        .todo-item.completed .task-days-ago {
+            display: none; /* Ocultar contador en tareas completadas */
+        }
+        /* --- FIN NUEVOS ESTILOS CONTADOR --- */
+
+
         .todo-item .main-task-header .task-body .task-actions-group {
             display: flex;
-            align-items: center;
+            align-items: center; /* Alinea los botones de acción verticalmente */
             gap: 2px;
-            margin-left: auto;
-            flex-shrink: 0;
+            margin-left: auto; /* Empuja las acciones a la derecha (opcional si task-text-and-info tiene flex-grow) */
+            flex-shrink: 0; /* Evita que el grupo de acciones se encoja */
         }
 
-        /* No es necesario estilo específico para focus en estos botones hijos,
-           heredarán el comportamiento de .app-button */
+
         .todo-item .main-task-header .task-body .task-actions-group .link-button,
         .todo-item .main-task-header .task-body .task-actions-group .google-calendar-button,
         .todo-item .main-task-header .task-body .task-actions-group .task-timer-button {
@@ -836,7 +842,7 @@
         }
         .todo-item .subtasks-list li {
             display: flex;
-            align-items: center; /* ALINEACIÓN VERTICAL CENTRAL */
+            align-items: center;
             margin-bottom: 4px;
             gap: 5px;
         }
@@ -857,7 +863,6 @@
              flex-shrink: 0;
              box-sizing: border-box;
              transition: background-color 0.2s ease, border-color 0.2s ease;
-             /* Quitar outline en clic */
              outline: none;
         }
          .todo-item .subtasks-list li input[type="checkbox"]:checked {
@@ -865,7 +870,6 @@
               border-color: var(--text-color);
          }
          .todo-item .subtasks-list li input[type="checkbox"]:focus-visible {
-             /* Añadir outline para teclado */
              outline: 2px solid var(--focus-visible-outline-color);
              outline-offset: 1px;
          }
@@ -950,20 +954,33 @@
              display: none;
         }
 
-        .todo-item.completed .main-task-header .task-body span:not(.task-timer-countdown),
+        /* Estilo para el span del texto de la tarea principal CUANDO ESTÁ COMPLETADA (y subtareas) */
+        .todo-item.completed .main-task-header .task-body .task-text-and-info > span:first-child:not(.task-timer-countdown):not(.task-days-ago),
         .todo-item.completed .subtasks-list li span:not(.task-timer-countdown) {
             color: var(--completed-text-color);
             text-decoration: line-through;
         }
+        /* Ajuste específico para el tamaño de fuente del texto principal completado */
+        .todo-item.completed .main-task-header .task-body .task-text-and-info > span:first-child:not(.task-timer-countdown):not(.task-days-ago) {
+             font-size: 1rem; /* Reducir tamaño cuando completada */
+        }
+
+
         .todo-item.completed .progress-bar {
             background-color: var(--progress-bar-completed-color);
         }
 
-        .todo-item.completed .priority-color-label,
+        .todo-item.completed .priority-color-label {
+            background-color: transparent !important;
+            border-color: var(--border-color) !important;
+            cursor: default;
+        }
+
         .todo-item.completed .subtasks-list li .app-button {
             opacity: 0.7;
             cursor: default;
         }
+
 
         .todo-item.completed .main-task-header .task-body .task-actions-group .google-calendar-button,
         .todo-item.completed .main-task-header .task-body .task-actions-group .task-timer-button {
@@ -1008,7 +1025,6 @@
             text-decoration: none;
             transform: none;
         }
-        /* Asegurar que los focus-visible no aparezcan en elementos completados */
         .todo-item.completed .priority-color-label:focus-visible,
         .todo-item.completed .app-button:focus-visible,
         .todo-item.completed .custom-checkbox:focus-visible {
@@ -1298,11 +1314,9 @@
             color: var(--legend-text-color);
             text-decoration: none;
             transition: color 0.2s ease;
-            /* Quitar outline en clic */
             outline: none;
         }
         .paypal-link-footer:focus-visible {
-             /* Añadir outline para teclado */
              outline: 1px dashed var(--button-hover-color);
              outline-offset: 1px;
         }
@@ -1324,11 +1338,9 @@
             margin: 0 5px;
             color: var(--legend-text-color);
             text-decoration: none;
-            /* Quitar outline en clic */
             outline: none;
         }
          .footer-legal-links a:focus-visible {
-             /* Añadir outline para teclado */
              outline: 1px dashed var(--button-hover-color);
              outline-offset: 1px;
              text-decoration: underline;
@@ -1344,6 +1356,7 @@
         .todo-item.completed {
             padding-top: 8px;
             padding-bottom: 8px;
+            border-left-color: transparent !important;
         }
 
         .todo-item.completed .main-task-header {
@@ -1359,10 +1372,7 @@
             display: none;
         }
 
-        .todo-item.completed .main-task-header .task-body span {
-            font-size: 1rem;
-            line-height: 1.4;
-        }
+        /* .todo-item.completed .main-task-header .task-body span ya se maneja con el selector más específico */
 
 
         @media (max-width: 500px) {
@@ -1386,13 +1396,16 @@
                 left: 10px;
             }
             .todo-item .main-task-header {
-                row-gap: 8px;
+                row-gap: 8px; /* Mantenido por si acaso, aunque align-items:flex-start puede hacerlo menos relevante */
             }
              .todo-item .main-task-header .task-body {
-                gap: 4px;
+                gap: 4px; /* Espacio reducido entre (texto+info) y (acciones) */
+                /* flex-wrap: wrap;  Considerar si es necesario, puede romper la línea de acciones */
             }
             .todo-item .main-task-header .task-body .task-actions-group {
                 gap: 0;
+                 /* flex-basis: 100%; Si se quiere que las acciones siempre estén en nueva línea en móvil */
+                 /* margin-left: 0;  Si se quiere que las acciones estén alineadas a la izquierda debajo */
             }
              .todo-item .main-task-header .task-body .task-actions-group .app-button {
                 padding-left: 3px;
@@ -1546,11 +1559,10 @@
             font-size: 1.6rem;
         }
 
-        /* Estilos generales para inputs y selects dentro de modales */
         .modal-input-group input[type="text"],
         .modal-input-group input[type="date"],
         .modal-input-group input[type="time"],
-        .modal-input-group input[type="number"], /* Añadido number */
+        .modal-input-group input[type="number"],
         .modal-input-group select,
         .modal-input-group textarea {
             width: 100%;
@@ -1573,12 +1585,12 @@
          .modal-input-group select:focus,
          .modal-input-group textarea:focus {
              border-color: var(--button-hover-color);
-             box-shadow: 0 0 0 0.2rem rgba(231, 76, 60, 0.25); /* Sombra light */
+             box-shadow: 0 0 0 0.2rem rgba(231, 76, 60, 0.25);
          }
          body.dark-mode .modal-input-group input:focus,
          body.dark-mode .modal-input-group select:focus,
          body.dark-mode .modal-input-group textarea:focus {
-              box-shadow: 0 0 0 0.2rem rgba(243, 156, 18, 0.2); /* Sombra dark */
+              box-shadow: 0 0 0 0.2rem rgba(243, 156, 18, 0.2);
          }
 
 
@@ -1602,14 +1614,11 @@
             font-size: 0.8rem;
             font-weight: normal;
         }
-         /* Los inputs ya tienen estilo general arriba */
         #quick-schedule-calendar-modal .modal-input-group input[type="checkbox"] {
             margin-right: 5px;
-             /* Quitar outline en clic */
             outline: none;
         }
          #quick-schedule-calendar-modal .modal-input-group input[type="checkbox"]:focus-visible {
-            /* Añadir outline para teclado */
             outline: 2px solid var(--focus-visible-outline-color);
             outline-offset: 1px;
          }
@@ -1650,25 +1659,24 @@
         #reminder-modal .modal-input-group {
             margin: 15px auto;
             width: fit-content;
-            max-width: 100%; /* Asegurar que no desborde */
+            max-width: 100%;
             display: flex;
             align-items: center;
             gap: 10px;
             justify-content: center;
             flex-direction: row;
-            flex-wrap: wrap; /* Permitir que se envuelva en pantallas pequeñas */
+            flex-wrap: wrap;
         }
         #reminder-modal .modal-input-group label {
             font-size: 0.85rem;
             font-weight: bold;
-            flex-shrink: 0; /* Evitar que la etiqueta se encoja */
+            flex-shrink: 0;
         }
         #reminder-modal .modal-input-group input[type="date"],
         #reminder-modal .modal-input-group input[type="time"] {
-             /* Estilo heredado de .modal-input-group input */
-             width: 130px; /* Ancho específico */
-             flex-grow: 1; /* Permitir crecer si hay espacio */
-             min-width: 100px; /* Ancho mínimo */
+             width: 130px;
+             flex-grow: 1;
+             min-width: 100px;
         }
 
         #schedule-reminder-button {
@@ -1687,11 +1695,9 @@
             text-align: center;
             transition: color 0.2s ease;
             box-shadow: none !important;
-            /* Quitar outline en clic */
             outline: none;
         }
          #schedule-reminder-button:focus-visible {
-             /* Añadir outline para teclado */
              color: var(--schedule-link-hover-text-color) !important;
              outline: 2px solid var(--schedule-link-hover-text-color) !important;
              outline-offset: 2px;
@@ -1756,7 +1762,6 @@
             transition: color 0.2s ease;
             z-index: 10 !important;
             box-shadow: none !important;
-            /* Heredará app-button focus, que ya está corregido */
         }
         div.modal-overlay div.modal-content > button.close-modal:hover {
             color: var(--button-hover-color) !important;
@@ -1781,17 +1786,17 @@
             }
             #quick-schedule-calendar-modal .modal-content h2,
             #reminder-modal .modal-content h2,
-            #timer-duration-modal .modal-content h2 { /* Aplicar a nuevo modal */
+            #timer-duration-modal .modal-content h2 {
                  font-size: 1.1rem;
             }
             #reminder-modal p#reminder-task-text,
-            #timer-duration-modal p#timer-duration-task-text { /* Aplicar a nuevo modal */
+            #timer-duration-modal p#timer-duration-task-text {
                 font-size: 0.85rem;
                 margin-bottom: 15px;
             }
             #quick-schedule-calendar-modal .modal-input-group,
             #reminder-modal .modal-input-group,
-            #timer-duration-modal .modal-input-group { /* Aplicar a nuevo modal */
+            #timer-duration-modal .modal-input-group {
                 margin-bottom: 10px;
                 gap: 8px;
                 flex-direction: column;
@@ -1804,18 +1809,18 @@
              }
             .modal-input-group input[type="date"],
             .modal-input-group input[type="time"],
-            #timer-duration-modal input[type="number"] { /* Aplicar a nuevo modal */
+            #timer-duration-modal input[type="number"] {
                 padding: 6px;
                 font-size: 0.85rem;
                 width: 100%;
             }
             #schedule-reminder-button,
-            #timer-duration-modal #set-custom-timer-button { /* Aplicar a nuevo modal */
+            #timer-duration-modal #set-custom-timer-button {
                 padding: 8px;
                 font-size: 0.9rem;
                 max-width: 100%;
             }
-            #timer-quick-options-container { /* Ajustar botones rápidos en móvil */
+            #timer-quick-options-container {
                 gap: 8px;
             }
             #timer-quick-options-container .timer-duration-option {
@@ -1880,7 +1885,6 @@
             display: none !important;
         }
 
-        /* Estilos para el Modal de Selección de Duración del Temporizador */
         #timer-duration-modal .modal-content {
             max-width: 380px;
         }
@@ -1891,7 +1895,6 @@
             background-color: var(--input-bg);
             border: 1px solid var(--border-color);
             min-width: 80px;
-            /* Hereda comportamiento focus de .app-button */
         }
         #timer-quick-options-container .timer-duration-option:hover {
             background-color: var(--fixed-button-bg);
@@ -1910,25 +1913,22 @@
             font-size: 0.85rem;
         }
         #timer-custom-duration-group input[type="number"] {
-             /* Estilo heredado de .modal-input-group input */
             text-align: center;
         }
 
         #set-custom-timer-button {
-             /* Estilo base de .app-button, pero con colores específicos */
              display: block;
              width: 100%;
              margin-top: 15px;
              background-color: var(--accent-color);
              color: #fff;
-             padding: 10px; /* Ajuste de padding si es necesario */
+             padding: 10px;
         }
         #set-custom-timer-button:hover {
-            background-color: var(--schedule-link-hover-text-color) !important; /* !important para sobreescribir .app-button:hover */
-            color: #fff !important; /* Mantener color de texto */
+            background-color: var(--schedule-link-hover-text-color) !important;
+            color: #fff !important;
         }
         #set-custom-timer-button:focus-visible {
-             /* Estilo focus-visible específico si se desea diferente a .app-button */
              outline-color: var(--schedule-link-hover-text-color);
         }
     </style>
@@ -1952,7 +1952,7 @@
                 ¿Te cuesta empezar? ToDayList convierte tus tareas en pequeñas victorias. Menos caos, más control… y el placer de avanzar sin esfuerzo. Adiós a la procrastinación, hola a la productividad.
             </p>
             <ul>
-                <li><strong>Gestión Intuitiva de Tareas:</strong> Crea, edita y organiza tus tareas fácilmente.</li>
+                <li><strong>Gestión Intuitiva de Tareas:</strong> Crea, edita y organiza tus tareas fácilmente. Verás cuántos días lleva pendiente una tarea.</li>
                 <li><strong>Subtareas Detalladas:</strong> Desglosa tareas complejas en pasos manejables.</li>
                 <li><strong>Prioridades Visuales:</strong> Asigna colores para enfocarte en lo importante.</li>
                 <li><strong>Agendar Recordatorio de Tarea:</strong> El botón <i class="far fa-calendar-plus"></i> en cada tarea te permite enviar un recordatorio a tu Google Calendar.</li>
@@ -2133,7 +2133,7 @@
             <button id="close-modal-button" class="app-button close-modal" aria-label="Cerrar ventana de información">×</button>
             <h2 id="info-modal-title">Cómo usar ToDayList</h2>
             <ol>
-                <li><strong>Añadir Tareas:</strong> Escribe tu tarea en el campo inferior y pulsa el botón <i class="fas fa-plus"></i> o la tecla "Enter".</li>
+                <li><strong>Añadir Tareas:</strong> Escribe tu tarea en el campo inferior y pulsa el botón <i class="fas fa-plus"></i> o la tecla "Enter". Verás debajo del texto de la tarea cuántos días lleva pendiente.</li>
                 <li><strong>Marcar como Completada:</strong> Haz clic en el círculo a la izquierda de la tarea. ¡Ganas una medalla <i class="fas fa-medal"></i> por cada tarea completada en el día! El contador "Total Score" aumenta con cada tarea completada históricamente.</li>
                 <li><strong>Prioridad:</strong> Haz clic en el cuadrado de color junto al círculo para cambiar la prioridad de la tarea (Rojo: Urgente &gt; Naranja: Alta &gt; Amarillo: No Olvidar &gt; Verde: Puede Esperar &gt; Gris: Sin prioridad).</li>
                 <li><strong>Agendar Recordatorio de Tarea:</strong> Haz clic en el icono de calendario <i class="far fa-calendar-plus"></i> en una tarea para enviar un recordatorio de esa tarea específica a tu Google Calendar.</li>
@@ -2283,7 +2283,6 @@
         const ACTIVE_TIMERS_STORAGE_KEY = 'todoListActiveTimers';
         let alarmAudio;
 
-        // Variables para el Modal de Duración del Temporizador
         let timerDurationModal;
         let closeTimerDurationModalButton;
         let timerDurationTaskTextElement;
@@ -2331,7 +2330,7 @@
 
         async function exportToGoogleDrive() {
             if (!gisInited || !gapiInited || !gapi.client.getToken || !gapi.client.getToken()) { handleAuthClick(exportToGoogleDrive); return; }
-            try { /* ... (lógica de exportación como antes) ... */
+            try {
                 await ensureDriveClientLoaded();
                 const dataToExport = { theme: localStorage.getItem(THEME_STORAGE_KEY) || 'dark', dailyMedalData: JSON.parse(localStorage.getItem(MEDALS_STORAGE_KEY) || '{}'), totalMedals: totalMedalsEarned, quickNotesContent: localStorage.getItem(QUICK_NOTES_STORAGE_KEY) || '', tasks: todos };
                 const jsonString = JSON.stringify(dataToExport, null, 2); const dateStr = new Date().toISOString().slice(0,10).replace(/-/g,''); const fileName = `todaylist_backup_${dateStr}.json`;
@@ -2351,7 +2350,7 @@
         function importFromGoogleDrive() {
             if (!gisInited || !gapiInited || !gapi.client.getToken || !gapi.client.getToken()) { handleAuthClick(importFromGoogleDrive); return; }
             loadPicker(() => {
-                try { /* ... (lógica de importación como antes) ... */
+                try {
                     const oauthToken = gapi.client.getToken().access_token; if (!oauthToken) { handleAuthClick(importFromGoogleDrive); return; }
                     const view = new google.picker.View(google.picker.ViewId.DOCS); view.setMimeTypes("application/json");
                     const picker = new google.picker.PickerBuilder().setOAuthToken(oauthToken).addView(view).setDeveloperKey(API_KEY).setCallback(pickerCallback).build();
@@ -2361,7 +2360,7 @@
         }
 
         async function pickerCallback(data) {
-            if (data.action === google.picker.Action.PICKED && data.docs && data.docs.length > 0) { /* ... (lógica como antes) ... */
+            if (data.action === google.picker.Action.PICKED && data.docs && data.docs.length > 0) {
                 const fileId = data.docs[0].id; const fileName = data.docs[0].name;
                 try {
                     await ensureDriveClientLoaded();
@@ -2374,23 +2373,23 @@
             } else if (data.action === google.picker.Action.CANCEL) console.log("Selección cancelada."); else if (data.action === google.picker.Action.ERROR ) { console.error("Error Picker:", data); alert("Error con selector de Drive."); }
         }
 
-        function getTodayDateString(format = 'yyyy-mm-dd') { /* ... (sin cambios) ... */
+        function getTodayDateString(format = 'yyyy-mm-dd') {
             const today = new Date(); const yyyy = today.getFullYear(); const mm = String(today.getMonth() + 1).padStart(2, '0'); const dd = String(today.getDate()).padStart(2, '0');
             return format === 'dd-mm-yyyy' ? `${dd}-${mm}-${yyyy}` : `${yyyy}-${mm}-${dd}`;
         }
 
-        function showReminderModal(taskId) { /* ... (sin cambios) ... */
+        function showReminderModal(taskId) {
             const task = findTaskById(taskId); if (!task || task.completed) return; currentTaskIdForReminder = taskId;
             if(reminderTaskTextElement) reminderTaskTextElement.textContent = `Tarea: "${task.text}"`; if(reminderDateInput) reminderDateInput.value = getTodayDateString(); if(reminderTimeInput) reminderTimeInput.value = "09:00";
             if(reminderModal) { reminderModal.classList.add('visible'); reminderModal.setAttribute('role', 'dialog'); reminderModal.setAttribute('aria-modal', 'true'); }
             if(reminderDateInput) requestAnimationFrame(() => reminderDateInput.focus());
         }
-        function hideReminderModal() { /* ... (sin cambios) ... */
+        function hideReminderModal() {
             if(reminderModal) { reminderModal.classList.remove('visible'); reminderModal.removeAttribute('role'); reminderModal.removeAttribute('aria-modal'); }
             const lastFocusedBtn = document.querySelector(`.todo-item[data-task-id="${currentTaskIdForReminder}"] .google-calendar-button`); currentTaskIdForReminder = null;
             if(reminderTaskTextElement) reminderTaskTextElement.textContent = ''; if (lastFocusedBtn) lastFocusedBtn.focus();
         }
-        function handleScheduleReminderClick(event) { /* ... (sin cambios) ... */
+        function handleScheduleReminderClick(event) {
             if (event) event.stopPropagation(); if (!currentTaskIdForReminder) return;
             const dateStr = reminderDateInput.value, timeStr = reminderTimeInput.value; if (!dateStr || !timeStr || !/^\d{4}-\d{2}-\d{2}$/.test(dateStr) || !/^\d{2}:\d{2}$/.test(timeStr)) { alert("Fecha/hora inválida."); return; }
             const task = findTaskById(currentTaskIdForReminder); if (!task) { alert("Tarea no encontrada."); hideReminderModal(); return; }
@@ -2400,16 +2399,16 @@
             window.open(url, '_blank'); const itemEl = todoListContainer.querySelector(`li[data-task-id="${task.id}"] .google-calendar-button i`); if(itemEl) { itemEl.style.color = 'var(--accent-color)'; itemEl.parentElement.title = 'Recordatorio enviado.'; }
             hideReminderModal();
         }
-        function showQuickScheduleCalendarModal() { /* ... (sin cambios) ... */
+        function showQuickScheduleCalendarModal() {
             if(quickGcEventTitleInput) quickGcEventTitleInput.value = ""; if(quickGcStartDateInput) quickGcStartDateInput.value = getTodayDateString(); if(quickGcTimeInput) quickGcTimeInput.value = "09:00"; if(quickGcTypeSelect) quickGcTypeSelect.value = "NONE"; if(quickGcDescriptionTextarea) quickGcDescriptionTextarea.value = ""; if(quickGcWeeklyDaysGroup) quickGcWeeklyDaysGroup.classList.add('hidden'); if(quickGcWeeklyCheckboxesContainer) quickGcWeeklyCheckboxesContainer.querySelectorAll('input').forEach(cb => cb.checked = false);
             if(quickScheduleCalendarModal) { quickScheduleCalendarModal.classList.add('visible'); quickScheduleCalendarModal.setAttribute('role', 'dialog'); quickScheduleCalendarModal.setAttribute('aria-modal', 'true'); }
             if(quickGcEventTitleInput) requestAnimationFrame(() => quickGcEventTitleInput.focus());
         }
-        function hideQuickScheduleCalendarModal() { /* ... (sin cambios) ... */
+        function hideQuickScheduleCalendarModal() {
             if(quickScheduleCalendarModal) { quickScheduleCalendarModal.classList.remove('visible'); quickScheduleCalendarModal.removeAttribute('role'); quickScheduleCalendarModal.removeAttribute('aria-modal'); }
             if(openQuickScheduleModalButton) openQuickScheduleModalButton.focus();
         }
-        function handleCreateQuickCalendarEvent() { /* ... (sin cambios) ... */
+        function handleCreateQuickCalendarEvent() {
             const title = quickGcEventTitleInput.value.trim(); if (!title) { alert("Título requerido."); quickGcEventTitleInput.focus(); return; }
             const dateStr = quickGcStartDateInput.value, timeStr = quickGcTimeInput.value, recur = quickGcTypeSelect.value, desc = quickGcDescriptionTextarea.value.trim(); if (!dateStr || !timeStr || !/^\d{4}-\d{2}-\d{2}$/.test(dateStr) || !/^\d{2}:\d{2}$/.test(timeStr)) { alert("Fecha/hora inválida."); return;}
             const localStart = new Date(`${dateStr}T${timeStr}`); if (isNaN(localStart.getTime())) { alert("Fecha/hora inválida."); return; }
@@ -2420,14 +2419,12 @@
             window.open(url, '_blank'); hideQuickScheduleCalendarModal();
         }
 
-        function requestNotificationPermission() { /* ... (sin cambios) ... */
-            if ('Notification' in window && Notification.permission !== 'granted' && Notification.permission !== 'denied') Notification.requestPermission().then(p => console.log(`Permiso Notif: ${p}`));
-        }
+        function requestNotificationPermission() { if ('Notification' in window && Notification.permission !== 'granted' && Notification.permission !== 'denied') Notification.requestPermission().then(p => console.log(`Permiso Notif: ${p}`)); }
         function playAlarmSound() { if (alarmAudio) alarmAudio.play().catch(e => console.warn("Alarma:", e));}
         function showBrowserNotification(title, bodyText) { if ('Notification' in window && Notification.permission === 'granted') new Notification(title, { body: bodyText, icon: '/favicon-96x96.png', tag: `tdl-${Date.now()}` }); }
         function vibrateDevice() { if (navigator.vibrate) navigator.vibrate([200, 100, 200, 100, 200]); }
 
-        function updateTimerUI(id, isSubtask, parentTaskIdIfSubtask, timeLeft, finished = false) { /* ... (sin cambios) ... */
+        function updateTimerUI(id, isSubtask, parentTaskIdIfSubtask, timeLeft, finished = false) {
             let itemEl; if (isSubtask && parentTaskIdIfSubtask) { const pEl = todoListContainer.querySelector(`li[data-task-id="${parentTaskIdIfSubtask}"]`); if(pEl) itemEl = pEl.querySelector(`.subtasks-list li[data-subtask-id="${id}"]`); } else itemEl = todoListContainer.querySelector(`li[data-task-id="${id}"]`);
             if (!itemEl || itemEl.classList.contains('completed')) return; let countEl = itemEl.querySelector('.task-timer-countdown'), timerBtn = itemEl.querySelector('.task-timer-button'); if (!timerBtn) return;
             if ((timeLeft !== null || finished) && !countEl) { countEl = document.createElement('span'); countEl.classList.add('task-timer-countdown'); if (isSubtask) { const firstBtn = itemEl.querySelector('.app-button'); if(firstBtn) itemEl.insertBefore(countEl, firstBtn); else itemEl.appendChild(countEl);} else { const actGrp = itemEl.querySelector('.main-task-header .task-body .task-actions-group'); if(actGrp) actGrp.parentNode.insertBefore(countEl, actGrp); else itemEl.querySelector('.main-task-header .task-body').appendChild(countEl);}}
@@ -2437,7 +2434,7 @@
             if(timerBtn) timerBtn.disabled = false;
         }
 
-        function checkActiveTimers() { /* ... (sin cambios) ... */
+        function checkActiveTimers() {
             let timers = JSON.parse(localStorage.getItem(ACTIVE_TIMERS_STORAGE_KEY) || '{}'); let running = false; const now = Date.now();
             for (const id in timers) { const t = timers[id], left = t.endTime - now; const el = t.isSubtask && t.parentTaskIdIfSubtask ? document.querySelector(`.todo-item[data-task-id="${t.parentTaskIdIfSubtask}"] .subtasks-list li[data-subtask-id="${id}"]`) : document.querySelector(`.todo-item[data-task-id="${id}"]`);
                 if (!el || el.classList.contains('completed')) { delete timers[id]; updateTimerUI(id, t.isSubtask, t.parentTaskIdIfSubtask, null); continue; }
@@ -2447,7 +2444,6 @@
         }
         function startGlobalTimerInterval() { if (!globalTimerInterval) { globalTimerInterval = setInterval(checkActiveTimers, 1000); checkActiveTimers(); }}
 
-        // Nueva función para mostrar el modal de duración
         function showTimerDurationModal(taskText, callback) {
             currentTimerCallback = callback;
             if (timerDurationTaskTextElement) timerDurationTaskTextElement.textContent = `Tarea: "${taskText}"`;
@@ -2468,11 +2464,18 @@
                 timerDurationModal.removeAttribute('role');
                 timerDurationModal.removeAttribute('aria-modal');
             }
+            // Considerar devolver foco al botón que abrió el modal
+            // const lastOpenedTimerButton = document.querySelector('[data-last-opened-timer]');
+            // if (lastOpenedTimerButton) {
+            //    lastOpenedTimerButton.focus();
+            //    lastOpenedTimerButton.removeAttribute('data-last-opened-timer');
+            // }
             currentTimerCallback = null;
-            // Podríamos intentar devolver el foco al botón que abrió el modal si lo rastreamos
         }
 
-        function handleTimerButtonClick(id, taskText, isSubtask = false, parentTaskIdIfSubtask = null) { /* ... (Modificado para usar showTimerDurationModal) ... */
+        function handleTimerButtonClick(event, id, taskText, isSubtask = false, parentTaskIdIfSubtask = null) {
+            if(event) event.currentTarget.setAttribute('data-last-opened-timer', 'true'); // Marcar para posible devolución de foco
+
             let activeTimers = JSON.parse(localStorage.getItem(ACTIVE_TIMERS_STORAGE_KEY) || '{}');
             const taskEl = isSubtask && parentTaskIdIfSubtask ? document.querySelector(`.todo-item[data-task-id="${parentTaskIdIfSubtask}"] .subtasks-list li[data-subtask-id="${id}"]`) : document.querySelector(`.todo-item[data-task-id="${id}"]`);
             if (taskEl && taskEl.classList.contains('completed')) { alert("No se puede iniciar timer para tarea completada."); return; }
@@ -2489,7 +2492,7 @@
             }
         }
 
-        function initializeActiveTimersFromStorage() { /* ... (sin cambios significativos en su lógica interna, pero la llamada a updateTimerUI ahora es más robusta) ... */
+        function initializeActiveTimersFromStorage() {
             let timers = JSON.parse(localStorage.getItem(ACTIVE_TIMERS_STORAGE_KEY) || '{}'); let needsInterval = false; const now = Date.now();
             for (const id in timers) { const t = timers[id]; const el = t.isSubtask && t.parentTaskIdIfSubtask ? document.querySelector(`.todo-item[data-task-id="${t.parentTaskIdIfSubtask}"] .subtasks-list li[data-subtask-id="${id}"]`) : document.querySelector(`.todo-item[data-task-id="${id}"]`);
                 if (!el || el.classList.contains('completed')) { delete timers[id]; updateTimerUI(id, t.isSubtask, t.parentTaskIdIfSubtask, null); continue; }
@@ -2510,51 +2513,175 @@
         function displayMedalCount(c) { if (medalCountDisplay) medalCountDisplay.textContent = c; }
         function displayTotalScore(c) { if (totalScoreValueDisplay) totalScoreValueDisplay.textContent = String(c).padStart(3, '0'); }
 
-        function loadTodosFromLocalStorage() { /* ... (sin cambios) ... */
-            const stored = localStorage.getItem(TODOS_STORAGE_KEY); if (stored) { todos = JSON.parse(stored).map(t => ({ id: t.id||generateLocalId(), text:t.text||'?', completed:!!t.completed, completedDate:t.completedDate||null, createdAt:t.createdAt||null, subtasks: Array.isArray(t.subtasks)?t.subtasks.map(s=>({id:s.id||generateLocalId(), text:s.text||'?', completed:!!s.completed})):[], showSubtaskUI:!!t.showSubtaskUI, priorityColor:PRIORITY_COLORS.includes(t.priorityColor)?t.priorityColor:'none', date:(typeof t.date==='string'&&t.date.match(/^\d{4}-\d{2}-\d{2}$/))?t.date:null, linkUrl:typeof t.linkUrl==='string'?t.linkUrl:null, order:typeof t.order==='number'?t.order:Date.now() }));} else todos = [];
+        // --- NUEVA FUNCIÓN PARA CALCULAR DÍAS ---
+        function calculateDaysAgo(isoDateString) {
+            if (!isoDateString) return '';
+            const taskDate = new Date(isoDateString);
+            const today = new Date();
+
+            // Normalizar a medianoche para contar días naturales
+            const taskDayStart = new Date(taskDate.getFullYear(), taskDate.getMonth(), taskDate.getDate());
+            const todayStart = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+
+            const diffTime = todayStart.getTime() - taskDayStart.getTime();
+            const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+            if (diffDays < 0) return ''; // Fecha futura, no mostrar nada.
+            if (diffDays === 0) {
+                return 'Hoy';
+            } else if (diffDays === 1) {
+                return 'Ayer';
+            } else {
+                return `Hace ${diffDays} días`;
+            }
+        }
+        // --- FIN NUEVA FUNCIÓN ---
+
+
+        function loadTodosFromLocalStorage() {
+            const stored = localStorage.getItem(TODOS_STORAGE_KEY);
+            if (stored) {
+                todos = JSON.parse(stored).map(t => ({
+                    id: t.id || generateLocalId(),
+                    text: t.text || '?',
+                    completed: !!t.completed,
+                    completedDate: t.completedDate || null,
+                    createdAt: t.createdAt || new Date().toISOString(), // Asegurar que 'createdAt' exista
+                    subtasks: Array.isArray(t.subtasks) ? t.subtasks.map(s => ({ id: s.id || generateLocalId(), text: s.text || '?', completed: !!s.completed })) : [],
+                    showSubtaskUI: !!t.showSubtaskUI,
+                    priorityColor: PRIORITY_COLORS.includes(t.priorityColor) ? t.priorityColor : 'none',
+                    date: (typeof t.date === 'string' && t.date.match(/^\d{4}-\d{2}-\d{2}$/)) ? t.date : null,
+                    linkUrl: typeof t.linkUrl === 'string' ? t.linkUrl : null,
+                    order: typeof t.order === 'number' ? t.order : Date.now()
+                }));
+            } else {
+                todos = [];
+            }
         }
         function saveTodosToLocalStorage() { localStorage.setItem(TODOS_STORAGE_KEY, JSON.stringify(todos)); }
-        function loadAndRefreshMedalData() { /* ... (sin cambios) ... */
+        function loadAndRefreshMedalData() {
             let data = JSON.parse(localStorage.getItem(MEDALS_STORAGE_KEY)||null); const today = getTodayDateString(); if(!data||data.date!==today){data={date:today, count:todos.filter(t=>t.completed&&t.completedDate===today).length}; localStorage.setItem(MEDALS_STORAGE_KEY,JSON.stringify(data));} return data;
         }
-        function updateMedalCount(change) { /* ... (sin cambios) ... */
+        function updateMedalCount(change) {
             let data = loadAndRefreshMedalData(); data.count = Math.max(0, data.count + change); localStorage.setItem(MEDALS_STORAGE_KEY, JSON.stringify(data)); displayMedalCount(data.count);
         }
         function syncAndRender() { renderTodosUI(); initializeActiveTimersFromStorage(); }
-        function calculateSubtaskProgress(subtasks) { /* ... (sin cambios) ... */
+        function calculateSubtaskProgress(subtasks) {
             if (!subtasks || subtasks.length === 0) return 0; return (subtasks.filter(s => s.completed).length / subtasks.length) * 100;
         }
 
-        function createMainTaskHeader(mainTask) { /* ... (sin cambios) ... */
-            const header = document.createElement('div'); header.classList.add('main-task-header'); const prefixGrp = document.createElement('div'); prefixGrp.classList.add('task-prefix-group'); const checkbox = document.createElement('input'); checkbox.type = 'checkbox'; checkbox.classList.add('custom-checkbox'); checkbox.checked = mainTask.completed; checkbox.id = `main-chk-${mainTask.id}`; const chkLbl = document.createElement('label'); chkLbl.htmlFor = checkbox.id; chkLbl.classList.add('sr-only'); chkLbl.textContent = `Marcar ${mainTask.text}`; checkbox.onchange = (e) => toggleMainCompletion(mainTask.id, e.target.checked); const priorityLbl = document.createElement('div'); priorityLbl.classList.add('priority-color-label'); priorityLbl.dataset.color = mainTask.priorityColor; priorityLbl.title = `Prioridad: ${mainTask.priorityColor}`; priorityLbl.onclick = () => { if (!mainTask.completed) cyclePriorityColor(mainTask.id); }; prefixGrp.append(chkLbl, checkbox, priorityLbl); const bodyDiv = document.createElement('div'); bodyDiv.classList.add('task-body'); const span = document.createElement('span'); span.textContent = mainTask.text; span.title = mainTask.text; const actionsGrp = document.createElement('div'); actionsGrp.classList.add('task-actions-group'); const linkBtn = document.createElement('button'); linkBtn.classList.add('app-button', 'link-button', mainTask.linkUrl ? 'link-on' : 'link-off'); linkBtn.innerHTML = '<i class="fas fa-link"></i>'; linkBtn.setAttribute('aria-label','Enlace'); linkBtn.title = mainTask.linkUrl ? `Abrir: ${mainTask.linkUrl}` : 'Añadir enlace'; linkBtn.onclick = () => { const task = findTaskById(mainTask.id); if (!task || (task.completed && !task.linkUrl)) return; if (task.linkUrl) window.open(new URL(task.linkUrl).href, '_blank'); else if (!task.completed) { let newUrl = prompt("URL:", task.linkUrl || ""); if (newUrl === null) return; newUrl = newUrl.trim(); let finalUrl = null; if (newUrl) { finalUrl = (newUrl.startsWith('http') ? '' : 'https://') + newUrl; try {new URL(finalUrl);} catch { finalUrl = task.linkUrl; alert("URL inválida.");}} if (task.linkUrl !== finalUrl) { task.linkUrl = finalUrl; saveTodosToLocalStorage(); syncAndRender(); }}}; const calBtn = document.createElement('button'); calBtn.classList.add('app-button', 'google-calendar-button'); calBtn.innerHTML = '<i class="far fa-calendar-plus"></i>'; calBtn.setAttribute('aria-label','Agendar'); calBtn.title = 'Agendar en Calendar'; if(mainTask.completed) calBtn.disabled = true; calBtn.onclick = () => { if (!mainTask.completed) showReminderModal(mainTask.id); }; const timerBtn = document.createElement('button'); timerBtn.classList.add('app-button', 'task-timer-button'); timerBtn.innerHTML = '<i class="fas fa-clock"></i>'; timerBtn.setAttribute('aria-label','Temporizador'); timerBtn.title = 'Iniciar temporizador'; timerBtn.onclick = (e) => { e.stopPropagation(); handleTimerButtonClick(mainTask.id, mainTask.text, false); }; const delBtn = document.createElement('button'); delBtn.classList.add('app-button', 'delete-button'); delBtn.innerHTML = '<i class="fas fa-trash-alt"></i>'; delBtn.setAttribute('aria-label','Eliminar'); delBtn.onclick = () => { if (confirm(`¿Borrar "${mainTask.text}"?`)) deleteTodo(mainTask.id); }; actionsGrp.append(linkBtn, calBtn, timerBtn, delBtn); bodyDiv.append(span, actionsGrp); header.append(prefixGrp, bodyDiv); return header;
+        function createMainTaskHeader(mainTask) {
+            const header = document.createElement('div'); header.classList.add('main-task-header');
+            const prefixGrp = document.createElement('div'); prefixGrp.classList.add('task-prefix-group');
+            const checkbox = document.createElement('input'); checkbox.type = 'checkbox'; checkbox.classList.add('custom-checkbox'); checkbox.checked = mainTask.completed; checkbox.id = `main-chk-${mainTask.id}`;
+            const chkLbl = document.createElement('label'); chkLbl.htmlFor = checkbox.id; chkLbl.classList.add('sr-only'); chkLbl.textContent = `Marcar ${mainTask.text}`;
+            checkbox.onchange = (e) => toggleMainCompletion(mainTask.id, e.target.checked);
+            const priorityLbl = document.createElement('div'); priorityLbl.classList.add('priority-color-label'); priorityLbl.dataset.color = mainTask.priorityColor; priorityLbl.title = `Prioridad: ${mainTask.priorityColor}`;
+            priorityLbl.onclick = () => { if (!mainTask.completed) cyclePriorityColor(mainTask.id); };
+            prefixGrp.append(chkLbl, checkbox, priorityLbl);
+
+            const bodyDiv = document.createElement('div'); bodyDiv.classList.add('task-body');
+
+            // --- MODIFICACIÓN PARA CONTADOR DE DÍAS ---
+            const taskTextAndInfoContainer = document.createElement('div');
+            taskTextAndInfoContainer.classList.add('task-text-and-info');
+
+            const span = document.createElement('span'); // Span para el texto de la tarea
+            span.textContent = mainTask.text;
+            span.title = mainTask.text;
+            taskTextAndInfoContainer.appendChild(span);
+
+            if (!mainTask.completed && mainTask.createdAt) {
+                const daysAgoText = calculateDaysAgo(mainTask.createdAt);
+                if (daysAgoText) {
+                    const daysAgoSpan = document.createElement('span');
+                    daysAgoSpan.classList.add('task-days-ago');
+                    daysAgoSpan.textContent = daysAgoText;
+                    taskTextAndInfoContainer.appendChild(daysAgoSpan);
+                }
+            }
+            // --- FIN MODIFICACIÓN ---
+
+            const actionsGrp = document.createElement('div'); actionsGrp.classList.add('task-actions-group');
+            const linkBtn = document.createElement('button'); linkBtn.classList.add('app-button', 'link-button', mainTask.linkUrl ? 'link-on' : 'link-off'); linkBtn.innerHTML = '<i class="fas fa-link"></i>'; linkBtn.setAttribute('aria-label','Enlace'); linkBtn.title = mainTask.linkUrl ? `Abrir: ${mainTask.linkUrl}` : 'Añadir enlace';
+            linkBtn.onclick = () => { const task = findTaskById(mainTask.id); if (!task || (task.completed && !task.linkUrl)) return; if (task.linkUrl) window.open(new URL(task.linkUrl).href, '_blank'); else if (!task.completed) { let newUrl = prompt("URL:", task.linkUrl || ""); if (newUrl === null) return; newUrl = newUrl.trim(); let finalUrl = null; if (newUrl) { finalUrl = (newUrl.startsWith('http') ? '' : 'https://') + newUrl; try {new URL(finalUrl);} catch { finalUrl = task.linkUrl; alert("URL inválida.");}} if (task.linkUrl !== finalUrl) { task.linkUrl = finalUrl; saveTodosToLocalStorage(); syncAndRender(); }}};
+            const calBtn = document.createElement('button'); calBtn.classList.add('app-button', 'google-calendar-button'); calBtn.innerHTML = '<i class="far fa-calendar-plus"></i>'; calBtn.setAttribute('aria-label','Agendar'); calBtn.title = 'Agendar en Calendar'; if(mainTask.completed) calBtn.disabled = true;
+            calBtn.onclick = () => { if (!mainTask.completed) showReminderModal(mainTask.id); };
+            const timerBtn = document.createElement('button'); timerBtn.classList.add('app-button', 'task-timer-button'); timerBtn.innerHTML = '<i class="fas fa-clock"></i>'; timerBtn.setAttribute('aria-label','Temporizador'); timerBtn.title = 'Iniciar temporizador';
+            timerBtn.onclick = (e) => { e.stopPropagation(); handleTimerButtonClick(e, mainTask.id, mainTask.text, false); };
+            const delBtn = document.createElement('button'); delBtn.classList.add('app-button', 'delete-button'); delBtn.innerHTML = '<i class="fas fa-trash-alt"></i>'; delBtn.setAttribute('aria-label','Eliminar');
+            delBtn.onclick = () => { if (confirm(`¿Borrar "${mainTask.text}"?`)) deleteTodo(mainTask.id); };
+            actionsGrp.append(linkBtn, calBtn, timerBtn, delBtn);
+
+            bodyDiv.append(taskTextAndInfoContainer, actionsGrp); // Añadir el contenedor de texto/info y las acciones
+            header.append(prefixGrp, bodyDiv);
+            return header;
         }
-        function createProgressBar(mainTask) { /* ... (sin cambios) ... */ const pCont = document.createElement('div'); pCont.classList.add('progress-container'); const pBar = document.createElement('div'); pBar.classList.add('progress-bar'); let prog = 0; if(mainTask.completed) prog = 100; else if (mainTask.subtasks&&mainTask.subtasks.length>0){ const subProg = calculateSubtaskProgress(mainTask.subtasks); prog = subProg===100?90:subProg;} pBar.style.width = `${prog}%`; pCont.appendChild(pBar); return pCont; }
-        function createAddSubtasksToggle(id) { /* ... (sin cambios) ... */ const btn = document.createElement('button'); btn.classList.add('app-button','add-button','add-subtasks-toggle'); btn.innerHTML='<i class="fas fa-plus"></i>'; btn.setAttribute('aria-label','Sub-tarea'); btn.onclick=()=>{const t=findTaskById(id);if(t){if(t.completed)return; t.showSubtaskUI=!t.showSubtaskUI; if(t.showSubtaskUI&&(!t.subtasks||t.subtasks.length===0))t.subtasks=[]; saveTodosToLocalStorage();syncAndRender(); if(t.showSubtaskUI){const liEl=todoListContainer.querySelector(`li[data-task-id="${id}"] .subtask-input-container input[type="text"]`); if(liEl)setTimeout(()=>liEl.focus(),0);}}}; return btn;}
-        function createSubtasksList(mainTask) { /* ... (sin cambios) ... */ const ul=document.createElement('ul');ul.classList.add('subtasks-list');if(mainTask.subtasks&&mainTask.subtasks.length>0){mainTask.subtasks.forEach((s,i)=>{const li=document.createElement('li');li.dataset.subtaskId=s.id;const chk=document.createElement('input');chk.type='checkbox';chk.classList.add('custom-checkbox');chk.checked=s.completed;chk.id=`sub-chk-${s.id}`;if(mainTask.completed)chk.disabled=true;const lbl=document.createElement('label');lbl.htmlFor=chk.id;lbl.classList.add('sr-only');lbl.textContent=`Marcar ${s.text}`;chk.onchange=()=>{if(!mainTask.completed)toggleSubtaskCompletion(mainTask.id,s.id);};const span=document.createElement('span');span.textContent=s.text;span.title=s.text;const tBtn=document.createElement('button');tBtn.classList.add('app-button','task-timer-button');tBtn.innerHTML='<i class="fas fa-clock"></i>';tBtn.title='Temporizador';tBtn.onclick=(e)=>{e.stopPropagation();handleTimerButtonClick(s.id,s.text,true,mainTask.id);};const up=document.createElement('button');up.classList.add('app-button','subtask-move-button');up.innerHTML='<i class="fas fa-arrow-up"></i>';up.title='Arriba';if(mainTask.completed||i===0)up.disabled=true;up.onclick=()=>{if(!mainTask.completed)moveSubtaskUp(mainTask.id,s.id);};const down=document.createElement('button');down.classList.add('app-button','subtask-move-button');down.innerHTML='<i class="fas fa-arrow-down"></i>';down.title='Abajo';if(mainTask.completed||i===mainTask.subtasks.length-1)down.disabled=true;down.onclick=()=>{if(!mainTask.completed)moveSubtaskDown(mainTask.id,s.id);};const del=document.createElement('button');del.classList.add('app-button','delete-button');del.innerHTML='<i class="fas fa-trash-alt"></i>';del.title='Eliminar';if(mainTask.completed)del.disabled=true;del.onclick=()=>{if(!mainTask.completed)deleteSubtask(mainTask.id,s.id);};li.append(lbl,chk,span,tBtn,up,down,del);ul.appendChild(li);});}return ul;}
-        function createSubtaskInputContainer(id) { /* ... (sin cambios) ... */ const cont=document.createElement('div');cont.classList.add('subtask-input-container');const inputId=`sub-in-${id}`;const lbl=document.createElement('label');lbl.htmlFor=inputId;lbl.classList.add('sr-only');lbl.textContent='Nueva sub-tarea';const input=document.createElement('input');input.type='text';input.id=inputId;input.placeholder='Nueva sub-tarea...';const addBtn=document.createElement('button');addBtn.classList.add('app-button','add-button');addBtn.innerHTML='<i class="fas fa-plus"></i>';addBtn.setAttribute('aria-label','Añadir');const handleAdd=()=>addSubtask(id,input);addBtn.onclick=handleAdd;input.onkeypress=e=>{if(e.key==='Enter'){e.preventDefault();handleAdd();}};cont.append(lbl,input,addBtn);return cont;}
-        function renderTodosUI() { /* ... (sin cambios) ... */ if(!todoListContainer)return;todoListContainer.innerHTML='';todos.forEach(t=>{const li=document.createElement('li');li.classList.add('todo-item');li.dataset.taskId=t.id;li.dataset.priorityColor=t.priorityColor||'none';if(t.completed)li.classList.add('completed');if(t.showSubtaskUI)li.classList.add('show-subtask-ui');li.appendChild(createMainTaskHeader(t));li.appendChild(createProgressBar(t));li.appendChild(createAddSubtasksToggle(t.id));if(t.subtasks&&t.subtasks.length>0)li.appendChild(createSubtasksList(t));if(t.showSubtaskUI&&!t.completed)li.appendChild(createSubtaskInputContainer(t.id));todoListContainer.appendChild(li);});if(todoInput)todoInput.value='';}
+        function createProgressBar(mainTask) {
+            const pCont = document.createElement('div'); pCont.classList.add('progress-container');
+            const pBar = document.createElement('div'); pBar.classList.add('progress-bar');
+            let prog = 0; if(mainTask.completed) prog = 100; else if (mainTask.subtasks&&mainTask.subtasks.length>0){ const subProg = calculateSubtaskProgress(mainTask.subtasks); prog = subProg===100?90:subProg;} pBar.style.width = `${prog}%`;
+            pCont.appendChild(pBar); return pCont;
+        }
+        function createAddSubtasksToggle(id) {
+            const btn = document.createElement('button'); btn.classList.add('app-button','add-button','add-subtasks-toggle'); btn.innerHTML='<i class="fas fa-plus"></i>'; btn.setAttribute('aria-label','Sub-tarea');
+            btn.onclick=()=>{const t=findTaskById(id);if(t){if(t.completed)return; t.showSubtaskUI=!t.showSubtaskUI; if(t.showSubtaskUI&&(!t.subtasks||t.subtasks.length===0))t.subtasks=[]; saveTodosToLocalStorage();syncAndRender(); if(t.showSubtaskUI){const liEl=todoListContainer.querySelector(`li[data-task-id="${id}"] .subtask-input-container input[type="text"]`); if(liEl)setTimeout(()=>liEl.focus(),0);}}}; return btn;
+        }
+        function createSubtasksList(mainTask) {
+            const ul=document.createElement('ul');ul.classList.add('subtasks-list');if(mainTask.subtasks&&mainTask.subtasks.length>0){mainTask.subtasks.forEach((s,i)=>{const li=document.createElement('li');li.dataset.subtaskId=s.id;const chk=document.createElement('input');chk.type='checkbox';chk.classList.add('custom-checkbox');chk.checked=s.completed;chk.id=`sub-chk-${s.id}`;if(mainTask.completed)chk.disabled=true;const lbl=document.createElement('label');lbl.htmlFor=chk.id;lbl.classList.add('sr-only');lbl.textContent=`Marcar ${s.text}`;chk.onchange=()=>{if(!mainTask.completed)toggleSubtaskCompletion(mainTask.id,s.id);};const span=document.createElement('span');span.textContent=s.text;span.title=s.text;const tBtn=document.createElement('button');tBtn.classList.add('app-button','task-timer-button');tBtn.innerHTML='<i class="fas fa-clock"></i>';tBtn.title='Temporizador';tBtn.onclick=(e)=>{e.stopPropagation();handleTimerButtonClick(e, s.id,s.text,true,mainTask.id);};const up=document.createElement('button');up.classList.add('app-button','subtask-move-button');up.innerHTML='<i class="fas fa-arrow-up"></i>';up.title='Arriba';if(mainTask.completed||i===0)up.disabled=true;up.onclick=()=>{if(!mainTask.completed)moveSubtaskUp(mainTask.id,s.id);};const down=document.createElement('button');down.classList.add('app-button','subtask-move-button');down.innerHTML='<i class="fas fa-arrow-down"></i>';down.title='Abajo';if(mainTask.completed||i===mainTask.subtasks.length-1)down.disabled=true;down.onclick=()=>{if(!mainTask.completed)moveSubtaskDown(mainTask.id,s.id);};const del=document.createElement('button');del.classList.add('app-button','delete-button');del.innerHTML='<i class="fas fa-trash-alt"></i>';del.title='Eliminar';if(mainTask.completed)del.disabled=true;del.onclick=()=>{if(!mainTask.completed)deleteSubtask(mainTask.id,s.id);};li.append(lbl,chk,span,tBtn,up,down,del);ul.appendChild(li);});}return ul;
+        }
+        function createSubtaskInputContainer(id) {
+            const cont=document.createElement('div');cont.classList.add('subtask-input-container');const inputId=`sub-in-${id}`;const lbl=document.createElement('label');lbl.htmlFor=inputId;lbl.classList.add('sr-only');lbl.textContent='Nueva sub-tarea';const input=document.createElement('input');input.type='text';input.id=inputId;input.placeholder='Nueva sub-tarea...';const addBtn=document.createElement('button');addBtn.classList.add('app-button','add-button');addBtn.innerHTML='<i class="fas fa-plus"></i>';addBtn.setAttribute('aria-label','Añadir');const handleAdd=()=>addSubtask(id,input);addBtn.onclick=handleAdd;input.onkeypress=e=>{if(e.key==='Enter'){e.preventDefault();handleAdd();}};cont.append(lbl,input,addBtn);return cont;
+        }
+        function renderTodosUI() {
+            if(!todoListContainer)return;todoListContainer.innerHTML='';todos.forEach(t=>{const li=document.createElement('li');li.classList.add('todo-item');li.dataset.taskId=t.id;li.dataset.priorityColor=t.priorityColor||'none';if(t.completed)li.classList.add('completed');if(t.showSubtaskUI)li.classList.add('show-subtask-ui');li.appendChild(createMainTaskHeader(t));li.appendChild(createProgressBar(t));li.appendChild(createAddSubtasksToggle(t.id));if(t.subtasks&&t.subtasks.length>0)li.appendChild(createSubtasksList(t));if(t.showSubtaskUI&&!t.completed)li.appendChild(createSubtaskInputContainer(t.id));todoListContainer.appendChild(li);});if(todoInput)todoInput.value='';
+        }
 
-        function cyclePriorityColor(id) { /* ... (sin cambios) ... */ const t=findTaskById(id);if(t&&!t.completed){const i=PRIORITY_COLORS.indexOf(t.priorityColor||'none');t.priorityColor=PRIORITY_COLORS[(i+1)%PRIORITY_COLORS.length];saveTodosToLocalStorage();const li=todoListContainer.querySelector(`li[data-task-id="${t.id}"]`);if(li){li.dataset.priorityColor=t.priorityColor;const pl=li.querySelector('.priority-color-label');if(pl){pl.dataset.color=t.priorityColor;pl.title=`Prioridad: ${t.priorityColor.charAt(0).toUpperCase()+t.priorityColor.slice(1)}`;}}}}
-        function showAppInterface() { /* ... (sin cambios) ... */ if(welcomeSection)welcomeSection.classList.add('hidden');if(installInstructionsSection)installInstructionsSection.classList.add('hidden');if(appMainInterface)appMainInterface.classList.remove('hidden');if(todoInput)todoInput.focus();requestNotificationPermission();if(!window.timersInitializedOnShow){renderTodosUI();initializeActiveTimersFromStorage();window.timersInitializedOnShow=true;}}
-        function addTodo() { /* ... (sin cambios) ... */ const txt=todoInput.value.trim();if(txt==='')return alert('Tarea vacía.');const order=todos.length>0?Math.max(...todos.map(t=>t.order||0)):-1;const nt={id:generateLocalId(),text:txt,completed:false,completedDate:null,createdAt:new Date().toISOString(),subtasks:[],showSubtaskUI:false,priorityColor:'none',date:null,linkUrl:null,order:order+1};todos.push(nt);saveTodosToLocalStorage();syncAndRender();if(todoInput)todoInput.value='';if(todos.length===1&&welcomeSection&&!welcomeSection.classList.contains('hidden'))showAppInterface();}
-        function addSubtask(id,input) { /* ... (sin cambios) ... */ const txt=input.value.trim();if(txt==='')return alert('Sub-tarea vacía.');const mt=findTaskById(id);if(mt&&!mt.completed){if(!mt.subtasks)mt.subtasks=[];mt.subtasks.push({id:generateLocalId(),text:txt,completed:false});mt.showSubtaskUI=false;saveTodosToLocalStorage();syncAndRender();}}
-        function deleteTodo(id) { /* ... (sin cambios) ... */ const idx=findTaskIndexById(id);if(idx>-1){const tDel=todos[idx];if(tDel.completed&&tDel.completedDate===getTodayDateString())updateMedalCount(-1);let timers=JSON.parse(localStorage.getItem(ACTIVE_TIMERS_STORAGE_KEY)||'{}');if(timers[tDel.id])delete timers[tDel.id];if(tDel.subtasks)tDel.subtasks.forEach(s=>{if(timers[s.id])delete timers[s.id];});localStorage.setItem(ACTIVE_TIMERS_STORAGE_KEY,JSON.stringify(timers));todos.splice(idx,1);saveTodosToLocalStorage();syncAndRender();if(todos.length===0&&welcomeSection&&appMainInterface&&installInstructionsSection){welcomeSection.classList.remove('hidden');installInstructionsSection.classList.remove('hidden');appMainInterface.classList.add('hidden');}}}
-        function deleteSubtask(mainId,subId) { /* ... (sin cambios) ... */ const mt=findTaskById(mainId);if(mt&&mt.subtasks&&!mt.completed){const idx=mt.subtasks.findIndex(s=>s.id===subId);if(idx>-1){let timers=JSON.parse(localStorage.getItem(ACTIVE_TIMERS_STORAGE_KEY)||'{}');if(timers[subId])delete timers[subId];localStorage.setItem(ACTIVE_TIMERS_STORAGE_KEY,JSON.stringify(timers));mt.subtasks.splice(idx,1);saveTodosToLocalStorage();syncAndRender();}}}
-        function toggleSubtaskCompletion(mainId,subId) { /* ... (sin cambios) ... */ const mt=findTaskById(mainId);if(mt&&mt.subtasks&&!mt.completed){const s=mt.subtasks.find(st=>st.id===subId);if(s){s.completed=!s.completed;if(s.completed){let timers=JSON.parse(localStorage.getItem(ACTIVE_TIMERS_STORAGE_KEY)||'{}');if(timers[s.id])delete timers[s.id];localStorage.setItem(ACTIVE_TIMERS_STORAGE_KEY,JSON.stringify(timers));}saveTodosToLocalStorage();syncAndRender();}}}
-        function toggleMainCompletion(id,isChecked) { /* ... (sin cambios) ... */ const t=findTaskById(id);if(t){if(!isChecked&&t.subtasks&&t.subtasks.some(s=>!s.completed)){const chk=todoListContainer.querySelector(`li[data-task-id="${t.id}"] .main-task-header .custom-checkbox`);if(chk)chk.checked=true;alert("Desmarca subtareas incompletas.");return;}t.completed=isChecked;const today=getTodayDateString();if(isChecked){if(!t.completedDate||t.completedDate!==today)updateMedalCount(1);if(!t.completedDate){totalMedalsEarned++;localStorage.setItem(TOTAL_MEDALS_STORAGE_KEY,String(totalMedalsEarned));displayTotalScore(totalMedalsEarned);}t.completedDate=today;t.showSubtaskUI=false;if(t.subtasks)t.subtasks.forEach(s=>s.completed=true);if(typeof confetti==='function')confetti({particleCount:150,spread:90,origin:{y:0.55}});let timers=JSON.parse(localStorage.getItem(ACTIVE_TIMERS_STORAGE_KEY)||'{}');if(timers[t.id])delete timers[t.id];if(t.subtasks)t.subtasks.forEach(s=>{if(timers[s.id])delete timers[s.id];});localStorage.setItem(ACTIVE_TIMERS_STORAGE_KEY,JSON.stringify(timers));}else{if(t.completedDate===today)updateMedalCount(-1);t.completedDate=null;}saveTodosToLocalStorage();syncAndRender();}}
+        function cyclePriorityColor(id) {
+            const t=findTaskById(id);if(t&&!t.completed){const i=PRIORITY_COLORS.indexOf(t.priorityColor||'none');t.priorityColor=PRIORITY_COLORS[(i+1)%PRIORITY_COLORS.length];saveTodosToLocalStorage();const li=todoListContainer.querySelector(`li[data-task-id="${t.id}"]`);if(li){li.dataset.priorityColor=t.priorityColor;const pl=li.querySelector('.priority-color-label');if(pl){pl.dataset.color=t.priorityColor;pl.title=`Prioridad: ${t.priorityColor.charAt(0).toUpperCase()+t.priorityColor.slice(1)}`;}}}
+        }
+        function showAppInterface() {
+            if(welcomeSection)welcomeSection.classList.add('hidden');if(installInstructionsSection)installInstructionsSection.classList.add('hidden');if(appMainInterface)appMainInterface.classList.remove('hidden');if(todoInput)todoInput.focus();requestNotificationPermission();if(!window.timersInitializedOnShow){renderTodosUI();initializeActiveTimersFromStorage();window.timersInitializedOnShow=true;}}
+        function addTodo() {
+            const txt=todoInput.value.trim();if(txt==='')return alert('Tarea vacía.');const order=todos.length>0?Math.max(...todos.map(t=>t.order||0)):-1;const nt={id:generateLocalId(),text:txt,completed:false,completedDate:null,createdAt:new Date().toISOString(),subtasks:[],showSubtaskUI:false,priorityColor:'none',date:null,linkUrl:null,order:order+1};todos.push(nt);saveTodosToLocalStorage();syncAndRender();if(todoInput)todoInput.value='';if(todos.length===1&&welcomeSection&&!welcomeSection.classList.contains('hidden'))showAppInterface();
+        }
+        function addSubtask(id,input) {
+            const txt=input.value.trim();if(txt==='')return alert('Sub-tarea vacía.');const mt=findTaskById(id);if(mt&&!mt.completed){if(!mt.subtasks)mt.subtasks=[];mt.subtasks.push({id:generateLocalId(),text:txt,completed:false});mt.showSubtaskUI=false;saveTodosToLocalStorage();syncAndRender();}}
+        function deleteTodo(id) {
+            const idx=findTaskIndexById(id);if(idx>-1){const tDel=todos[idx];if(tDel.completed&&tDel.completedDate===getTodayDateString())updateMedalCount(-1);let timers=JSON.parse(localStorage.getItem(ACTIVE_TIMERS_STORAGE_KEY)||'{}');if(timers[tDel.id])delete timers[tDel.id];if(tDel.subtasks)tDel.subtasks.forEach(s=>{if(timers[s.id])delete timers[s.id];});localStorage.setItem(ACTIVE_TIMERS_STORAGE_KEY,JSON.stringify(timers));todos.splice(idx,1);saveTodosToLocalStorage();syncAndRender();if(todos.length===0&&welcomeSection&&appMainInterface&&installInstructionsSection){welcomeSection.classList.remove('hidden');installInstructionsSection.classList.remove('hidden');appMainInterface.classList.add('hidden');}}}
+        function deleteSubtask(mainId,subId) {
+            const mt=findTaskById(mainId);if(mt&&mt.subtasks&&!mt.completed){const idx=mt.subtasks.findIndex(s=>s.id===subId);if(idx>-1){let timers=JSON.parse(localStorage.getItem(ACTIVE_TIMERS_STORAGE_KEY)||'{}');if(timers[subId])delete timers[subId];localStorage.setItem(ACTIVE_TIMERS_STORAGE_KEY,JSON.stringify(timers));mt.subtasks.splice(idx,1);saveTodosToLocalStorage();syncAndRender();}}}
+        function toggleSubtaskCompletion(mainId,subId) {
+            const mt=findTaskById(mainId);if(mt&&mt.subtasks&&!mt.completed){const s=mt.subtasks.find(st=>st.id===subId);if(s){s.completed=!s.completed;if(s.completed){let timers=JSON.parse(localStorage.getItem(ACTIVE_TIMERS_STORAGE_KEY)||'{}');if(timers[s.id])delete timers[s.id];localStorage.setItem(ACTIVE_TIMERS_STORAGE_KEY,JSON.stringify(timers));}saveTodosToLocalStorage();syncAndRender();}}}
+        function toggleMainCompletion(id,isChecked) {
+            const t=findTaskById(id);if(t){if(!isChecked&&t.subtasks&&t.subtasks.some(s=>!s.completed)){const chk=todoListContainer.querySelector(`li[data-task-id="${t.id}"] .main-task-header .custom-checkbox`);if(chk)chk.checked=true;alert("Desmarca subtareas incompletas.");return;}t.completed=isChecked;const today=getTodayDateString();if(isChecked){if(!t.completedDate||t.completedDate!==today)updateMedalCount(1);if(!t.completedDate){totalMedalsEarned++;localStorage.setItem(TOTAL_MEDALS_STORAGE_KEY,String(totalMedalsEarned));displayTotalScore(totalMedalsEarned);}t.completedDate=today;t.showSubtaskUI=false;if(t.subtasks)t.subtasks.forEach(s=>s.completed=true);if(typeof confetti==='function')confetti({particleCount:150,spread:90,origin:{y:0.55}});let timers=JSON.parse(localStorage.getItem(ACTIVE_TIMERS_STORAGE_KEY)||'{}');if(timers[t.id])delete timers[t.id];if(t.subtasks)t.subtasks.forEach(s=>{if(timers[s.id])delete timers[s.id];});localStorage.setItem(ACTIVE_TIMERS_STORAGE_KEY,JSON.stringify(timers));}else{if(t.completedDate===today)updateMedalCount(-1);t.completedDate=null;}saveTodosToLocalStorage();syncAndRender();}}
 
-        function moveSubtask(mainId,subId,dir) { /* ... (sin cambios) ... */ const mt=findTaskById(mainId);if(mt&&mt.subtasks&&!mt.completed){const i=mt.subtasks.findIndex(s=>s.id===subId);if(i===-1)return;const ni=i+dir;if(ni>=0&&ni<mt.subtasks.length){[mt.subtasks[i],mt.subtasks[ni]]=[mt.subtasks[ni],mt.subtasks[i]];saveTodosToLocalStorage();syncAndRender();}}}
+        function moveSubtask(mainId,subId,dir) {
+            const mt=findTaskById(mainId);if(mt&&mt.subtasks&&!mt.completed){const i=mt.subtasks.findIndex(s=>s.id===subId);if(i===-1)return;const ni=i+dir;if(ni>=0&&ni<mt.subtasks.length){[mt.subtasks[i],mt.subtasks[ni]]=[mt.subtasks[ni],mt.subtasks[i]];saveTodosToLocalStorage();syncAndRender();}}}
         function moveSubtaskUp(mainId,subId){moveSubtask(mainId,subId,-1);}
         function moveSubtaskDown(mainId,subId){moveSubtask(mainId,subId,1);}
-        function performManualSort() { /* ... (sin cambios) ... */ todos.sort((a,b)=>{if(a.completed!==b.completed)return a.completed?1:-1;const rA=PRIORITY_ORDER[a.priorityColor]||PRIORITY_ORDER['none'],rB=PRIORITY_ORDER[b.priorityColor]||PRIORITY_ORDER['none'];if(rA!==rB)return rA-rB;const dA=a.date?new Date(a.date).getTime():Infinity,dB=b.date?new Date(b.date).getTime():Infinity;if(dA!==dB)return dA-dB;return(a.order||0)-(b.order||0);});todos.forEach((t,i)=>t.order=i);saveTodosToLocalStorage();syncAndRender();}
-        function enableDarkMode() { /* ... (sin cambios) ... */ body.classList.add('dark-mode');localStorage.setItem(THEME_STORAGE_KEY,'dark');if(darkModeToggle){darkModeToggle.querySelector('i').className='fas fa-sun';darkModeToggle.setAttribute('aria-label','Modo claro');darkModeToggle.title='Modo claro';}}
-        function disableDarkMode() { /* ... (sin cambios) ... */ body.classList.remove('dark-mode');localStorage.setItem(THEME_STORAGE_KEY,'light');if(darkModeToggle){darkModeToggle.querySelector('i').className='fas fa-moon';darkModeToggle.setAttribute('aria-label','Modo oscuro');darkModeToggle.title='Modo oscuro';}}
+        function performManualSort() {
+            todos.sort((a,b)=>{if(a.completed!==b.completed)return a.completed?1:-1;const rA=PRIORITY_ORDER[a.priorityColor]||PRIORITY_ORDER['none'],rB=PRIORITY_ORDER[b.priorityColor]||PRIORITY_ORDER['none'];if(rA!==rB)return rA-rB;const dA=a.date?new Date(a.date).getTime():Infinity,dB=b.date?new Date(b.date).getTime():Infinity;if(dA!==dB)return dA-dB;return(a.order||0)-(b.order||0);});todos.forEach((t,i)=>t.order=i);saveTodosToLocalStorage();syncAndRender();
+        }
+        function enableDarkMode() {
+            body.classList.add('dark-mode');localStorage.setItem(THEME_STORAGE_KEY,'dark');if(darkModeToggle){darkModeToggle.querySelector('i').className='fas fa-sun';darkModeToggle.setAttribute('aria-label','Modo claro');darkModeToggle.title='Modo claro';}
+        }
+        function disableDarkMode() {
+            body.classList.remove('dark-mode');localStorage.setItem(THEME_STORAGE_KEY,'light');if(darkModeToggle){darkModeToggle.querySelector('i').className='fas fa-moon';darkModeToggle.setAttribute('aria-label','Modo oscuro');darkModeToggle.title='Modo oscuro';}}
         function toggleDarkMode() { body.classList.contains('dark-mode')?disableDarkMode():enableDarkMode();syncAndRender();}
 
-        function exportAllDataLocal() { /* ... (sin cambios) ... */ const data={theme:localStorage.getItem(THEME_STORAGE_KEY)||'dark',dailyMedalData:JSON.parse(localStorage.getItem(MEDALS_STORAGE_KEY)||'{}'),totalMedals:totalMedalsEarned,quickNotesContent:localStorage.getItem(QUICK_NOTES_STORAGE_KEY)||'',tasks:todos};const json=JSON.stringify(data,null,2);const blob=new Blob([json],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=`todolist-backup-${new Date().toISOString().slice(0,10).replace(/-/g,'')}.json`;document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);alert('Datos exportados: '+a.download);}
-        function applyImportedData(data,src="local"){ /* ... (sin cambios) ... */ try{if(typeof data!=='object'||!data||!Array.isArray(data.tasks))throw new Error('Formato inválido.');localStorage.setItem(THEME_STORAGE_KEY,data.theme==='light'?'light':'dark');if(data.theme==='light')disableDarkMode();else enableDarkMode();if(data.dailyMedalData&&typeof data.dailyMedalData.date==='string'&&typeof data.dailyMedalData.count==='number')localStorage.setItem(MEDALS_STORAGE_KEY,JSON.stringify(data.dailyMedalData));else localStorage.removeItem(MEDALS_STORAGE_KEY);totalMedalsEarned=(typeof data.totalMedals==='number'&&!isNaN(data.totalMedals))?data.totalMedals:0;localStorage.setItem(TOTAL_MEDALS_STORAGE_KEY,String(totalMedalsEarned));displayTotalScore(totalMedalsEarned);quickNotesArea.value=typeof data.quickNotesContent==='string'?data.quickNotesContent:'';localStorage.setItem(QUICK_NOTES_STORAGE_KEY,quickNotesArea.value);todos=data.tasks.map(t=>({id:t.id||generateLocalId(),text:t.text||'?',completed:!!t.completed,completedDate:t.completedDate||null,createdAt:t.createdAt||null,subtasks:Array.isArray(t.subtasks)?t.subtasks.map(s=>({id:s.id||generateLocalId(),text:s.text||'?',completed:!!s.completed})):[],showSubtaskUI:!!t.showSubtaskUI,priorityColor:PRIORITY_COLORS.includes(t.priorityColor)?t.priorityColor:'none',date:(typeof t.date==='string'&&t.date.match(/^\d{4}-\d{2}-\d{2}$/))?t.date:null,linkUrl:typeof t.linkUrl==='string'?t.linkUrl:null,order:typeof t.order==='number'?t.order:Date.now()}));const idMap=new Set();todos.forEach(t=>{if(idMap.has(t.id))t.id=generateLocalId();idMap.add(t.id);if(t.subtasks){const sIdMap=new Set();t.subtasks.forEach(s=>{if(sIdMap.has(s.id))s.id=generateLocalId();sIdMap.add(s.id);});}});saveTodosToLocalStorage();localStorage.removeItem(ACTIVE_TIMERS_STORAGE_KEY);if(globalTimerInterval)clearInterval(globalTimerInterval);globalTimerInterval=null;alert(`Datos importados desde ${src}. Recargando...`);window.location.reload();}catch(e){console.error(`Error importando ${src}:`,e);alert(`Error: ${e.message}`);}}
-        function importAllDataLocal(event) { /* ... (sin cambios) ... */ const file=event.target.files[0];if(!file)return;if(!confirm("¡Atención! Importar reemplazará datos. ¿Continuar?")){if(importFileInput)importFileInput.value='';return;}const reader=new FileReader();reader.onload=e=>{try{applyImportedData(JSON.parse(e.target.result),"archivo local");}catch(err){alert(`Error: ${err.message}`);}finally{if(importFileInput)importFileInput.value='';}};reader.onerror=()=>{alert('Error al leer archivo.');if(importFileInput)importFileInput.value='';};reader.readAsText(file);}
-        function resetTotalScore() { /* ... (sin cambios) ... */ if(confirm("¿Resetear 'Total Score' a cero?")){totalMedalsEarned=0;localStorage.setItem(TOTAL_MEDALS_STORAGE_KEY,String(totalMedalsEarned));displayTotalScore(totalMedalsEarned);alert("Total Score reseteado.");}}
+        function exportAllDataLocal() {
+            const data={theme:localStorage.getItem(THEME_STORAGE_KEY)||'dark',dailyMedalData:JSON.parse(localStorage.getItem(MEDALS_STORAGE_KEY)||'{}'),totalMedals:totalMedalsEarned,quickNotesContent:localStorage.getItem(QUICK_NOTES_STORAGE_KEY)||'',tasks:todos};const json=JSON.stringify(data,null,2);const blob=new Blob([json],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=`todolist-backup-${new Date().toISOString().slice(0,10).replace(/-/g,'')}.json`;document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);alert('Datos exportados: '+a.download);
+        }
+        function applyImportedData(data,src="local"){
+            try{if(typeof data!=='object'||!data||!Array.isArray(data.tasks))throw new Error('Formato inválido.');localStorage.setItem(THEME_STORAGE_KEY,data.theme==='light'?'light':'dark');if(data.theme==='light')disableDarkMode();else enableDarkMode();if(data.dailyMedalData&&typeof data.dailyMedalData.date==='string'&&typeof data.dailyMedalData.count==='number')localStorage.setItem(MEDALS_STORAGE_KEY,JSON.stringify(data.dailyMedalData));else localStorage.removeItem(MEDALS_STORAGE_KEY);totalMedalsEarned=(typeof data.totalMedals==='number'&&!isNaN(data.totalMedals))?data.totalMedals:0;localStorage.setItem(TOTAL_MEDALS_STORAGE_KEY,String(totalMedalsEarned));displayTotalScore(totalMedalsEarned);quickNotesArea.value=typeof data.quickNotesContent==='string'?data.quickNotesContent:'';localStorage.setItem(QUICK_NOTES_STORAGE_KEY,quickNotesArea.value);todos=data.tasks.map(t=>({id:t.id||generateLocalId(),text:t.text||'?',completed:!!t.completed,completedDate:t.completedDate||null,createdAt:t.createdAt||new Date().toISOString(),subtasks:Array.isArray(t.subtasks)?t.subtasks.map(s=>({id:s.id||generateLocalId(),text:s.text||'?',completed:!!s.completed})):[],showSubtaskUI:!!t.showSubtaskUI,priorityColor:PRIORITY_COLORS.includes(t.priorityColor)?t.priorityColor:'none',date:(typeof t.date==='string'&&t.date.match(/^\d{4}-\d{2}-\d{2}$/))?t.date:null,linkUrl:typeof t.linkUrl==='string'?t.linkUrl:null,order:typeof t.order==='number'?t.order:Date.now()}));const idMap=new Set();todos.forEach(t=>{if(idMap.has(t.id))t.id=generateLocalId();idMap.add(t.id);if(t.subtasks){const sIdMap=new Set();t.subtasks.forEach(s=>{if(sIdMap.has(s.id))s.id=generateLocalId();sIdMap.add(s.id);});}});saveTodosToLocalStorage();localStorage.removeItem(ACTIVE_TIMERS_STORAGE_KEY);if(globalTimerInterval)clearInterval(globalTimerInterval);globalTimerInterval=null;alert(`Datos importados desde ${src}. Recargando...`);window.location.reload();}catch(e){console.error(`Error importando ${src}:`,e);alert(`Error: ${e.message}`);}
+        }
+        function importAllDataLocal(event) {
+            const file=event.target.files[0];if(!file)return;if(!confirm("¡Atención! Importar reemplazará datos. ¿Continuar?")){if(importFileInput)importFileInput.value='';return;}const reader=new FileReader();reader.onload=e=>{try{applyImportedData(JSON.parse(e.target.result),"archivo local");}catch(err){alert(`Error: ${err.message}`);}finally{if(importFileInput)importFileInput.value='';}};reader.onerror=()=>{alert('Error al leer archivo.');if(importFileInput)importFileInput.value='';};reader.readAsText(file);
+        }
+        function resetTotalScore() {
+            if(confirm("¿Resetear 'Total Score' a cero?")){totalMedalsEarned=0;localStorage.setItem(TOTAL_MEDALS_STORAGE_KEY,String(totalMedalsEarned));displayTotalScore(totalMedalsEarned);alert("Total Score reseteado.");}
+        }
 
         document.addEventListener('DOMContentLoaded', () => {
             todoInput = document.getElementById('new-todo-input');
@@ -2599,7 +2726,6 @@
             installInstructionsSection = document.getElementById('install-instructions-section');
             alarmAudio = document.getElementById('alarm-sound');
 
-            // Inicialización del Modal de Duración del Temporizador
             timerDurationModal = document.getElementById('timer-duration-modal');
             closeTimerDurationModalButton = document.getElementById('close-timer-duration-modal');
             timerDurationTaskTextElement = document.getElementById('timer-duration-task-text');
@@ -2639,11 +2765,10 @@
             quickGcTypeSelect.addEventListener('change', e => { if (e.target.value === 'WEEKLY') { quickGcWeeklyDaysGroup.classList.remove('hidden'); if (quickGcStartDateInput.value && quickGcWeeklyCheckboxesContainer) { quickGcWeeklyCheckboxesContainer.querySelectorAll('input').forEach(cb => cb.checked = false); try { const dayIdx = new Date(quickGcStartDateInput.value + "T00:00:00").getDay(); const dayCb = quickGcWeeklyCheckboxesContainer.querySelector(`input[data-day-index="${dayIdx}"]`); if(dayCb)dayCb.checked = true; } catch {} }} else quickGcWeeklyDaysGroup.classList.add('hidden'); });
             if (quickGcStartDateInput) quickGcStartDateInput.addEventListener('change', () => { if (quickGcTypeSelect.value === 'WEEKLY' && quickGcStartDateInput.value && quickGcWeeklyCheckboxesContainer) { quickGcWeeklyCheckboxesContainer.querySelectorAll('input').forEach(cb => cb.checked = false); try { const dayIdx = new Date(quickGcStartDateInput.value + "T00:00:00").getDay(); const dayCb = quickGcWeeklyCheckboxesContainer.querySelector(`input[data-day-index="${dayIdx}"]`); if(dayCb)dayCb.checked = true; } catch {}}});
 
-            // Listeners para el modal de duración del temporizador
             if (closeTimerDurationModalButton) closeTimerDurationModalButton.addEventListener('click', hideTimerDurationModal);
             if (timerDurationModal) { timerDurationModal.addEventListener('click', (e) => { if (e.target === timerDurationModal) hideTimerDurationModal(); }); document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && timerDurationModal.classList.contains('visible')) hideTimerDurationModal(); });}
-            if (timerQuickOptionsContainer) { timerQuickOptionsContainer.addEventListener('click', (e) => { if (e.target.classList.contains('timer-duration-option')) { const mins = parseInt(e.target.dataset.minutes, 10); if (currentTimerCallback && !isNaN(mins)) currentTimerCallback(mins); hideTimerDurationModal(); }});}
-            if (setCustomTimerButton && timerCustomMinutesInput) { setCustomTimerButton.addEventListener('click', () => { const mins = parseInt(timerCustomMinutesInput.value, 10); if (isNaN(mins) || mins < 1 || mins > 180) { alert("Minutos inválidos (1-180)."); timerCustomMinutesInput.focus(); return; } if (currentTimerCallback) currentTimerCallback(mins); hideTimerDurationModal(); }); timerCustomMinutesInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') { e.preventDefault(); setCustomTimerButton.click(); }});}
+            if (timerQuickOptionsContainer) { timerQuickOptionsContainer.addEventListener('click', (e) => { if (e.target.classList.contains('timer-duration-option')) { const mins = parseInt(e.target.dataset.minutes, 10); if (currentTimerCallback && !isNaN(mins)) { const btn = e.target; currentTimerCallback(mins); hideTimerDurationModal(); const lastOpenedTimerButton = document.querySelector('[data-last-opened-timer="true"]'); if(lastOpenedTimerButton) { lastOpenedTimerButton.focus(); lastOpenedTimerButton.removeAttribute('data-last-opened-timer');}} }});}
+            if (setCustomTimerButton && timerCustomMinutesInput) { setCustomTimerButton.addEventListener('click', () => { const mins = parseInt(timerCustomMinutesInput.value, 10); if (isNaN(mins) || mins < 1 || mins > 180) { alert("Minutos inválidos (1-180)."); timerCustomMinutesInput.focus(); return; } if (currentTimerCallback) { currentTimerCallback(mins); hideTimerDurationModal(); const lastOpenedTimerButton = document.querySelector('[data-last-opened-timer="true"]'); if(lastOpenedTimerButton) { lastOpenedTimerButton.focus(); lastOpenedTimerButton.removeAttribute('data-last-opened-timer');} } }); timerCustomMinutesInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') { e.preventDefault(); setCustomTimerButton.click(); }});}
 
             quickNotesArea.value = localStorage.getItem(QUICK_NOTES_STORAGE_KEY) || '';
             quickNotesArea.addEventListener('input', () => localStorage.setItem(QUICK_NOTES_STORAGE_KEY, quickNotesArea.value));
