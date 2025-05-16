@@ -69,7 +69,7 @@
            "https://www.todaylist.es/favicon-96x96.png",
            "https://www.todaylist.es/favicon.svg"
         ],
-        "softwareVersion": "2.1.1", // Actualizar si es necesario (ej. nueva versión con IndexedDB)
+        "softwareVersion": "2.1.1", 
         "datePublished": "2024-03-15", 
         "keywords": "lista de tareas, to-do list, gestor de tareas diarias, organizador personal, productividad, planificación diaria, tareas pendientes, subtareas, prioridades, web app, task management, daily planner, online organizer, google drive sync, google calendar integration, free app, español, en español, tareas recurrentes, programar eventos, recurring events, temporizador tareas, task timer, contador dias tarea, indexeddb"
       }
@@ -342,76 +342,6 @@
         #start-app-button:focus-visible {
              outline: 3px solid var(--button-hover-color);
              outline-offset: 2px;
-        }
-
-        #install-instructions-section {
-            margin-top: 20px;
-            margin-bottom: 30px;
-            padding: 18px 22px;
-            background-color: var(--item-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
-            font-size: 0.85rem;
-            color: var(--text-color);
-        }
-        #install-instructions-section h4 {
-            font-family: 'Quicksand', sans-serif;
-            font-size: 1.2rem;
-            color: var(--subtitle-color);
-            margin-top: 0;
-            margin-bottom: 8px;
-            text-align: center;
-        }
-        #install-instructions-section p {
-            font-size: 0.95em;
-            color: var(--text-color);
-            margin-bottom: 12px;
-            line-height: 1.45;
-            text-align: center;
-        }
-        #install-instructions-section ul {
-            list-style: none;
-            padding-left: 5px;
-            margin: 0 auto;
-            max-width: 480px;
-        }
-        #install-instructions-section ul li {
-            margin-bottom: 8px;
-            line-height: 1.5;
-            font-size: 0.92em;
-            padding-left: 25px;
-            position: relative;
-            text-align: left;
-        }
-        #install-instructions-section ul li::before {
-            font-family: "Font Awesome 6 Brands", "Font Awesome 6 Free";
-            font-weight: 400;
-            position: absolute;
-            left: 0px;
-            top: 1px;
-            width: 20px;
-            text-align: center;
-            color: var(--button-color);
-            font-size: 1.1em;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
-        #install-instructions-section ul li:nth-child(1)::before { content: "\f268"; font-weight: 400; }
-        #install-instructions-section ul li:nth-child(2)::before { content: "\f17b"; font-weight: 400; }
-        #install-instructions-section ul li:nth-child(3)::before { content: "\f179"; font-weight: 400; }
-        #install-instructions-section ul li:nth-child(4)::before { content: "\f267"; font-weight: 400; }
-
-        #install-instructions-section ul li strong {
-            color: var(--heading-color);
-            font-weight: 700;
-        }
-        #install-instructions-section ul li i.fas.fa-download,
-        #install-instructions-section ul li i.fas.fa-ellipsis-v,
-        #install-instructions-section ul li i.fas.fa-share-square {
-            color: var(--button-hover-color);
-            margin: 0 2px;
-            font-size: 0.9em;
         }
 
         .hidden {
@@ -1472,23 +1402,6 @@
                 font-size: 1rem;
             }
 
-            #install-instructions-section {
-                padding: 15px 18px;
-                font-size: 0.8rem;
-            }
-            #install-instructions-section h4 {
-                font-size: 1.1rem;
-            }
-            #install-instructions-section ul li {
-                font-size: 0.95em;
-                padding-left: 22px;
-                margin-bottom: 7px;
-            }
-            #install-instructions-section ul li::before {
-                top: 0px;
-                font-size: 1em;
-            }
-
             footer {
                 font-size: 0.75rem;
                 padding-top: 15px;
@@ -1985,17 +1898,6 @@
             <button id="start-app-button" class="app-button">Empezar a Organizar</button>
         </section>
 
-        <section id="install-instructions-section" class="hidden">
-            <h4>¡Acceso Rápido a ToDayList!</h4>
-            <p>Guarda ToDayList en tu dispositivo para acceder como una app:</p>
-            <ul>
-                <li><strong>Chrome (Escritorio):</strong> Clic en el icono <i class="fas fa-download" title="Instalar"></i> en la barra de direcciones, o Menú (<i class="fas fa-ellipsis-v"></i>) &rarr; "Instalar ToDayList".</li>
-                <li><strong>Android (Chrome):</strong> Menú (<i class="fas fa-ellipsis-v"></i>) &rarr; "Instalar aplicación" o "Añadir a pantalla de inicio".</li>
-                <li><strong>iPhone/iPad (Safari):</strong> Icono Compartir (<i class="fas fa-share-square" title="Compartir"></i>) &rarr; "Añadir a pantalla de inicio".</li>
-                <li><strong>Mac (Safari):</strong> Desde el menú "Archivo" &rarr; "Añadir al Dock".</li>
-            </ul>
-        </section>
-
         <div id="app-main-interface" class="hidden">
             <div id="medal-counter-container">
                 <span class="daily-medals" title="Medallas ganadas hoy">
@@ -2243,7 +2145,6 @@
         const SETTINGS_STORE_NAME = 'settings';
         const DAILY_MEDALS_STORE_NAME = 'dailyMedals';
         const ACTIVE_TIMERS_STORE_NAME = 'activeTimers';
-        const MIGRATION_FLAG_KEY = 'migrationV1toIndexedDBDone'; // Clave para la bandera de migración
         let db;
 
         function openDB() {
@@ -2342,110 +2243,6 @@
         }
         // --- End IndexedDB Setup ---
 
-        // --- Migration Logic ---
-        async function performMigrationFromLocalStorage() {
-            console.log("Iniciando migración desde localStorage a IndexedDB...");
-            try {
-                // 1. Migrar Tareas
-                const storedTodos = localStorage.getItem('todoListAppTasks');
-                if (storedTodos) {
-                    const oldTodos = JSON.parse(storedTodos);
-                    if (Array.isArray(oldTodos)) {
-                        let taskPromises = [];
-                        const migratedTodos = oldTodos.map((t, index) => {
-                            const newTask = {
-                                id: t.id || generateLocalId(),
-                                text: t.text || '?',
-                                completed: !!t.completed,
-                                completedDate: t.completedDate || null,
-                                createdAt: t.createdAt || new Date().toISOString(),
-                                subtasks: Array.isArray(t.subtasks) ? t.subtasks.map(s => ({ id: s.id || generateLocalId(), text: s.text || '?', completed: !!s.completed })) : [],
-                                showSubtaskUI: !!t.showSubtaskUI,
-                                priorityColor: PRIORITY_COLORS.includes(t.priorityColor) ? t.priorityColor : 'none',
-                                date: (typeof t.date === 'string' && t.date.match(/^\d{4}-\d{2}-\d{2}$/)) ? t.date : null,
-                                linkUrl: typeof t.linkUrl === 'string' ? t.linkUrl : null,
-                                order: typeof t.order === 'number' ? t.order : (t.createdAt ? new Date(t.createdAt).getTime() : index)
-                            };
-                            taskPromises.push(dbPut(TASKS_STORE_NAME, newTask));
-                            return newTask;
-                        });
-                        await Promise.all(taskPromises);
-                        console.log(`${migratedTodos.length} tareas migradas.`);
-                        // localStorage.removeItem('todoListAppTasks'); // Descomentar para limpiar localStorage
-                    }
-                }
-
-                // 2. Migrar Tema
-                const storedTheme = localStorage.getItem('todoListTheme');
-                if (storedTheme) {
-                    await dbPut(SETTINGS_STORE_NAME, { key: 'theme', value: storedTheme });
-                    console.log(`Tema '${storedTheme}' migrado.`);
-                    // localStorage.removeItem('todoListTheme');
-                }
-
-                // 3. Migrar Medallas Diarias
-                const storedMedalData = localStorage.getItem('todoListDailyMedalData');
-                if (storedMedalData) {
-                    try {
-                        const medalData = JSON.parse(storedMedalData);
-                        if (medalData && typeof medalData.date === 'string' && typeof medalData.count === 'number') {
-                            await dbPut(DAILY_MEDALS_STORE_NAME, medalData);
-                            console.log(`Datos de medallas para '${medalData.date}' migrados.`);
-                        }
-                    } catch (e) { console.error("Error migrando datos de medallas:", e); }
-                    // localStorage.removeItem('todoListDailyMedalData');
-                }
-
-                // 4. Migrar Total de Medallas
-                const storedTotalMedals = localStorage.getItem('todoListTotalMedals');
-                if (storedTotalMedals) {
-                    const total = parseInt(storedTotalMedals, 10);
-                    if (!isNaN(total)) {
-                        await dbPut(SETTINGS_STORE_NAME, { key: 'totalMedals', value: total });
-                        console.log(`Total de medallas '${total}' migrado.`);
-                    }
-                    // localStorage.removeItem('todoListTotalMedals');
-                }
-
-                // 5. Migrar Notas Rápidas
-                const storedQuickNotes = localStorage.getItem('todoListQuickNotes');
-                if (storedQuickNotes) {
-                    await dbPut(SETTINGS_STORE_NAME, { key: 'quickNotes', value: storedQuickNotes });
-                    console.log("Notas rápidas migradas.");
-                    // localStorage.removeItem('todoListQuickNotes');
-                }
-
-                // 6. Migrar Temporizadores Activos
-                const storedActiveTimers = localStorage.getItem('todoListActiveTimers');
-                if (storedActiveTimers) {
-                    try {
-                        const activeTimers = JSON.parse(storedActiveTimers);
-                        if (typeof activeTimers === 'object' && activeTimers !== null) {
-                            let timerPromises = [];
-                            for (const id in activeTimers) {
-                                if (Object.hasOwnProperty.call(activeTimers, id)) {
-                                    const timerData = { ...activeTimers[id], id: id }; // Asegurar que 'id' está en el objeto
-                                    timerPromises.push(dbPut(ACTIVE_TIMERS_STORE_NAME, timerData));
-                                }
-                            }
-                            await Promise.all(timerPromises);
-                            console.log(`${Object.keys(activeTimers).length} temporizadores activos migrados.`);
-                        }
-                    } catch (e) { console.error("Error migrando temporizadores activos:", e); }
-                    // localStorage.removeItem('todoListActiveTimers');
-                }
-
-                // 7. Marcar la migración como completada
-                await dbPut(SETTINGS_STORE_NAME, { key: MIGRATION_FLAG_KEY, value: true });
-                console.log("Migración completada y bandera establecida.");
-
-            } catch (error) {
-                console.error("Error durante la migración de localStorage a IndexedDB:", error);
-            }
-        }
-        // --- End Migration Logic ---
-
-
         let todoInput;
         let addTodoButton;
         let todoListContainer;
@@ -2500,7 +2297,6 @@
         let welcomeSection;
         let startAppButton;
         let appMainInterface;
-        let installInstructionsSection;
 
         let todos = [];
         let totalMedalsEarned = 0;
@@ -2820,11 +2616,7 @@
         }
 
         async function loadInitialDataFromDB() {
-            const migrationFlag = await dbGet(SETTINGS_STORE_NAME, MIGRATION_FLAG_KEY);
-            if (!migrationFlag || !migrationFlag.value) {
-                await performMigrationFromLocalStorage();
-            }
-
+            // Migration logic removed
             const tasksFromDB = await dbGetAll(TASKS_STORE_NAME);
             if (tasksFromDB) {
                 todos = tasksFromDB.map(t => ({
@@ -2995,7 +2787,6 @@
         }
         async function showAppInterface() {
             if(welcomeSection)welcomeSection.classList.add('hidden');
-            if(installInstructionsSection)installInstructionsSection.classList.add('hidden');
             if(appMainInterface)appMainInterface.classList.remove('hidden');
             if(todoInput)todoInput.focus();
             requestNotificationPermission();
@@ -3050,9 +2841,8 @@
                 await dbDelete(TASKS_STORE_NAME, id);
                 todos.splice(idx,1);
                 syncAndRender();
-                if(todos.length===0&&welcomeSection&&appMainInterface&&installInstructionsSection){
+                if(todos.length===0&&welcomeSection&&appMainInterface){
                     welcomeSection.classList.remove('hidden');
-                    installInstructionsSection.classList.remove('hidden');
                     appMainInterface.classList.add('hidden');
                 }
             }
@@ -3272,8 +3062,6 @@
                     });
                     await Promise.all(timerPromises);
                 }
-                // Marcar la migración como completada también al importar, para evitar que se ejecute la migración de localStorage
-                await dbPut(SETTINGS_STORE_NAME, { key: MIGRATION_FLAG_KEY, value: true });
 
                 if(globalTimerInterval)clearInterval(globalTimerInterval);globalTimerInterval=null;
                 alert(`Datos importados desde ${src}. Recargando...`);
@@ -3356,7 +3144,6 @@
             welcomeSection = document.getElementById('welcome-section');
             startAppButton = document.getElementById('start-app-button');
             appMainInterface = document.getElementById('app-main-interface');
-            installInstructionsSection = document.getElementById('install-instructions-section');
             alarmAudio = document.getElementById('alarm-sound');
             timerDurationModal = document.getElementById('timer-duration-modal');
             closeTimerDurationModalButton = document.getElementById('close-timer-duration-modal');
@@ -3369,7 +3156,6 @@
 
             if (todos.length === 0) { 
                 if (welcomeSection) welcomeSection.classList.remove('hidden'); 
-                if (installInstructionsSection) installInstructionsSection.classList.remove('hidden'); 
                 if (appMainInterface) appMainInterface.classList.add('hidden');
             } else { 
                 if (appMainInterface) appMainInterface.classList.remove('hidden'); 
